@@ -1,9 +1,9 @@
 ![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)
-# EDUC-EDX
-This project contains the frontend for education data exchange. 
+# ECC-IOSAS
+This project contains the frontend for iosas.
 
-# Ministry of Education and Child Care EDX
-The EDX application consists of a Vue.js frontend (UI and UX) and a Node.js backend (auth and session management). Currently early in the development process, so the front and backend are currently quite thin (only a single UI page).
+# Ministry of Education and Child Care IOSAS
+The IOSAS application consists of a Vue.js frontend (UI and UX) and a Node.js backend (auth and session management). Currently early in the development process, so the front and backend are currently quite thin (only a single UI page).
 
 ## Before deployment
 In order to deploy this project into OpenShift, you must create a secret for certificates by running the following command (be sure to replace the values in curly brackets with actual values):
@@ -17,11 +17,11 @@ This repository contains multiple OpenShift templates that can be used to instan
 ## Documentation
 
 * [Openshift Readme](openshift/README.md)
-* [Education EDX Wiki](https://github.com/bcgov/EDUC-EDX/wiki)
+
 
 ## Getting Help or Reporting an Issue
 
-To report bugs/issues/features requests, please file an [issue](https://github.com/bcgov/EDUC-EDX/issues).
+To report bugs/issues/features requests, please file an [issue](https://github.com/bcgov/ECC-IOSAS/issues).
 
 ## License
 
