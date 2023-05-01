@@ -1,0 +1,31 @@
+{
+  "name": "cypress-starter-kit",
+  "version": "10.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "cypress": "cypress run --e2e",
+    "cypress:open": "cypress open --e2e"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    ""
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "axios": "^1.3.6",
+    "cypress": "^12.10.0",
+    "date-and-time": "^0.14.2",
+    "faker": "^5.5.3",
+    "@js-joda/core": "^5.5.3",
+    "generate-password": "^1.7.0",
+    "http-status-codes": "^1.4.0",
+    "typescript": "^4.9.5"
+  }
+}

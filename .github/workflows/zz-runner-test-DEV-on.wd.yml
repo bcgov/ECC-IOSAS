@@ -1,0 +1,93 @@
+name: Runner Test - DEV
+on:
+  workflow_dispatch:
+
+env: 
+  OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+  OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+  RUNNER_DEPLOYMENT_NAMESPACE: ${{ secrets.RUNNER_DEPLOYMENT_NAMESPACE }}
+  GITHUB_REPO: ${{ github.event.repository.name }}
+  ORGANIZATION: bcgov
+  GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+
+jobs:
+  # deploy a self-hosted runner on OS
+  DeployRunner:
+    runs-on: ubuntu-latest
+    outputs:
+      runner_name: ${{ steps.deploy_runner.outputs.runner_name }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: 4
+      - uses: ./.github/actions/deploy-os-runner
+        id: deploy_runner
+        with:
+          runner-deployment-namespace: ${{ env.RUNNER_DEPLOYMENT_NAMESPACE }}
+          openshift-token: ${{ env.OPENSHIFT_TOKEN }}
+          openshift-server: ${{ env.OPENSHIFT_SERVER }}
+          github-repo: ${{ env.GITHUB_REPO }}
+          gh-access-token: ${{ env.GITHUB_ACCESS_TOKEN }}
+          secret-ref: test-runner-dev-secrets
+
+  # run test on the runner
+  SmokeTest:
+    runs-on: ${{ needs.DeployRunner.outputs.runner_name }}
+    environment: dev
+    needs: [DeployRunner]
+    defaults:
+      run:
+        working-directory: test
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout
+      - run: npm install
+      - run: npm run runner-test
+        if: ${{ always() }}
+      - name: Rocket.Chat Notification
+        uses: RocketChat/Rocket.Chat.GitHub.Action.Notification@1.1.1
+        if:  always()
+        with:
+          type: ${{ job.status }}
+          job_name: "SmokeTest"
+          icon_emoji: ":bell:"
+          channel: "grad-project"
+          url: ${{ secrets.ROCKETCHAT_WEBHOOK_TEST }}
+          # envs can now be stored on OS secrets
+        #env:
+          #BASE_URL: ${{ secrets.BASE_URL }}
+          #EDX_API_BASE_URL: ${{ secrets.EDX_API_BASE_URL }}
+          #API_HTML_STATUS_CLASS_THRESHOLD: 399
+          #TOKEN_NAMESPACE: ${{ secrets.TOKEN_NAMESPACE }}
+          #TOKEN_ENVIRONMENT: ${{ secrets.TOKEN_ENVIRONMENT }}
+          #TOKEN_CLIENT_ID: ${{ secrets.TOKEN_CLIENT_ID }}
+          #TOKEN_CLIENT_SECRET: ${{ secrets.TOKEN_CLIENT_SECRET }}
+          #TOKEN_ENDPOINT: ${{ secrets.TOKEN_ENDPOINT }}
+          #TEST_ADMIN_USERNAME: ${{ secrets.TEST_ADMIN_USERNAME }}
+          #TEST_ADMIN_PASSWORD: ${{ secrets.TEST_ADMIN_PASSWORD }}
+          #TEST_ADMIN_DIGITAL_ID: ${{ secrets.AT_EDX_ADMIN_DIGITAL_ID }}
+          #TEST_EDX_ACTIVATE_USER_USERNAME: ${{ secrets.TEST_EDX_ACTIVATE_USER_USERNAME }}
+          #TEST_EDX_ACTIVATE_USER_PWD: ${{ secrets.TEST_EDX_ACTIVATE_USER_PWD }}
+          #EN_LIST: ${{secrets.AT_PEN_LIST}}
+          #INSTITUTE_API_URL: ${{ secrets.INSTITUTE_API_URL}}
+
+
+  # now burn it all down!!
+  TearDown:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [DeployRunner, SmokeTest]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: 4
+      - uses: ./.github/actions/teardown-os-runner
+        with:
+          runner-deployment-namespace: ${{ env.RUNNER_DEPLOYMENT_NAMESPACE }}
+          runner-deployment-name: ${{ needs.DeployRunner.outputs.runner_name }}
+          openshift-token: ${{ env.OPENSHIFT_TOKEN }}
+          openshift-server: ${{ env.OPENSHIFT_SERVER }}
+
+
