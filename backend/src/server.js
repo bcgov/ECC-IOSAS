@@ -19,8 +19,8 @@ const app = require('./app');
 const port = normalizePort(config.get('server:port'));
 app.set('port', port);
 const server = http.createServer(app);
-const NATS = require('./messaging/message-pub-sub');
-if(process.env.NODE_ENV !== 'test'){  //do not cache for test environment to stop GitHub Actions test from hanging.
+// const NATS = require('./messaging/message-pub-sub');
+/*if(process.env.NODE_ENV !== 'test'){  //do not cache for test environment to stop GitHub Actions test from hanging.
   const cacheService = require('./components/cache-service');
   cacheService.loadAllSchoolsToMap().then(() => {
     log.info('Loaded school data to memory');
@@ -104,9 +104,9 @@ if(process.env.NODE_ENV !== 'test'){  //do not cache for test environment to sto
     log.error('Error loading DISTRICT_CONTACT_TYPES data during boot .', e);
     require('./schedulers/cache-service-scheduler');
   });
-}
+}*/
 
-require('./schedulers/saga-check-scheduler');
+// require('./schedulers/saga-check-scheduler');
 /**
  * Listen on provided port, on all network interfaces.
  */

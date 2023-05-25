@@ -24,6 +24,8 @@ let documentTypeCodesMap = new Map();
 let documentTypeCodes = [];
 const cachedData = {};
 
+const retries = 0;
+
 const cacheService = {
 
   async loadAllSchoolsToMap() {
@@ -50,7 +52,7 @@ const cacheService = {
       log.info(`Loaded ${schoolMap.size} schools.`);
       log.info(`Loaded ${activeSchools.length} active schools.`);
     }, {
-      retries: 50
+      retries: retries
     });
   },
   getAllSchoolsJSON() {
@@ -84,7 +86,7 @@ const cacheService = {
       log.info(`Loaded ${authoritiesMap.size} authorities.`);
       log.info(`Loaded ${activeAuthorities.length} active authorities.`);
     }, {
-      retries: 50
+      retries: retries
     });
 
   },
@@ -113,7 +115,7 @@ const cacheService = {
       }
       log.info(`Loaded ${rolePermissionsMap.size} roles.`);
     }, {
-      retries: 50
+      retries: retries
     });
   },
   async loadAllDistrictsToMap() {
@@ -140,7 +142,7 @@ const cacheService = {
       log.info(`loaded ${districtsMap.size} districts.`);
       log.info(`loaded ${activeDistricts.length} active districts.`);
     }, {
-      retries: 50
+      retries: retries
     });
 
   },
@@ -185,7 +187,7 @@ const cacheService = {
       }
       log.info(`Loaded ${documentTypeCodesMap.size} document type codes.`);
     }, {
-      retries: 50
+      retries: retries
     });
 
   },
@@ -223,7 +225,7 @@ const cacheService = {
       }
       log.info(`loaded ${responseData.length} ${cacheKey} Types.`);
     }, {
-      retries: 50
+      retries: retries
     });
   },
   getCachedData(){

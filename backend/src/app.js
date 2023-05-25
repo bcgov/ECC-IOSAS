@@ -31,14 +31,14 @@ const instituteRouter = require('./routes/institute');
 const configRouter = require('./routes/config');
 const sldRouter = require('./routes/sld');
 const promMid = require('express-prometheus-middleware');
-const messagePubSub = require('./messaging/message-pub-sub');
+/*const messagePubSub = require('./messaging/message-pub-sub');
 messagePubSub.init().then(() => {
   require('./messaging/handlers/saga-message-handler').subscribe();
   require('./messaging/handlers/institute-update-handler').subscribe();
   require('./messaging/handlers/institute-jetstream-subscriber').subscribe();
   require('./messaging/handlers/edx-jetstream-subscriber').subscribe();
   require('./messaging/handlers/edx-event-handler').subscribe();
-}).catch((e) => log.error(e));
+}).catch((e) => log.error(e));*/
 //initialize app
 const app = express();
 app.set('trust proxy', 1);
@@ -133,9 +133,9 @@ const parseJwt = (token) => {
 //initialize our authentication strategy
 utils.getOidcDiscovery().then(discovery => {
   //OIDC Strategy is used for authorization
-  addLoginPassportUse(discovery, 'oidcBceid', config.get('server:frontend') + '/api/auth/callback_bceid', 'keycloak_bcdevexchange_bceid');
-  addLoginPassportUse(discovery, 'oidcBceidActivateUser', config.get('server:frontend') + '/api/auth/callback_activate_user', 'keycloak_bcdevexchange_bceid');
-  addLoginPassportUse(discovery, 'oidcBceidActivateDistrictUser', config.get('server:frontend') + '/api/auth/callback_activate_district_user', 'keycloak_bcdevexchange_bceid');
+  addLoginPassportUse(discovery, 'oidcBceid', config.get('server:frontend') + '/api/auth/callback_bceid', 'basic-bceid');
+  addLoginPassportUse(discovery, 'oidcBceidActivateUser', config.get('server:frontend') + '/api/auth/callback_activate_user', 'basic-bceid');
+  addLoginPassportUse(discovery, 'oidcBceidActivateDistrictUser', config.get('server:frontend') + '/api/auth/callback_activate_district_user', 'basic-bceid');
   //JWT strategy is used for authorization
   passport.use('jwt', new JWTStrategy({
     algorithms: ['RS256'],
