@@ -1,4 +1,4 @@
-FROM artifacts.developer.gov.bc.ca/docker-remote/node:14.20.1-alpine3.16
+FROM registry.access.redhat.com/ubi8/nodejs-18:1
 
 RUN mkdir -p /logs
 RUN chmod 755 /logs

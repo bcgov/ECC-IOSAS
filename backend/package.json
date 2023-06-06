@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "The backend portion of the EDX web app",
   "scripts": {
-    "serve": "npm run setlocal && npm run start",
+    "serve": "npm run setlocal && npm run servecmd",
     "serve-linux": "export NODE_ENV='local' && nodemon ./src/server.js",
     "serve_linux1": "export NODE_ENV=local1 && nodemon ./src/server.js",
     "serve_linux2": "export NODE_ENV=local2 && nodemon ./src/server.js",

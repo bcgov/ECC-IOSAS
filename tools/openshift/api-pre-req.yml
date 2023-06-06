@@ -1,0 +1,39 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: api-pre-test-1190
+labels:
+  project: ${PROJECT_NAME}
+  service: ${NAME}
+objects:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: ${PROJECT_NAME}-${NAME}-creds
+    stringData:
+      oidc-discovery: ${SOAM_DISCOVERY}
+      oidc-clientId: ${SOAM_CLIENT_ID}
+      oidc-clientSecrect: ${SOAM_CLIENT_SECRET}
+      ui-token-pvt-key: ${UI_PRIVATE_KEY}
+      ui-token-pub-key: ${UI_PUBLIC_KEY}
+parameters:
+  - name: NAME
+    displayName: Application Name
+    value: api
+  - name: PROJECT_NAME
+    value: iosas
+  - name: SOAM_DISCOVERY
+    displayName: SOAM Key Cloak Discovery URL
+    required: true
+  - name: SOAM_CLIENT_ID
+    displayName: SOAM Keycloak Client Id
+    required: true
+  - name: SOAM_CLIENT_SECRET
+    displayName: SOAM Client secrect
+    required: true
+  - name: UI_PRIVATE_KEY
+    displayName: UI private key token
+    required: false
+  - name: UI_PUBLIC_KEY
+    displayName: UI public key token
+    required: false

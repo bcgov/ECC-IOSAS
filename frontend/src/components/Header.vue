@@ -91,7 +91,7 @@ import {AuthRoutes , ApiRoutes} from '../utils/constants';
 export default {
   data() {
     return {
-      appTitle: 'Education Data Exchange',
+      appTitle: 'Independent Schools BC',
       authRoutes: AuthRoutes,
       apiRoutes: ApiRoutes
     };

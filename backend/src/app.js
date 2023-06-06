@@ -23,34 +23,18 @@ const noCache = require('nocache');
 const apiRouter = express.Router();
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
-const edxRouter = require('./routes/edx');
-const schoolRouter = require('./routes/schools');
-const districtRouter = require('./routes/districts');
-const studentRouter = require('./routes/student');
-const instituteRouter = require('./routes/institute');
-const configRouter = require('./routes/config');
-const sldRouter = require('./routes/sld');
-const promMid = require('express-prometheus-middleware');
-/*const messagePubSub = require('./messaging/message-pub-sub');
-messagePubSub.init().then(() => {
-  require('./messaging/handlers/saga-message-handler').subscribe();
-  require('./messaging/handlers/institute-update-handler').subscribe();
-  require('./messaging/handlers/institute-jetstream-subscriber').subscribe();
-  require('./messaging/handlers/edx-jetstream-subscriber').subscribe();
-  require('./messaging/handlers/edx-event-handler').subscribe();
-}).catch((e) => log.error(e));*/
+// const promMid = require('express-prometheus-middleware');
 //initialize app
 const app = express();
 app.set('trust proxy', 1);
-//sets security measures (headers, etc)
 app.use(cors());
 app.use(helmet());
 app.use(noCache());
-app.use(promMid({
+/*app.use(promMid({
   metricsPath: '/api/prometheus',
   collectDefaultMetrics: true,
   requestDurationBuckets: [0.1, 0.5, 1, 1.5]
-}));
+}));*/
 //tells the app to use json as means of transporting data
 app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(bodyParser.urlencoded({
@@ -67,13 +51,13 @@ const logStream = {
 
 
 
-const Redis = require('./util/redis/redis-client');
+/*const Redis = require('./util/redis/redis-client');
 Redis.init(); // call the init to initialize appropriate client, and reuse it across the app.
 const RedisStore = connectRedis(session);
 const dbSession = new RedisStore({
   client: Redis.getRedisClient(),
-  prefix: 'edx-sess:',
-});
+  prefix: 'iosas-sess:',
+});*/
 const cookie = {
   secure: true,
   httpOnly: true,
@@ -84,12 +68,11 @@ if ('local' === config.get('environment')) {
 }
 //sets cookies for security purposes (prevent cookie access, allow secure connections only, etc)
 app.use(session({
-  name: 'edx_cookie',
+  name: 'iosas_cookie',
   secret: config.get('oidc:clientSecret'),
   resave: false,
   saveUninitialized: true,
   cookie: cookie,
-  store: dbSession
 }));
 app.use(require('./routes/health-check').router);
 //initialize routing and session. Cookies are now only reachable via requests (not js)
@@ -174,13 +157,6 @@ app.use(/(\/api)?/, apiRouter);
 
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/user', userRouter);
-apiRouter.use('/edx', edxRouter);
-apiRouter.use('/schools', schoolRouter);
-apiRouter.use('/districts', districtRouter);
-apiRouter.use('/config',configRouter);
-apiRouter.use('/student', studentRouter);
-apiRouter.use('/institute',instituteRouter);
-apiRouter.use('/sld',sldRouter);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

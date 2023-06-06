@@ -19,7 +19,7 @@
             </h4>
           </v-card-title>
           <v-card-text id="login_descriptor">
-            Welcome to the Education Data Exchange!
+            Welcome to the Independent School BC portal!
           </v-card-text>
           <v-row
             class="my-1"
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      appTitle: 'Education Data Exchange',
+      appTitle: 'Independent School BC',
       authRoutes: AuthRoutes
     };
   },
