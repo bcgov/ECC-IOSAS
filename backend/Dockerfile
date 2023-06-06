@@ -1,5 +1,6 @@
 FROM registry.access.redhat.com/ubi8/nodejs-18:1
 
+USER root
 RUN mkdir -p /logs
 RUN chmod 755 /logs
 

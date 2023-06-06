@@ -116,16 +116,16 @@ build-api:
 		-p SOURCE_REPOSITORY_REF=$(BUILD_REF) \
 		-p BASE_IMAGE_NAME="nodejs-18" \
 		-p BASE_IMAGE_TAG="1" \
-		-p BASE_IMAGE_REPO="registry.access.redhat.com/ubi8/nodejs-18/" \
+		-p BASE_IMAGE_REPO="registry.access.redhat.com/ubi8/" \
 		-p SOURCE_CONTEXT_DIR=/backend -p NAME=$(API) | oc -n $(BUILD_NAMESPACE) apply -f -
-	@oc -n $(BUILD_NAMESPACE) start-build bc/$(API) --wait
+	@oc -n $(BUILD_NAMESPACE) start-build bc/$(API) --wait --follow=true
 
 build-web:
 	test -n "$(BUILD_REF)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ BUILDING Web with tag: $(BUILD_TAG)\n+"
 	@oc -n $(BUILD_NAMESPACE) process -f $(BUILD_TEMPLATE_PATH) -p TAG=$(BUILD_TAG) -p SOURCE_REPOSITORY_REF=$(BUILD_REF) -p BASE_IMAGE_NAME="node" -p BASE_IMAGE_TAG="14.20.1-alpine3.16" -p BASE_IMAGE_REPO="artifacts.developer.gov.bc.ca/docker-remote/" -p SOURCE_CONTEXT_DIR=/frontend -p NAME=$(Web) | oc -n $(BUILD_NAMESPACE) apply -f -
-	@oc -n $(BUILD_NAMESPACE) start-build bc/$(Web) --wait
+	@oc -n $(BUILD_NAMESPACE) start-build bc/$(Web) --wait --follow=true
 
 
 deploy-api:

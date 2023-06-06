@@ -12,21 +12,6 @@ objects:
     spec:
       lookupPolicy:
         local: false
-  - apiVersion: v1
-    kind: ImageStreamTag
-    lookupPolicy:
-      local: false
-    metadata:
-      name: ${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
-    tag:
-      annotations: null
-      from:
-        kind: DockerImage
-        name: ${BASE_IMAGE_REPO}${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG}
-      importPolicy:
-        scheduled: true
-      referencePolicy:
-        type: Source
   - kind: ImageStream
     apiVersion: v1
     metadata:
@@ -78,13 +63,13 @@ parameters:
   - name: BASE_IMAGE_TAG
     required: true
   - name: CPU_LIMIT
-    value: "2"
-  - name: MEMORY_LIMIT
-    value: "8Gi"
-  - name: CPU_REQUEST
     value: "1"
-  - name: MEMORY_REQUEST
+  - name: MEMORY_LIMIT
     value: "2Gi"
+  - name: CPU_REQUEST
+    value: "500m"
+  - name: MEMORY_REQUEST
+    value: "1Gi"
   - name: ARG_KEY_1
     value: __DUMMY_1
   - name: ARG_KEY_2
