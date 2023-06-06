@@ -12,7 +12,7 @@ COPY ./ .
 RUN INLINE_RUNTIME_CHUNK=false npm run build
 
 FROM registry.access.redhat.com/ubi8/nodejs-18:1 as caddy-stage
-
+ENV HOME_CLIENT /opt/app-root/src/app
 USER root
 RUN mkdir -p ${HOME_CLIENT}
 RUN chown -R root ${HOME_CLIENT}
