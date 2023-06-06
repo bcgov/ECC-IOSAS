@@ -6,6 +6,7 @@ RUN chmod 755 /logs
 
 WORKDIR /opt/app-root/src
 RUN ln -s /logs .
+RUN chown -R root /opt/app-root/src/logs
 
 COPY package*.json ./
 RUN npm ci

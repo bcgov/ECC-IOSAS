@@ -10,7 +10,7 @@ export TEMPLATE_FILE_NAME := $(or $(TEMPLATE_FILE_NAME), $$FILE)
 export BUILD_REF := $(or $(BUILD_REF), $(GIT_LOCAL_BRANCH))
 export BUILD_NAMESPACE := $(or $(BUILD_NAMESPACE), d1273d-tools)
 export DOMAIN := $(or $(DOMAIN), apps.silver.devops.gov.bc.ca)
-export HOST_PREFIX := $(or $(HOST_PREFIX), $$HOST_PREFIX)
+export HOST_PREFIX := $(or $(HOST_PREFIX), dev)
 export NEW_DB := $(or $(NEW_DB), $$NEW_DB)
 export JOB_NAME := $(or $(JOB_NAME), $$JN)
 export SITE_MINDER_LOGOUT_URL := $(or $(SITE_MINDER_LOGOUT_URL), https://logontest.gov.bc.ca/clp-cgi/logoff.cgi)
@@ -92,7 +92,12 @@ init-api:
 	@oc -n $(NAMESPACE) process -f openshift/api-pre-req.yml \
 		-p SOAM_DISCOVERY=$(SOAM_DISCOVERY) \
 		-p SOAM_CLIENT_ID=$(SOAM_CLIENT_ID) \
-		-p SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET) | oc -n $(BUILD_NAMESPACE) apply -f - --dry-run=client
+		-p SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET) | oc -n $(NAMESPACE) apply -f -
+
+init-api-sec:
+	@echo "++\n Init Api in $(NAMESPACE) \n++"
+	@oc -n $(NAMESPACE) create secret generic iosas-ui-sec  --from-file=private-key=certificates/ui.pvt.key \
+		--from-file=certificate=certificates/ui.public.key
 
 
 
@@ -135,6 +140,8 @@ deploy-api:
 	@oc -n $(NAMESPACE) process -f openshift/api-deploy.yml \
 		-p NAME=$(API) \
 		-p HOST_NAME=$(HOST) \
+		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
+		-p IMAGE_STREAM_TAG="$(API):$(BUILD_TAG)" \
 		| oc -n $(NAMESPACE) apply -f -
 	$(call rollout_and_wait,dc/$(API))
 

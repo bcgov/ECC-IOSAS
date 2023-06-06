@@ -14,8 +14,6 @@ objects:
       oidc-discovery: ${SOAM_DISCOVERY}
       oidc-clientId: ${SOAM_CLIENT_ID}
       oidc-clientSecrect: ${SOAM_CLIENT_SECRET}
-      ui-token-pvt-key: ${UI_PRIVATE_KEY}
-      ui-token-pub-key: ${UI_PUBLIC_KEY}
 parameters:
   - name: NAME
     displayName: Application Name
@@ -31,9 +29,3 @@ parameters:
   - name: SOAM_CLIENT_SECRET
     displayName: SOAM Client secrect
     required: true
-  - name: UI_PRIVATE_KEY
-    displayName: UI private key token
-    required: false
-  - name: UI_PUBLIC_KEY
-    displayName: UI public key token
-    required: false

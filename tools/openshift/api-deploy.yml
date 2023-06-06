@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   name: ${NAME}
@@ -36,27 +36,27 @@ objects:
                   valueFrom:
                     secretKeyRef:
                       key: oidc-discovery
-                      name: ${DB_SECRET_NAME}
+                      name: iosas-api-creds
                 - name: SOAM_CLIENT_ID
                   valueFrom:
                     secretKeyRef:
                       key: oidc-clientId
-                      name: ${DB_SECRET_NAME}
+                      name: iosas-api-creds
                 - name: SOAM_CLIENT_SECRET
                   valueFrom:
                     secretKeyRef:
                       key: oidc-clientSecrect
-                      name: ${DB_SECRET_NAME}
+                      name: iosas-api-creds
                 - name: UI_PRIVATE_KEY
                   valueFrom:
                     secretKeyRef:
-                      key: ui-token-pvt-key
-                      name: ${DB_SECRET_NAME}
+                      key: private-key
+                      name: iosas-ui-sec
                 - name: UI_PUBLIC_KEY
                   valueFrom:
                     secretKeyRef:
-                      key: ui-token-pub-key
-                      name: ${DB_SECRET_NAME}
+                      key: certificate
+                      name: iosas-ui-sec
               image: ${IMAGE_REGISTRY}/${BUILD_NAMESPACE}/${IMAGE_STREAM_TAG}
               imagePullPolicy: Always
               name: ${NAME}
@@ -115,7 +115,7 @@ parameters:
   - name: NAME
     required: true
   - name: PROJECT
-    value: sims
+    value: iosas
   - name: SERVICE_NAME
     value: api
   - name: CPU_LIMIT
