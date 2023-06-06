@@ -25,13 +25,17 @@ objects:
           containers:
             - env:
                 - name: VERSION
-                  value: ${BUILD_TAG}
+                  value: 0
+                - name: NODE_ENV
+                  value: development
                 - name: ISSUER
                   value: ${ISSUER}
                 - name: API_PORT
                   value: "${PORT}"
                 - name: SERVER_FRONTEND
-                  value: ${HOST_NAME}
+                  value: /
+                - name: SOAM_URL
+                  value: https://soam-dev.apps.silver.devops.gov.bc.ca
                 - name: SOAM_DISCOVERY
                   valueFrom:
                     secretKeyRef:

@@ -158,6 +158,9 @@ app.use(/(\/api)?/, apiRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/user', userRouter);
 
+console.log(`SOAM URL: ${process.env.SOAM_URL}`);
+console.log(`NODE ENV: ${process.env.NODE_ENV} | PORT: ${process.env.API_PORT}`);
+
 //Handle 500 error
 app.use((err, _req, res, next) => {
   log.error(err?.stack);

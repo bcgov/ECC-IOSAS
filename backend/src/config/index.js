@@ -17,7 +17,13 @@ nconf.overrides({
   server: {
     logLevel: process.env.LOG_LEVEL,
     morganFormat: 'dev',
-    port: 8080
+    port: process.env.API_PORT || 8080
+  },
+  oidc: {
+    publicKey: process.env.SOAM_PUBLIC_KEY,
+    clientId: process.env.SOAM_CLIENT_ID,
+    clientSecret: process.env.SOAM_CLIENT_SECRET,
+    discovery: process.env.SOAM_DISCOVERY
   }
 });
 

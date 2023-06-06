@@ -170,14 +170,12 @@ function onListening() {
 }
 
 process.on('SIGINT',() => {
-  NATS.close();
   server.close(() => {
     log.info('process terminated');
   });
 });
 
 process.on('SIGTERM', () => {
-  NATS.close();
   server.close(() => {
     log.info('process terminated');
   });
