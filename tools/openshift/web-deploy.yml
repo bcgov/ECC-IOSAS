@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   name: ${NAME}
@@ -30,6 +30,12 @@ objects:
                   value: "${PORT}"
               image: ${IMAGE_REGISTRY}/${BUILD_NAMESPACE}/${IMAGE_STREAM_TAG}
               imagePullPolicy: Always
+              volumeMounts:
+              - name: tls-certs
+                mountPath: "/etc/tls-certs"
+                readOnly: true
+              - name: config-env
+                mountPath: "/srv/js/config"
               name: ${NAME}
               ports:
                 - containerPort: "${{PORT}}"
@@ -57,6 +63,13 @@ objects:
                 initialDelaySeconds: 10
                 periodSeconds: 30
                 timeoutSeconds: 15
+          volumes:
+            - name: tls-certs
+              secret:
+                secretName: iosas-ui-sec
+            - name: config-env
+              configMap:
+                name: iosas-ui-config
   - apiVersion: v1
     kind: Service
     metadata:
@@ -98,9 +111,9 @@ parameters:
   - name: MEMORY_REQUEST
     value: "256M"
   - name: REPLICAS
-    value: "2"
+    value: "1"
   - name: PORT
-    value: "7070"
+    value: "2015"
   - name: IMAGE_STREAM_TAG
     required: true  
   - name: BUILD_NAMESPACE

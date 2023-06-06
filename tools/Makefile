@@ -99,6 +99,14 @@ init-api-sec:
 	@oc -n $(NAMESPACE) create secret generic iosas-ui-sec  --from-file=private-key=certificates/ui.pvt.key \
 		--from-file=certificate=certificates/ui.public.key
 
+init-web:
+	@echo "++\n Init Api in $(NAMESPACE) \n++"
+	oc create -n $(NAMESPACE) configmap iosas-ui-config \
+	--from-literal=TZ="America/Vancouver" \
+	--from-literal=HOST_ROUTE="$(HOST)" \
+	--from-literal=config.js="$regConfig" \
+	--from-literal=snowplow.js="$snowplow" \
+	--dry-run=client -o yaml | oc apply -f -
 
 
 init-artifactory-secret-credential:
@@ -154,6 +162,10 @@ deploy-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Deploying Web with tag: $(BUILD_TAG)\n+"
-	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml -p NAME=$(Web) -p HOST_NAME=$(HOST) -p BUILD_NAMESPACE=$(BUILD_NAMESPACE) -p IMAGE_STREAM_TAG="$(Web):$(BUILD_TAG)"  | oc -n $(NAMESPACE) apply -f -
+	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml \
+		-p NAME=$(Web) \
+		-p HOST_NAME=$(HOST) \
+		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
+		-p IMAGE_STREAM_TAG="$(Web):$(BUILD_TAG)"  | oc -n $(NAMESPACE) apply -f -
 	$(call rollout_and_wait,dc/$(Web))
 
