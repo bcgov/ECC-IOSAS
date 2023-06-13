@@ -155,7 +155,7 @@ const auth = {
             
             try {
               const publicKey = discovery.realamInfo.public_key
-              const formattedPubKey = `"-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
+              const formattedPubKey = `-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
               log.info(`Public key: ${publicKey}`);
               log.info(`Formatted key: ${formattedPubKey}`);
               jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
