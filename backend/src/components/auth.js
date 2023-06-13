@@ -147,19 +147,32 @@ const auth = {
     }
   },
   isValidBackendToken() {
-    return async function (req, res, next) {
+    return function (req, res, next) {
       if (req?.session?.passport?.user?.jwt) {
         try {
-          const publicKey = await utils.getOidcDiscovery().realamInfo.public_key
-          const formattedPubKey = `"-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
-          jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
+          utils.getOidcDiscovery()
+          .then(discovery => {
+            log.info(`Discovery: ${JSON.stringify(discovery, null, 2)}`);
+            try {
+              const publicKey = discovery.realamInfo.public_key
+              const formattedPubKey = `"-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
+              jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
+            } catch (e) {
+              log.info('The kc token verification fail with underlying error');
+              log.error('error is from verify', e);
+              return res.status(HttpStatus.UNAUTHORIZED).json();
+            }
+            log.info('Backend token is valid moving to next');
+            return next();
+          })
+          .catch(error => {
+            log.error('Unable to get discovery with error: ', error);
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json();
+          });
         } catch (e) {
-          log.info('The kc token verification fail with underlying error');
-          log.error('error is from verify', e);
-          return res.status(HttpStatus.UNAUTHORIZED).json();
+          log.error('Unable to get discovery with error(1): ', e);
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).json();
         }
-        log.info('Backend token is valid moving to next');
-        return next();
       } else {
         log.info(req.session);
         log.info('no jwt responding back 401');
