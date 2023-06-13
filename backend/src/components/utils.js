@@ -26,18 +26,13 @@ async function getOidcDiscovery() {
       // Get Discovery
       const response = await axios.get(config.get('oidc:discovery'));
       const { data = {} } = response;
-      log.info('Dicovery');
-      console.dir(data);
       // Get realam inof
       const realamInfoResponse = await axios.get(data.issuer);
-      console.dir(realamInfoResponse.data);
       const { data: realamInfo = {} } = realamInfoResponse
-      console.dir(realamInfo);
       discovery = {
         ...data,
         realamInfo
       };
-      console.dir(discovery);
     } catch (error) {
       log.error('getOidcDiscovery', `OIDC Discovery failed - ${error.message}`);
     }

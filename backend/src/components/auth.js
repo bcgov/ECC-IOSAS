@@ -152,10 +152,12 @@ const auth = {
         try {
           utils.getOidcDiscovery()
           .then(discovery => {
-            log.info(`Discovery: ${JSON.stringify(discovery, null, 2)}`);
+            
             try {
               const publicKey = discovery.realamInfo.public_key
               const formattedPubKey = `"-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
+              log.info(`Public key: ${publicKey}`);
+              log.info(`Formatted key: ${formattedPubKey}`);
               jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
             } catch (e) {
               log.info('The kc token verification fail with underlying error');
