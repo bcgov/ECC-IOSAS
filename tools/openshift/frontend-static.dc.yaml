@@ -5,7 +5,6 @@
     template: "${REPO_NAME}-template"
   metadata:
     name: "${REPO_NAME}-frontend-dc"
-    creationTimestamp:
   objects:
   - apiVersion: v1
     kind: DeploymentConfig

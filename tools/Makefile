@@ -96,8 +96,8 @@ init-api:
 
 init-api-sec:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"
-	@oc -n $(NAMESPACE) create secret generic iosas-ui-sec  --from-file=private-key=certificates/ui.pvt.key \
-		--from-file=certificate=certificates/ui.public.key
+	@oc -n $(NAMESPACE) create secret generic iosas-ui-sec  --from-file=private-key=certificates/id_iosas_ui_rsa \
+		--from-file=certificate=certificates/id_iosas_ui_rsa.pub
 
 init-web:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"

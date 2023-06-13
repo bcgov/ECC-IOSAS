@@ -25,17 +25,19 @@ objects:
           containers:
             - env:
                 - name: VERSION
-                  value: 0
+                  value: "0"
                 - name: NODE_ENV
-                  value: development
+                  value: ${NODE_ENV}
                 - name: ISSUER
                   value: ${ISSUER}
                 - name: API_PORT
                   value: "${PORT}"
                 - name: SERVER_FRONTEND
-                  value: /
+                  value: https://${HOST_NAME}
                 - name: SOAM_URL
-                  value: https://soam-dev.apps.silver.devops.gov.bc.ca
+                  value: ${SOAM_URL}
+                - name: SITEMINDER_LOGOUT_ENDPOINT
+                  value: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl=
                 - name: SOAM_DISCOVERY
                   valueFrom:
                     secretKeyRef:
@@ -137,13 +139,13 @@ parameters:
   - name: SERVICE_NAME
     value: api
   - name: CPU_LIMIT
-    value: "0.5"
+    value: "0.25"
   - name: MEMORY_LIMIT
-    value: "1500M"
+    value: "500M"
   - name: CPU_REQUEST
     value: "0.25"
   - name: MEMORY_REQUEST
-    value: "1000M"
+    value: "500M"
   - name: REPLICAS
     value: "1"
   - name: PORT
@@ -159,7 +161,11 @@ parameters:
   - name: PATH
     value: "/api/"
   - name: NODE_ENV
-    value: "production"
+    value: "development"
   - name: ISSUER
     value: "ecc-iosas"
+  - name: FRONT_END
+    value: "/"
+  - name: SOAM_URL
+    value: "https://soam-dev.apps.silver.devops.gov.bc.ca"
   
