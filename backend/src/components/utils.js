@@ -23,8 +23,16 @@ axios.interceptors.request.use((axiosRequestConfig) => {
 async function getOidcDiscovery() {
   if (!discovery) {
     try {
+      // Get Discovery
       const response = await axios.get(config.get('oidc:discovery'));
-      discovery = response.data;
+      const { data = {} } = response;
+      // Get realam inof
+      const realamInfoResponse = await axios.get(data.issuer);
+      const { data: realamInfo = {} } = realamInfoResponse
+      discovery = {
+        ...data,
+        realamInfo
+      };
     } catch (error) {
       log.error('getOidcDiscovery', `OIDC Discovery failed - ${error.message}`);
     }

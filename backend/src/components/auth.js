@@ -147,10 +147,12 @@ const auth = {
     }
   },
   isValidBackendToken() {
-    return function (req, res, next) {
+    return async function (req, res, next) {
       if (req?.session?.passport?.user?.jwt) {
         try {
-          jsonwebtoken.verify(req.session.passport.user.jwt, config.get('oidc:publicKey'));
+          const publicKey = await utils.getOidcDiscovery().realamInfo.public_key
+          const formattedPubKey = `"-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
+          jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
         } catch (e) {
           log.info('The kc token verification fail with underlying error');
           log.error('error is from verify', e);
