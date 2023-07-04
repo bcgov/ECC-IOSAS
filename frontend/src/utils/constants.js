@@ -21,7 +21,11 @@ object = {
   REFRESH: authRoot + '/refresh',
   TOKEN: authRoot + '/token',
   SESSION_REMAINING_TIME: authRoot + '/user-session-remaining-time',
-  INSTITUTE_SELECTION: '/institute-selection',
+  // INSTITUTE_SELECTION: '/institute-selection',
+  EOI: '/expression-of-interest/',
+  NEW_EOI:'/expression-of-interest/new',
+  APPLICATION: '/school-application',
+  PROFILE: '/user-profile'
 };
 //Authentication endpoints
 export const AuthRoutes = Object.freeze(object);

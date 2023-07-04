@@ -7,10 +7,7 @@
       v-if="pageTitle && authStore().isAuthenticated"
       :title="pageTitle"
     />
-    <v-main
-      fluid
-      class="align-start"
-    >
+    <v-main fluid class="align-start">
       <ModalIdle v-if="authStore().isAuthenticated" />
       <router-view />
     </v-main>
@@ -19,20 +16,20 @@
 </template>
 
 <script>
-import { authStore } from './store/modules/auth';
-import { appStore } from './store/modules/app';
-import { mapState, mapActions } from 'pinia';
-import HttpStatus from 'http-status-codes';
-import Header from './components/Header.vue';
-import Footer from './components/Footer.vue';
-import ModalIdle from './components/ModalIdle.vue';
-import MsieBanner from './components/MsieBanner.vue';
-import StaticConfig from './common/staticConfig';
-import SnackBar from './components/util/SnackBar.vue';
-import NavBar from './components/util/NavBar.vue';
+import { authStore } from "./store/modules/auth";
+import { appStore } from "./store/modules/app";
+import { mapState, mapActions } from "pinia";
+import HttpStatus from "http-status-codes";
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+import ModalIdle from "./components/ModalIdle.vue";
+import MsieBanner from "./components/MsieBanner.vue";
+import StaticConfig from "./common/staticConfig";
+import SnackBar from "./components/util/SnackBar.vue";
+import NavBar from "./components/util/NavBar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     Footer,
@@ -42,37 +39,46 @@ export default {
     NavBar,
   },
   metaInfo: {
-    meta: StaticConfig.VUE_APP_META_DATA
+    meta: StaticConfig.VUE_APP_META_DATA,
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
-    ...mapState(appStore, ['pageTitle']),
+    ...mapState(authStore, ["isAuthenticated", "loginError", "isLoading"]),
+    ...mapState(appStore, ["pageTitle"]),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
-    }
+    },
   },
   async created() {
     await this.setLoading(true);
-    this.getJwtToken().then(() =>
-      Promise.all([this.getUserInfo()])
-    ).catch(e => {
-      if(! e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
-        this.logout();
-        this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
-      }
-    }).finally(() => {
-      this.setLoading(false);
-    });
+    this.getJwtToken()
+      .then(() => Promise.all([this.getUserInfo()]))
+      .catch((e) => {
+        if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
+          this.logout();
+          this.$router.replace({
+            name: "error",
+            query: { message: `500_${e.data || "ServerError"}` },
+          });
+        }
+      })
+      .finally(() => {
+        this.setLoading(false);
+      });
   },
   methods: {
     authStore,
-    ...mapActions(authStore, ['setLoading', 'getJwtToken', 'getUserInfo', 'logout']),
-  }
+    ...mapActions(authStore, [
+      "setLoading",
+      "getJwtToken",
+      "getUserInfo",
+      "logout",
+    ]),
+  },
 };
 </script>
 
 <style>
-a{
+a {
   color: #1976d2;
 }
 
@@ -85,27 +91,27 @@ a:hover {
 }
 
 .v-application {
-  font-family: 'BCSans', Verdana, Arial, sans-serif !important;
+  font-family: "BCSans", Verdana, Arial, sans-serif !important;
 }
 .v-card--flat {
   background-color: transparent !important;
 }
-.theme--light.application{
+.theme--light.application {
   background: #f1f1f1;
 }
 h1 {
   font-size: 1.25rem;
 }
-.v-toolbar__title{
+.v-toolbar__title {
   font-size: 1rem;
 }
 
 .v-btn {
-    text-transform: none !important;
+  text-transform: none !important;
 }
 
 .v-alert .v-icon {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .v-alert.bootstrap-success {
@@ -133,8 +139,7 @@ h1 {
 }
 
 @media screen and (max-width: 370px) {
-
-  .v-toolbar__title{
+  .v-toolbar__title {
     font-size: 0.9rem;
     line-height: 1;
     overflow: hidden;
@@ -152,7 +157,7 @@ h1 {
 }
 
 @media screen and (min-width: 371px) and (max-width: 600px) {
-  .v-toolbar__title{
+  .v-toolbar__title {
     font-size: 0.9rem;
     line-height: 1.5;
     overflow: hidden;
@@ -170,7 +175,7 @@ h1 {
 }
 
 @media screen and (min-width: 601px) and (max-width: 700px) {
-  .v-toolbar__title{
+  .v-toolbar__title {
     font-size: 1rem;
     line-height: 1.5;
     overflow: hidden;
@@ -184,7 +189,6 @@ h1 {
 }
 
 .theme--light.v-btn.v-btn--disabled:not(.v-btn--text):not(.v-btn--outlined) {
-  background-color: rgba(0,0,0,.12)!important;
+  background-color: rgba(0, 0, 0, 0.12) !important;
 }
-
 </style>

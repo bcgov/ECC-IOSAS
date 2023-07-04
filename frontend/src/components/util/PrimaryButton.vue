@@ -2,8 +2,14 @@
   <v-hover v-slot="{ hover }">
     <v-btn
       :id="id"
-      :title="title||text"
-      :class="[(hover && !disabled) ? secondary ? this.class + ' button-hover white--text': this.class + ' button-hover': this.class + '']"
+      :title="title || text"
+      :class="[
+        hover && !disabled
+          ? secondary
+            ? this.class + ' button-hover white--text'
+            : this.class + ' button-hover'
+          : this.class + '',
+      ]"
       :color="disabled ? '' : '#003366'"
       :variant="secondary ? 'outlined' : 'elevated'"
       :small="short"
@@ -17,7 +23,7 @@
     >
       <v-icon
         v-if="icon"
-        :color="secondary ? '#003366': 'white'"
+        :color="secondary ? '#003366' : 'white'"
         class="ml-n1 mr-1"
         :nudge-down="4"
         :large="largeIcon"
@@ -26,89 +32,84 @@
       >
         {{ icon }}
       </v-icon>
-      <span
-        :style="getButtonTextStyle()"
-        class="ml-1"
-      >{{ text }}</span>
+      <span :style="getButtonTextStyle()" class="ml-1">{{ text }}</span>
     </v-btn>
   </v-hover>
 </template>
 
 <script>
 export default {
-  name: 'PrimaryButton',
+  name: "PrimaryButton",
   inheritAttrs: false,
   props: {
-    class:{
+    class: {
       type: String,
-      default: null
+      default: null,
     },
     id: {
       type: String,
-      default: null
+      default: null,
     },
     text: {
       type: String,
-      default: null
+      default: null,
     },
     short: {
       type: Boolean,
-      default: false
+      default: false,
     },
     secondary: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     to: {
       type: String,
-      default: null
+      default: null,
     },
     width: {
       type: String,
-      default: null
+      default: null,
     },
     loading: {
       type: Boolean,
-      default: null
+      default: null,
     },
     icon: {
       type: String,
-      default: null
+      default: null,
     },
     bind: {
       type: Object,
-      default: null
+      default: null,
     },
     clickAction: {
       type: Function,
-      default: null
+      default: null,
     },
     largeIcon: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    title:{
+    title: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   methods: {
-    getButtonTextStyle(){
-      if(this.secondary){
-        return 'color: #003366';
-      }else if(!this.disabled){
-        return 'color: white';
+    getButtonTextStyle() {
+      if (this.secondary) {
+        return "color: #003366";
+      } else if (!this.disabled) {
+        return "color: white";
       }
-      return '';
-    }
-  }
+      return "";
+    },
+  },
 };
-
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -117,15 +118,20 @@ export default {
   text-transform: none;
 }
 .button-hover {
-  background-color: #38598A !important;
+  background-color: #38598a !important;
 }
-.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(
+    .v-btn--outlined
+  ) {
   background-color: #003366 !important;
   opacity: 0.298039215686275;
   color: white !important;
 }
 
-.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) .v-icon {
+.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(
+    .v-btn--outlined
+  )
+  .v-icon {
   color: white !important;
 }
 </style>

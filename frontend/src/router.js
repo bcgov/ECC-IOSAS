@@ -30,8 +30,10 @@ import StepTwoSchoolContacts from './components/sldCollection/StepTwoSchoolConta
 import StepThreeUploadData from './components/sldCollection/StepThreeUploadData.vue';
 import StepFourValidateData from './components/sldCollection/StepFourValidateData.vue';
 import SLDCollectionSummary from './components/sldCollection/SLDCollectionSummary.vue';
+import ExpressionOfInterestPage from './components/EOI/ExpressionOfInterestPage.vue';
+import SchoolApplicationPage from './components/applications/SchoolApplicationPage.vue';
+import ProfilePage from './components/profile/ProfilePage.vue';
 
-// a comment for commit.
 const excludeInstituteNameFromPageTitleList=[PAGE_TITLES.SELECTION, PAGE_TITLES.ACTIVATE_USER];
 const router = createRouter({
   history: createWebHistory(),
@@ -75,20 +77,20 @@ const router = createRouter({
       name: 'login-error',
       component: LoginError
     },
-    {
-      path: '/institute-selection',
-      name: 'institute-selection',
-      component: InstituteSelection,
-      meta: {
-        pageTitle: PAGE_TITLES.SELECTION,
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/activation-error',
-      name: 'activation-error',
-      component: UserActivationLinkError
-    },
+    // {
+    //   path: '/institute-selection',
+    //   name: 'institute-selection',
+    //   component: InstituteSelection,
+    //   meta: {
+    //     pageTitle: PAGE_TITLES.SELECTION,
+    //     requiresAuth: true
+    //   }
+    // },
+    // {
+    //   path: '/activation-error',
+    //   name: 'activation-error',
+    //   component: UserActivationLinkError
+    // },
     {
       path: '/login',
       name: 'login',
@@ -98,54 +100,102 @@ const router = createRouter({
         requiresAuth: false
       }
     },
-    {
-      path: '/user-activation',
-      name: 'User Activation',
-      component: ActivateEdxUserAccount,
+      {
+      path: '/expression-of-interest/:eoiID',
+      name: 'Expression of Interest',
+      component: ExpressionOfInterestPage,
       props: {
-        instituteTypeLabel: 'School',
-        instituteTypeCode: 'SCHOOL',
-        instituteIdentifierLabel: 'Mincode'
+       
       },
       meta: {
-        pageTitle: PAGE_TITLES.ACTIVATE_USER,
+        pageTitle: "Expression of Interest",
         requiresAuth: true
       },
     },
     {
-      path: '/district-user-activation',
-      name: 'District User Activation',
-      component: ActivateEdxUserAccount,
+      path: '/expression-of-interest/new',
+      name:  'New Expression of Interest',
+      component: ExpressionOfInterestPage,
       props: {
-        instituteTypeLabel: 'District',
-        instituteTypeCode: 'DISTRICT',
-        instituteIdentifierLabel: 'Number'
+       
       },
       meta: {
-        pageTitle: PAGE_TITLES.ACTIVATE_USER,
+        pageTitle: "New Expression of Interest",
+        requiresAuth: false
+      },
+    },
+    {
+      path: '/school-application',
+      name: 'Application',
+      component: SchoolApplicationPage,
+      props: {
+       
+      },
+      meta: {
+        pageTitle: "Application",
         requiresAuth: true
       },
     },
     {
-      path: '/schoolAccess',
-      name: 'schoolAccess',
-      component: AccessSchoolUsersPage,
+      path: '/user-profile',
+      name: 'User Profile',
+      component: ProfilePage,
+      props: {
+       
+      },
       meta: {
-        pageTitle: PAGE_TITLES.SCHOOL_EXCHANGE_USERS,
-        requiresAuth: true,
-        permission: 'EDX_USER_SCHOOL_ADMIN'
-      }
+        pageTitle: "User Profile",
+        requiresAuth: true
+      },
     },
-    {
-      path: '/districtAccess',
-      name: 'districtAccess',
-      component: AccessDistrictUsersPage,
-      meta: {
-        pageTitle: PAGE_TITLES.DISTRICT_EXCHANGE_USERS,
-        requiresAuth: true,
-        permission: 'EDX_USER_DISTRICT_ADMIN'
-      }
-    },
+    // {
+    //   path: '/user-activation',
+    //   name: 'User Activation',
+    //   component: ActivateEdxUserAccount,
+    //   props: {
+    //     instituteTypeLabel: 'School',
+    //     instituteTypeCode: 'SCHOOL',
+    //     instituteIdentifierLabel: 'Mincode'
+    //   },
+    //   meta: {
+    //     pageTitle: PAGE_TITLES.ACTIVATE_USER,
+    //     requiresAuth: true
+    //   },
+    // },
+    // {
+    //   path: '/district-user-activation',
+    //   name: 'District User Activation',
+    //   component: ActivateEdxUserAccount,
+    //   props: {
+    //     instituteTypeLabel: 'District',
+    //     instituteTypeCode: 'DISTRICT',
+    //     instituteIdentifierLabel: 'Number'
+    //   },
+    //   meta: {
+    //     pageTitle: PAGE_TITLES.ACTIVATE_USER,
+    //     requiresAuth: true
+    //   },
+    // },
+    // {
+    //   path: '/schoolAccess',
+    //   name: 'schoolAccess',
+    //   component: AccessSchoolUsersPage,
+    //   meta: {
+    //     pageTitle: PAGE_TITLES.SCHOOL_EXCHANGE_USERS,
+    //     requiresAuth: true,
+    //     permission: 'EDX_USER_SCHOOL_ADMIN'
+    //   }
+    // },
+    // {
+    //   path: '/districtAccess',
+    //   name: 'districtAccess',
+    //   component: AccessDistrictUsersPage,
+    //   meta: {
+    //     pageTitle: PAGE_TITLES.DISTRICT_EXCHANGE_USERS,
+    //     requiresAuth: true,
+    //     permission: 'EDX_USER_DISTRICT_ADMIN'
+    //   }
+    // },
     {
       path: '/:catchAll(.*)',
       name: 'notfound',
@@ -159,164 +209,165 @@ const router = createRouter({
       name: 'backend-session-expired',
       component: BackendSessionExpired
     },
-    {
-      path: '/',
-      component: RouterView,
-      children: [
-        {
-          path: 'inbox',
-          name: 'inbox',
-          component: ExchangePage,
-          meta: {
-            pageTitle: PAGE_TITLES.EXCHANGE,
-            requiresAuth: true,
-            permission: 'SECURE_EXCHANGE'
-          }
-        },
-        {
-          path: 'exchange/:secureExchangeID',
-          name: 'viewExchange',
-          component: MessageDisplay,
-          props: true,
-          meta: {
-            pageTitle: PAGE_TITLES.VIEW_EXCHANGE,
-            requiresAuth: true,
-            permission: 'SECURE_EXCHANGE'
-          }
-        },
-        {
-          path: 'newExchange',
-          name: 'newExchange',
-          component: NewMessagePage,
-          meta: {
-            pageTitle: PAGE_TITLES.NEW_EXCHANGE,
-            requiresAuth: true,
-            permission: 'SECURE_EXCHANGE'
-          }
-        },
-        {
-          path: 'schools',
-          name: 'schools',
-          component: SchoolListPage,
-          meta: {
-            pageTitle: PAGE_TITLES.SCHOOLS,
-            requiresAuth: true,
-            permission: 'SECURE_EXCHANGE'
-          }
-        },
-        {
-          path: 'districtDetails/:districtID',
-          name: 'districtDetails',
-          props: true,
-          component: DistrictDetails,
-          meta: {
-            pageTitle: PAGE_TITLES.DISTRICT_DETAILS,
-            requiresAuth: true,
-            permission: 'SECURE_EXCHANGE'
-          }
-        },
-        {
-          path: 'districtContacts/:districtID',
-          name: 'districtContacts',
-          component: DistrictContactsPage,
-          props: true,
-          meta: {
-            pageTitle: PAGE_TITLES.DISTRICT_CONTACTS,
-            requiresAuth: true,
-            permission: 'SECURE_EXCHANGE'
-          }
-        },
-        {
-          path: 'schoolContacts/:schoolID',
-          name: 'schoolContacts',
-          component: SchoolContactsPage,
-          props: true,
-          meta: {
-            pageTitle: PAGE_TITLES.SCHOOL_CONTACTS,
-            requiresAuth: true,
-          }
-        },
-        {
-          path: 'schoolDetails/:schoolID',
-          name: 'schoolDetails',
-          component: SchoolDetailsPage,
-          props: true,
-          meta: {
-            pageTitle: PAGE_TITLES.SCHOOL_DETAILS,
-            requiresAuth: true,
-          }
-        },
-        {
-          path: 'open-collection-summary',
-          name: 'sldCollectionSummary',
-          component: SLDCollectionSummary,
-          props: true,
-          meta: {
-            pageTitle: PAGE_TITLES.SLD,
-            requiresAuth: true,
-            permission: 'STUDENT_DATA_COLLECTION'
-          },
-        },
-        {
-          path: 'open-collection-details/:schoolCollectionID',
-          name: 'sldCollection',
-          component: SLDCollectionView,
-          props: true,
-          meta: {
-            pageTitle: PAGE_TITLES.SLD,
-            requiresAuth: true,
-            permission: 'STUDENT_DATA_COLLECTION'
-          },
-          children: [
-            {
-              path: 'step-1',
-              name: 'step-1',
-              component: StepOneSchoolDetails,
-              meta: {
-                pageTitle: PAGE_TITLES.SLD,
-                requiresAuth: true,
-                permission: 'STUDENT_DATA_COLLECTION'
-              },
-              props: true
-            },
-            {
-              path: 'step-2',
-              name: 'step-2',
-              component: StepTwoSchoolContacts,
-              meta: {
-                pageTitle: PAGE_TITLES.SLD,
-                requiresAuth: true,
-                permission: 'STUDENT_DATA_COLLECTION'
-              }
-            },
-            {
-              path: 'step-3',
-              name: 'step-3',
-              component: StepThreeUploadData,
-              meta: {
-                pageTitle: PAGE_TITLES.SLD,
-                requiresAuth: true,
-                permission: 'STUDENT_DATA_COLLECTION'
-              }
-            },
-            {
-              path: 'step-4',
-              name: 'step-4',
-              component: StepFourValidateData,
-              meta: {
-                pageTitle: PAGE_TITLES.SLD,
-                requiresAuth: true,
-                permission: 'STUDENT_DATA_COLLECTION'
-              }
-            }
-          ]
-        }
-      ]
-    },
+    // {
+    //   path: '/',
+    //   component: RouterView,
+    //   children: [
+    //     {
+    //       path: 'inbox',
+    //       name: 'inbox',
+    //       component: ExchangePage,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.EXCHANGE,
+    //         requiresAuth: true,
+    //         permission: 'SECURE_EXCHANGE'
+    //       }
+    //     },
+    //     {
+    //       path: 'exchange/:secureExchangeID',
+    //       name: 'viewExchange',
+    //       component: MessageDisplay,
+    //       props: true,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.VIEW_EXCHANGE,
+    //         requiresAuth: true,
+    //         permission: 'SECURE_EXCHANGE'
+    //       }
+    //     },
+    //     {
+    //       path: 'newExchange',
+    //       name: 'newExchange',
+    //       component: NewMessagePage,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.NEW_EXCHANGE,
+    //         requiresAuth: true,
+    //         permission: 'SECURE_EXCHANGE'
+    //       }
+    //     },
+    //     {
+    //       path: 'schools',
+    //       name: 'schools',
+    //       component: SchoolListPage,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.SCHOOLS,
+    //         requiresAuth: true,
+    //         permission: 'SECURE_EXCHANGE'
+    //       }
+    //     },
+    //     {
+    //       path: 'districtDetails/:districtID',
+    //       name: 'districtDetails',
+    //       props: true,
+    //       component: DistrictDetails,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.DISTRICT_DETAILS,
+    //         requiresAuth: true,
+    //         permission: 'SECURE_EXCHANGE'
+    //       }
+    //     },
+    //     {
+    //       path: 'districtContacts/:districtID',
+    //       name: 'districtContacts',
+    //       component: DistrictContactsPage,
+    //       props: true,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.DISTRICT_CONTACTS,
+    //         requiresAuth: true,
+    //         permission: 'SECURE_EXCHANGE'
+    //       }
+    //     },
+    //     {
+    //       path: 'schoolContacts/:schoolID',
+    //       name: 'schoolContacts',
+    //       component: SchoolContactsPage,
+    //       props: true,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.SCHOOL_CONTACTS,
+    //         requiresAuth: true,
+    //       }
+    //     },
+    //     {
+    //       path: 'schoolDetails/:schoolID',
+    //       name: 'schoolDetails',
+    //       component: SchoolDetailsPage,
+    //       props: true,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.SCHOOL_DETAILS,
+    //         requiresAuth: true,
+    //       }
+    //     },
+    //     {
+    //       path: 'open-collection-summary',
+    //       name: 'sldCollectionSummary',
+    //       component: SLDCollectionSummary,
+    //       props: true,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.SLD,
+    //         requiresAuth: true,
+    //         permission: 'STUDENT_DATA_COLLECTION'
+    //       },
+    //     },
+    //     {
+    //       path: 'open-collection-details/:schoolCollectionID',
+    //       name: 'sldCollection',
+    //       component: SLDCollectionView,
+    //       props: true,
+    //       meta: {
+    //         pageTitle: PAGE_TITLES.SLD,
+    //         requiresAuth: true,
+    //         permission: 'STUDENT_DATA_COLLECTION'
+    //       },
+    //       children: [
+    //         {
+    //           path: 'step-1',
+    //           name: 'step-1',
+    //           component: StepOneSchoolDetails,
+    //           meta: {
+    //             pageTitle: PAGE_TITLES.SLD,
+    //             requiresAuth: true,
+    //             permission: 'STUDENT_DATA_COLLECTION'
+    //           },
+    //           props: true
+    //         },
+    //         {
+    //           path: 'step-2',
+    //           name: 'step-2',
+    //           component: StepTwoSchoolContacts,
+    //           meta: {
+    //             pageTitle: PAGE_TITLES.SLD,
+    //             requiresAuth: true,
+    //             permission: 'STUDENT_DATA_COLLECTION'
+    //           }
+    //         },
+    //         {
+    //           path: 'step-3',
+    //           name: 'step-3',
+    //           component: StepThreeUploadData,
+    //           meta: {
+    //             pageTitle: PAGE_TITLES.SLD,
+    //             requiresAuth: true,
+    //             permission: 'STUDENT_DATA_COLLECTION'
+    //           }
+    //         },
+    //         {
+    //           path: 'step-4',
+    //           name: 'step-4',
+    //           component: StepFourValidateData,
+    //           meta: {
+    //             pageTitle: PAGE_TITLES.SLD,
+    //             requiresAuth: true,
+    //             permission: 'STUDENT_DATA_COLLECTION'
+    //           }
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // },
 
   ]
 });
 
+// UPDATE To REDIRECT TO IOSAS ROUTES
 router.beforeEach((to, _from, next) => {
   const aStore = authStore();
   const apStore = appStore();

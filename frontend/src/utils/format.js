@@ -47,3 +47,12 @@ export function formatDate(rawDate, from='uuuu-MM-dd\'T\'HH:mm:ss', to='uuuu/MM/
 export function formatContactName(contact) {
   return contact.firstName ? `${contact.firstName} ${contact.lastName}` : contact.lastName;
 }
+
+// Used in the DataTable.vue to format the tableHeaders
+export function formatSnakeCaseToString(key) {
+  return key.split('_').map(word => {
+    const isNumber = word === 'number';
+    const formatTitle = isNumber ? '#' : word.charAt(0).toUpperCase() + word.slice(1)
+    return formatTitle}
+    ).join(' ')
+}
