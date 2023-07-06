@@ -89,7 +89,6 @@ export default {
   computed: {
     ...mapState(authStore, ["isAuthenticated", "userInfo"]),
     dataReady: function () {
-      console.log(this.userInfo);
       return this.userInfo;
     },
   },

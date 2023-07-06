@@ -34,7 +34,7 @@
             >
               <router-link
                 v-if="url && value[1] === Object.values(item)[0]"
-                :to="{ path: url }"
+                :to="{ path: url + '/' + value[1], params: { data: value } }"
                 :target="'_self'"
                 class="router-link-exact-active"
               >
@@ -95,10 +95,6 @@ export default {
           value: key,
         }));
       }
-    },
-    redirectToRoute(id) {
-      console.log(this.url + "/" + id);
-      return this.url + "/" + id;
     },
     formatSnakeCaseToString,
   },

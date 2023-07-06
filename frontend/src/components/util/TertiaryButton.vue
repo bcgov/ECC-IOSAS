@@ -12,6 +12,7 @@
       :text="true"
       :min-width="minWidth"
       v-bind="bind"
+      @click="clickAction"
     >
       <v-icon v-if="icon" :class="[iconStyle, 'mr-1']" left>
         {{ icon }}
@@ -63,6 +64,10 @@ export default {
     },
     bind: {
       type: Object,
+      default: null,
+    },
+    clickAction: {
+      type: Function,
       default: null,
     },
     on: {

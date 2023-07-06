@@ -89,7 +89,6 @@ export default {
   },
   data() {
     return {
-      tab: "option-1",
       AuthRoutes,
       PAGE_TITLES: PAGE_TITLES,
       EOI: [
@@ -140,7 +139,7 @@ export default {
   methods: {
     authStore,
     redirectToEOIForm() {
-      this.$router.push({ name: "New Expression of Interest" });
+      this.$router.push({ path: AuthRoutes.NEW_EOI });
     },
   },
 };

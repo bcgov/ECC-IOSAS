@@ -101,8 +101,8 @@ const router = createRouter({
       }
     },
       {
-      path: '/expression-of-interest/:eoiID',
-      name: 'Expression of Interest',
+      path: '/expression-of-interest/:id',
+      name: 'expressionOfInterest',
       component: ExpressionOfInterestPage,
       props: {
        
@@ -114,7 +114,7 @@ const router = createRouter({
     },
     {
       path: '/expression-of-interest/new',
-      name:  'New Expression of Interest',
+      name:  'newExpressionOfInterest',
       component: ExpressionOfInterestPage,
       props: {
        
@@ -125,7 +125,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/school-application',
+      path: '/school-application/:id',
       name: 'Application',
       component: SchoolApplicationPage,
       props: {
