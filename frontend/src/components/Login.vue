@@ -1,33 +1,8 @@
 <template>
-  <!-- <v-container fluid class="full-height">
-    <article id="login-banner">
-      <v-row justify="center">
-        <v-card variant="elevated" elevation="8" class="login-card">
-          <v-card-title class="gov-header">
-            <h4 id="login_text">Log In</h4>
-          </v-card-title>
-          <v-card-text id="login_descriptor">
-            Welcome to the Independent School BC portal!
-          </v-card-text>
-          <v-row class="my-1" align="center" justify="center">
-            <v-btn
-              id="login-button"
-              variant="outlined"
-              :href="authRoutes.LOGIN_BCEID"
-              class="ma-2"
-              @click="clearStorage"
-            >
-              Log In with Basic BCeID<v-icon>mdi-login</v-icon>
-            </v-btn>
-          </v-row>
-        </v-card>
-      </v-row>
-    </article>
-  </v-container> -->
-  <v-container fluid class="full-height">
+  <v-container fluid class="content-container">
     <div class="d-flex justify-center">
       <v-row justify="center">
-        <v-col cols="6">
+        <v-col cols="12" sm="12" md="6" xs="12">
           <v-card title="Log in with your primary Business BCeID">
             <div class="card-content">
               <p>Enter your user ID and password to contine</p>
@@ -44,7 +19,7 @@
             </v-card-actions>
           </v-card>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" sm="12" md="6" xs="12">
           <v-card title="Don't have a BCeID?">
             <div class="card-content">
               <p>
@@ -70,7 +45,6 @@
       </v-row>
     </div>
     <v-divider></v-divider>
-    <br />
     <v-row>
       <v-col cols="12">
         <v-card title="Submit an Expression of Interest as a Guest">
@@ -117,24 +91,17 @@ export default {
 </script>
 
 <style scoped>
-.full-height {
-  height: 100%;
-  padding: 0 15vw;
-  margin-top: 150px;
-}
-
-.login-card {
-  margin-top: 15rem;
-  background-color: #003366;
-  color: white;
+.content-container {
+  margin-top: 50px;
 }
 
 .v-divider {
-  margin: 50px;
+  margin-top: 50px !important;
+  margin: 30px;
 }
 
 .card-content {
-  height: 90px;
+  min-height: 110px;
   margin: 10px;
   font-size: 14px;
 }
