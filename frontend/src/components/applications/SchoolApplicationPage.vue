@@ -5,7 +5,7 @@
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-    <v-timeline direction="horizontal" class="fixed" align="center" side="end">
+    <!-- <v-timeline direction="horizontal" class="fixed" align="center" side="end">
       <v-timeline-item
         v-for="step in steps"
         key="step"
@@ -17,7 +17,7 @@
           <div class="step-title">{{ step.title }}</div>
         </div>
       </v-timeline-item>
-    </v-timeline>
+    </v-timeline> -->
 
     <br />
     <SchoolApplicationForm />

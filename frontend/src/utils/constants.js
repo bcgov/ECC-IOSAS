@@ -174,3 +174,19 @@ export const APPLICATION_PAYLOAD = {
   seek_group_one: false,
   proposed_grade_range: null,
 }
+
+export const GRADE_OPTIONS = [
+  'Kindergarten',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+]

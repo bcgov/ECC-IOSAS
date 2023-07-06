@@ -191,4 +191,51 @@ h1 {
 .theme--light.v-btn.v-btn--disabled:not(.v-btn--text):not(.v-btn--outlined) {
   background-color: rgba(0, 0, 0, 0.12) !important;
 }
+
+.form-container {
+  border-radius: 5px;
+  padding: 50px;
+  box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+  -webkit-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+  -moz-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+}
+
+.content-container {
+  padding-right: 25em !important;
+  padding-left: 25em !important;
+}
+
+@media screen and (max-width: 1900px) {
+  .content-container {
+    padding-right: 20em !important;
+    padding-left: 20em !important;
+  }
+}
+
+@media screen and (max-width: 1900px) {
+  .content-container {
+    padding-right: 20em !important;
+    padding-left: 20em !important;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .content-container {
+    padding-right: 4em !important;
+    padding-left: 4em !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .content-container {
+    padding-right: 0.5em !important;
+    padding-left: 0.5em !important;
+  }
+}
+.v-divider {
+  padding: 15px;
+}
+.v-label {
+  white-space: break-spaces;
+}
 </style>

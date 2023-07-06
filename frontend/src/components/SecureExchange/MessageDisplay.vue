@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    class="containerSetup"
-    fluid
-  >
+  <v-container class="containerSetup" fluid>
     <v-row v-if="loading">
       <v-col class="d-flex justify-center">
         <v-progress-circular
@@ -15,10 +12,13 @@
         />
       </v-col>
     </v-row>
-    <div style="width: 100%;">
+    <div style="width: 100%">
       <v-row
         class="pt-7"
-        :class="{'mr-0 ml-0': $vuetify.display.smAndDown, 'mr-3 ml-3': $vuetify.display.mdAndUp}"
+        :class="{
+          'mr-0 ml-0': $vuetify.display.smAndDown,
+          'mr-3 ml-3': $vuetify.display.mdAndUp,
+        }"
       >
         <v-col cols="12 pt-0">
           <PdfRenderer
@@ -67,16 +67,16 @@
               <v-col class="pb-0 pt-0 d-flex justify-end">
                 <v-row>
                   <v-col class="pb-0 d-flex justify-end">
-                    <v-card
-                      variant="outlined"
-                      color="transparent"
-                      class="mr-5"
-                    >
+                    <v-card variant="outlined" color="transparent" class="mr-5">
                       <v-row no-gutters>
                         <v-col class="pb-0">
                           <v-icon
                             class="ml-n1"
-                            :color="getStatusColor(secureExchange.secureExchangeStatusCode)"
+                            :color="
+                              getStatusColor(
+                                secureExchange.secureExchangeStatusCode
+                              )
+                            "
                             dark
                           >
                             mdi-circle-medium
@@ -85,22 +85,20 @@
                             id="messageDisplayStatusCode"
                             style="color: black"
                             class="ml-n1"
-                          >{{ secureExchange.secureExchangeStatusCode }}</span>
+                            >{{ secureExchange.secureExchangeStatusCode }}</span
+                          >
                         </v-col>
                       </v-row>
                       <v-row no-gutters>
                         <v-col>
-                          <v-icon
-                            color="grey darken-3"
-                            size="medium"
-                            dark
-                          >
+                          <v-icon color="grey darken-3" size="medium" dark>
                             mdi-pound
                           </v-icon>
                           <span
                             id="messageDisplaySequenceNumber"
                             style="color: black"
-                          >{{ secureExchange.sequenceNumber }}</span>
+                            >{{ secureExchange.sequenceNumber }}</span
+                          >
                         </v-col>
                       </v-row>
                     </v-card>
@@ -110,16 +108,8 @@
             </v-row>
             <v-row no-gutters>
               <v-col class="mt-7 d-flex justify-start">
-                <v-icon
-                  small
-                  color="#1976d2"
-                >
-                  mdi-arrow-left
-                </v-icon>
-                <a
-                  class="ml-1"
-                  @click="backButtonClick"
-                >Return to Inbox</a>
+                <v-icon small color="#1976d2"> mdi-arrow-left </v-icon>
+                <a class="ml-1" @click="backButtonClick">Return to Inbox</a>
               </v-col>
               <v-col class="d-flex justify-end">
                 <v-btn
@@ -132,10 +122,12 @@
                   <v-icon v-if="secureExchange.isReadByExchangeContact">
                     mdi-email-outline
                   </v-icon>
-                  <v-icon v-else>
-                    mdi-email-open-outline
-                  </v-icon>
-                  <span class="ml-1 markAsSpan">{{ `MARK AS ${secureExchange.isReadByExchangeContact ? 'UNREAD' : 'READ'}` }}</span>
+                  <v-icon v-else> mdi-email-open-outline </v-icon>
+                  <span class="ml-1 markAsSpan">{{
+                    `MARK AS ${
+                      secureExchange.isReadByExchangeContact ? "UNREAD" : "READ"
+                    }`
+                  }}</span>
                 </v-btn>
               </v-col>
             </v-row>
@@ -147,39 +139,24 @@
                   small
                   @click="displayMessageField"
                 >
-                  <v-icon color="#003366">
-                    mdi-email-outline
-                  </v-icon>
-                  <span
-                    style="color: #003366"
-                    class="ml-1"
-                  >Message</span>
+                  <v-icon color="#003366"> mdi-email-outline </v-icon>
+                  <span style="color: #003366" class="ml-1">Message</span>
                 </v-btn>
                 <v-btn
                   id="addAttachmentConvButton"
                   small
                   @click="displayAttachmentPanel"
                 >
-                  <v-icon color="#003366">
-                    mdi-paperclip
-                  </v-icon>
-                  <span
-                    style="color: #003366"
-                    class="ml-1"
-                  >Attachment</span>
+                  <v-icon color="#003366"> mdi-paperclip </v-icon>
+                  <span style="color: #003366" class="ml-1">Attachment</span>
                 </v-btn>
                 <v-btn
                   id="addStudentConvButton"
                   small
                   @click="displayStudentPanel"
                 >
-                  <v-icon color="#003366">
-                    mdi-emoticon-happy-outline
-                  </v-icon>
-                  <span
-                    style="color: #003366"
-                    class="ml-1"
-                  >Student</span>
+                  <v-icon color="#003366"> mdi-emoticon-happy-outline </v-icon>
+                  <span style="color: #003366" class="ml-1">Student</span>
                 </v-btn>
               </v-col>
             </v-row>
@@ -230,17 +207,16 @@
                 />
               </v-col>
             </v-row>
-            <v-row
-              v-if="isNewStudentDisplayed"
-              id="addStudentDialog"
-            >
+            <v-row v-if="isNewStudentDisplayed" id="addStudentDialog">
               <v-col class="d-flex justify-center">
                 <AddStudent
                   :school-i-d="userInfo.activeInstituteIdentifier"
                   :additional-student-add-warning="addStudentWarningMessage"
                   @add-student="sendNewSecureExchangeStudent"
                   @close:form="hideStudentPanel"
-                  @update-additional-student-add-warning="updateAddStudentWarningMessage"
+                  @update-additional-student-add-warning="
+                    updateAddStudentWarningMessage
+                  "
                 />
               </v-col>
             </v-row>
@@ -252,7 +228,7 @@
                   truncate-line="both"
                 >
                   <v-timeline-item
-                    v-for="(activity,index) in secureExchange.activities"
+                    v-for="(activity, index) in secureExchange.activities"
                     :key="activity.secureExchangeCommentID"
                     dot-color="white"
                     icon-color="#003366"
@@ -280,7 +256,10 @@
                       <v-row no-gutters>
                         <v-card-text
                           class="mt-n2 pb-0"
-                          :class="{'pb-0': activity.documentType.label !== 'Other', 'pb-3': activity.documentType.label === 'Other'}"
+                          :class="{
+                            'pb-0': activity.documentType.label !== 'Other',
+                            'pb-3': activity.documentType.label === 'Other',
+                          }"
                         >
                           <router-link
                             v-if="isEditable() && isPdf(activity)"
@@ -295,10 +274,7 @@
                           >
                             {{ activity.fileName }}
                           </a>
-                          <span
-                            v-else
-                            style="color: grey"
-                          >
+                          <span v-else style="color: grey">
                             {{ activity.fileName }}
                           </span>
                         </v-card-text>
@@ -328,15 +304,31 @@
                         >
                           <v-divider />
 
-                          <v-card-text style="background-color: #e7ebf0;">
+                          <v-card-text style="background-color: #e7ebf0">
                             <v-row no-gutters>
                               <v-col class="d-flex justify-start">
-                                <span style="font-size: medium; font-weight: bold; color: black">Removing the attachment will remove it for all users.</span>
+                                <span
+                                  style="
+                                    font-size: medium;
+                                    font-weight: bold;
+                                    color: black;
+                                  "
+                                  >Removing the attachment will remove it for
+                                  all users.</span
+                                >
                               </v-col>
                             </v-row>
                             <v-row no-gutters>
                               <v-col class="pt-3 d-flex justify-start">
-                                <span style="font-size: medium; font-weight: bold; color: black">Are you sure you want to remove the attachment?</span>
+                                <span
+                                  style="
+                                    font-size: medium;
+                                    font-weight: bold;
+                                    color: black;
+                                  "
+                                  >Are you sure you want to remove the
+                                  attachment?</span
+                                >
                               </v-col>
                             </v-row>
                             <v-row no-gutters>
@@ -364,100 +356,58 @@
                     <v-card v-if="activity.type === 'student'">
                       <v-card-text>
                         <v-row v-if="activity.studentPEN">
-                          <v-col
-                            class="pt-0"
-                            cols="3"
-                          >
+                          <v-col class="pt-0" cols="3">
                             <span>PEN: </span>
                           </v-col>
-                          <v-col
-                            class="studentPenRaw pt-0"
-                            cols="9"
-                          >
+                          <v-col class="studentPenRaw pt-0" cols="9">
                             {{ activity.studentPEN }}
                           </v-col>
                         </v-row>
                         <v-row v-if="activity.studentLocalID">
-                          <v-col
-                            class="pt-0"
-                            cols="3"
-                          >
+                          <v-col class="pt-0" cols="3">
                             <span>Local ID: </span>
                           </v-col>
-                          <v-col
-                            class="pt-0"
-                            cols="9"
-                          >
+                          <v-col class="pt-0" cols="9">
                             <span>{{ activity.studentLocalID }}</span>
                           </v-col>
                         </v-row>
                         <v-row v-if="activity.studentSurname">
-                          <v-col
-                            class="pt-0"
-                            cols="3"
-                          >
+                          <v-col class="pt-0" cols="3">
                             <span>Surname: </span>
                           </v-col>
-                          <v-col
-                            class="pt-0"
-                            cols="9"
-                          >
+                          <v-col class="pt-0" cols="9">
                             <span>{{ activity.studentSurname }}</span>
                           </v-col>
                         </v-row>
                         <v-row v-if="activity.studentGiven">
-                          <v-col
-                            class="pt-0"
-                            cols="3"
-                          >
+                          <v-col class="pt-0" cols="3">
                             <span>Given Name: </span>
                           </v-col>
-                          <v-col
-                            class="pt-0"
-                            cols="9"
-                          >
+                          <v-col class="pt-0" cols="9">
                             <span>{{ activity.studentGiven }}</span>
                           </v-col>
                         </v-row>
                         <v-row v-if="activity.studentMiddle">
-                          <v-col
-                            class="pt-0"
-                            cols="3"
-                          >
+                          <v-col class="pt-0" cols="3">
                             <span>Middle Name: </span>
                           </v-col>
-                          <v-col
-                            class="pt-0"
-                            cols="9"
-                          >
+                          <v-col class="pt-0" cols="9">
                             <span>{{ activity.studentMiddle }}</span>
                           </v-col>
                         </v-row>
                         <v-row v-if="activity.studentDOB">
-                          <v-col
-                            class="pt-0"
-                            cols="3"
-                          >
+                          <v-col class="pt-0" cols="3">
                             <span>Birth Date: </span>
                           </v-col>
-                          <v-col
-                            class="pt-0"
-                            cols="9"
-                          >
+                          <v-col class="pt-0" cols="9">
                             <span>{{ activity.studentDOB }}</span>
                           </v-col>
                         </v-row>
                         <v-row v-if="activity.studentGender">
-                          <v-col
-                            class="pt-0"
-                            cols="3"
-                          >
+                          <v-col class="pt-0" cols="3">
                             <span>Gender: </span>
                           </v-col>
-                          <v-col
-                            class="pt-0"
-                            cols="9"
-                          >
+                          <v-col class="pt-0" cols="9">
                             <span>{{ activity.studentGender }}</span>
                           </v-col>
                         </v-row>
@@ -482,15 +432,31 @@
                           class="greyBackground"
                         >
                           <v-divider />
-                          <v-card-text style="background-color: #e7ebf0;">
+                          <v-card-text style="background-color: #e7ebf0">
                             <v-row no-gutters>
                               <v-col class="d-flex justify-start">
-                                <span style="font-size: medium; font-weight: bold; color: black">Removing the student will remove it for all users.</span>
+                                <span
+                                  style="
+                                    font-size: medium;
+                                    font-weight: bold;
+                                    color: black;
+                                  "
+                                  >Removing the student will remove it for all
+                                  users.</span
+                                >
                               </v-col>
                             </v-row>
                             <v-row no-gutters>
                               <v-col class="pt-3 d-flex justify-start">
-                                <span style="font-size: medium; font-weight: bold; color: black">Are you sure you want to remove the student?</span>
+                                <span
+                                  style="
+                                    font-size: medium;
+                                    font-weight: bold;
+                                    color: black;
+                                  "
+                                  >Are you sure you want to remove the
+                                  student?</span
+                                >
                               </v-col>
                             </v-row>
                             <v-row no-gutters>
@@ -505,7 +471,11 @@
                                 <v-btn
                                   dark
                                   color="#003366"
-                                  @click="removeStudent(activity.secureExchangeStudentId)"
+                                  @click="
+                                    removeStudent(
+                                      activity.secureExchangeStudentId
+                                    )
+                                  "
                                 >
                                   Yes
                                 </v-btn>
@@ -527,29 +497,33 @@
 </template>
 
 <script>
-
-import ApiService from '../../common/apiService';
-import {ApiRoutes} from '../../utils/constants';
-import PrimaryButton from '../util/PrimaryButton.vue';
-import {ChronoUnit, DateTimeFormatter, LocalDate} from '@js-joda/core';
-import alertMixin from '../../mixins/alertMixin';
-import DocumentUpload from '../common/DocumentUpload.vue';
-import AddStudent from '../AddStudent.vue';
-import PdfRenderer from '../common/PdfRenderer.vue';
-import ImageRenderer from '../common/ImageRenderer.vue';
-import { authStore } from '../../store/modules/auth';
-import { mapState } from 'pinia';
-
+import ApiService from "../../common/apiService";
+import { ApiRoutes } from "../../utils/constants";
+import PrimaryButton from "../util/PrimaryButton.vue";
+import { ChronoUnit, DateTimeFormatter, LocalDate } from "@js-joda/core";
+import alertMixin from "../../mixins/alertMixin";
+import DocumentUpload from "../common/DocumentUpload.vue";
+import AddStudent from "../AddStudent.vue";
+import PdfRenderer from "../common/PdfRenderer.vue";
+import ImageRenderer from "../common/ImageRenderer.vue";
+import { authStore } from "../../store/modules/auth";
+import { mapState } from "pinia";
 
 export default {
-  name: 'MessageDisplay',
-  components: { DocumentUpload, AddStudent, PrimaryButton, ImageRenderer, PdfRenderer },
+  name: "MessageDisplay",
+  components: {
+    DocumentUpload,
+    AddStudent,
+    PrimaryButton,
+    ImageRenderer,
+    PdfRenderer,
+  },
   mixins: [alertMixin],
   props: {
     secureExchangeID: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -558,30 +532,30 @@ export default {
       loadingReadStatus: false,
       editOptionsOpen: false,
       assignedMinistryTeam: null,
-      subject: '',
+      subject: "",
       isNewMessageDisplayed: false,
       isNewAttachmentDisplayed: false,
       isNewStudentDisplayed: false,
       newMessageBtnDisplayed: false,
       shouldDisplaySpeedDial: true,
-      newMessage:'',
+      newMessage: "",
       isOpenDocIndex: false,
       isOpenStudentIndex: false,
       show: false,
       isHideIndex: false,
       pdfRenderDialog: false,
       imageRendererDialog: false,
-      documentId: '',
-      imageId: '',
-      addStudentWarningMessage: '',
+      documentId: "",
+      imageId: "",
+      addStudentWarningMessage: "",
       disableAnchorTagDocumentName: true,
     };
   },
   computed: {
-    ...mapState(authStore, ['userInfo']),
+    ...mapState(authStore, ["userInfo"]),
     loading() {
       return this.loadingCount !== 0;
-    }
+    },
   },
   created() {
     this.getExchange().then(() => {
@@ -593,8 +567,14 @@ export default {
       try {
         this.loadingCount += 1;
         this.items = undefined;
-        await ApiService.apiAxios.post(ApiRoutes.edx.EXCHANGE_URL + '/' + this.secureExchangeID + '/documents', document);
-        this.setSuccessAlert('Your document was uploaded successfully.');
+        await ApiService.apiAxios.post(
+          ApiRoutes.edx.EXCHANGE_URL +
+            "/" +
+            this.secureExchangeID +
+            "/documents",
+          document
+        );
+        this.setSuccessAlert("Your document was uploaded successfully.");
         this.getExchange();
       } catch (e) {
         console.error(e);
@@ -604,25 +584,25 @@ export default {
         this.dialog = false;
       }
     },
-    showDocModal(document){
+    showDocModal(document) {
       if (this.isPdf(document)) {
         this.documentId = document.documentID;
         this.pdfRenderDialog = true;
-      }else {
+      } else {
         this.imageId = document.documentID;
         this.imageRendererDialog = true;
       }
     },
-    isPdf(document){
+    isPdf(document) {
       return (
-        'fileName' in document &&
-          typeof document.fileName === 'string' &&
-          document.fileName.toLowerCase().endsWith('.pdf')
+        "fileName" in document &&
+        typeof document.fileName === "string" &&
+        document.fileName.toLowerCase().endsWith(".pdf")
       );
     },
     async closeDialog() {
-      this.documentId = '';
-      this.imageId = '';
+      this.documentId = "";
+      this.imageId = "";
       this.pdfRenderDialog = false;
       this.imageRendererDialog = false;
       await this.$nextTick(); //need to wait so update can be made in parent and propagated back down to child component
@@ -637,7 +617,7 @@ export default {
       this.shouldDisplaySpeedDial = false;
       this.editOptionsOpen = false;
     },
-    hideNewMessageField(){
+    hideNewMessageField() {
       this.isNewMessageDisplayed = false;
       this.shouldDisplaySpeedDial = true;
       this.resetNewMessageForm();
@@ -649,7 +629,7 @@ export default {
       this.shouldDisplaySpeedDial = false;
       this.editOptionsOpen = false;
     },
-    hideAttachmentPanel(){
+    hideAttachmentPanel() {
       this.isNewAttachmentDisplayed = false;
       this.shouldDisplaySpeedDial = true;
     },
@@ -660,7 +640,9 @@ export default {
       this.shouldDisplaySpeedDial = false;
       this.editOptionsOpen = false;
       if (this.secureExchange.studentsList?.length > 0) {
-        this.updateAddStudentWarningMessage('Additional students should only be added if the details are relevant to this request. Requests for separate students should be sent in a new message.');
+        this.updateAddStudentWarningMessage(
+          "Additional students should only be added if the details are relevant to this request. Requests for separate students should be sent in a new message."
+        );
       }
     },
     hideStudentPanel() {
@@ -672,13 +654,18 @@ export default {
     },
     getExchange() {
       this.loadingCount += 1;
-      return ApiService.apiAxios.get(ApiRoutes.edx.EXCHANGE_URL + `/${this.secureExchangeID}`)
-        .then(response => {
+      return ApiService.apiAxios
+        .get(ApiRoutes.edx.EXCHANGE_URL + `/${this.secureExchangeID}`)
+        .then((response) => {
           this.secureExchange = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          this.setFailureAlert(error?.response?.data?.message ? error?.response?.data?.message : 'An error occurred while getting the details of the message. Please try again later.');
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : "An error occurred while getting the details of the message. Please try again later."
+          );
         })
         .finally(() => {
           this.loadingCount -= 1;
@@ -689,74 +676,93 @@ export default {
     },
     setIsReadByExchangeContact(isRead) {
       this.loadingReadStatus = true;
-      let readStatus = isRead ? 'read' : 'unread';
-      ApiService.apiAxios.put(`${ApiRoutes.edx.EXCHANGE_URL}/${this.secureExchangeID}/markAs/${readStatus}`)
+      let readStatus = isRead ? "read" : "unread";
+      ApiService.apiAxios
+        .put(
+          `${ApiRoutes.edx.EXCHANGE_URL}/${this.secureExchangeID}/markAs/${readStatus}`
+        )
         .then(() => {
           this.secureExchange.isReadByExchangeContact = isRead;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          this.setFailureAlert(error?.response?.data?.message ? error?.response?.data?.message : 'An error occurred while trying to set the read state of the Secure Exchange. Please try again later.');
-        }).finally(() => {
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : "An error occurred while trying to set the read state of the Secure Exchange. Please try again later."
+          );
+        })
+        .finally(() => {
           this.loadingReadStatus = false;
         });
     },
     clickMarkAsButton() {
       this.setIsReadByExchangeContact(false);
-      this.$router.push({name: 'inbox'});
+      this.$router.push({ name: "inbox" });
     },
     isEditable() {
-      return this.secureExchange.secureExchangeStatusCode !== 'Closed';
+      return this.secureExchange.secureExchangeStatusCode !== "Closed";
     },
     getStatusColor(status) {
-      if (status === 'Open') {
-        return 'green';
-      } else if (status === 'Closed') {
-        return 'red';
+      if (status === "Open") {
+        return "green";
+      } else if (status === "Closed") {
+        return "red";
       }
     },
     getActivityIcon(activity) {
       switch (activity.type) {
-      case 'message':
-        return 'mdi-email-outline';
-      case 'document':
-        return 'mdi-paperclip';
-      case 'student':
-        return 'mdi-emoticon-happy-outline';
-      default:
-        return '';
+        case "message":
+          return "mdi-email-outline";
+        case "document":
+          return "mdi-paperclip";
+        case "student":
+          return "mdi-emoticon-happy-outline";
+        default:
+          return "";
       }
     },
     getNumberOfDays(start) {
-      const start_date = new LocalDate.parse(start, DateTimeFormatter.ofPattern('uuuu/MM/dd'));
+      const start_date = new LocalDate.parse(
+        start,
+        DateTimeFormatter.ofPattern("uuuu/MM/dd")
+      );
       const end_date = LocalDate.now();
 
-      return ChronoUnit.DAYS.between(start_date, end_date) + ' days';
+      return ChronoUnit.DAYS.between(start_date, end_date) + " days";
     },
     resetNewMessageForm() {
       this.isNewMessageDisplayed = false;
       this.shouldDisplaySpeedDial = true;
-      this.newMessage = '';
+      this.newMessage = "";
     },
-    messageSent(){
-      this.subject = '';
+    messageSent() {
+      this.subject = "";
       this.assignedMinistryTeam = null;
-      this.newMessage = '';
+      this.newMessage = "";
     },
     sendNewExchangeComment() {
       this.loadingCount += 1;
       const payload = {
         content: this.newMessage,
       };
-      ApiService.apiAxios.post(ApiRoutes.edx.EXCHANGE_URL + `/${this.secureExchangeID}/comments`, payload)
+      ApiService.apiAxios
+        .post(
+          ApiRoutes.edx.EXCHANGE_URL + `/${this.secureExchangeID}/comments`,
+          payload
+        )
         .then(() => {
-          this.setSuccessAlert('Success! The message has been sent.');
+          this.setSuccessAlert("Success! The message has been sent.");
           this.messageSent();
           this.getExchange();
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          this.setFailureAlert(error?.response?.data?.message ? error?.response?.data?.message : 'An error occurred while sending message. Please try again later.');
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : "An error occurred while sending message. Please try again later."
+          );
         })
         .finally(() => {
           this.loadingCount -= 1;
@@ -764,15 +770,15 @@ export default {
           this.resetNewMessageForm();
         });
     },
-    closeAllIndexes(){
+    closeAllIndexes() {
       this.closeDocIndex();
       this.closeStudentIndex();
     },
     toggleRemoveDoc(index) {
       this.closeAllIndexes();
       this.isHideIndex = index;
-      if( this.isOpenDocIndex !== null ){
-        this.isOpenDocIndex = ( this.isOpenDocIndex === index ) ? null : index;
+      if (this.isOpenDocIndex !== null) {
+        this.isOpenDocIndex = this.isOpenDocIndex === index ? null : index;
       } else {
         this.isOpenDocIndex = index;
       }
@@ -784,8 +790,9 @@ export default {
     toggleRemoveStudent(index) {
       this.closeAllIndexes();
       this.isHideIndex = index;
-      if( this.isOpenStudentIndex !== null ){
-        this.isOpenStudentIndex = ( this.isOpenStudentIndex === index ) ? null : index;
+      if (this.isOpenStudentIndex !== null) {
+        this.isOpenStudentIndex =
+          this.isOpenStudentIndex === index ? null : index;
       } else {
         this.isOpenStudentIndex = index;
       }
@@ -796,19 +803,27 @@ export default {
     },
     removeAttachment(documentID) {
       this.loadingCount += 1;
-      ApiService.apiAxios.delete(ApiRoutes.edx.EXCHANGE_URL + `/${this.secureExchangeID}/documents/${documentID}`)
+      ApiService.apiAxios
+        .delete(
+          ApiRoutes.edx.EXCHANGE_URL +
+            `/${this.secureExchangeID}/documents/${documentID}`
+        )
         .then((response) => {
           this.getExchange();
-          if(response.status === 200){
-            this.setSuccessAlert('Success! The document has been removed.');
-          } else{
-            this.setFailureAlert('Error! The document was not removed.');
+          if (response.status === 200) {
+            this.setSuccessAlert("Success! The document has been removed.");
+          } else {
+            this.setFailureAlert("Error! The document was not removed.");
           }
           this.closeDocIndex();
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          this.setFailureAlert(error?.response?.data?.message ? error?.response?.data?.message : 'An error occurred while removing the attachment from the Secure Exchange. Please try again later.');
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : "An error occurred while removing the attachment from the Secure Exchange. Please try again later."
+          );
         })
         .finally(() => {
           this.loadingCount -= 1;
@@ -816,47 +831,65 @@ export default {
     },
     removeStudent(studentID) {
       this.loadingCount += 1;
-      ApiService.apiAxios.delete(ApiRoutes.edx.EXCHANGE_URL + `/${this.secureExchangeID}/removeStudent/${studentID}`)
+      ApiService.apiAxios
+        .delete(
+          ApiRoutes.edx.EXCHANGE_URL +
+            `/${this.secureExchangeID}/removeStudent/${studentID}`
+        )
         .then((response) => {
           this.getExchange();
-          if(response.status === 200){
-            this.setSuccessAlert('Success! The student has been removed.');
-          } else{
-            this.setFailureAlert('Error! The student was not removed.');
+          if (response.status === 200) {
+            this.setSuccessAlert("Success! The student has been removed.");
+          } else {
+            this.setFailureAlert("Error! The student was not removed.");
           }
           this.closeStudentIndex();
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          this.setFailureAlert(error?.response?.data?.message ? error?.response?.data?.message : 'An error occurred while removing the student from the Secure Exchange. Please try again later.');
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : "An error occurred while removing the student from the Secure Exchange. Please try again later."
+          );
         })
         .finally(() => {
           this.loadingCount -= 1;
         });
     },
     backButtonClick() {
-      this.$router.push({name: 'inbox'});
+      this.$router.push({ name: "inbox" });
     },
     sendNewSecureExchangeStudent(student) {
       this.loadingCount += 1;
       const payload = {
-        studentID: student.studentID
+        studentID: student.studentID,
       };
-      ApiService.apiAxios.post(`${ApiRoutes.edx.EXCHANGE_URL}/${this.secureExchangeID}/students`, payload)
+      ApiService.apiAxios
+        .post(
+          `${ApiRoutes.edx.EXCHANGE_URL}/${this.secureExchangeID}/students`,
+          payload
+        )
         .then(() => {
-          this.setSuccessAlert('Success! The student has been added to the Secure Exchange.');
+          this.setSuccessAlert(
+            "Success! The student has been added to the Secure Exchange."
+          );
           this.getExchange();
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          this.setFailureAlert(error?.response?.data?.message ? error?.response?.data?.message : 'An error occurred while adding the student to the Secure Exchange. Please try again later.');
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : "An error occurred while adding the student to the Secure Exchange. Please try again later."
+          );
         })
         .finally(() => {
           this.loadingCount -= 1;
           this.isNewStudentDisplayed = false;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -874,7 +907,7 @@ export default {
   font-weight: bold;
 }
 
-.activityDisplayDate{
+.activityDisplayDate {
   font-size: small;
   color: rgb(149, 149, 149);
 }
@@ -885,20 +918,20 @@ export default {
   max-width: 100%;
 }
 
-.containerSetup{
+.containerSetup {
   padding-right: 32em !important;
   padding-left: 32em !important;
 }
 
 @media screen and (max-width: 1900px) {
-  .containerSetup{
+  .containerSetup {
     padding-right: 20em !important;
     padding-left: 20em !important;
   }
 }
 
 @media screen and (max-width: 1200px) {
-  .containerSetup{
+  .containerSetup {
     padding-right: 4em !important;
     padding-left: 4em !important;
   }
@@ -911,7 +944,7 @@ export default {
 }
 
 .divider {
-  border-color: #FCBA19;
+  border-color: #fcba19;
   border-width: unset;
   opacity: unset;
 }
@@ -929,5 +962,4 @@ export default {
 .v-timeline--vertical.v-timeline--justify-auto {
   grid-template-columns: minmax(min-content, 10em) min-content auto;
 }
-
 </style>
