@@ -33,9 +33,7 @@ export default {
       },
     ],
   }),
-  mounted() {
-    console.log(this.$route.name === "newExpressionOfInterest");
-  },
+  mounted() {},
   computed: {
     ...mapState(authStore, ["isAuthenticated", "isLoading"]),
   },

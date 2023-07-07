@@ -5,20 +5,6 @@
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-    <!-- <v-timeline direction="horizontal" class="fixed" align="center" side="end">
-      <v-timeline-item
-        v-for="step in steps"
-        key="step"
-        size="small"
-        dot-color="green-lighten-1"
-        icon="mdi-check"
-      >
-        <div>
-          <div class="step-title">{{ step.title }}</div>
-        </div>
-      </v-timeline-item>
-    </v-timeline> -->
-
     <br />
     <SchoolApplicationForm />
   </v-container>
