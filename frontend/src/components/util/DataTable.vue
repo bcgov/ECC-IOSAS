@@ -56,10 +56,10 @@
 </template>
 
 <script>
-import { formatSnakeCaseToString } from "../../utils/format";
-import TertiaryButton from "../util/TertiaryButton.vue";
+import { formatSnakeCaseToString } from '../../utils/format';
+import TertiaryButton from '../util/TertiaryButton.vue';
 export default {
-  name: "DataTable",
+  name: 'DataTable',
   components: {
     TertiaryButton,
   },

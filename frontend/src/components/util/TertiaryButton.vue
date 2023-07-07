@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: "TertiaryButton",
+  name: 'TertiaryButton',
   props: {
     id: {
       type: String,

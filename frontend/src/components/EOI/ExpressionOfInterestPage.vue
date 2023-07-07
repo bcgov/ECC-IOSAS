@@ -10,32 +10,32 @@
 </template>
 
 <script>
-import ExpressionOfInterestForm from "./ExpressionOfInterestForm.vue";
-import { mapState } from "pinia";
-import { authStore } from "../../store/modules/auth";
+import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
+import { mapState } from 'pinia';
+import { authStore } from '../../store/modules/auth';
 
 export default {
-  name: "ExpressionOfInterestPage",
+  name: 'ExpressionOfInterestPage',
   components: {
     ExpressionOfInterestForm,
   },
   data: () => ({
     items: [
       {
-        title: "Dashboard",
+        title: 'Dashboard',
         disabled: false,
-        href: "/",
+        href: '/',
       },
       {
-        title: "EOI",
+        title: 'EOI',
         disabled: true,
-        href: "/expression-of-interest",
+        href: '/expression-of-interest',
       },
     ],
   }),
   mounted() {},
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "isLoading"]),
+    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
   },
   methods: {
     authStore,

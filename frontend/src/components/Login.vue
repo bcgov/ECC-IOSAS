@@ -66,21 +66,21 @@
 </template>
 
 <script>
-import { authStore } from "../store/modules/auth";
-import { mapState } from "pinia";
-import { AuthRoutes } from "../utils/constants";
+import { authStore } from '../store/modules/auth';
+import { mapState } from 'pinia';
+import { AuthRoutes } from '../utils/constants';
 
 export default {
-  name: "Login",
+  name: 'Login',
   components: {},
   data() {
     return {
-      appTitle: "Independent School BC",
+      appTitle: 'Independent School BC',
       authRoutes: AuthRoutes,
     };
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated"]),
+    ...mapState(authStore, ['isAuthenticated']),
   },
   methods: {
     clearStorage() {

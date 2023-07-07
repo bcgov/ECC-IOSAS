@@ -74,20 +74,20 @@
 </template>
 
 <script>
-import { authStore } from "../store/modules/auth";
-import { mapState } from "pinia";
-import { AuthRoutes, ApiRoutes } from "../utils/constants";
+import { authStore } from '../store/modules/auth';
+import { mapState } from 'pinia';
+import { AuthRoutes, ApiRoutes } from '../utils/constants';
 
 export default {
   data() {
     return {
-      appTitle: "Independent School BC portal",
+      appTitle: 'Independent School BC portal',
       authRoutes: AuthRoutes,
       apiRoutes: ApiRoutes,
     };
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "userInfo"]),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     dataReady: function () {
       return this.userInfo;
     },

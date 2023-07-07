@@ -16,20 +16,20 @@
 </template>
 
 <script>
-import { authStore } from "./store/modules/auth";
-import { appStore } from "./store/modules/app";
-import { mapState, mapActions } from "pinia";
-import HttpStatus from "http-status-codes";
-import Header from "./components/Header.vue";
-import Footer from "./components/Footer.vue";
-import ModalIdle from "./components/ModalIdle.vue";
-import MsieBanner from "./components/MsieBanner.vue";
-import StaticConfig from "./common/staticConfig";
-import SnackBar from "./components/util/SnackBar.vue";
-import NavBar from "./components/util/NavBar.vue";
+import { authStore } from './store/modules/auth';
+import { appStore } from './store/modules/app';
+import { mapState, mapActions } from 'pinia';
+import HttpStatus from 'http-status-codes';
+import Header from './components/Header.vue';
+import Footer from './components/Footer.vue';
+import ModalIdle from './components/ModalIdle.vue';
+import MsieBanner from './components/MsieBanner.vue';
+import StaticConfig from './common/staticConfig';
+import SnackBar from './components/util/SnackBar.vue';
+import NavBar from './components/util/NavBar.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Header,
     Footer,
@@ -42,8 +42,8 @@ export default {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "loginError", "isLoading"]),
-    ...mapState(appStore, ["pageTitle"]),
+    ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
+    ...mapState(appStore, ['pageTitle']),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
     },
@@ -56,8 +56,8 @@ export default {
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
           this.logout();
           this.$router.replace({
-            name: "error",
-            query: { message: `500_${e.data || "ServerError"}` },
+            name: 'error',
+            query: { message: `500_${e.data || 'ServerError'}` },
           });
         }
       })
@@ -68,10 +68,10 @@ export default {
   methods: {
     authStore,
     ...mapActions(authStore, [
-      "setLoading",
-      "getJwtToken",
-      "getUserInfo",
-      "logout",
+      'setLoading',
+      'getJwtToken',
+      'getUserInfo',
+      'logout',
     ]),
   },
 };
@@ -91,7 +91,7 @@ a:hover {
 }
 
 .v-application {
-  font-family: "BCSans", Verdana, Arial, sans-serif !important;
+  font-family: 'BCSans', Verdana, Arial, sans-serif !important;
 }
 .v-card--flat {
   background-color: transparent !important;

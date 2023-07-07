@@ -11,33 +11,33 @@
 </template>
 
 <script>
-import SchoolApplicationForm from "./SchoolApplicationForm.vue";
+import SchoolApplicationForm from './SchoolApplicationForm.vue';
 
 export default {
-  name: "School Application Page",
+  name: 'School Application Page',
   components: {
     SchoolApplicationForm,
   },
   data: () => ({
     items: [
       {
-        title: "Dashboard",
+        title: 'Dashboard',
         disabled: false,
-        href: "/",
+        href: '/',
       },
       {
         title: `Application`,
         disabled: true,
-        href: "school-application",
+        href: 'school-application',
       },
     ],
     steps: [
-      { title: "EOI Approved", complete: true, isCurrent: false },
-      { title: "App Submitted", complete: true, isCurrent: false },
-      { title: "App Review", complete: true, isCurrent: false },
-      { title: "Interview", complete: false, isCurrent: true },
-      { title: "Pre-Certification", complete: false, isCurrent: false },
-      { title: "Interim Certification", complete: false, isCurrent: false },
+      { title: 'EOI Approved', complete: true, isCurrent: false },
+      { title: 'App Submitted', complete: true, isCurrent: false },
+      { title: 'App Review', complete: true, isCurrent: false },
+      { title: 'Interview', complete: false, isCurrent: true },
+      { title: 'Pre-Certification', complete: false, isCurrent: false },
+      { title: 'Interim Certification', complete: false, isCurrent: false },
     ],
   }),
   mounted() {},

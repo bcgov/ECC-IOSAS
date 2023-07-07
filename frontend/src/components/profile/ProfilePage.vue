@@ -10,16 +10,16 @@
 </template>
 
 <script>
-import { authStore } from "../../store/modules/auth";
-import { mapState } from "pinia";
+import { authStore } from '../../store/modules/auth';
+import { mapState } from 'pinia';
 export default {
-  name: "Profile Page",
+  name: 'Profile Page',
   components: {},
   data() {
     return {};
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "userInfo"]),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     dataReady: function () {
       return this.userInfo;
     },

@@ -128,13 +128,13 @@
 </template>
 
 <script>
-import { PAGE_TITLES } from "../../utils/constants";
-import { authStore } from "../../store/modules/auth";
-import { mapState } from "pinia";
-import { PERMISSION } from "../../utils/constants/Permission";
-import StaticConfig from "../../common/staticConfig";
+import { PAGE_TITLES } from '../../utils/constants';
+import { authStore } from '../../store/modules/auth';
+import { mapState } from 'pinia';
+import { PERMISSION } from '../../utils/constants/Permission';
+import StaticConfig from '../../common/staticConfig';
 export default {
-  name: "NavBar",
+  name: 'NavBar',
   props: {
     title: {
       type: String,
@@ -151,15 +151,15 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "userInfo"]),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     navWidth() {
       switch (this.$vuetify.display.name) {
-        case "xs":
-          return "50%";
-        case "sm":
-          return "50%";
+        case 'xs':
+          return '50%';
+        case 'sm':
+          return '50%';
         default:
-          return "15%";
+          return '15%';
       }
     },
   },
@@ -177,14 +177,14 @@ export default {
       this.items = [
         {
           title: PAGE_TITLES.DASHBOARD,
-          link: "home",
+          link: 'home',
           authorized:
-            this.userInfo.activeInstituteType === "DISTRICT" ||
-            this.userInfo.activeInstituteType === "SCHOOL",
+            this.userInfo.activeInstituteType === 'DISTRICT' ||
+            this.userInfo.activeInstituteType === 'SCHOOL',
         },
         {
           title: PAGE_TITLES.EXCHANGE,
-          link: "inbox",
+          link: 'inbox',
           authorized: this.hasRequiredPermission(PERMISSION.SECURE_EXCHANGE),
         },
         {
@@ -194,15 +194,15 @@ export default {
             this.hasRequiredPermission(PERMISSION.EDX_USER_DISTRICT_ADMIN),
           items: [
             {
-              title: "School User Management",
-              link: "schoolAccess",
+              title: 'School User Management',
+              link: 'schoolAccess',
               authorized: this.hasRequiredPermission(
                 PERMISSION.EDX_USER_SCHOOL_ADMIN
               ),
             },
             {
-              title: "District User Management",
-              link: "districtAccess",
+              title: 'District User Management',
+              link: 'districtAccess',
               authorized: this.hasRequiredPermission(
                 PERMISSION.EDX_USER_DISTRICT_ADMIN
               ),
@@ -231,7 +231,7 @@ export default {
       }
     },
     stripWhitespace(title) {
-      return title.replace(/\s+/g, "");
+      return title.replace(/\s+/g, '');
     },
   },
 };

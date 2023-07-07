@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  name: "PrimaryButton",
+  name: 'PrimaryButton',
   inheritAttrs: false,
   props: {
     class: {
@@ -102,11 +102,11 @@ export default {
   methods: {
     getButtonTextStyle() {
       if (this.secondary) {
-        return "color: #003366";
+        return 'color: #003366';
       } else if (!this.disabled) {
-        return "color: white";
+        return 'color: white';
       }
-      return "";
+      return '';
     },
   },
 };

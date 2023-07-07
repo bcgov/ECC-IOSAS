@@ -503,17 +503,17 @@
 </template>
 
 <script>
-import { authStore } from "./../../store/modules/auth";
-import { mapState } from "pinia";
-import alertMixin from "./../../mixins/alertMixin";
-import * as Rules from "./../../utils/institute/formRules";
-import ConfirmationDialog from "../../components/util/ConfirmationDialog.vue";
-import { EOI_PAYLOAD, GRADE_OPTIONS } from "../../utils/constants";
+import { authStore } from './../../store/modules/auth';
+import { mapState } from 'pinia';
+import alertMixin from './../../mixins/alertMixin';
+import * as Rules from './../../utils/institute/formRules';
+import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
+import { EOI_PAYLOAD, GRADE_OPTIONS } from '../../utils/constants';
 
-import PrimaryButton from "./../util/PrimaryButton.vue";
+import PrimaryButton from './../util/PrimaryButton.vue';
 
 export default {
-  name: "ExpressionOfInterestForm",
+  name: 'ExpressionOfInterestForm',
   components: {
     PrimaryButton,
     ConfirmationDialog,
@@ -527,12 +527,12 @@ export default {
       formValid: true,
       rules: Rules,
       authorityBoolRadioGroup: true,
-      groupRadioGroup: "groupTwo",
-      groupOneBoolRadioGroup: "yes",
+      groupRadioGroup: 'groupTwo',
+      groupOneBoolRadioGroup: 'yes',
     };
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "userInfo"]),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     isLoading() {
       return false;
     },
@@ -540,17 +540,17 @@ export default {
   created() {},
   methods: {
     isNew() {
-      return this.$route.name === "newExpressionOfInterest";
+      return this.$route.name === 'newExpressionOfInterest';
     },
     getData() {
       return [
         {
-          eoi_number: "EOI-01020",
-          status: "Draft",
-          authority_country: "Canada",
-          authority_province: "BC",
-          school_province: "BC",
-          school_country: "Canada",
+          eoi_number: 'EOI-01020',
+          status: 'Draft',
+          authority_country: 'Canada',
+          authority_province: 'BC',
+          school_province: 'BC',
+          school_country: 'Canada',
         },
       ];
     },

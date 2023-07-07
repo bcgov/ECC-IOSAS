@@ -2499,28 +2499,28 @@
 </template>
 
 <script>
-import ApiService from "./../../common/apiService";
-import { ApiRoutes } from "./../../utils/constants";
-import { PERMISSION } from "./../../utils/constants/Permission";
-import { authStore } from "./../../store/modules/auth";
-import { mapState } from "pinia";
-import alertMixin from "./../../mixins/alertMixin";
-import * as Rules from "./../../utils/institute/formRules";
+import ApiService from './../../common/apiService';
+import { ApiRoutes } from './../../utils/constants';
+import { PERMISSION } from './../../utils/constants/Permission';
+import { authStore } from './../../store/modules/auth';
+import { mapState } from 'pinia';
+import alertMixin from './../../mixins/alertMixin';
+import * as Rules from './../../utils/institute/formRules';
 import {
   formatPhoneNumber,
   formatDate,
   formatContactName,
-} from "./../../utils/format";
-import { getStatusColor } from "./../../utils/institute/status";
-import { sortBy } from "lodash";
-import DocumentUpload from "../common/DocumentUpload.vue";
-import ConfirmationDialog from "../../components/util/ConfirmationDialog.vue";
-import { APPLICATION_PAYLOAD, GRADE_OPTIONS } from "../../utils/constants";
+} from './../../utils/format';
+import { getStatusColor } from './../../utils/institute/status';
+import { sortBy } from 'lodash';
+import DocumentUpload from '../common/DocumentUpload.vue';
+import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
+import { APPLICATION_PAYLOAD, GRADE_OPTIONS } from '../../utils/constants';
 
-import PrimaryButton from "./../util/PrimaryButton.vue";
+import PrimaryButton from './../util/PrimaryButton.vue';
 
 export default {
-  name: "SchoolApplicationForm",
+  name: 'SchoolApplicationForm',
   components: {
     PrimaryButton,
     ConfirmationDialog,
@@ -2533,12 +2533,12 @@ export default {
       GRADE_OPTIONS,
       APPLICATION_PAYLOAD,
       isValidForm: false,
-      requiredRules: [(v) => !!v || "Required"],
+      requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
     };
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "userInfo"]),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     isLoading() {
       return false;
     },
@@ -2553,8 +2553,8 @@ export default {
     getData() {
       return [
         {
-          application_number: "APP-1048",
-          status: "Draft",
+          application_number: 'APP-1048',
+          status: 'Draft',
         },
       ];
     },

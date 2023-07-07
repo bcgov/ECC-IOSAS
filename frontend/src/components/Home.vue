@@ -73,17 +73,17 @@
 </template>
 
 <script>
-import Login from "./Login.vue";
-import { authStore } from "../store/modules/auth";
-import { AuthRoutes } from "../utils/constants";
-import { mapState } from "pinia";
-import { PAGE_TITLES } from "../utils/constants";
-import PrimaryButton from "./util/PrimaryButton.vue";
-import DataTable from "./util/DataTable.vue";
+import Login from './Login.vue';
+import { authStore } from '../store/modules/auth';
+import { AuthRoutes } from '../utils/constants';
+import { mapState } from 'pinia';
+import { PAGE_TITLES } from '../utils/constants';
+import PrimaryButton from './util/PrimaryButton.vue';
+import DataTable from './util/DataTable.vue';
 
-import { EOI_MOCK, SCHOOL_APPLICATION_MOCK } from "../utils/constants/mocks";
+import { EOI_MOCK, SCHOOL_APPLICATION_MOCK } from '../utils/constants/mocks';
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Login,
     PrimaryButton,
@@ -98,7 +98,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ["isAuthenticated", "isLoading"]),
+    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
   },
   mounted() {},
   methods: {
