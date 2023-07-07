@@ -55,7 +55,7 @@
     <br />
     <v-container fluid class="justify-center">
       <DataTable
-        :data="EOI"
+        :data="EOI_MOCK"
         title="Expressions of Interest (EOI)"
         :buttonAction="redirectToEOIForm"
         buttonTitle="Create new EOI"
@@ -64,7 +64,7 @@
       <br />
       <br />
       <DataTable
-        :data="Application"
+        :data="SCHOOL_APPLICATION_MOCK"
         title="New School Applications"
         :url="AuthRoutes.APPLICATION"
       />
@@ -80,6 +80,8 @@ import { mapState } from "pinia";
 import { PAGE_TITLES } from "../utils/constants";
 import PrimaryButton from "./util/PrimaryButton.vue";
 import DataTable from "./util/DataTable.vue";
+
+import { EOI_MOCK, SCHOOL_APPLICATION_MOCK } from "../utils/constants/mocks";
 export default {
   name: "Home",
   components: {
@@ -91,45 +93,8 @@ export default {
     return {
       AuthRoutes,
       PAGE_TITLES: PAGE_TITLES,
-      EOI: [
-        {
-          EOI_number: "EOI-01020",
-          status: "Draft",
-          proposed_school_name: "Victoria South Elementary",
-          school_year: "2025/26 SY",
-          group_classification: "Group 4",
-        },
-        {
-          EOI_number: "EOI-01016",
-          status: "Approved",
-          proposed_school_name: "Victoria South High",
-          school_year: "2024/25 SY",
-          group_classification: "Group 3",
-        },
-        {
-          EOI_number: "EOI-01003",
-          status: "Approved",
-          proposed_school_name: "Victoria South Middle School",
-          school_year: "2023/24 SY",
-          group_classification: "Group 2",
-        },
-      ],
-      Application: [
-        {
-          application_number: "APP-1048",
-          status: "Draft",
-          school_name: "Victoria South High",
-          school_year: "2024/25 SY",
-          group_classification: "Group 3",
-        },
-        {
-          application_number: "APP-1011",
-          status: "Interim Certification",
-          school_name: "Victoria South Middle School",
-          school_year: "2023/24 SY",
-          group_classification: "Group 2",
-        },
-      ],
+      EOI_MOCK,
+      SCHOOL_APPLICATION_MOCK,
     };
   },
   computed: {
