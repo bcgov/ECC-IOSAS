@@ -1,10 +1,10 @@
-# edx
+# IOSAS
 
-> Simple EDX UI.
+> Simple IOSAS UI.
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 

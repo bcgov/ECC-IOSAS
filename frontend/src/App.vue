@@ -7,10 +7,7 @@
       v-if="pageTitle && authStore().isAuthenticated"
       :title="pageTitle"
     />
-    <v-main
-      fluid
-      class="align-start"
-    >
+    <v-main fluid class="align-start">
       <ModalIdle v-if="authStore().isAuthenticated" />
       <router-view />
     </v-main>
@@ -42,37 +39,46 @@ export default {
     NavBar,
   },
   metaInfo: {
-    meta: StaticConfig.VUE_APP_META_DATA
+    meta: StaticConfig.VUE_APP_META_DATA,
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
     ...mapState(appStore, ['pageTitle']),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
-    }
+    },
   },
   async created() {
     await this.setLoading(true);
-    this.getJwtToken().then(() =>
-      Promise.all([this.getUserInfo()])
-    ).catch(e => {
-      if(! e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
-        this.logout();
-        this.$router.replace({name: 'error', query: { message: `500_${e.data || 'ServerError'}` } });
-      }
-    }).finally(() => {
-      this.setLoading(false);
-    });
+    this.getJwtToken()
+      .then(() => Promise.all([this.getUserInfo()]))
+      .catch((e) => {
+        if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
+          this.logout();
+          this.$router.replace({
+            name: 'error',
+            query: { message: `500_${e.data || 'ServerError'}` },
+          });
+        }
+      })
+      .finally(() => {
+        this.setLoading(false);
+      });
   },
   methods: {
     authStore,
-    ...mapActions(authStore, ['setLoading', 'getJwtToken', 'getUserInfo', 'logout']),
-  }
+    ...mapActions(authStore, [
+      'setLoading',
+      'getJwtToken',
+      'getUserInfo',
+      'logout',
+    ]),
+  },
 };
 </script>
 
 <style>
-a{
+a {
   color: #1976d2;
 }
 
@@ -90,22 +96,22 @@ a:hover {
 .v-card--flat {
   background-color: transparent !important;
 }
-.theme--light.application{
+.theme--light.application {
   background: #f1f1f1;
 }
 h1 {
   font-size: 1.25rem;
 }
-.v-toolbar__title{
+.v-toolbar__title {
   font-size: 1rem;
 }
 
 .v-btn {
-    text-transform: none !important;
+  text-transform: none !important;
 }
 
 .v-alert .v-icon {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .v-alert.bootstrap-success {
@@ -133,8 +139,7 @@ h1 {
 }
 
 @media screen and (max-width: 370px) {
-
-  .v-toolbar__title{
+  .v-toolbar__title {
     font-size: 0.9rem;
     line-height: 1;
     overflow: hidden;
@@ -152,7 +157,7 @@ h1 {
 }
 
 @media screen and (min-width: 371px) and (max-width: 600px) {
-  .v-toolbar__title{
+  .v-toolbar__title {
     font-size: 0.9rem;
     line-height: 1.5;
     overflow: hidden;
@@ -170,7 +175,7 @@ h1 {
 }
 
 @media screen and (min-width: 601px) and (max-width: 700px) {
-  .v-toolbar__title{
+  .v-toolbar__title {
     font-size: 1rem;
     line-height: 1.5;
     overflow: hidden;
@@ -184,7 +189,53 @@ h1 {
 }
 
 .theme--light.v-btn.v-btn--disabled:not(.v-btn--text):not(.v-btn--outlined) {
-  background-color: rgba(0,0,0,.12)!important;
+  background-color: rgba(0, 0, 0, 0.12) !important;
 }
 
+.form-container {
+  border-radius: 5px;
+  padding: 50px;
+  box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+  -webkit-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+  -moz-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+}
+
+.content-container {
+  padding-right: 25em !important;
+  padding-left: 25em !important;
+}
+
+@media screen and (max-width: 1900px) {
+  .content-container {
+    padding-right: 20em !important;
+    padding-left: 20em !important;
+  }
+}
+
+@media screen and (max-width: 1900px) {
+  .content-container {
+    padding-right: 20em !important;
+    padding-left: 20em !important;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .content-container {
+    padding-right: 4em !important;
+    padding-left: 4em !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .content-container {
+    padding-right: 0.5em !important;
+    padding-left: 0.5em !important;
+  }
+}
+.v-divider {
+  padding: 15px;
+}
+.v-label {
+  white-space: break-spaces;
+}
 </style>

@@ -27,5 +27,5 @@ export default new Vuetify({
       info2: 'fas fa-info-circle fa-10x',
       question: 'fas fa-question-circle fa-10x'
     }
-  }
+  },
 });

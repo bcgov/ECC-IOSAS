@@ -22,6 +22,10 @@ object = {
   TOKEN: authRoot + '/token',
   SESSION_REMAINING_TIME: authRoot + '/user-session-remaining-time',
   INSTITUTE_SELECTION: '/institute-selection',
+  EOI: '/expression-of-interest',
+  NEW_EOI:'/expression-of-interest/new',
+  APPLICATION: '/school-application',
+  PROFILE: '/user-profile'
 };
 //Authentication endpoints
 export const AuthRoutes = Object.freeze(object);
@@ -112,3 +116,32 @@ export const PAGE_TITLES = Object.freeze({
 export const MINISTRY_NAME = 'Ministry of Education and Child Care';
 
 export const EDX_SAGA_REQUEST_DELAY_MILLISECONDS = 2000;
+
+export const EOI_PAYLOAD = {
+  eoi_number: null,
+  status: null,
+  proposed_school_name: null,
+  school_year: null,
+  group_classification: null,
+}
+
+export const APPLICATION_PAYLOAD = {
+  application_number: null,
+  status: null,
+}
+
+export const GRADE_OPTIONS = [
+  'Kindergarten',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+]

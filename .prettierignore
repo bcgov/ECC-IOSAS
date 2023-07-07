@@ -1,0 +1,14 @@
+
+# dependencies
+/node_modules
+package-lock.json
+
+# misc
+.eslintcache
+.DS_Store
+
+# debug
+npm-debug.log*
+
+# local env files
+.env*
