@@ -5,7 +5,7 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-card title="Log in with your primary Business BCeID">
             <div class="card-content">
-              <p>Enter your user ID and password to contine</p>
+              <p>Enter your user ID and password to continue</p>
             </div>
             <v-card-actions>
               <v-btn
