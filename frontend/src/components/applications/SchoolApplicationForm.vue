@@ -1044,7 +1044,132 @@
 
             <v-divider></v-divider>
             <h4>Application for Group Certification</h4>
+            <v-label
+              ><strong> (Schools Seeking group and 4 only) </strong></v-label
+            >
+            <v-label
+              >The proposed school will establish an educational program that
+              will comply with the instructional goals, time, and program
+              requirements determined by the Minister, as specified in the
+              Educational Standards Order.</v-label
+            >
             <br />
+            <br />
+
+            <v-row align="center">
+              <v-col cols="8">
+                <v-label><strong>Group 2:</strong></v-label>
+                <v-label
+                  >If the proposed school is intending to seek funding, are you
+                  familiar with Grants to Independent Schools Policy?
+                </v-label>
+              </v-col>
+              <v-col cols="4">
+                <v-radio-group
+                  v-model="groupOneBoolRadioGroup"
+                  color="#003366"
+                  class="mt-4"
+                  direction="horizontal"
+                  inline
+                >
+                  <v-radio label="Yes" color="#003366" v-bind:value="true">
+                    <template #label>
+                      <span :class="activeRadio">Yes</span>
+                    </template>
+                  </v-radio>
+                  <v-radio label="No" color="#003366" v-bind:value="false">
+                    <template #label>
+                      <span :class="activeRadio">No</span>
+                    </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+
+            <v-row align="center">
+              <v-col cols="8">
+                <v-label><strong>Group 2:</strong></v-label>
+                <v-label
+                  >Group 2: Will the School Authority operate on a non-profit
+                  basis?
+                </v-label>
+              </v-col>
+              <v-col cols="4">
+                <v-radio-group
+                  v-model="groupOneBoolRadioGroup"
+                  color="#003366"
+                  class="mt-4"
+                  direction="horizontal"
+                  inline
+                >
+                  <v-radio label="Yes" color="#003366" v-bind:value="true">
+                    <template #label>
+                      <span :class="activeRadio">Yes</span>
+                    </template>
+                  </v-radio>
+                  <v-radio label="No" color="#003366" v-bind:value="false">
+                    <template #label>
+                      <span :class="activeRadio">No</span>
+                    </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+            <br />
+            <v-label><strong>Group 4 only:</strong></v-label>
+            <v-row align="center">
+              <v-col cols="8">
+                <v-label
+                  >Has the school applicant's authority obtained written
+                  confirmation from a bank or surety provider of the authority's
+                  eligibility to meet the bonding requirements of the
+                  Independent School Regulation (sections 12 to 17) as these
+                  apply to Group 4 independent schools?</v-label
+                >
+              </v-col>
+              <v-col cols="4">
+                <v-radio-group
+                  v-model="groupOneBoolRadioGroup"
+                  color="#003366"
+                  class="mt-4"
+                  direction="horizontal"
+                  inline
+                >
+                  <v-radio label="Yes" color="#003366" v-bind:value="true">
+                    <template #label>
+                      <span :class="activeRadio">Yes</span>
+                    </template>
+                  </v-radio>
+                  <v-radio label="No" color="#003366" v-bind:value="false">
+                    <template #label>
+                      <span :class="activeRadio">No</span>
+                    </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+
+            <br />
+
+            <v-label class="block"
+              >Has the school applicant’s authority obtained written
+              confirmation from a financial institution or surety provider of
+              their eligibility to obtain a bond in the form of an irrevocable
+              letter of credit or surety bond in the amount of $100,000,
+              consistent with requirements of the Independent School Regulation?
+              <br />
+              Specifically:
+              <ul class="ml-10">
+                <li>
+                  $100,000 of bonding must be in place when making Application
+                  for Interim Certification.
+                </li>
+                <li>
+                  Bonding amount will be revised as required based on the
+                  enrolment 30 days after the first day of class.
+                </li>
+              </ul>
+            </v-label>
             <v-row align="center">
               <v-col cols="8">
                 <v-label
@@ -1088,7 +1213,7 @@
             </v-label>
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
-                <v-text-field
+                <v-textarea
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -2173,6 +2298,26 @@
               ><strong>Schools seeking Group 2 and 4 only</strong></v-label
             >
             <br />
+            <v-label>
+              The school principal/head of school and all teachers teaching a
+              subject that is reported out on student report cards must hold
+              valid British Columbia teaching credentials issued by the Teacher
+              Certification Branch (TCB). Initial certification of Group 2 and
+              Group 4 schools will typically not be possible for schools
+              employing teachers relying on a Letter of Permission as
+              certification.
+            </v-label>
+            <br />
+            <br />
+            <v-label
+              >Note: All employees must have a criminal record check completed
+              through theMinistry of Public Safety and Solicitor General.
+              Volunteers working with childrenmay also have their criminal
+              record check completed by the Ministry of Public Safety and
+              Solicitor General or local police.
+            </v-label>
+            <br />
+            <br />
             <v-label
               >How many teachers does the proposed school intend to employ upon
               opening?</v-label
@@ -2259,6 +2404,15 @@
             </v-row>
             <v-divider></v-divider>
             <h4>Application Submission</h4>
+            <v-label
+              >You will be contacted via email with the results of your
+              application. Successful applicants will be invited for an
+              Interview as outlined In Step 3 of the Establishing an Independent
+              School Policy.
+            </v-label>
+            <br />
+            <br />
+            <h5>Attachments</h5>
             <v-row align="center">
               <v-col cols="8">
                 <v-label
@@ -2412,6 +2566,10 @@ export default {
 li {
   display: list-item;
   list-style-position: inside;
+}
+
+.block {
+  display: block;
 }
 
 .v-label {
