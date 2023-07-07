@@ -101,8 +101,8 @@ export default {
 }
 
 .card-content {
-  min-height: 110px;
-  margin: 10px;
+  min-height: 130px;
+  padding: 0.625rem 1rem;
   font-size: 14px;
 }
 

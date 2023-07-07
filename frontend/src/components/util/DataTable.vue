@@ -1,52 +1,58 @@
 <template>
-  <v-row justify="start">
-    <v-col class="table-title">
-      <h3>
-        {{ title }}
-      </h3>
-      <div class="ml-2">
-        <TertiaryButton
-          v-if="buttonTitle"
-          id="actionButton"
-          :text="buttonTitle"
-          :click-action="buttonAction"
-        />
-      </div>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <v-table density="compact" fixed-header class="gov-table elevation-1">
-        <thead>
-          <tr>
-            <th v-for="headers in tableHeaders" :key="index" class="text-left">
-              {{ formatSnakeCaseToString(headers.value) }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- FIX THIS LOGIC -->
-          <tr v-for="item in data" :key="item.name">
-            <td
-              v-for="value in Object.entries(item)"
-              :key="value"
-              class="table-column"
-            >
-              <router-link
-                v-if="url && value[1] === Object.values(item)[0]"
-                :to="{ path: url + '/' + value[1], params: { data: value } }"
-                :target="'_self'"
-                class="router-link-exact-active"
+  <div>
+    <v-row justify="start">
+      <v-col class="table-title">
+        <h3>
+          {{ title }}
+        </h3>
+        <div class="ml-2">
+          <TertiaryButton
+            v-if="buttonTitle"
+            id="actionButton"
+            :text="buttonTitle"
+            :click-action="buttonAction"
+          />
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-table density="compact" fixed-header class="gov-table elevation-1">
+          <thead>
+            <tr>
+              <th
+                v-for="headers in tableHeaders"
+                :key="headers.value"
+                class="text-left"
               >
-                {{ value[1] }}
-              </router-link>
-              <span v-else>{{ value[1] }}</span>
-            </td>
-          </tr>
-        </tbody>
-      </v-table>
-    </v-col>
-  </v-row>
+                {{ formatSnakeCaseToString(headers.value) }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in data" :key="item[0]">
+              <td
+                v-for="value in Object.values(item)"
+                :key="value"
+                class="table-column"
+              >
+                <!-- Table assumes the first value is an ID, uses ID to link to url/:id -->
+                <router-link
+                  v-if="url && value === Object.values(item)[0]"
+                  :to="{ path: url + '/' + value, params: { data: item } }"
+                  :target="'_self'"
+                  class="router-link-exact-active"
+                >
+                  {{ value }}
+                </router-link>
+                <span v-else>{{ value }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -90,6 +96,7 @@ export default {
   methods: {
     getTableHeaders() {
       const firstItem = this.data[0];
+      console.log(this.data);
       if (firstItem) {
         this.tableHeaders = Object.keys(firstItem).map((key) => ({
           value: key,
