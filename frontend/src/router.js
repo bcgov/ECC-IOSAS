@@ -15,7 +15,6 @@ import ExpressionOfInterestPage from './components/EOI/ExpressionOfInterestPage.
 import SchoolApplicationPage from './components/applications/SchoolApplicationPage.vue';
 import ProfilePage from './components/profile/ProfilePage.vue';
 
-const excludeInstituteNameFromPageTitleList=[PAGE_TITLES.SELECTION, PAGE_TITLES.ACTIVATE_USER];
 const router = createRouter({
   history: createWebHistory(),
   base: import.meta.env.BASE_URL,
