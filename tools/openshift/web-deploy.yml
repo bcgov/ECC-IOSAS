@@ -103,7 +103,7 @@ parameters:
   - name: SERVICE_NAME
     value: web
   - name: CPU_LIMIT
-    value: "0.5"
+    value: "0.1"
   - name: MEMORY_LIMIT
     value: "256M"
   - name: CPU_REQUEST

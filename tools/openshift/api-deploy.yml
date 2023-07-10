@@ -139,11 +139,11 @@ parameters:
   - name: SERVICE_NAME
     value: api
   - name: CPU_LIMIT
-    value: "0.25"
+    value: "0.1"
   - name: MEMORY_LIMIT
     value: "500M"
   - name: CPU_REQUEST
-    value: "0.25"
+    value: "0.1"
   - name: MEMORY_REQUEST
     value: "500M"
   - name: REPLICAS
