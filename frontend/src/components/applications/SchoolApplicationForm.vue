@@ -20,7 +20,17 @@
       >
         <v-container fluid class="content-container">
           <div class="form-container">
-            <h1>Application for Independent School Certification</h1>
+            <div class="d-flex justify-space-between">
+              <h1>Application for Independent School Certification</h1>
+              <PrimaryButton
+                v-if="!isEditing"
+                secondary
+                text="Edit"
+                class="mr-2"
+                :click-action="toggleEditMode"
+              />
+            </div>
+            <br />
             <v-divider></v-divider>
             <h4>General</h4>
             <br />
@@ -83,6 +93,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -115,6 +126,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -145,6 +157,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -166,6 +179,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="proposed_school_name"
                   v-model="getData()[0].proposed_school_name"
                   required
@@ -184,6 +198,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-select
+                  :disabled="!isEditing"
                   id="start_grade"
                   v-model="getData()[0].start_grade"
                   label="Select Start Grade"
@@ -195,6 +210,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-select
+                  :disabled="!isEditing"
                   id="end_grade"
                   v-model="getData()[0].end_grade"
                   label="Select End Grade"
@@ -212,6 +228,7 @@
             <v-row>
               <v-col cols="12">
                 <v-textarea
+                  :disabled="!isEditing"
                   id="proposed_school_name"
                   v-model="getData()[0].proposed_school_name"
                   required
@@ -228,6 +245,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_address_line_1"
                   v-model="getData()[0].school_address"
                   required
@@ -242,6 +260,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_address_line_2"
                   v-model="getData()[0].school_address"
                   required
@@ -254,6 +273,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_city"
                   v-model="getData()[0].school_city"
                   required
@@ -294,6 +314,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_postal_code"
                   v-model="getData()[0].school_postal_code"
                   required
@@ -309,6 +330,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_address_line_1"
                   v-model="getData()[0].school_address"
                   required
@@ -323,6 +345,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_address_line_2"
                   v-model="getData()[0].school_address"
                   required
@@ -335,6 +358,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_city"
                   v-model="getData()[0].school_city"
                   required
@@ -349,6 +373,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_province"
                   v-model="getData()[0].school_province"
                   required
@@ -362,6 +387,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_country"
                   v-model="getData()[0].school_country"
                   required
@@ -375,6 +401,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_postal_code"
                   v-model="getData()[0].school_postal_code"
                   required
@@ -389,6 +416,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="website_url"
                   v-model="getData()[0].website_url"
                   required
@@ -403,6 +431,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -415,6 +444,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -439,6 +469,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio
                     label="Group 1"
@@ -484,6 +515,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -505,6 +537,7 @@
               >
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="intended_affilliation"
                   v-model="getData()[0].contact_email"
                   required
@@ -524,6 +557,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -538,6 +572,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -550,6 +585,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -568,16 +604,19 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Societies Act"
                   value="Societies Act"
                 ></v-checkbox>
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Business Corporation Act"
                   value="Business Corporation Act"
                 ></v-checkbox>
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="an Order in Council or Private Act"
                   value="an Order in Council or Private Act"
@@ -588,6 +627,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -600,6 +640,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -619,6 +660,7 @@
             <v-row>
               <v-col cols="12">
                 <v-textarea
+                  :disabled="!isEditing"
                   id="proposed_school_name"
                   v-model="getData()[0].proposed_school_name"
                   required
@@ -640,6 +682,7 @@
             <v-row>
               <v-col cols="12">
                 <v-textarea
+                  :disabled="!isEditing"
                   id="proposed_school_name"
                   v-model="getData()[0].proposed_school_name"
                   required
@@ -668,6 +711,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -680,6 +724,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -692,6 +737,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -706,6 +752,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -718,6 +765,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -730,6 +778,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -744,6 +793,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -756,6 +806,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -768,6 +819,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  disabled
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -783,6 +835,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -795,6 +848,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -807,6 +861,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -822,6 +877,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -834,6 +890,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -846,6 +903,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  disabled
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -860,6 +918,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  disabled
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -881,6 +940,7 @@
             <v-row>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Semestered"
                   value="Semestered"
@@ -888,6 +948,7 @@
               </v-col>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Linear"
                   value="Linear"
@@ -895,6 +956,7 @@
               </v-col>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Regular School Year (Sept - June)"
                   value="Regular School Year (Sept - June)"
@@ -904,6 +966,7 @@
             <v-row>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Summer"
                   value="Summer"
@@ -911,6 +974,7 @@
               </v-col>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="All Year"
                   value="All Year"
@@ -924,6 +988,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -936,6 +1001,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -948,6 +1014,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -965,6 +1032,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -977,6 +1045,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -989,6 +1058,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -1006,6 +1076,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -1018,6 +1089,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -1030,6 +1102,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="contact_email"
                   v-model="getData()[0].contact_email"
                   required
@@ -1071,6 +1144,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1101,6 +1175,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1134,6 +1209,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1185,6 +1261,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1214,6 +1291,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-textarea
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -1231,6 +1309,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -1258,6 +1337,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1281,6 +1361,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-textarea
+                  :disabled="!isEditing"
                   id="school_phone"
                   v-model="getData()[0].school_phone"
                   required
@@ -1308,6 +1389,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1338,6 +1420,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1363,6 +1446,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1400,6 +1484,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1426,6 +1511,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1452,6 +1538,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1483,6 +1570,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1509,6 +1597,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1538,6 +1627,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1568,6 +1658,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1597,6 +1688,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1626,6 +1718,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1654,6 +1747,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1685,6 +1779,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1711,6 +1806,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1744,6 +1840,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1780,6 +1877,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1815,6 +1913,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1850,6 +1949,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1876,6 +1976,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1906,6 +2007,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1936,6 +2038,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1965,6 +2068,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -1991,6 +2095,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2019,6 +2124,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2045,6 +2151,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2071,6 +2178,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2097,6 +2205,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2125,6 +2234,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2154,6 +2264,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2180,6 +2291,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2201,6 +2313,7 @@
             <v-row>
               <v-col cols="12">
                 <v-textarea
+                  :disabled="!isEditing"
                   id="no"
                   v-model="getData()[0].contact_email"
                   required
@@ -2224,6 +2337,7 @@
             <v-row>
               <v-col cols="12">
                 <v-textarea
+                  :disabled="!isEditing"
                   id="no"
                   v-model="getData()[0].contact_email"
                   required
@@ -2244,6 +2358,7 @@
             <v-row>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Indigenous Students"
                   value="Indigenous Students"
@@ -2251,6 +2366,7 @@
               </v-col>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="English Language Learner Students"
                   value="English Language Learner Students"
@@ -2258,6 +2374,7 @@
               </v-col>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="International Students"
                   value="Business Corporation Act"
@@ -2267,6 +2384,7 @@
             <v-row>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Students with diverse abilities"
                   value="Students with diverse abilities"
@@ -2274,6 +2392,7 @@
               </v-col>
               <v-col cols="6" sm="6" md="4" xs="6">
                 <v-checkbox
+                  :disabled="!isEditing"
                   v-model="selected"
                   label="Other (please specify):"
                   value="Other (please specify):"
@@ -2281,6 +2400,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="no"
                   v-model="getData()[0].contact_email"
                   required
@@ -2325,6 +2445,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
+                  :disabled="!isEditing"
                   id="no"
                   v-model="getData()[0].contact_email"
                   required
@@ -2351,6 +2472,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2388,6 +2510,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2427,6 +2550,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2455,6 +2579,7 @@
                   class="mt-4"
                   direction="horizontal"
                   inline
+                  :disabled="!isEditing"
                 >
                   <v-radio label="Yes" color="#003366" v-bind:value="true">
                     <template #label>
@@ -2472,7 +2597,7 @@
 
             <v-divider></v-divider>
             <br />
-            <v-container>
+            <v-container v-if="isEditing">
               <v-row align="end">
                 <v-spacer />
                 <PrimaryButton
@@ -2515,7 +2640,7 @@ import { getStatusColor } from './../../utils/institute/status';
 import { sortBy } from 'lodash';
 import DocumentUpload from '../common/DocumentUpload.vue';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
-import { APPLICATION_PAYLOAD, GRADE_OPTIONS } from '../../utils/constants';
+import { GRADE_OPTIONS } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 
@@ -2531,7 +2656,7 @@ export default {
   data() {
     return {
       GRADE_OPTIONS,
-      APPLICATION_PAYLOAD,
+      isEditing: false,
       isValidForm: false,
       requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
@@ -2549,6 +2674,9 @@ export default {
     async validateForm() {
       const valid = await this.$refs.schoolApplicationForm.validate();
       this.isFormValid = valid.valid;
+    },
+    toggleEditMode() {
+      return (this.isEditing = true);
     },
     getData() {
       return [
