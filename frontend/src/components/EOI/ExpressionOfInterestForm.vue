@@ -22,7 +22,7 @@
             <div class="d-flex justify-space-between">
               <h1>Expression of Interest</h1>
               <PrimaryButton
-                v-if="!isEditing"
+                v-if="!isEditing && !isNew() && !isReadOnly()"
                 secondary
                 text="Edit"
                 class="mr-2"
@@ -31,7 +31,7 @@
             </div>
             <br />
             <v-divider></v-divider>
-            <div v-if="!isEditing">
+            <div v-if="!isEditing && !isNew()">
               <ExpressionOfInterestReadOnlyView :eoi="getData()[0]" />
             </div>
             <div v-else>
@@ -40,34 +40,10 @@
                 <br />
                 <v-row>
                   <v-col cols="12" sm="12" md="6" xs="12">
-                    <!-- <v-text-field
-                      v-if="!isReadOnly || isEditing"
-                      id="iosas_expressionofinterestid"
-                      v-model="getData()[0].iosas_expressionofinterestid"
-                      required
-                      :rules="[rules.required()]"
-                      :maxlength="255"
-                      variant="outlined"
-                      label="EOI Number"
-                      disabled
-                      color="rgb(59, 153, 252)"
-                    /> -->
                     <v-label>EOI Number </v-label>
                     <p>EOI-01020</p>
                   </v-col>
                   <v-col cols="12" sm="12" md="6" xs="12">
-                    <!-- <v-text-field
-                      v-if="!isReadOnly || isEditing"
-                      id="status"
-                      v-model="getData()[0].status"
-                      required
-                      :rules="[rules.required()]"
-                      :maxlength="255"
-                      variant="outlined"
-                      label="Status"
-                      disabled
-                      color="rgb(59, 153, 252)"
-                    /> -->
                     <v-label>Status </v-label>
                     <p>Draft</p>
                   </v-col>
@@ -84,7 +60,6 @@
                   >
 
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_edu_schoolauthorityname"
                     v-model="getData()[0].iosas_edu_schoolauthorityname"
                     required
@@ -101,7 +76,6 @@
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="authority_head_name"
                     v-model="getData()[0].authority_head_name"
                     required
@@ -114,7 +88,6 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="3" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="autority_head_email"
                     v-model="getData()[0].autority_head_email"
                     required
@@ -127,7 +100,6 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="3" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="autority_head_phone"
                     v-model="getData()[0].autority_head_phone"
                     required
@@ -153,7 +125,6 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
-                    :disabled="!isEditing"
                   >
                     <v-radio label="Yes" color="#003366" :value="true">
                       <template #label>
@@ -173,7 +144,6 @@
                 <v-row>
                   <v-col cols="12" sm="12" md="6" xs="12">
                     <v-text-field
-                      :disabled="!isEditing"
                       id="designated_authority_name"
                       v-model="getData()[0].designated_authority_name"
                       required
@@ -186,7 +156,6 @@
                   </v-col>
                   <v-col cols="12" sm="12" md="3" xs="12">
                     <v-text-field
-                      :disabled="!isEditing"
                       id="designated_authority_email"
                       v-model="getData()[0].designated_authority_email"
                       required
@@ -199,7 +168,6 @@
                   </v-col>
                   <v-col cols="12" sm="12" md="3" xs="12">
                     <v-text-field
-                      :disabled="!isEditing"
                       id="designated_authority_phone"
                       v-model="getData()[0].designated_authority_phone"
                       required
@@ -215,10 +183,10 @@
                 </v-row>
               </div>
               <v-label>Authority Mailing Address</v-label>
+              <br />
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_authorityaddressline1"
                     v-model="getData()[0].iosas_authorityaddressline1"
                     required
@@ -233,7 +201,6 @@
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_authorityaddressline2"
                     v-model="getData()[0].iosas_authorityaddressline2"
                     required
@@ -246,7 +213,6 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_authoritycity"
                     v-model="getData()[0].iosas_authoritycity"
                     required
@@ -287,7 +253,6 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_authoritypostalcode"
                     v-model="getData()[0].iosas_authoritypostalcode"
                     required
@@ -306,7 +271,6 @@
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_proposedschoolname"
                     v-model="getData()[0].iosas_proposedschoolname"
                     required
@@ -319,10 +283,10 @@
                 </v-col>
               </v-row>
               <v-label>School Address (If Known)</v-label>
+              <br />
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_schooladdressline1"
                     v-model="getData()[0].iosas_schooladdressline1"
                     required
@@ -337,7 +301,6 @@
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_schooladdressline2"
                     v-model="getData()[0].iosas_schooladdressline2"
                     required
@@ -350,7 +313,6 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_schoolcity"
                     v-model="getData()[0].iosas_schoolcity"
                     required
@@ -391,7 +353,6 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_schoolpostalcode"
                     v-model="getData()[0].iosas_schoolpostalcode"
                     required
@@ -406,7 +367,6 @@
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="iosas_website"
                     v-model="getData()[0].iosas_website"
                     required
@@ -419,7 +379,6 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
-                    :disabled="!isEditing"
                     id="school_year"
                     v-model="getData()[0].school_year"
                     required
@@ -444,7 +403,6 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
-                    :disabled="!isEditing"
                   >
                     <v-radio
                       label="Group 1"
@@ -482,7 +440,6 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
-                    :disabled="!isEditing"
                   >
                     <v-radio label="Yes" color="#003366" value="yes">
                       <template #label>
@@ -507,7 +464,6 @@
                     variant="outlined"
                     color="rgb(59, 153, 252)"
                     :items="GRADE_OPTIONS"
-                    :disabled="!isEditing"
                   >
                   </v-select>
                 </v-col>
@@ -519,7 +475,6 @@
                     variant="outlined"
                     color="rgb(59, 153, 252)"
                     :items="GRADE_OPTIONS"
-                    :disabled="!isEditing"
                   ></v-select>
                 </v-col>
               </v-row>
@@ -527,7 +482,7 @@
           </div>
 
           <br />
-          <v-container v-if="isEditing">
+          <v-container v-if="isEditing || isNew()">
             <v-row align="end">
               <v-spacer />
               <PrimaryButton
@@ -605,9 +560,6 @@ export default {
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
     },
-    isReadOnly() {
-      return true;
-    },
     toggleEditMode() {
       return (this.isEditing = true);
     },
@@ -669,6 +621,10 @@ export default {
           iosas_website: 'www.schoolwebsite.com',
         },
       ];
+    },
+    isReadOnly() {
+      const data = this.getData()[0];
+      return data.status !== 'Draft';
     },
   },
 };

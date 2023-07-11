@@ -43,11 +43,15 @@
           >Is the Designated Authority the same as Authority Head?</v-label
         >
         <p>
-          {{ eoi.iosas_designatedcontactsameasauthorityhead || nullString }}
+          {{
+            formatBooleanToYesNoString(
+              eoi.iosas_designatedcontactsameasauthorityhead
+            )
+          }}
         </p>
       </v-col>
     </v-row>
-    <div v-if="authorityBoolRadioGroup === false">
+    <div v-if="!eoi.iosas_designatedcontactsameasauthorityhead">
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Designated Authority Contact's Name</v-label>
@@ -165,7 +169,9 @@
           >Plans to seek Group 1 classification in the second or subsequest year
           of operation?
         </v-label>
-        <p>{{ eoi.iosas_seekgrouponeclassification || nullString }}</p>
+        <p>
+          {{ formatBooleanToYesNoString(eoi.iosas_seekgrouponeclassification) }}
+        </p>
       </v-col>
     </v-row>
     <br />
@@ -182,6 +188,7 @@
 </template>
 
 <script>
+import { formatBooleanToYesNoString } from '../../utils/format';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
   components: {},
@@ -198,6 +205,9 @@ export default {
     return {
       nullString: '-',
     };
+  },
+  methods: {
+    formatBooleanToYesNoString,
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="full-height">
-    <v-breadcrumbs :items="items"
+    <v-breadcrumbs :items="breadcrumbs"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
@@ -14,12 +14,12 @@
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
 
 export default {
-  name: 'School Application Page',
+  name: 'SchoolApplicationPage',
   components: {
     SchoolApplicationForm,
   },
   data: () => ({
-    items: [
+    breadcrumbs: [
       {
         title: 'Dashboard',
         disabled: false,
@@ -30,14 +30,6 @@ export default {
         disabled: true,
         href: 'school-application',
       },
-    ],
-    steps: [
-      { title: 'EOI Approved', complete: true, isCurrent: false },
-      { title: 'App Submitted', complete: true, isCurrent: false },
-      { title: 'App Review', complete: true, isCurrent: false },
-      { title: 'Interview', complete: false, isCurrent: true },
-      { title: 'Pre-Certification', complete: false, isCurrent: false },
-      { title: 'Interim Certification', complete: false, isCurrent: false },
     ],
   }),
   mounted() {},
