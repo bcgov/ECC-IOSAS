@@ -17,6 +17,17 @@ objects:
         deploymentconfig: ${NAME}
       strategy:
         type: Rolling
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${NAME}
+            from:
+              kind: ImageStreamTag
+              name: ${NAME}:${IMAGE_STREAM_TAG}
+              namespace: ${BUILD_NAMESPACE}
+          type: ImageChange
+        - type: ConfigChange
       template:
         metadata:
           labels:
@@ -24,8 +35,10 @@ objects:
         spec:
           containers:
             - env:
+                - name: BUILD_ID
+                  value: ${BUILD_ID}
                 - name: VERSION
-                  value: "0"
+                  value: ${VERSION}
                 - name: NODE_ENV
                   value: ${NODE_ENV}
                 - name: ISSUER
@@ -132,6 +145,10 @@ objects:
         kind: Service
         name: ${NAME}
 parameters:
+  - name: BUILD_ID
+    value: "0"
+  - name: VERSION
+    value: "init"
   - name: NAME
     required: true
   - name: PROJECT

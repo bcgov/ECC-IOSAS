@@ -16,10 +16,11 @@ export JOB_NAME := $(or $(JOB_NAME), $$JN)
 export SITE_MINDER_LOGOUT_URL := $(or $(SITE_MINDER_LOGOUT_URL), https://logontest.gov.bc.ca/clp-cgi/logoff.cgi)
 export UI_PRIVATE_KEY := $(or $(UI_PRIVATE_KEY), None)
 export UI_PUBLIC_KEY := $(or $(UI_PUBLIC_KEY), None)
-
+export LAST_COMMIT := $(shell git log -1 --oneline --decorate=full --no-color --format="%h, %cn, %f, %D" | sed 's/->/:/')
+export COMMIT_SHA:=$(shell git rev-parse --short=7 HEAD)
 
 define BUILD_TAG
-"$(BUILD_REF)-$(BUILD_ID)"
+"$(BUILD_REF)-$(COMMIT_SHA)"
 endef
 
 define BUILD_TEMPLATE_PATH
@@ -70,7 +71,7 @@ print-status:
 	@echo " | NAMESPACE:    			$(NAMESPACE)"
 	@echo " | BUILD_NAMESPACE:    $(BUILD_NAMESPACE)"
 	@echo " +---------------------------------------------------------+ "
-	@echo " | BUILD_ID: 	$(BUILD_ID) "
+	@echo " | BUILD_ID: 	$(COMMIT_SHA) "
 	@echo " | BUILD_TAG: 	$(BUILD_TAG) "
 	@echo " | HOST NAME: 	$(HOST) "
 	@echo " +---------------------------------------------------------+ "
@@ -132,6 +133,7 @@ build-api:
 		-p BASE_IMAGE_REPO="registry.access.redhat.com/ubi8/" \
 		-p SOURCE_CONTEXT_DIR=/backend -p NAME=$(API) | oc -n $(BUILD_NAMESPACE) apply -f -
 	@oc -n $(BUILD_NAMESPACE) start-build bc/$(API) --wait --follow=true
+	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):latest
 
 build-web:
 	test -n "$(BUILD_REF)"
@@ -146,6 +148,9 @@ build-web:
 		-p BASE_IMAGE_REPO="registry.access.redhat.com/ubi8/" \
 		-p SOURCE_CONTEXT_DIR=/frontend -p NAME=$(Web) | oc -n $(BUILD_NAMESPACE) apply -f -
 	@oc -n $(BUILD_NAMESPACE) start-build bc/$(Web) --wait --follow=true
+	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):latest
+
+
 deploy-api:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
@@ -154,9 +159,16 @@ deploy-api:
 		-p NAME=$(API) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
-		-p IMAGE_STREAM_TAG="$(API):$(BUILD_TAG)" \
+		-p IMAGE_STREAM_TAG="$(API):$(HOST_PREFIX)" \
 		| oc -n $(NAMESPACE) apply -f -
 	$(call rollout_and_wait,dc/$(API))
+
+
+promote-api:
+	test -n "$(NAMESPACE)"
+	test -n "$(BUILD_NAMESPACE)"
+	@echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
+	@oc tag $(API):$(BUILD_TAG) $(API):$(HOST_PREFIX)
 
 deploy-web:
 	test -n "$(NAMESPACE)"
@@ -166,6 +178,12 @@ deploy-web:
 		-p NAME=$(Web) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
-		-p IMAGE_STREAM_TAG="$(Web):$(BUILD_TAG)"  | oc -n $(NAMESPACE) apply -f -
+		-p IMAGE_STREAM_TAG="$(Web):$(HOST_PREFIX)"  | oc -n $(NAMESPACE) apply -f -
 	$(call rollout_and_wait,dc/$(Web))
+
+promote-web:
+	test -n "$(NAMESPACE)"
+	test -n "$(BUILD_NAMESPACE)"
+	@echo "+\n++ Web: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
+	@oc tag $(Web):$(BUILD_TAG) $(Web):$(HOST_PREFIX)
 

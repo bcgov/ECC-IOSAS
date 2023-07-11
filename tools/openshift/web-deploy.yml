@@ -17,6 +17,17 @@ objects:
         deploymentconfig: ${NAME}
       strategy:
         type: Rolling
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${NAME}
+            from:
+              kind: ImageStreamTag
+              name: ${NAME}:${IMAGE_STREAM_TAG}
+              namespace: ${BUILD_NAMESPACE}
+          type: ImageChange
+        - type: ConfigChange
       template:
         metadata:
           labels:

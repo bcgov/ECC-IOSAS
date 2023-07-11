@@ -24,6 +24,10 @@ nconf.overrides({
     clientId: process.env.SOAM_CLIENT_ID,
     clientSecret: process.env.SOAM_CLIENT_SECRET,
     discovery: process.env.SOAM_DISCOVERY
+  },
+  buildInfo: {
+    buildId: process.env.BUILD_ID || 'NA',
+    version: process.env.VERSION || 'NA'
   }
 });
 
