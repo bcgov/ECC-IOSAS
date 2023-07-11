@@ -151,18 +151,22 @@ build-web:
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):latest
 
 
-deploy-api:
+
+
+update-dc-api:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
-	@echo "+\n++ Deploying API with tag: $(BUILD_TAG)\n+"
+	@echo "+\n++ Updating API-dc with tag: $(BUILD_TAG)\n+"
 	@oc -n $(NAMESPACE) process -f openshift/api-deploy.yml \
 		-p NAME=$(API) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(API):$(HOST_PREFIX)" \
-		| oc -n $(NAMESPACE) apply -f -
-	$(call rollout_and_wait,dc/$(API))
+		-p VERSION=$(VERSION) \
+		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
 
+deploy-api: update-dc-api
+	$(call rollout_and_wait,dc/$(API))
 
 promote-api:
 	test -n "$(NAMESPACE)"
@@ -170,15 +174,18 @@ promote-api:
 	@echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
 	@oc tag $(API):$(BUILD_TAG) $(API):$(HOST_PREFIX)
 
-deploy-web:
+update-dc-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
-	@echo "+\n++ Deploying Web with tag: $(BUILD_TAG)\n+"
+	@echo "+\n++ Updating Web-dc with tag: $(BUILD_TAG)\n+"
 	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml \
 		-p NAME=$(Web) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
-		-p IMAGE_STREAM_TAG="$(Web):$(HOST_PREFIX)"  | oc -n $(NAMESPACE) apply -f -
+		-p IMAGE_STREAM_TAG="$(Web):$(HOST_PREFIX)" \
+		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
+
+deploy-web: update-dc-web
 	$(call rollout_and_wait,dc/$(Web))
 
 promote-web:

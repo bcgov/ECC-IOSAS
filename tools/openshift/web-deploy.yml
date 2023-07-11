@@ -35,6 +35,8 @@ objects:
         spec:
           containers:
             - env:
+                - name: BUILD_ID
+                  value: ${BUILD_ID}
                 - name: NODE_ENV
                   value: ${NODE_ENV}
                 - name: PORT
@@ -107,6 +109,8 @@ objects:
         kind: Service
         name: ${NAME}
 parameters:
+  - name: BUILD_ID
+    value: "dev:0"
   - name: NAME
     required: true
   - name: PROJECT 
