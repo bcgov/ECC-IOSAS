@@ -41,7 +41,7 @@ jobs:
   api:
     name: OpenShift Build & Deploy
     runs-on: ubuntu-latest
-    concurrency: ci-build
+    concurrency: ci-build-api
     timeout-minutes: 20
     env:
       HOST_PREFIX: dev

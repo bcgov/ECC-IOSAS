@@ -38,10 +38,10 @@ jobs:
           oc login --token="$SA_TOKEN" --server="$CLUSTER"
           make print-status
           make update-dc-web
-  api:
+  web:
     name: OpenShift Build & Deploy
     runs-on: ubuntu-latest
-    concurrency: ci-build
+    concurrency: ci-build-web
     timeout-minutes: 20
     env:
       HOST_PREFIX: dev
