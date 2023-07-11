@@ -162,7 +162,7 @@ update-dc-api:
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(API):$(HOST_PREFIX)" \
-		-p VERSION=$(VERSION) \
+		-p VERSION=$(LAST_COMMIT) \
 		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
