@@ -24,7 +24,7 @@ objects:
               - ${NAME}
             from:
               kind: ImageStreamTag
-              name: ${NAME}:${IMAGE_STREAM_TAG}
+              name: ${IMAGE_STREAM_TAG}
               namespace: ${BUILD_NAMESPACE}
           type: ImageChange
         - type: ConfigChange
