@@ -27,7 +27,7 @@ nconf.overrides({
   },
   buildInfo: {
     buildId: process.env.BUILD_ID || 'NA',
-    version: process.env.VERSION || 'NA'
+    info: process.env.VERSION || 'NA'
   }
 });
 
