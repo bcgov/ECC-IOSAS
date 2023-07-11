@@ -172,7 +172,7 @@ promote-api:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
-	@oc tag $(API):$(BUILD_TAG) $(API):$(HOST_PREFIX)
+	@oc -n "$(BUILD_NAMESPACE)" tag $(API):$(BUILD_TAG) $(API):$(HOST_PREFIX)
 
 update-dc-web:
 	test -n "$(NAMESPACE)"
@@ -192,5 +192,5 @@ promote-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Web: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
-	@oc tag $(Web):$(BUILD_TAG) $(Web):$(HOST_PREFIX)
+	@oc -n "$(BUILD_NAMESPACE)" tag $(Web):$(BUILD_TAG) $(Web):$(HOST_PREFIX)
 
