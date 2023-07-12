@@ -54,9 +54,14 @@ export const applicationsStore = defineStore('applications', {
       if (localStorage.getItem('jwtToken')) {
         // DONT Call api if there is no token.
         if (this.EOIApplicationsMap.size === 0) {
-          // API doesn't exist yet, using mock data for now
-          // const response = await ApiService.getEOIApplications();
-          await this.setEOIApplications(EOI_MOCK);
+          // API doesn't exist yet, using mock data for now, saving form data to localStorage to mock db interations
+          // const response = await ApiService.getEOIApplications()
+          const applications = JSON.parse(localStorage.getItem('applications'));
+          if (applications) {
+            await this.setEOIApplications([...EOI_MOCK, ...applications]);
+          } else {
+            await this.setEOIApplications(EOI_MOCK);
+          }
         }
         if (this.schoolApplicationsMap.size === 0) {
           // API doesn't exist yet, using mock data for now

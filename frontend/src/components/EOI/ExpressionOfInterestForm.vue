@@ -62,8 +62,8 @@
                   >
 
                   <v-text-field
-                    id="iosas_schoolauthorityname"
-                    v-model="data.iosas_schoolauthorityname"
+                    id="iosas_edu_schoolauthorityname"
+                    v-model="data.iosas_edu_schoolauthorityname"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -84,11 +84,25 @@
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
-                    label="Name"
+                    label="First Name"
                     color="rgb(59, 153, 252)"
                   />
                 </v-col>
-                <v-col cols="12" sm="12" md="3" xs="12">
+                <v-col cols="12" sm="12" md="6" xs="12">
+                  <v-text-field
+                    id="iosas_schoolauthorityheadname"
+                    v-model="data.iosas_authorityheadname"
+                    required
+                    :rules="[rules.required()]"
+                    :maxlength="255"
+                    variant="outlined"
+                    label="Last Name"
+                    color="rgb(59, 153, 252)"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
                     id="iosas_schoolauthorityheademail"
                     v-model="data.iosas_schoolauthorityheademail"
@@ -100,7 +114,7 @@
                     color="rgb(59, 153, 252)"
                   />
                 </v-col>
-                <v-col cols="12" sm="12" md="3" xs="12">
+                <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
                     id="iosas_schoolauthorityheadphone"
                     v-model="data.iosas_schoolauthorityheadphone"
@@ -156,11 +170,29 @@
                       "
                       :maxlength="255"
                       variant="outlined"
-                      label="Name"
+                      label="First Name"
                       color="rgb(59, 153, 252)"
                     />
                   </v-col>
-                  <v-col cols="12" sm="12" md="3" xs="12">
+                  <v-col cols="12" sm="12" md="6" xs="12">
+                    <v-text-field
+                      id="iosas_schoolauthoritycontactname"
+                      v-model="data.iosas_schoolauthoritycontactname"
+                      required
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Last Name"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="6" xs="12">
                     <v-text-field
                       id="iosas_schoolauthoritycontactemail"
                       v-model="data.iosas_schoolauthoritycontactemail"
@@ -176,7 +208,7 @@
                       color="rgb(59, 153, 252)"
                     />
                   </v-col>
-                  <v-col cols="12" sm="12" md="3" xs="12">
+                  <v-col cols="12" sm="12" md="6" xs="12">
                     <v-text-field
                       id="ioas_schoolauthoritycontactphone"
                       v-model="data.ioas_schoolauthoritycontactphone"
@@ -614,7 +646,9 @@ export default {
       }
     },
   },
-  created() {},
+  created() {
+    this.data = this.isNew() ? this.data : this.eoi;
+  },
   methods: {
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';

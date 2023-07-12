@@ -49,7 +49,7 @@ export default {
       .then(() => {
         setTimeout(() => {
           this.isLoading = false;
-        }, 5000);
+        }, 500);
       });
   },
   methods: {

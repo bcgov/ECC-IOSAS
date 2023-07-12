@@ -26,15 +26,15 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Authority Head's Name</v-label>
-        <p>{{ eoi.iosas_authority_head_name || nullString }}</p>
+        <p>{{ getAuthorityHeadName() || nullString }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="3" xs="12">
         <v-label>E-Mail</v-label>
-        <p>{{ eoi.iosas_autority_head_email || nullString }}</p>
+        <p>{{ eoi.iosas_schoolauthorityheademail || nullString }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="3" xs="12">
         <v-label>Phone</v-label>
-        <p>{{ eoi.iosas_autority_head_phone || nullString }}</p>
+        <p>{{ eoi.iosas_schoolauthorityheadphone || nullString }}</p>
       </v-col>
     </v-row>
     <v-row>
@@ -55,15 +55,15 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Designated Authority Contact's Name</v-label>
-          <p>{{ eoi.iosas_designatedcontactfirstname || nullString }}</p>
+          <p>{{ getDesignatedHeadName() || nullString }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="3" xs="12">
           <v-label>E-mail</v-label>
-          <p>{{ nullString }}</p>
+          <p>{{ eoi.iosas_schoolauthoritycontactemail || nullString }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="3" xs="12">
           <v-label>Phone</v-label>
-          <p>{{ nullString }}</p>
+          <p>{{ eoi.ioas_schoolauthoritycontactphone || nullString }}</p>
         </v-col>
       </v-row>
     </div>
@@ -206,6 +206,20 @@ export default {
   },
   methods: {
     formatBooleanToYesNoString,
+    getAuthorityHeadName() {
+      return this.eoi.iosas_authorityheadfirstname
+        ? this.eoi.iosas_authorityheadfirstname +
+            ' ' +
+            this.eoi.iosas_authorityheadname
+        : null;
+    },
+    getDesignatedHeadName() {
+      return this.eoi.iosas_designatedcontactfirstname
+        ? this.eoi.iosas_designatedcontactfirstname +
+            ' ' +
+            this.eoi.iosas_schoolauthoritycontactname
+        : null;
+    },
   },
 };
 </script>

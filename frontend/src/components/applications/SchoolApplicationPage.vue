@@ -48,7 +48,7 @@ export default {
       .then(() => {
         setTimeout(() => {
           this.isLoading = false;
-        }, 1000);
+        }, 500);
       });
   },
   methods: {},
