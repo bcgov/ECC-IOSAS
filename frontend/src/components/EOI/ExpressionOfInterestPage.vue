@@ -5,7 +5,10 @@
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-    <ExpressionOfInterestForm />
+    <ExpressionOfInterestForm
+      :eoi="getEOIApplicationById(this.$route.params.id)"
+      :isLoading="isLoading"
+    />
   </v-container>
 </template>
 
@@ -13,6 +16,7 @@
 import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
+import { applicationsStore } from '../../store/modules/applications';
 
 export default {
   name: 'ExpressionOfInterestPage',
@@ -20,6 +24,7 @@ export default {
     ExpressionOfInterestForm,
   },
   data: () => ({
+    isLoading: true,
     items: [
       {
         title: 'Dashboard',
@@ -36,9 +41,20 @@ export default {
   mounted() {},
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'isLoading']),
+    ...mapState(applicationsStore, ['getEOIApplicationById']),
+  },
+  created() {
+    applicationsStore()
+      .getApplicationData()
+      .then(() => {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 5000);
+      });
   },
   methods: {
     authStore,
+    getEOI() {},
   },
 };
 </script>

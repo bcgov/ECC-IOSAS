@@ -14,7 +14,9 @@
     </v-row>
     <template v-if="!isLoading">
       <v-form
+        @submit.prevent="handleSubmit"
         ref="expressionOfInterestForm"
+        id="expressionOfInterestForm"
         v-model="expressionOfInterestFormValid"
       >
         <v-container fluid class="content-container">
@@ -32,7 +34,7 @@
             <br />
             <v-divider></v-divider>
             <div v-if="!isEditing && !isNew()">
-              <ExpressionOfInterestReadOnlyView :eoi="getData()[0]" />
+              <ExpressionOfInterestReadOnlyView :eoi="this.eoi" />
             </div>
             <div v-else>
               <div v-if="!isNew()">
@@ -60,8 +62,8 @@
                   >
 
                   <v-text-field
-                    id="iosas_edu_schoolauthorityname"
-                    v-model="getData()[0].iosas_edu_schoolauthorityname"
+                    id="iosas_schoolauthorityname"
+                    v-model="data.iosas_schoolauthorityname"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -76,8 +78,8 @@
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
-                    id="authority_head_name"
-                    v-model="getData()[0].authority_head_name"
+                    id="iosas_authorityheadfirstname"
+                    v-model="data.iosas_authorityheadfirstname"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -88,8 +90,8 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="3" xs="12">
                   <v-text-field
-                    id="autority_head_email"
-                    v-model="getData()[0].autority_head_email"
+                    id="iosas_schoolauthorityheademail"
+                    v-model="data.iosas_schoolauthorityheademail"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -100,8 +102,8 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="3" xs="12">
                   <v-text-field
-                    id="autority_head_phone"
-                    v-model="getData()[0].autority_head_phone"
+                    id="iosas_schoolauthorityheadphone"
+                    v-model="data.iosas_schoolauthorityheadphone"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -120,7 +122,7 @@
                     Head?</v-label
                   >
                   <v-radio-group
-                    v-model="authorityBoolRadioGroup"
+                    v-model="data.iosas_designatedcontactsameasauthorityhead"
                     color="#003366"
                     class="mt-4"
                     direction="horizontal"
@@ -128,26 +130,30 @@
                   >
                     <v-radio label="Yes" color="#003366" :value="true">
                       <template #label>
-                        <span :class="activeRadio">Yes</span>
+                        <span>Yes</span>
                       </template>
                     </v-radio>
                     <v-radio label="No" color="#003366" :value="false">
                       <template #label>
-                        <span :class="activeRadio">No</span>
+                        <span>No</span>
                       </template>
                     </v-radio>
                   </v-radio-group>
                 </v-col>
               </v-row>
-              <div v-if="authorityBoolRadioGroup === false">
+              <div v-if="!data.iosas_designatedcontactsameasauthorityhead">
                 <v-label>Designated Authority Contact's Name</v-label>
                 <v-row>
                   <v-col cols="12" sm="12" md="6" xs="12">
                     <v-text-field
-                      id="designated_authority_name"
-                      v-model="getData()[0].designated_authority_name"
+                      id="iosas_schoolauthoritycontactname"
+                      v-model="data.iosas_schoolauthoritycontactname"
                       required
-                      :rules="[rules.required()]"
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
                       :maxlength="255"
                       variant="outlined"
                       label="Name"
@@ -156,10 +162,14 @@
                   </v-col>
                   <v-col cols="12" sm="12" md="3" xs="12">
                     <v-text-field
-                      id="designated_authority_email"
-                      v-model="getData()[0].designated_authority_email"
+                      id="iosas_schoolauthoritycontactemail"
+                      v-model="data.iosas_schoolauthoritycontactemail"
                       required
-                      :rules="[rules.required()]"
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
                       :maxlength="255"
                       variant="outlined"
                       label="E-mail"
@@ -168,10 +178,14 @@
                   </v-col>
                   <v-col cols="12" sm="12" md="3" xs="12">
                     <v-text-field
-                      id="designated_authority_phone"
-                      v-model="getData()[0].designated_authority_phone"
+                      id="ioas_schoolauthoritycontactphone"
+                      v-model="data.ioas_schoolauthoritycontactphone"
                       required
-                      :rules="[]"
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
                       :maxlength="255"
                       variant="outlined"
                       label="Phone"
@@ -184,11 +198,12 @@
               </div>
               <v-label>Authority Mailing Address</v-label>
               <br />
+              <br />
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
                     id="iosas_authorityaddressline1"
-                    v-model="getData()[0].iosas_authorityaddressline1"
+                    v-model="data.iosas_authorityaddressline1"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -202,7 +217,7 @@
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
                     id="iosas_authorityaddressline2"
-                    v-model="getData()[0].iosas_authorityaddressline2"
+                    v-model="data.iosas_authorityaddressline2"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -214,7 +229,7 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_authoritycity"
-                    v-model="getData()[0].iosas_authoritycity"
+                    v-model="data.iosas_authoritycity"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -228,7 +243,7 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_authorityprovince"
-                    v-model="getData()[0].iosas_authorityprovince"
+                    v-model="data.iosas_authorityprovince"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -241,7 +256,7 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_authoritycountry"
-                    v-model="getData()[0].iosas_authoritycountry"
+                    v-model="data.iosas_authoritycountry"
                     required
                     disabled
                     :rules="[]"
@@ -254,10 +269,10 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_authoritypostalcode"
-                    v-model="getData()[0].iosas_authoritypostalcode"
+                    v-model="data.iosas_authoritypostalcode"
                     required
-                    :rules="[rules.required()]"
-                    :maxlength="255"
+                    :rules="[rules.required(), rules.postalCode()]"
+                    :maxlength="7"
                     variant="outlined"
                     label="Postal Code"
                     color="rgb(59, 153, 252)"
@@ -272,7 +287,7 @@
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
                     id="iosas_proposedschoolname"
-                    v-model="getData()[0].iosas_proposedschoolname"
+                    v-model="data.iosas_proposedschoolname"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -284,11 +299,12 @@
               </v-row>
               <v-label>School Address (If Known)</v-label>
               <br />
+              <br />
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
                     id="iosas_schooladdressline1"
-                    v-model="getData()[0].iosas_schooladdressline1"
+                    v-model="data.iosas_schooladdressline1"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -302,7 +318,7 @@
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
                     id="iosas_schooladdressline2"
-                    v-model="getData()[0].iosas_schooladdressline2"
+                    v-model="data.iosas_schooladdressline2"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -314,7 +330,7 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_schoolcity"
-                    v-model="getData()[0].iosas_schoolcity"
+                    v-model="data.iosas_schoolcity"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -328,7 +344,7 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_schoolprovince"
-                    v-model="getData()[0].iosas_schoolprovince"
+                    v-model="data.iosas_schoolprovince"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -341,7 +357,7 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_schoolcountry"
-                    v-model="getData()[0].iosas_schoolcountry"
+                    v-model="data.iosas_schoolcountry"
                     required
                     disabled
                     :rules="[]"
@@ -354,10 +370,10 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_schoolpostalcode"
-                    v-model="getData()[0].iosas_schoolpostalcode"
+                    :v-model="data.iosas_schoolpostalcode"
                     required
-                    :rules="[rules.required()]"
-                    :maxlength="255"
+                    :rules="[rules.required(), rules.postalCode()]"
+                    :maxlength="7"
                     variant="outlined"
                     label="Postal Code"
                     color="rgb(59, 153, 252)"
@@ -368,9 +384,9 @@
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
                     id="iosas_website"
-                    v-model="getData()[0].iosas_website"
+                    v-model="data.iosas_website"
                     required
-                    :rules="[]"
+                    :rules="[rules.website()]"
                     :maxlength="255"
                     variant="outlined"
                     label="Website address (optional)"
@@ -379,8 +395,8 @@
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
-                    id="school_year"
-                    v-model="getData()[0].school_year"
+                    id="iosas_edu_yearname"
+                    v-model="data.iosas_edu_yearname"
                     required
                     :rules="[rules.required()]"
                     :maxlength="255"
@@ -398,11 +414,12 @@
                     Information)</v-label
                   >
                   <v-radio-group
-                    v-model="iosas_groupclassification"
+                    v-model="data.iosas_groupclassification"
                     color="#003366"
                     class="mt-4"
                     direction="horizontal"
                     inline
+                    :rules="[rules.requiredSelect()]"
                   >
                     <v-radio
                       label="Group 1"
@@ -411,17 +428,17 @@
                       disabled
                     >
                       <template #label>
-                        <span :class="activeRadio">Group 1</span>
+                        <span>Group 1</span>
                       </template>
                     </v-radio>
                     <v-radio label="Group 2" color="#003366" value="groupTwo">
                       <template #label>
-                        <span :class="activeRadio">Group 2</span>
+                        <span>Group 2</span>
                       </template>
                     </v-radio>
                     <v-radio label="Group 3" color="#003366" value="groupThree">
                       <template #label>
-                        <span :class="activeRadio">Group 3</span>
+                        <span>Group 3</span>
                       </template>
                     </v-radio>
                   </v-radio-group>
@@ -435,46 +452,51 @@
                     second or subsequest year of operation?
                   </v-label>
                   <v-radio-group
-                    v-model="iosas_seekgrouponeclassification"
+                    v-model="data.iosas_seekgrouponeclassification"
                     color="#003366"
                     class="mt-4"
                     direction="horizontal"
                     inline
+                    :rules="[rules.requiredSelect()]"
                   >
                     <v-radio label="Yes" color="#003366" value="yes">
                       <template #label>
-                        <span :class="activeRadio">Yes</span>
+                        <span>Yes</span>
                       </template>
                     </v-radio>
                     <v-radio label="No" color="#003366" value="no">
                       <template #label>
-                        <span :class="activeRadio">No</span>
+                        <span>No</span>
                       </template>
                     </v-radio>
                   </v-radio-group>
                 </v-col>
               </v-row>
               <v-label>Proposed grade range in first year of operation</v-label>
+              <br />
+              <br />
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-select
                     id="iosas_startgrade"
-                    v-model="getData()[0].iosas_startgrade"
+                    v-model="data.iosas_startgrade"
                     label="Select Start Grade"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
                     :items="GRADE_OPTIONS"
+                    :rules="[rules.requiredSelect()]"
                   >
                   </v-select>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-select
                     id="iosas_endgrade"
-                    v-model="getData()[0].iosas_endgrade"
+                    v-model="data.iosas_endgrade"
                     label="Select End Grade"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
                     :items="GRADE_OPTIONS"
+                    :rules="[rules.requiredSelect()]"
                   ></v-select>
                 </v-col>
               </v-row>
@@ -485,20 +507,14 @@
           <v-container v-if="isEditing || isNew()">
             <v-row align="end">
               <v-spacer />
-              <PrimaryButton
+              <v-btn
+                :loading="isLoading"
                 type="submit"
                 primary
-                text="Submit"
-                class="mr-2"
-                click-action="buttonAction"
-              />
-              <PrimaryButton
-                id=""
-                secondary
-                text="Clear"
-                class="mr-2"
-                @click="handleReset"
-              />
+                class="mt-2 submit-button"
+                variant="elevated"
+                >Submit</v-btn
+              >
             </v-row>
           </v-container>
         </v-container>
@@ -526,32 +542,75 @@ export default {
     ExpressionOfInterestReadOnlyView,
   },
   mixins: [alertMixin],
-  props: {},
+  props: {
+    eoi: {
+      type: Object,
+      required: false,
+    },
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
       GRADE_OPTIONS,
       expressionOfInterestFormValid: true,
       isEditing: false,
       rules: Rules,
-      authorityBoolRadioGroup: true,
-      iosas_groupclassification: 'groupTwo',
-      iosas_seekgrouponeclassification: 'yes',
+      data: {
+        iosas_expressionofinterestid: 'EOI-01020',
+        status: 'Draft',
+        iosas_edu_schoolauthority: null,
+        iosas_edu_school: null,
+        iosas_authorityaddressline1: null,
+        iosas_authorityaddressline2: null,
+        iosas_authoritycity: null,
+        iosas_authoritycountry: null,
+        iosas_authorityheadfirstname: null,
+        iosas_authorityheadname: null,
+        iosas_authorityheadyominame: null,
+        iosas_authoritypostalcode: null,
+        iosas_authorityprovince: 'BC',
+        iosas_authoritycontactname: null,
+        iosas_authoritycontactyominame: null,
+        iosas_contactname: null,
+        iosas_contactyominame: null,
+        iosas_designatedcontactfirstname: null,
+        iosas_designatedcontactsameasauthorityhead: false,
+        iosas_edu_schoolauthorityname: null,
+        iosas_edu_yearname: null,
+        iosas_groupclassification: null,
+        iosas_proposedschoolname: null,
+        iosas_schooladdressline1: null,
+        iosas_schooladdressline2: null,
+        iosas_schoolcity: null,
+        iosas_schoolcountry: 'Canada',
+        iosas_schoolpostalcode: null,
+        iosas_schoolprovince: 'BC',
+        iosas_schoolauthoritycontactemail: null,
+        iosas_schoolauthoritycontactname: null,
+        ioas_schoolauthoritycontactphone: null,
+        iosas_schoolauthorityheademail: null,
+        iosas_schoolauthorityheadname: null,
+        iosas_schoolauthorityheadphone: null,
+        iosas_schoolauthorityname: null,
+        iosas_seekgrouponeclassification: true,
+        iosas_startgrade: null,
+        iosas_endgrade: null,
+        iosas_website: null,
+      },
     };
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
-    isLoading() {
-      return false;
-    },
   },
   watch: {
     expressionOfInterestFormValid(value) {
       if (value !== null && value !== undefined) {
-        if (this.hasRequiredFieldValues() && value) {
-          this.$emit('is-form-valid', true);
-        } else {
-          this.$emit('is-form-valid', false);
-        }
+        this.$emit('is-form-valid', true);
+      } else {
+        this.$emit('is-form-valid', false);
       }
     },
   },
@@ -563,68 +622,12 @@ export default {
     toggleEditMode() {
       return (this.isEditing = true);
     },
-    getData() {
-      return [
-        {
-          iosas_expressionofinterestid: 'EOI-01020',
-          status: 'Draft',
-          authority_country: 'Canada',
-          authority_province: 'BC',
-          school_province: 'BC',
-          school_country: 'Canada',
-          iosas_edu_schoolauthority: null,
-          iosas_edu_school: 'Victoria High School',
-          iosas_authorityaddressline1: '1010 main street',
-          iosas_authorityaddressline2: null,
-          iosas_authoritycity: 'Victoria',
-          iosas_authoritycountry: 'Canada',
-          iosas_authorityheadfirstname: 'Jack Smith',
-          iosas_authorityheadname: 'Jack',
-          iosas_authorityheadyominame: 'Smith',
-          iosas_authoritypostalcode: 'V6V8F9',
-          iosas_authorityprovince: 'BC',
-          iosas_authoritycontactname: null,
-          iosas_authoritycontactyominame: null,
-          iosas_contactname: null,
-          iosas_contactyominame: null,
-          iosas_designatedcontactfirstname: null,
-          iosas_designatedcontactsameasauthorityhead: false,
-          iosas_edu_schoolauthorityname: null,
-          iosas_edu_yearname: null,
-          iosas_endgrade: null,
-          iosas_eionumber: null,
-          iosas_existingauthority: false,
-          iosas_existingcontact: false,
-          iosas_existinghead: false,
-          iosas_groupclassification: 'Group 2',
-          iosas_name: null,
-          iosas_notes: null,
-          iosas_proposedschoolname: 'Victoria High School',
-          iosas_schooladdressline1: '3954729 Vancouvrer rd',
-          iosas_schooladdressline2: null,
-          iosas_schoolcity: 'Victoria',
-          iosas_schoolcountry: 'Canada',
-          iosas_schoolpostalcode: 'V3Z4F9',
-          iosas_schoolprovince: 'BC',
-          iosas_schoolauthoritycontactemail: 'jack.smith@education.school.com',
-          iosas_schoolauthoritycontactname: null,
-          ioas_schoolauthoritycontactphone: null,
-          iosas_schoolauthorityheademail: null,
-          iosas_schoolauthorityheadname: null,
-          iosas_schoolauthorityheadphone: null,
-          iosas_schoolauthorityname: null,
-          iosas_seekgrouponeclassification: true,
-          iosas_startgrade: 'Kindergarten',
-          iosas_endgrade: '6',
-          iosas_submissiondate: null,
-          iosas_submissionmethod: null,
-          iosas_website: 'www.schoolwebsite.com',
-        },
-      ];
-    },
     isReadOnly() {
-      const data = this.getData()[0];
-      return data.status !== 'Draft';
+      return this.eoi.status !== 'Draft';
+    },
+    handleSubmit() {
+      this.$refs.expressionOfInterestForm.validate();
+      console.log(this.data);
     },
   },
 };
@@ -633,5 +636,10 @@ export default {
 <style scoped>
 .v-label {
   white-space: break-spaces;
+}
+
+.submit-button {
+  background-color: #003366 !important;
+  color: white !important;
 }
 </style>

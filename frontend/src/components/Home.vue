@@ -1,4 +1,3 @@
-<!--suppress ALL -->
 <template>
   <v-container
     v-if="!authStore().isAuthenticated && !authStore().isLoading"
@@ -16,15 +15,18 @@
     </article>
   </v-container>
 
-  <v-container v-else-if="authStore().isLoading" fluid class="full-height">
-    <article id="progress-display-container" class="top-banner full-height">
+  <v-container v-else-if="isLoading" fluid class="full-height">
+    <article id="progress-display-container">
       <v-row align="center" justify="center">
-        <v-progress-circular
-          :size="60"
-          :width="7"
-          color="primary"
-          indeterminate
-        />
+        <v-col class="d-flex justify-center">
+          <v-progress-circular
+            class="mt-16"
+            :size="70"
+            :width="7"
+            color="primary"
+            indeterminate
+          />
+        </v-col>
       </v-row>
     </article>
   </v-container>
@@ -55,7 +57,7 @@
     <br />
     <v-container fluid class="justify-center">
       <DataTable
-        :data="EOI_MOCK"
+        :data="eoiApplications"
         title="Expressions of Interest (EOI)"
         :buttonAction="redirectToEOIForm"
         buttonTitle="Create new EOI"
@@ -64,7 +66,7 @@
       <br />
       <br />
       <DataTable
-        :data="SCHOOL_APPLICATION_MOCK"
+        :data="schoolApplications"
         title="New School Applications"
         :url="AuthRoutes.APPLICATION"
       />
@@ -75,13 +77,13 @@
 <script>
 import Login from './Login.vue';
 import { authStore } from '../store/modules/auth';
+import { applicationsStore } from '../store/modules/applications';
 import { AuthRoutes } from '../utils/constants';
 import { mapState } from 'pinia';
 import { PAGE_TITLES } from '../utils/constants';
 import PrimaryButton from './util/PrimaryButton.vue';
 import DataTable from './util/DataTable.vue';
 
-import { EOI_MOCK, SCHOOL_APPLICATION_MOCK } from '../utils/constants/mocks';
 export default {
   name: 'Home',
   components: {
@@ -93,14 +95,29 @@ export default {
     return {
       AuthRoutes,
       PAGE_TITLES: PAGE_TITLES,
-      EOI_MOCK,
-      SCHOOL_APPLICATION_MOCK,
+      isLoading: true,
+      schoolApplications: [],
+      eioApplications: [],
     };
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'isLoading']),
   },
   mounted() {},
+  created() {
+    applicationsStore()
+      .getApplicationData()
+      .then(() => {
+        // mocking a loading state - will be replaced when API is connected.
+        setTimeout(() => {
+          this.isLoading = false;
+          this.eoiApplications =
+            applicationsStore().getEOIApplicationsFormatted;
+          this.schoolApplications =
+            applicationsStore().getSchoolApplicationsFormatted;
+        }, 1000);
+      });
+  },
   methods: {
     authStore,
     redirectToEOIForm() {
@@ -120,5 +137,9 @@ export default {
   background-size: cover;
   align-items: center;
   display: flex;
+}
+
+.full-height {
+  height: 100%;
 }
 </style>

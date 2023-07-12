@@ -95,8 +95,7 @@ export default {
   },
   methods: {
     getTableHeaders() {
-      const firstItem = this.data[0];
-      console.log(this.data);
+      const firstItem = this.data?.[0];
       if (firstItem) {
         this.tableHeaders = Object.keys(firstItem).map((key) => ({
           value: key,

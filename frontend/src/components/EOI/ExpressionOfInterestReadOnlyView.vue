@@ -5,7 +5,7 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>EOI Number</v-label>
-        <p>{{ eoi.iosas_expressionofinterestid || nullString }}</p>
+        <p>{{ eoi.iosas_eionumber || nullString }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>Status</v-label>
@@ -198,9 +198,7 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    console.log(this.eoi);
-  },
+  mounted() {},
   data() {
     return {
       nullString: '-',

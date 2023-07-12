@@ -6,12 +6,17 @@
       </template>
     </v-breadcrumbs>
     <br />
-    <SchoolApplicationForm />
+    <SchoolApplicationForm
+      :data="getSchoolApplicationById(this.$route.params.id)"
+      :isLoading="isLoading"
+    />
   </v-container>
 </template>
 
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
+import { mapState } from 'pinia';
+import { applicationsStore } from '../../store/modules/applications';
 
 export default {
   name: 'SchoolApplicationPage',
@@ -19,6 +24,7 @@ export default {
     SchoolApplicationForm,
   },
   data: () => ({
+    isLoading: true,
     breadcrumbs: [
       {
         title: 'Dashboard',
@@ -32,8 +38,19 @@ export default {
       },
     ],
   }),
+  computed: {
+    ...mapState(applicationsStore, ['getSchoolApplicationById']),
+  },
   mounted() {},
-  computed: {},
+  created() {
+    applicationsStore()
+      .getApplicationData()
+      .then(() => {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      });
+  },
   methods: {},
 };
 </script>

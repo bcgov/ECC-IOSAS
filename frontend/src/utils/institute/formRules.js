@@ -87,6 +87,15 @@ const website = (message = 'Website must be valid') => {
   return v => !v || /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(v) || message;
 };
 
+/**
+ * Rule for Select 
+ * @param {String} message
+ * @returns Function
+ */
+const requiredSelect = (message = 'Required') => {
+  return (v) => !!v || message;
+}
+
 export {
   email,
   endDateRule,
@@ -94,5 +103,6 @@ export {
   phoneNumber,
   postalCode,
   required,
-  website
+  website,
+  requiredSelect
 };
