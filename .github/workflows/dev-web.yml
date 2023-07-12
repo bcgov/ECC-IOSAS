@@ -16,28 +16,6 @@ env:
   BUILD_REF:  ${{ github.base_ref }}
 
 jobs:
-  config:
-    name: Deploy Config
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            src:
-              - 'tools/openshift/**'
-          base: ${{ github.ref}}
-      - name: Apply Changes
-        working-directory: './tools'
-        env:
-          HOST_PREFIX: dev
-        if: steps.changes.outputs.src == 'true'
-        run: |
-          oc login --token="$SA_TOKEN" --server="$CLUSTER"
-          make print-status
-          make update-dc-web
   web:
     name: OpenShift Build & Deploy
     runs-on: ubuntu-latest
@@ -54,6 +32,7 @@ jobs:
           filters: |
             src:
               - 'frontend/**'
+              - 'tools/openshift/**'
           base: ${{ github.ref }}
       - name: Build changes
         if: steps.changes.outputs.src == 'true'
@@ -63,3 +42,4 @@ jobs:
           make print-status
           make build-web
           make promote-web
+          make update-dc-web
