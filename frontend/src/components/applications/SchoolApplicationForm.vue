@@ -13,14 +13,14 @@
       </v-col>
     </v-row>
     <div class="d-flex justify-space-between" v-if="!isLoading">
-      <div>
+      <div class="flex-1">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
           <v-tab v-for="item in items" :key="item" :value="item">
             {{ item }}
           </v-tab>
         </v-tabs>
       </div>
-      <div>
+      <div class="flex-4">
         <v-form
           ref="schoolApplicationForm"
           v-model="isFormValid"
@@ -1863,21 +1863,21 @@ li {
 /* Override the default settings for content-container as this view has side navigation */
 .content-container {
   padding-top: 0;
-  padding-right: 10em !important;
-  padding-left: 10em !important;
+  padding-right: 15em !important;
+  padding-left: 2em !important;
 }
 
 @media screen and (max-width: 1900px) {
   .content-container {
     padding-right: 5em !important;
-    padding-left: 5em !important;
+    padding-left: 1em !important;
   }
 }
 
 @media screen and (max-width: 1500px) {
   .content-container {
-    padding-right: 2em !important;
-    padding-left: 2em !important;
+    padding-right: 4em !important;
+    padding-left: 1em !important;
   }
 }
 
@@ -1886,5 +1886,13 @@ li {
     padding-right: 0.5em !important;
     padding-left: 0.5em !important;
   }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-4 {
+  flex: 4;
 }
 </style>

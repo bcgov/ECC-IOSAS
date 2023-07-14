@@ -25,7 +25,7 @@ export const applicationsStore = defineStore('applications', {
         EOI_number: v.iosas_eionumber,
         status: v.status,
         proposed_school_name: v.iosas_proposedschoolname,
-        school_year: v.iosas_edu_yearname,
+        school_year: v._iosas_edu_year_value,
         group_classification: v.iosas_groupclassification,
       })),
     getEOIApplicationById: (state) => {

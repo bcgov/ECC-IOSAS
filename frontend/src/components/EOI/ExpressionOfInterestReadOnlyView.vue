@@ -18,14 +18,14 @@
     <br />
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
-        <v-label>Name of School Authority</v-label>
+        <v-label>School Authority</v-label>
         <p>{{ eoi.iosas_edu_schoolauthorityname || nullString }}</p>
       </v-col>
     </v-row>
     <br />
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
-        <v-label>School Authority Head's Name</v-label>
+        <v-label>School Authority Head</v-label>
         <p>{{ getAuthorityHeadName() || nullString }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="3" xs="12">
@@ -54,7 +54,7 @@
     <div v-if="!eoi.iosas_designatedcontactsameasauthorityhead">
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Designated Authority Contact's Name</v-label>
+          <v-label>Designated Authority Contact</v-label>
           <p>{{ getDesignatedHeadName() || nullString }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="3" xs="12">
@@ -153,7 +153,7 @@
       </v-col>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Year</v-label>
-        <p>{{ eoi.iosas_edu_yearname || nullString }}</p>
+        <p>{{ eoi._iosas_edu_year_value || nullString }}</p>
       </v-col>
     </v-row>
 

@@ -1116,7 +1116,7 @@ export default {
     async updateSchoolDetails() {
       const confirmation =
         await this.$refs.confirmSchoolDetailsUpdateAndSave.open(
-          'Confirm Updates to School Details',
+          'Confirm Details of EOI Submission',
           null,
           {
             color: '#fff',
@@ -1124,8 +1124,8 @@ export default {
             closeIcon: false,
             subtitle: false,
             dark: false,
-            resolveText: 'Publish Changes',
-            rejectText: 'Return to School Details',
+            resolveText: 'Submit',
+            rejectText: 'Cancel',
           }
         );
       if (!confirmation) {

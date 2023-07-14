@@ -8,6 +8,7 @@
     <ExpressionOfInterestForm
       :eoi="getEOIApplicationById(this.$route.params.id)"
       :isLoading="isLoading"
+      @setIsLoading="setIsLoading"
     />
   </v-container>
 </template>
@@ -40,7 +41,7 @@ export default {
   }),
   mounted() {},
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
+    ...mapState(authStore, ['isAuthenticated']),
     ...mapState(applicationsStore, ['getEOIApplicationById']),
   },
   created() {
@@ -54,7 +55,9 @@ export default {
   },
   methods: {
     authStore,
-    getEOI() {},
+    setIsLoading() {
+      this.isLoading = true;
+    },
   },
 };
 </script>

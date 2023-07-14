@@ -2,7 +2,7 @@ export const EOI_MOCK = [
   {
     status: 'Draft',
     group_classification: 'Group 4',
-    iosas_edu_yearname: '2025/26 SY',
+    _iosas_edu_year_value: '2025/26 SY',
     iosas_eionumber: 'EOI-01020',
     iosas_expressionofinterestid: null,
     iosas_authorityhead: {},
@@ -49,7 +49,7 @@ export const EOI_MOCK = [
   },
   {
     status: 'Approved',
-    iosas_edu_yearname: '2024/25 SY',
+    _iosas_edu_year_value: '2024/25 SY',
     iosas_eionumber: 'EOI-01016',
     iosas_expressionofinterestid: null,
     iosas_authorityhead: {},
@@ -96,7 +96,7 @@ export const EOI_MOCK = [
   },
   {
     status: 'Approved',
-    iosas_edu_yearname: '2023/24 SY',
+    _iosas_edu_year_value: '2023/24 SY',
     iosas_eionumber: 'EOI-01003',
     iosas_expressionofinterestid: null,
     iosas_authorityhead: {},

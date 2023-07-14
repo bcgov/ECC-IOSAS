@@ -13,11 +13,27 @@
       </v-col>
     </v-row>
     <template v-if="!isLoading">
+      <ConfirmationDialog ref="confirmEOI">
+        <template #message>
+          <p>Ensure everything is correct before submitting</p>
+        </template>
+      </ConfirmationDialog>
+      <v-snackbar
+        id="activationSnackBar"
+        v-model="showActivationSnackBar"
+        elevation="24"
+        location="top"
+        centered
+        color="error"
+        transition="slide-y-transition"
+      >
+        {{ activationErrorMessage }}
+      </v-snackbar>
       <v-form
         @submit.prevent="handleSubmit"
         ref="expressionOfInterestForm"
-        id="expressionOfInterestForm"
-        v-model="expressionOfInterestFormValid"
+        validate-on-blur
+        v-model="isFormValid"
       >
         <v-container fluid class="content-container">
           <div class="form-container">
@@ -74,7 +90,7 @@
                 </v-col>
               </v-row>
               <br />
-              <v-label>School Authority Head's Name</v-label>
+              <v-label>School Authority Head</v-label>
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
@@ -107,7 +123,7 @@
                     id="iosas_schoolauthorityheademail"
                     v-model="data.iosas_schoolauthorityheademail"
                     required
-                    :rules="[rules.required()]"
+                    :rules="[rules.required(), rules.email()]"
                     :maxlength="255"
                     variant="outlined"
                     label="E-mail"
@@ -138,25 +154,18 @@
                   <v-radio-group
                     v-model="data.iosas_designatedcontactsameasauthorityhead"
                     color="#003366"
+                    k
                     class="mt-4"
                     direction="horizontal"
                     inline
                   >
-                    <v-radio label="Yes" color="#003366" :value="true">
-                      <template #label>
-                        <span>Yes</span>
-                      </template>
-                    </v-radio>
-                    <v-radio label="No" color="#003366" :value="false">
-                      <template #label>
-                        <span>No</span>
-                      </template>
-                    </v-radio>
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
                   </v-radio-group>
                 </v-col>
               </v-row>
               <div v-if="!data.iosas_designatedcontactsameasauthorityhead">
-                <v-label>Designated Authority Contact's Name</v-label>
+                <v-label>Designated Authority Contact</v-label>
                 <v-row>
                   <v-col cols="12" sm="12" md="6" xs="12">
                     <v-text-field
@@ -251,7 +260,7 @@
                     id="iosas_authorityaddressline2"
                     v-model="data.iosas_authorityaddressline2"
                     required
-                    :rules="[rules.required()]"
+                    :rules="[]"
                     :maxlength="255"
                     variant="outlined"
                     label="Address Line 2"
@@ -338,7 +347,7 @@
                     id="iosas_schooladdressline1"
                     v-model="data.iosas_schooladdressline1"
                     required
-                    :rules="[rules.required()]"
+                    :rules="[]"
                     :maxlength="255"
                     variant="outlined"
                     label="Address Line 1"
@@ -352,7 +361,7 @@
                     id="iosas_schooladdressline2"
                     v-model="data.iosas_schooladdressline2"
                     required
-                    :rules="[rules.required()]"
+                    :rules="[]"
                     :maxlength="255"
                     variant="outlined"
                     label="Address Line 2"
@@ -364,7 +373,7 @@
                     id="iosas_schoolcity"
                     v-model="data.iosas_schoolcity"
                     required
-                    :rules="[rules.required()]"
+                    :rules="[]"
                     :maxlength="255"
                     variant="outlined"
                     label="City"
@@ -378,7 +387,7 @@
                     id="iosas_schoolprovince"
                     v-model="data.iosas_schoolprovince"
                     required
-                    :rules="[rules.required()]"
+                    :rules="[]"
                     :maxlength="255"
                     disabled
                     variant="outlined"
@@ -404,7 +413,7 @@
                     id="iosas_schoolpostalcode"
                     :v-model="data.iosas_schoolpostalcode"
                     required
-                    :rules="[rules.required(), rules.postalCode()]"
+                    :rules="[]"
                     :maxlength="7"
                     variant="outlined"
                     label="Postal Code"
@@ -426,16 +435,16 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
-                  <v-text-field
-                    id="iosas_edu_yearname"
-                    v-model="data.iosas_edu_yearname"
-                    required
-                    :rules="[rules.required()]"
-                    :maxlength="255"
+                  <v-select
+                    id="_iosas_edu_year_value"
+                    v-model="data._iosas_edu_year_value"
+                    label="Select School Year"
                     variant="outlined"
-                    label="School Year"
                     color="rgb(59, 153, 252)"
-                  />
+                    :items="YEAR_OPTIONS"
+                    :rules="[rules.requiredSelect()]"
+                  >
+                  </v-select>
                 </v-col>
               </v-row>
 
@@ -456,23 +465,11 @@
                     <v-radio
                       label="Group 1"
                       color="#003366"
-                      value="groupOne"
+                      value="Group 1"
                       disabled
-                    >
-                      <template #label>
-                        <span>Group 1</span>
-                      </template>
-                    </v-radio>
-                    <v-radio label="Group 2" color="#003366" value="groupTwo">
-                      <template #label>
-                        <span>Group 2</span>
-                      </template>
-                    </v-radio>
-                    <v-radio label="Group 3" color="#003366" value="groupThree">
-                      <template #label>
-                        <span>Group 3</span>
-                      </template>
-                    </v-radio>
+                    />
+                    <v-radio label="Group 2" color="#003366" value="Group 2" />
+                    <v-radio label="Group 3" color="#003366" value="Group 3" />
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -489,18 +486,10 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
-                    :rules="[rules.requiredSelect()]"
+                    :rules="[rules.requiredRadio()]"
                   >
-                    <v-radio label="Yes" color="#003366" value="yes">
-                      <template #label>
-                        <span>Yes</span>
-                      </template>
-                    </v-radio>
-                    <v-radio label="No" color="#003366" value="no">
-                      <template #label>
-                        <span>No</span>
-                      </template>
-                    </v-radio>
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -561,7 +550,7 @@ import { mapState } from 'pinia';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
-import { GRADE_OPTIONS } from '../../utils/constants';
+import { GRADE_OPTIONS, YEAR_OPTIONS } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
@@ -583,11 +572,16 @@ export default {
       type: Boolean,
       required: true,
     },
+    setIsLoading: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
       GRADE_OPTIONS,
-      expressionOfInterestFormValid: true,
+      YEAR_OPTIONS,
+      isFormValid: false,
       isEditing: false,
       rules: Rules,
       data: {
@@ -598,20 +592,20 @@ export default {
         iosas_authorityaddressline1: null,
         iosas_authorityaddressline2: null,
         iosas_authoritycity: null,
-        iosas_authoritycountry: null,
+        iosas_authoritycountry: 'Canada',
         iosas_authorityheadfirstname: null,
         iosas_authorityheadname: null,
         iosas_authorityheadyominame: null,
         iosas_authoritypostalcode: null,
-        iosas_authorityprovince: 'BC',
+        iosas_authorityprovince: 'British Columbia',
         iosas_authoritycontactname: null,
         iosas_authoritycontactyominame: null,
         iosas_contactname: null,
         iosas_contactyominame: null,
         iosas_designatedcontactfirstname: null,
-        iosas_designatedcontactsameasauthorityhead: false,
+        iosas_designatedcontactsameasauthorityhead: true,
         iosas_edu_schoolauthorityname: null,
-        iosas_edu_yearname: null,
+        _iosas_edu_year_value: null,
         iosas_groupclassification: null,
         iosas_proposedschoolname: null,
         iosas_schooladdressline1: null,
@@ -619,7 +613,7 @@ export default {
         iosas_schoolcity: null,
         iosas_schoolcountry: 'Canada',
         iosas_schoolpostalcode: null,
-        iosas_schoolprovince: 'BC',
+        iosas_schoolprovince: 'British Columbia',
         iosas_schoolauthoritycontactemail: null,
         iosas_schoolauthoritycontactname: null,
         ioas_schoolauthoritycontactphone: null,
@@ -627,21 +621,25 @@ export default {
         iosas_schoolauthorityheadname: null,
         iosas_schoolauthorityheadphone: null,
         iosas_schoolauthorityname: null,
-        iosas_seekgrouponeclassification: true,
+        iosas_seekgrouponeclassification: null,
         iosas_startgrade: null,
         iosas_endgrade: null,
         iosas_website: null,
       },
+      showActivationSnackBar: false,
+      activationErrorMessage: null,
     };
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   watch: {
-    expressionOfInterestFormValid(value) {
+    isFormValid(value) {
       if (value !== null && value !== undefined) {
+        console.log('WE HERE');
         this.$emit('is-form-valid', true);
       } else {
+        console.log('OR WE HEREEE');
         this.$emit('is-form-valid', false);
       }
     },
@@ -659,9 +657,43 @@ export default {
     isReadOnly() {
       return this.eoi.status !== 'Draft';
     },
-    handleSubmit() {
+    async handleSubmit() {
       this.$refs.expressionOfInterestForm.validate();
-      console.log(this.data);
+      console.log(this.isFormValid);
+      if (this.isFormValid) {
+        // mocking a loading state - will be replaced when API is connected.
+        setTimeout(() => {
+          this.$emit('setIsLoading');
+          // mocking eoiNumber - will be replaced when API is connected.
+          const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
+          const eoiNumber = `EOI-0${number}`;
+          const payload = {
+            iosas_eionumber: eoiNumber,
+            status: 'Draft',
+            ...this.data,
+          };
+          // mocking database interactions  - will be replaced when API is connected.
+          const storedApplications = JSON.parse(
+            localStorage.getItem('applications')
+          );
+          let applications = [];
+          if (storedApplications) {
+            applications = [...storedApplications, payload];
+          } else {
+            applications = [payload];
+          }
+          localStorage.setItem('applications', JSON.stringify(applications));
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'EOI' },
+          });
+          console.log(payload);
+        }, 2000);
+      }
+
+      // Implement Error toast when API is connected
+      // this.showActivationSnackBar = true;
+      // this.activationErrorMessage = 'Error. Something went wrong.';
     },
   },
 };

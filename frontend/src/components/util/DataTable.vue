@@ -38,8 +38,8 @@
               >
                 <!-- Table assumes the first value is an ID, uses ID to link to url/:id -->
                 <router-link
-                  v-if="url && value === Object.values(item)[0]"
-                  :to="{ path: url + '/' + value, params: { data: item } }"
+                  v-if="routeName && value === Object.values(item)[0]"
+                  :to="{ name: routeName, params: { id: value } }"
                   :target="'_self'"
                   class="router-link-exact-active"
                 >
@@ -71,11 +71,11 @@ export default {
   props: {
     data: {
       type: Array,
-      default: null,
+      required: true,
     },
     title: {
       type: String,
-      default: null,
+      required: true,
     },
     buttonAction: {
       type: Function,
@@ -85,10 +85,13 @@ export default {
       type: String,
       default: null,
     },
-    url: {
+    routeName: {
       type: String,
-      default: null,
+      required: true,
     },
+  },
+  mounted() {
+    console.log(this.routeName);
   },
   created() {
     this.getTableHeaders();

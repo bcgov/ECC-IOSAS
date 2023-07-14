@@ -12,7 +12,7 @@
 //  import * as Rule from @/utils/institute/form
 //  under data do rules: Rules <- allows you to use in <template>.
 
-import {LocalDate} from '@js-joda/core';
+import { LocalDate } from '@js-joda/core';
 
 /**
  * Rule for emails
@@ -20,7 +20,12 @@ import {LocalDate} from '@js-joda/core';
  * @returns Function
  */
 const email = (message = 'E-mail must be valid') => {
-  return v => !v || /^(?=[A-Za-z0-9][A-Za-z0-9@._%+-]{5,253}$)[A-Za-z0-9._%+-]{1,64}@(?:(?=[A-Za-z0-9-]{1,63}\.)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\.){1,8}[A-Za-z]{2,63}$/.test(v) || message;
+  return (v) =>
+    !v ||
+    /^(?=[A-Za-z0-9][A-Za-z0-9@._%+-]{5,253}$)[A-Za-z0-9._%+-]{1,64}@(?:(?=[A-Za-z0-9-]{1,63}\.)[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\.){1,8}[A-Za-z]{2,63}$/.test(
+      v
+    ) ||
+    message;
 };
 
 /**
@@ -29,7 +34,7 @@ const email = (message = 'E-mail must be valid') => {
  * @returns Function
  */
 const number = (message = 'Must be a number') => {
-  return v => !v || /^\d+$/.test(v) || message;
+  return (v) => !v || /^\d+$/.test(v) || message;
 };
 
 /**
@@ -38,7 +43,10 @@ const number = (message = 'Must be a number') => {
  * @returns Function
  */
 const phoneNumber = (message = 'Phone Number must be valid') => {
-  return v => !v || /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(v) || message;
+  return (v) =>
+    !v ||
+    /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(v) ||
+    message;
 };
 
 /**
@@ -47,7 +55,10 @@ const phoneNumber = (message = 'Phone Number must be valid') => {
  * @returns Function
  */
 const postalCode = (message = 'Postal code must be valid') => {
-  return v => /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i.test(v) || message;
+  return (v) =>
+    /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i.test(
+      v
+    ) || message;
 };
 
 /**
@@ -56,7 +67,7 @@ const postalCode = (message = 'Postal code must be valid') => {
  * @returns Function
  */
 const required = (message = 'Required') => {
-  return v => !!(v && v.trim()) || message;
+  return (v) => !!(v && v.trim()) || message;
 };
 
 /**
@@ -66,11 +77,14 @@ const required = (message = 'Required') => {
  * @param {String} expiryDate
  * @returns {String|Boolean}
  */
-const endDateRule = (effectiveDate, expiryDate, message = 'End date cannot be before start date') => {
-
+const endDateRule = (
+  effectiveDate,
+  expiryDate,
+  message = 'End date cannot be before start date'
+) => {
   if (effectiveDate && expiryDate) {
-    const effDate = LocalDate.parse(effectiveDate.substring(0,10));
-    const expDate = LocalDate.parse(expiryDate.substring(0,10));
+    const effDate = LocalDate.parse(effectiveDate.substring(0, 10));
+    const expDate = LocalDate.parse(expiryDate.substring(0, 10));
 
     return expDate.isAfter(effDate) || expDate.isEqual(effDate) || message;
   }
@@ -84,17 +98,31 @@ const endDateRule = (effectiveDate, expiryDate, message = 'End date cannot be be
  * @returns Function
  */
 const website = (message = 'Website must be valid') => {
-  return v => !v || /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(v) || message;
+  return (v) =>
+    !v ||
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+      v
+    ) ||
+    message;
 };
 
 /**
- * Rule for Select 
+ * Rule for Select - also works for radioGroups without Boolean values
  * @param {String} message
  * @returns Function
  */
 const requiredSelect = (message = 'Required') => {
   return (v) => !!v || message;
-}
+};
+
+/**
+ * Rule for RadioGroups with Boolean values
+ * @param {String} message
+ * @returns Function
+ */
+const requiredRadio = (message = 'Required') => {
+  return (v) => v || v === false || message;
+};
 
 export {
   email,
@@ -104,5 +132,6 @@ export {
   postalCode,
   required,
   website,
-  requiredSelect
+  requiredSelect,
+  requiredRadio,
 };
