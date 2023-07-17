@@ -135,14 +135,11 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-label
-                    >Is the Designated Authority the same as Authority
-                    Head?</v-label
-                  >
                   <v-radio-group
                     v-model="data.iosas_designatedcontactsameasauthorityhead"
                     color="#003366"
-                    k
+                    label="Is the Designated Authority the same as Authority
+                    Head?"
                     class="mt-4"
                     direction="horizontal"
                     inline
@@ -416,13 +413,11 @@
 
               <v-row>
                 <v-col cols="12">
-                  <v-label
-                    >Group Calassification applying for: (Group classification
-                    Information)</v-label
-                  >
                   <v-radio-group
                     v-model="data.iosas_groupclassification"
                     color="#003366"
+                    label="Group Calassification applying for: (Group classification
+                    Information)"
                     class="mt-4"
                     direction="horizontal"
                     inline
@@ -436,6 +431,7 @@
                     />
                     <v-radio label="Group 2" color="#003366" value="Group 2" />
                     <v-radio label="Group 3" color="#003366" value="Group 3" />
+                    <v-radio label="Group 4" color="#003366" value="Group 4" />
                   </v-radio-group>
                 </v-col>
               </v-row>
