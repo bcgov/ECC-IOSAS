@@ -546,7 +546,7 @@ export default {
     ConfirmationDialog,
     ExpressionOfInterestReadOnlyView,
   },
-  emits: ['is-form-valid'],
+  emits: ['setIdLoading'],
   mixins: [alertMixin],
   props: {
     eoi: {
@@ -555,10 +555,6 @@ export default {
     },
     isLoading: {
       type: Boolean,
-      required: true,
-    },
-    setIsLoading: {
-      type: Function,
       required: true,
     },
   },

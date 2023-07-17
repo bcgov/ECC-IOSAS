@@ -109,7 +109,8 @@ const gradeRangeRule = (
       (startGrade === 'Kindergarten' &&
         startGrade.localeCompare(endGrade, undefined, { numeric: true }) ==
           1) ||
-      (startGrade.localeCompare(endGrade, undefined, { numeric: true }) != 1 &&
+      (endGrade !== 'Kindergarten' &&
+        startGrade.localeCompare(endGrade, undefined, { numeric: true }) != 1 &&
         startGrade.localeCompare(endGrade, undefined, { numeric: true }) !=
           0) ||
       message
