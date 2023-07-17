@@ -40,13 +40,6 @@
           <div class="form-container">
             <div class="d-flex justify-space-between">
               <h1>Expression of Interest</h1>
-              <PrimaryButton
-                v-if="!isEditing && !isNew() && !isReadOnly()"
-                secondary
-                text="Edit"
-                class="mr-2"
-                :click-action="toggleEditMode"
-              />
             </div>
             <br />
             <v-divider></v-divider>
@@ -619,15 +612,6 @@ export default {
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
-  watch: {
-    // isFormValid(value) {
-    //   if (value !== null && value !== undefined) {
-    //     this.$emit('is-form-valid', true);
-    //   } else {
-    //     this.$emit('is-form-valid', false);
-    //   }
-    // },
-  },
   created() {
     this.data = this.isNew() ? this.data : this.eoi;
     this.isEditing = this.eoi?.status === 'Draft';
@@ -637,9 +621,6 @@ export default {
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
     },
-    toggleEditMode() {
-      return (this.isEditing = true);
-    },
     isReadOnly() {
       return this.eoi.status !== 'Draft';
     },
@@ -648,8 +629,6 @@ export default {
       this.handleSubmit();
     },
     async handleSubmit() {
-      console.log(this.isFormValid);
-      console.log(this.$refs.expressionOfInterestForm);
       this.$refs.expressionOfInterestForm.validate();
       if (this.isFormValid) {
         this.$emit('setIsLoading');
