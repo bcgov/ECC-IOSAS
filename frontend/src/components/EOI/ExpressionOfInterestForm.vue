@@ -426,6 +426,7 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
+                    :rules="[rules.requiredRadio()]"
                   >
                     <v-radio
                       label="Group 1"
@@ -451,6 +452,7 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
+                    :rules="[rules.requiredRadio()]"
                   >
                     <v-radio label="Yes" color="#003366" v-bind:value="true" />
                     <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -631,37 +633,38 @@ export default {
       this.handleSubmit();
     },
     async handleSubmit() {
-      this.$refs.expressionOfInterestForm.validate();
-      if (this.isFormValid) {
-        this.$emit('setIsLoading');
-        // mocking a loading state - will be replaced when API is connected.
-        setTimeout(() => {
-          // mocking eoiNumber - will be replaced when API is connected.
-          const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
-          const eoiNumber = `EOI-0${number}`;
-          const payload = {
-            ...this.data,
-            iosas_eionumber: eoiNumber,
-            status: this.defaultStatus,
-          };
-          // mocking database interactions  - will be replaced when API is connected.
-          const storedApplications = JSON.parse(
-            localStorage.getItem('applications')
-          );
-          let applications = [];
-          if (storedApplications) {
-            applications = [...storedApplications, payload];
-          } else {
-            applications = [payload];
-          }
-          localStorage.setItem('applications', JSON.stringify(applications));
-          this.$router.push({
-            name: 'applicationConfirmation',
-            params: { type: 'EOI' },
-          });
-          console.log(payload);
-        }, 2000);
-      }
+      this.$refs.expressionOfInterestForm.validate().then(() => {
+        if (this.isFormValid) {
+          this.$emit('setIsLoading');
+          // mocking a loading state - will be replaced when API is connected.
+          setTimeout(() => {
+            // mocking eoiNumber - will be replaced when API is connected.
+            const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
+            const eoiNumber = `EOI-0${number}`;
+            const payload = {
+              ...this.data,
+              iosas_eionumber: eoiNumber,
+              status: this.defaultStatus,
+            };
+            // mocking database interactions  - will be replaced when API is connected.
+            const storedApplications = JSON.parse(
+              localStorage.getItem('applications')
+            );
+            let applications = [];
+            if (storedApplications) {
+              applications = [...storedApplications, payload];
+            } else {
+              applications = [payload];
+            }
+            localStorage.setItem('applications', JSON.stringify(applications));
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'EOI' },
+            });
+            console.log(payload);
+          }, 2000);
+        }
+      });
     },
   },
 };

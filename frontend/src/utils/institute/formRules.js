@@ -149,7 +149,7 @@ const requiredSelect = (message = 'Required') => {
  * @returns Function
  */
 const requiredRadio = (message = 'Required') => {
-  return (v) => v || v === false || message;
+  return (v) => v != null || message;
 };
 
 export {
