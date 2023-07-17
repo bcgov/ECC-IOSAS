@@ -93,6 +93,33 @@ const endDateRule = (
 };
 
 /**
+ * Custom gradeRange Rule! Checks that we have an end grade
+ * happens after start grade.
+ * @param {String} startGrade
+ * @param {String} endGrade
+ * @returns {String|Boolean}
+ */
+const gradeRangeRule = (
+  startGrade,
+  endGrade,
+  message = 'End grade cannot be before start grade'
+) => {
+  if (startGrade && endGrade) {
+    return (
+      (startGrade === 'Kindergarten' &&
+        startGrade.localeCompare(endGrade, undefined, { numeric: true }) ==
+          1) ||
+      (startGrade.localeCompare(endGrade, undefined, { numeric: true }) != 1 &&
+        startGrade.localeCompare(endGrade, undefined, { numeric: true }) !=
+          0) ||
+      message
+    );
+  }
+
+  return true;
+};
+
+/**
  * Rule for website url
  * @param {String} message
  * @returns Function
@@ -134,4 +161,5 @@ export {
   website,
   requiredSelect,
   requiredRadio,
+  gradeRangeRule,
 };

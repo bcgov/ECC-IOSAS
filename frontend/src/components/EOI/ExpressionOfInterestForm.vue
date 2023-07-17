@@ -479,7 +479,13 @@
                     variant="outlined"
                     color="rgb(59, 153, 252)"
                     :items="GRADE_OPTIONS"
-                    :rules="[rules.requiredSelect()]"
+                    :rules="[
+                      rules.requiredSelect(),
+                      rules.gradeRangeRule(
+                        data.iosas_startgrade,
+                        data.iosas_endgrade
+                      ),
+                    ]"
                   ></v-select>
                 </v-col>
               </v-row>
