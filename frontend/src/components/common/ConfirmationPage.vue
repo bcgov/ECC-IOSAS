@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="full-height">
-    <v-breadcrumbs :items="items"
+    <v-breadcrumbs :items="items" v-if="authStore().isAuthenticated"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
@@ -15,9 +15,14 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { authStore } from '../../store/modules/auth';
 export default {
   name: 'ConfirmationPage',
   components: {},
+  computed: {
+    ...mapState(authStore, ['isAuthenticated']),
+  },
   data: () => ({
     items: [
       {
@@ -33,6 +38,7 @@ export default {
     ],
   }),
   methods: {
+    authStore,
     getMessage() {
       return this.$route.params.type === 'EOI'
         ? 'Thank you for submitting your Expression of Interest (EOI), you will be contacted once your submission has been reviewed.'

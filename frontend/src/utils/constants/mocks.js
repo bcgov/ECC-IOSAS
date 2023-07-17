@@ -23,7 +23,7 @@ export const EOI_MOCK = [
     iosas_authoritycontactyominame: null,
     iosas_contactname: null,
     iosas_contactyominame: null,
-    iosas_designatedcontactfirstname: 'Power',
+    iosas_designatedcontactfirstname: 'Jack',
     iosas_designatedcontactsameasauthorityhead: false,
     iosas_edu_schoolauthorityname: 'Victoria School Board',
     iosas_existingauthority: true,

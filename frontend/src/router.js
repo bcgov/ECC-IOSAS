@@ -12,7 +12,7 @@ import Login from './components/Login.vue';
 import BackendSessionExpired from './components/BackendSessionExpired.vue';
 import { PAGE_TITLES } from './utils/constants';
 import ExpressionOfInterestPage from './components/EOI/ExpressionOfInterestPage.vue';
-import ConfirmationPage from './components/EOI/ConfirmationPage.vue';
+import ConfirmationPage from './components/common/ConfirmationPage.vue';
 import SchoolApplicationPage from './components/applications/SchoolApplicationPage.vue';
 import ProfilePage from './components/profile/ProfilePage.vue';
 
@@ -90,6 +90,7 @@ const router = createRouter({
       path: '/confirmation/:type',
       name: 'applicationConfirmation',
       component: ConfirmationPage,
+      props: {},
       meta: {
         pageTitle: 'Application Confirmation',
         requiresAuth: false,

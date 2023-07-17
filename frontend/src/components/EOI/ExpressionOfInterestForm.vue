@@ -31,8 +31,9 @@
       </v-snackbar>
       <v-form
         @submit.prevent="handleSubmit"
+        id="expressionOfInterestForm"
         ref="expressionOfInterestForm"
-        validate-on-blur
+        validate-on="blur"
         v-model="isFormValid"
       >
         <v-container fluid class="content-container">
@@ -69,7 +70,6 @@
                 <v-divider></v-divider>
               </div>
               <h4>School Authority Information</h4>
-              <br />
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label
@@ -80,7 +80,6 @@
                   <v-text-field
                     id="iosas_edu_schoolauthorityname"
                     v-model="data.iosas_edu_schoolauthorityname"
-                    required
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -96,7 +95,6 @@
                   <v-text-field
                     id="iosas_authorityheadfirstname"
                     v-model="data.iosas_authorityheadfirstname"
-                    required
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -108,7 +106,6 @@
                   <v-text-field
                     id="iosas_schoolauthorityheadname"
                     v-model="data.iosas_authorityheadname"
-                    required
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -122,7 +119,6 @@
                   <v-text-field
                     id="iosas_schoolauthorityheademail"
                     v-model="data.iosas_schoolauthorityheademail"
-                    required
                     :rules="[rules.required(), rules.email()]"
                     :maxlength="255"
                     variant="outlined"
@@ -134,7 +130,6 @@
                   <v-text-field
                     id="iosas_schoolauthorityheadphone"
                     v-model="data.iosas_schoolauthorityheadphone"
-                    required
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -169,9 +164,8 @@
                 <v-row>
                   <v-col cols="12" sm="12" md="6" xs="12">
                     <v-text-field
-                      id="iosas_schoolauthoritycontactname"
-                      v-model="data.iosas_schoolauthoritycontactname"
-                      required
+                      id="iosas_designatedcontactfirstname"
+                      v-model="data.iosas_designatedcontactfirstname"
                       :rules="
                         data.iosas_designatedcontactsameasauthorityhead
                           ? [rules.required()]
@@ -187,7 +181,6 @@
                     <v-text-field
                       id="iosas_schoolauthoritycontactname"
                       v-model="data.iosas_schoolauthoritycontactname"
-                      required
                       :rules="
                         data.iosas_designatedcontactsameasauthorityhead
                           ? [rules.required()]
@@ -205,7 +198,6 @@
                     <v-text-field
                       id="iosas_schoolauthoritycontactemail"
                       v-model="data.iosas_schoolauthoritycontactemail"
-                      required
                       :rules="
                         data.iosas_designatedcontactsameasauthorityhead
                           ? [rules.required()]
@@ -221,7 +213,6 @@
                     <v-text-field
                       id="ioas_schoolauthoritycontactphone"
                       v-model="data.ioas_schoolauthoritycontactphone"
-                      required
                       :rules="
                         data.iosas_designatedcontactsameasauthorityhead
                           ? [rules.required()]
@@ -237,15 +228,12 @@
                   </v-col>
                 </v-row>
               </div>
-              <v-label>Authority Mailing Address</v-label>
-              <br />
-              <br />
+              <v-label><strong>Authority Mailing Address</strong></v-label>
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
                     id="iosas_authorityaddressline1"
                     v-model="data.iosas_authorityaddressline1"
-                    required
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -259,7 +247,6 @@
                   <v-text-field
                     id="iosas_authorityaddressline2"
                     v-model="data.iosas_authorityaddressline2"
-                    required
                     :rules="[]"
                     :maxlength="255"
                     variant="outlined"
@@ -271,7 +258,6 @@
                   <v-text-field
                     id="iosas_authoritycity"
                     v-model="data.iosas_authoritycity"
-                    required
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -285,8 +271,7 @@
                   <v-text-field
                     id="iosas_authorityprovince"
                     v-model="data.iosas_authorityprovince"
-                    required
-                    :rules="[rules.required()]"
+                    :rules="[]"
                     :maxlength="255"
                     disabled
                     variant="outlined"
@@ -298,7 +283,6 @@
                   <v-text-field
                     id="iosas_authoritycountry"
                     v-model="data.iosas_authoritycountry"
-                    required
                     disabled
                     :rules="[]"
                     :maxlength="255"
@@ -311,7 +295,6 @@
                   <v-text-field
                     id="iosas_authoritypostalcode"
                     v-model="data.iosas_authoritypostalcode"
-                    required
                     :rules="[rules.required(), rules.postalCode()]"
                     :maxlength="7"
                     variant="outlined"
@@ -329,7 +312,6 @@
                   <v-text-field
                     id="iosas_proposedschoolname"
                     v-model="data.iosas_proposedschoolname"
-                    required
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -338,15 +320,12 @@
                   />
                 </v-col>
               </v-row>
-              <v-label>School Address (If Known)</v-label>
-              <br />
-              <br />
+              <v-label><strong>School Address (Optional)</strong></v-label>
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
                   <v-text-field
                     id="iosas_schooladdressline1"
                     v-model="data.iosas_schooladdressline1"
-                    required
                     :rules="[]"
                     :maxlength="255"
                     variant="outlined"
@@ -360,7 +339,6 @@
                   <v-text-field
                     id="iosas_schooladdressline2"
                     v-model="data.iosas_schooladdressline2"
-                    required
                     :rules="[]"
                     :maxlength="255"
                     variant="outlined"
@@ -372,7 +350,6 @@
                   <v-text-field
                     id="iosas_schoolcity"
                     v-model="data.iosas_schoolcity"
-                    required
                     :rules="[]"
                     :maxlength="255"
                     variant="outlined"
@@ -386,7 +363,6 @@
                   <v-text-field
                     id="iosas_schoolprovince"
                     v-model="data.iosas_schoolprovince"
-                    required
                     :rules="[]"
                     :maxlength="255"
                     disabled
@@ -399,7 +375,6 @@
                   <v-text-field
                     id="iosas_schoolcountry"
                     v-model="data.iosas_schoolcountry"
-                    required
                     disabled
                     :rules="[]"
                     :maxlength="255"
@@ -411,8 +386,7 @@
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <v-text-field
                     id="iosas_schoolpostalcode"
-                    :v-model="data.iosas_schoolpostalcode"
-                    required
+                    v-model="data.iosas_schoolpostalcode"
                     :rules="[]"
                     :maxlength="7"
                     variant="outlined"
@@ -426,7 +400,6 @@
                   <v-text-field
                     id="iosas_website"
                     v-model="data.iosas_website"
-                    required
                     :rules="[rules.website()]"
                     :maxlength="255"
                     variant="outlined"
@@ -460,7 +433,6 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
-                    :rules="[rules.requiredSelect()]"
                   >
                     <v-radio
                       label="Group 1"
@@ -486,16 +458,13 @@
                     class="mt-4"
                     direction="horizontal"
                     inline
-                    :rules="[rules.requiredRadio()]"
                   >
-                    <v-radio label="Yes" color="#003366" :value="true" />
-                    <v-radio label="No" color="#003366" :value="false" />
+                    <v-radio label="Yes" color="#003366" v-bind:value="true" />
+                    <v-radio label="No" color="#003366" v-bind:value="false" />
                   </v-radio-group>
                 </v-col>
               </v-row>
               <v-label>Proposed grade range in first year of operation</v-label>
-              <br />
-              <br />
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-select
@@ -521,6 +490,15 @@
                   ></v-select>
                 </v-col>
               </v-row>
+
+              <v-row>
+                <v-col cols="12" sm="12" md="12" xs="12">
+                  <v-checkbox
+                    v-model="applicationConfirmation"
+                    label="I confirm this application is complete and ready to be submitted for review."
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
             </div>
           </div>
 
@@ -528,12 +506,19 @@
           <v-container v-if="isEditing || isNew()">
             <v-row align="end">
               <v-spacer />
+              <PrimaryButton
+                v-if="authStore().isAuthenticated"
+                secondary
+                text="Save Draft"
+                class="mr-2"
+                :click-action="handleDraftSubmit"
+              />
               <v-btn
-                :loading="isLoading"
                 type="submit"
                 primary
                 class="mt-2 submit-button"
                 variant="elevated"
+                :disabled="!applicationConfirmation"
                 >Submit</v-btn
               >
             </v-row>
@@ -562,6 +547,7 @@ export default {
     ConfirmationDialog,
     ExpressionOfInterestReadOnlyView,
   },
+  emits: ['is-form-valid'],
   mixins: [alertMixin],
   props: {
     eoi: {
@@ -583,6 +569,8 @@ export default {
       YEAR_OPTIONS,
       isFormValid: false,
       isEditing: false,
+      defaultStatus: 'Submitted',
+      applicationConfirmation: false,
       rules: Rules,
       data: {
         iosas_expressionofinterestid: 'EOI-01020',
@@ -599,9 +587,7 @@ export default {
         iosas_authoritypostalcode: null,
         iosas_authorityprovince: 'British Columbia',
         iosas_authoritycontactname: null,
-        iosas_authoritycontactyominame: null,
         iosas_contactname: null,
-        iosas_contactyominame: null,
         iosas_designatedcontactfirstname: null,
         iosas_designatedcontactsameasauthorityhead: true,
         iosas_edu_schoolauthorityname: null,
@@ -634,20 +620,20 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   watch: {
-    isFormValid(value) {
-      if (value !== null && value !== undefined) {
-        console.log('WE HERE');
-        this.$emit('is-form-valid', true);
-      } else {
-        console.log('OR WE HEREEE');
-        this.$emit('is-form-valid', false);
-      }
-    },
+    // isFormValid(value) {
+    //   if (value !== null && value !== undefined) {
+    //     this.$emit('is-form-valid', true);
+    //   } else {
+    //     this.$emit('is-form-valid', false);
+    //   }
+    // },
   },
   created() {
     this.data = this.isNew() ? this.data : this.eoi;
+    this.isEditing = this.eoi?.status === 'Draft';
   },
   methods: {
+    authStore,
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
     },
@@ -657,20 +643,25 @@ export default {
     isReadOnly() {
       return this.eoi.status !== 'Draft';
     },
+    handleDraftSubmit() {
+      this.defaultStatus = 'Draft';
+      this.handleSubmit();
+    },
     async handleSubmit() {
-      this.$refs.expressionOfInterestForm.validate();
       console.log(this.isFormValid);
+      console.log(this.$refs.expressionOfInterestForm);
+      this.$refs.expressionOfInterestForm.validate();
       if (this.isFormValid) {
+        this.$emit('setIsLoading');
         // mocking a loading state - will be replaced when API is connected.
         setTimeout(() => {
-          this.$emit('setIsLoading');
           // mocking eoiNumber - will be replaced when API is connected.
           const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
           const eoiNumber = `EOI-0${number}`;
           const payload = {
-            iosas_eionumber: eoiNumber,
-            status: 'Draft',
             ...this.data,
+            iosas_eionumber: eoiNumber,
+            status: this.defaultStatus,
           };
           // mocking database interactions  - will be replaced when API is connected.
           const storedApplications = JSON.parse(
@@ -690,10 +681,6 @@ export default {
           console.log(payload);
         }, 2000);
       }
-
-      // Implement Error toast when API is connected
-      // this.showActivationSnackBar = true;
-      // this.activationErrorMessage = 'Error. Something went wrong.';
     },
   },
 };
@@ -702,6 +689,7 @@ export default {
 <style scoped>
 .v-label {
   white-space: break-spaces;
+  margin-bottom: 10px;
 }
 
 .submit-button {

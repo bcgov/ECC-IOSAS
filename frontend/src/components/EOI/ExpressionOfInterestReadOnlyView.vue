@@ -68,7 +68,7 @@
       </v-row>
     </div>
     <br />
-    <v-label>Authority Mailing Address</v-label>
+    <v-label><strong>Authority Mailing Address</strong></v-label>
     <div class="gray">
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
@@ -112,7 +112,7 @@
       </v-col>
     </v-row>
     <br />
-    <v-label>School Address</v-label>
+    <v-label><strong>School Address</strong></v-label>
     <div class="gray">
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
