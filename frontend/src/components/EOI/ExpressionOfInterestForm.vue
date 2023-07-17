@@ -566,8 +566,8 @@ export default {
       applicationConfirmation: false,
       rules: Rules,
       data: {
-        iosas_expressionofinterestid: 'EOI-01020',
-        status: 'Draft',
+        iosas_eionumber: null,
+        status: null,
         iosas_edu_schoolauthority: null,
         iosas_edu_school: null,
         iosas_authorityaddressline1: null,
