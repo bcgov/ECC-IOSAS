@@ -29,8 +29,6 @@ export const applicationsStore = defineStore('applications', {
         group_classification: v.iosas_groupclassification,
       })),
     getEOIApplicationById: (state) => {
-      console.log(state.EOIApplicationsMap.get('EOI-01003'));
-      console.log(state.EOIApplicationsMap);
       return (appId) => state.EOIApplicationsMap.get(appId);
     },
     getSchoolApplicationById: (state) => {

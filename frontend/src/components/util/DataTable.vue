@@ -90,9 +90,6 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    console.log(this.routeName);
-  },
   created() {
     this.getTableHeaders();
   },
