@@ -58,7 +58,7 @@
       <v-col cols="12" sm="12" md="8" xs="12">
         <v-container>
           <DataTable
-            :data="EOI_MOCK"
+            :data="eoiApplications"
             title="Expressions of Interest (EOI)"
             :buttonAction="redirectToEOIForm"
             buttonTitle="Create new EOI"
@@ -67,7 +67,7 @@
           <br />
           <br />
           <DataTable
-            :data="SCHOOL_APPLICATION_MOCK"
+            :data="schoolApplications"
             title="New School Applications"
             :url="AuthRoutes.APPLICATION"
           />

@@ -17,7 +17,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <div v-if="!data.length">{{ getNullMessage() }}</div>
+        <div v-if="!data?.length">{{ getNullMessage() }}</div>
         <v-table
           v-else
           density="compact"
