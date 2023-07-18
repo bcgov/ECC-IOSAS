@@ -3,7 +3,6 @@
     v-if="!authStore().isAuthenticated && !authStore().isLoading"
     fluid
   >
-    <!-- login article -->
     <article name="login-banner">
       <v-row
         align="center"
@@ -31,7 +30,7 @@
     </article>
   </v-container>
 
-  <v-container v-else fluid>
+  <v-container v-else fluid class="dashboard-container">
     <v-row
       align="center"
       justify="center"
@@ -55,22 +54,40 @@
     </v-row>
     <br />
     <br />
-    <v-container fluid class="justify-center">
-      <DataTable
-        :data="eoiApplications"
-        title="Expressions of Interest (EOI)"
-        :buttonAction="redirectToEOIForm"
-        buttonTitle="Create new EOI"
-        routeName="expressionOfInterest"
-      />
-      <br />
-      <br />
-      <DataTable
-        :data="schoolApplications"
-        title="New School Applications"
-        routeName="schoolApplicationPage"
-      />
-    </v-container>
+    <v-row no-gutter>
+      <v-col cols="12" sm="12" md="8" xs="12">
+        <v-container>
+          <DataTable
+            :data="EOI_MOCK"
+            title="Expressions of Interest (EOI)"
+            :buttonAction="redirectToEOIForm"
+            buttonTitle="Create new EOI"
+            :url="AuthRoutes.EOI"
+          />
+          <br />
+          <br />
+          <DataTable
+            :data="SCHOOL_APPLICATION_MOCK"
+            title="New School Applications"
+            :url="AuthRoutes.APPLICATION"
+          />
+        </v-container>
+      </v-col>
+
+      <v-col cols="12" sm="12" md="4" xs="12">
+        <v-card title="Tips" variant="tonal" class="reference-cards">
+          <div class="content">
+            <p>
+              Submit an Expression of Interest to start the New School
+              Application process. Once your EOI is approved, you will receive
+              an invitation to submit an application.
+            </p>
+          </div>
+        </v-card>
+        <RelatedLinksCard />
+        <ContactCard />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -83,6 +100,8 @@ import { mapState } from 'pinia';
 import { PAGE_TITLES } from '../utils/constants';
 import PrimaryButton from './util/PrimaryButton.vue';
 import DataTable from './util/DataTable.vue';
+import ContactCard from './common/ContactCard.vue';
+import RelatedLinksCard from './common/RelatedLinksCard.vue';
 
 export default {
   name: 'Home',
@@ -90,6 +109,8 @@ export default {
     Login,
     PrimaryButton,
     DataTable,
+    ContactCard,
+    RelatedLinksCard,
   },
   data() {
     return {

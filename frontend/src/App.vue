@@ -74,7 +74,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 a {
   color: #1976d2;
 }
@@ -234,5 +234,50 @@ h1 {
 }
 .v-label {
   white-space: break-spaces;
+}
+
+.reference-cards {
+  margin: 20px;
+  border-radius: 0 !important;
+  background-color: #385a8a !important;
+  color: white !important;
+  a {
+    text-decoration: underline;
+  }
+
+  li::marker {
+    color: lightgray;
+  }
+  .content {
+    color: black;
+    padding: 0.625rem 1rem;
+    font-size: 14px;
+    background: #f1f1f2 !important;
+  }
+}
+
+// unauthenticated and authenticated homepage containers
+.dashboard-container {
+  margin-top: 50px;
+  padding-right: 15em !important;
+  padding-left: 15em !important;
+}
+@media screen and (max-width: 1900px) {
+  .dashboard-container {
+    padding-right: 10em !important;
+    padding-left: 10em !important;
+  }
+}
+@media screen and (max-width: 1500px) {
+  .dashboard-container {
+    padding-right: 4em !important;
+    padding-left: 4em !important;
+  }
+}
+@media screen and (max-width: 600px) {
+  .dashboard-container {
+    padding-right: 0.5em !important;
+    padding-left: 0.5em !important;
+  }
 }
 </style>
