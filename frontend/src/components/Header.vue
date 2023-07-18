@@ -86,6 +86,12 @@ export default {
       apiRoutes: ApiRoutes,
     };
   },
+  props: {
+    props: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     dataReady: function () {
