@@ -17,7 +17,13 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-table density="compact" fixed-header class="gov-table elevation-1">
+        <div v-if="!data.length">{{ getNullMessage() }}</div>
+        <v-table
+          v-else
+          density="compact"
+          fixed-header
+          class="gov-table elevation-1"
+        >
           <thead>
             <tr>
               <th
@@ -94,6 +100,12 @@ export default {
     this.getTableHeaders();
   },
   methods: {
+    getNullMessage() {
+      if (this.title === 'New School Applications') {
+        return 'There are no School Applications.';
+      }
+      return 'There are no active Expression of Interests.';
+    },
     getTableHeaders() {
       const firstItem = this.data[0];
       console.log(this.data);
@@ -132,5 +144,9 @@ export default {
 
 .table-column {
   width: 25vw;
+}
+
+.null-content {
+  text-align: center;
 }
 </style>
