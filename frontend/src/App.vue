@@ -244,8 +244,6 @@ h1 {
   border-radius: 0 !important;
   background-color: #385a8a !important;
   color: white !important;
-  // ::v-deep .v-card-item {
-  // }
   a {
     text-decoration: underline;
   }
