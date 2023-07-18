@@ -4,7 +4,8 @@
     v-if="!authStore().isAuthenticated && !authStore().isLoading"
     fluid
   >
-    <!-- login article -->
+    <h1>TITLE OF THIS PAGE</h1>
+    login article
     <article name="login-banner">
       <v-row
         align="center"
