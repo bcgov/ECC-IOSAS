@@ -4,7 +4,7 @@
       <h1>Welcome to the Independent School BC Portal</h1>
       <p>
         Apply online to open a new school in BC. Login to access your existing
-        applications or start a new EXpression of Interest application.
+        applications or start a new Expression of Interest application.
       </p>
     </div>
 
