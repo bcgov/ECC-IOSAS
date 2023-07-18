@@ -62,14 +62,14 @@
             title="Expressions of Interest (EOI)"
             :buttonAction="redirectToEOIForm"
             buttonTitle="Create new EOI"
-            :url="AuthRoutes.EOI"
+            routeName="expressionOfInterest"
           />
           <br />
           <br />
           <DataTable
             :data="schoolApplications"
             title="New School Applications"
-            :url="AuthRoutes.APPLICATION"
+            routeName="schoolApplicationPage"
           />
         </v-container>
       </v-col>
