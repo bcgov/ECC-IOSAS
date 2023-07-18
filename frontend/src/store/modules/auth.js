@@ -25,17 +25,17 @@ export const authStore = defineStore('auth', {
     jwtToken: localStorage.getItem('jwtToken'),
   }),
   getters: {
-    acronymsGet: state => state.acronyms,
-    isAuthenticatedGet: state => state.isAuthenticated,
-    jwtTokenGet: state => state.jwtToken,
-    userInfoGet: state => state.userInfo,
-    loginErrorGet: state => state.loginError,
-    errorGet: state => state.error,
-    isLoadingGet: state => state.isLoading,
+    acronymsGet: (state) => state.acronyms,
+    isAuthenticatedGet: (state) => state.isAuthenticated,
+    jwtTokenGet: (state) => state.jwtToken,
+    userInfoGet: (state) => state.userInfo,
+    loginErrorGet: (state) => state.loginError,
+    errorGet: (state) => state.error,
+    isLoadingGet: (state) => state.isLoading,
   },
   actions: {
     //sets Json web token and determines whether user is authenticated
-    async setJwtToken(token = null){
+    async setJwtToken(token = null) {
       if (token) {
         this.isAuthenticated = true;
         this.jwtToken = token;
@@ -43,33 +43,35 @@ export const authStore = defineStore('auth', {
       } else {
         this.isAuthenticated = false;
         this.jwtToken = null;
+        // Re-set mock applications - REMOVE after API connection
+        localStorage.removeItem('applications');
         localStorage.removeItem('jwtToken');
       }
     },
-    async setUserInfo(userInfo){
-      if(userInfo){
+    async setUserInfo(userInfo) {
+      if (userInfo) {
         this.userInfo = userInfo;
       } else {
         this.userInfo = null;
       }
     },
-    async setLoginError(){
+    async setLoginError() {
       this.loginError = true;
     },
-    async setError(error){
+    async setError(error) {
       this.error = error;
     },
-    async setLoading(isLoading){
+    async setLoading(isLoading) {
       this.isLoading = isLoading;
     },
-    async loginErrorRedirect(){
+    async loginErrorRedirect() {
       this.loginError = true;
     },
     async logout() {
       await this.setJwtToken();
       await this.setUserInfo();
     },
-    async getUserInfo(){
+    async getUserInfo() {
       const userInfoRes = await ApiService.getUserInfo();
       this.userInfo = userInfoRes.data;
     },
@@ -89,7 +91,8 @@ export const authStore = defineStore('auth', {
         } else {
           throw 'No jwtFrontend';
         }
-      } else {  //inital login and redirect
+      } else {
+        //inital login and redirect
         const response = await AuthService.getAuthToken();
 
         if (response.jwtFrontend) {
@@ -100,5 +103,5 @@ export const authStore = defineStore('auth', {
         }
       }
     },
-  }
+  },
 });

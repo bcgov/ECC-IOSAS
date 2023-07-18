@@ -3,10 +3,7 @@
     <MsieBanner v-if="isIE" />
     <Header />
     <SnackBar />
-    <NavBar
-      v-if="pageTitle && authStore().isAuthenticated"
-      :title="pageTitle"
-    />
+    <NavBar v-if="pageTitle" :title="pageTitle" />
     <v-main fluid class="align-start">
       <ModalIdle v-if="authStore().isAuthenticated" />
       <router-view />

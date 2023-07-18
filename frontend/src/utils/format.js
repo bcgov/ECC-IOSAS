@@ -56,3 +56,7 @@ export function formatSnakeCaseToString(key) {
     return formatTitle}
     ).join(' ')
 }
+
+export function formatBooleanToYesNoString(bool) {
+  return bool ? 'Yes' : 'No'
+}

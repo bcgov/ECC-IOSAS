@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from './components/Home.vue';
 import Logout from './components/Logout.vue';
 
@@ -6,12 +6,13 @@ import SessionExpired from './components/SessionExpired.vue';
 import ErrorPage from './components/ErrorPage.vue';
 import LoginError from './components/LoginError.vue';
 import Unauthorized from './components/common/Unauthorized.vue';
-import {authStore} from './store/modules/auth';
-import {appStore} from './store/modules/app';
+import { authStore } from './store/modules/auth';
+import { appStore } from './store/modules/app';
 import Login from './components/Login.vue';
 import BackendSessionExpired from './components/BackendSessionExpired.vue';
-import {PAGE_TITLES} from './utils/constants';
+import { PAGE_TITLES } from './utils/constants';
 import ExpressionOfInterestPage from './components/EOI/ExpressionOfInterestPage.vue';
+import ConfirmationPage from './components/common/ConfirmationPage.vue';
 import SchoolApplicationPage from './components/applications/SchoolApplicationPage.vue';
 import ProfilePage from './components/profile/ProfilePage.vue';
 
@@ -25,37 +26,36 @@ const router = createRouter({
       component: Home,
       meta: {
         pageTitle: PAGE_TITLES.DASHBOARD,
-        requiresAuth: true
+        requiresAuth: true,
       },
-
     },
     {
       path: '/error',
       name: 'error',
-      component: ErrorPage
+      component: ErrorPage,
     },
     {
       path: '/logout',
       name: 'logout',
-      component: Logout
+      component: Logout,
     },
     {
       path: '/unauthorized',
       name: 'unauthorized',
       component: Unauthorized,
       meta: {
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
     },
     {
       path: '/session-expired',
       name: 'session-expired',
-      component: SessionExpired
+      component: SessionExpired,
     },
     {
       path: '/login-error',
       name: 'login-error',
-      component: LoginError
+      component: LoginError,
     },
     {
       path: '/login',
@@ -63,55 +63,68 @@ const router = createRouter({
       component: Login,
       meta: {
         pageTitle: PAGE_TITLES.LOGIN,
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
     },
-      {
+    {
       path: '/expression-of-interest/:id',
       name: 'expressionOfInterest',
       component: ExpressionOfInterestPage,
-      props: {
-       
-      },
+      props: {},
       meta: {
-        pageTitle: "Expression of Interest",
-        requiresAuth: true
+        pageTitle: 'Expression of Interest',
+        requiresAuth: true,
       },
     },
     {
       path: '/expression-of-interest/new',
-      name:  'newExpressionOfInterest',
+      name: 'newExpressionOfInterest',
       component: ExpressionOfInterestPage,
-      props: {
-       
-      },
+      props: {},
       meta: {
-        pageTitle: "New Expression of Interest",
-        requiresAuth: false
+        pageTitle: 'New Expression of Interest',
+        requiresAuth: false,
+      },
+    },
+    {
+      path: '/confirmation/:type',
+      name: 'applicationConfirmation',
+      component: ConfirmationPage,
+      props: {},
+      meta: {
+        pageTitle: 'Application Confirmation',
+        requiresAuth: false,
+      },
+      beforeEnter: (to, from) => {
+        const isRedirected =
+          from?.href?.includes('expression-of-interest') ||
+          from?.href?.includes('school-application');
+
+        if (isRedirected === undefined) {
+          router.push({ name: 'home' });
+        }
+
+        return true;
       },
     },
     {
       path: '/school-application/:id',
-      name: 'Application',
+      name: 'schoolApplicationPage',
       component: SchoolApplicationPage,
-      props: {
-       
-      },
+      props: {},
       meta: {
-        pageTitle: "Application",
-        requiresAuth: true
+        pageTitle: 'Application',
+        requiresAuth: true,
       },
     },
     {
       path: '/user-profile',
       name: 'User Profile',
       component: ProfilePage,
-      props: {
-       
-      },
+      props: {},
       meta: {
-        pageTitle: "User Profile",
-        requiresAuth: true
+        pageTitle: 'User Profile',
+        requiresAuth: true,
       },
     },
     {
@@ -119,45 +132,51 @@ const router = createRouter({
       name: 'notfound',
       redirect: '/',
       meta: {
-        requiresAuth: true
-      }
+        requiresAuth: true,
+      },
     },
     {
       path: '/token-expired',
       name: 'backend-session-expired',
-      component: BackendSessionExpired
+      component: BackendSessionExpired,
     },
-]});
+  ],
+});
 
 router.beforeEach((to, _from, next) => {
   const aStore = authStore();
   const apStore = appStore();
   // this section is to set page title in vue store
   if (to.meta.requiresAuth) {
-    aStore.getJwtToken().then(() => {
-      if (!aStore.isAuthenticated) {
-        next('/token-expired');
-      } else {
-        aStore.getUserInfo().then(() => {
-          if (to.meta.permission) {
-            next('/unauthorized');
-          }else if (to && to.meta) {
-            apStore.setPageTitle(to.meta.pageTitle);
-            next();
-          }
-        }).catch(() => {
-          next('error');
-        });
-      }
-    }).catch(() => {
-      if (!aStore.userInfo) {
-        next('/login');
-      }else{
-        next('/token-expired');
-      }
-    });
-  }
-  else{
+    aStore
+      .getJwtToken()
+      .then(() => {
+        if (!aStore.isAuthenticated) {
+          next('/token-expired');
+        } else {
+          aStore
+            .getUserInfo()
+            .then(() => {
+              if (to.meta.permission) {
+                next('/unauthorized');
+              } else if (to && to.meta) {
+                apStore.setPageTitle(to.meta.pageTitle);
+                next();
+              }
+            })
+            .catch(() => {
+              next('error');
+            });
+        }
+      })
+      .catch(() => {
+        if (!aStore.userInfo) {
+          next('/login');
+        } else {
+          next('/token-expired');
+        }
+      });
+  } else {
     if (!aStore.userInfo) {
       next();
     }

@@ -1,25 +1,31 @@
 <template>
   <v-container fluid class="full-height">
-    <v-breadcrumbs :items="items"
+    <v-breadcrumbs :items="breadcrumbs"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
     <br />
-    <SchoolApplicationForm />
+    <SchoolApplicationForm
+      :data="getSchoolApplicationById(this.$route.params.id)"
+      :isLoading="isLoading"
+    />
   </v-container>
 </template>
 
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
+import { mapState } from 'pinia';
+import { applicationsStore } from '../../store/modules/applications';
 
 export default {
-  name: 'School Application Page',
+  name: 'SchoolApplicationPage',
   components: {
     SchoolApplicationForm,
   },
   data: () => ({
-    items: [
+    isLoading: true,
+    breadcrumbs: [
       {
         title: 'Dashboard',
         disabled: false,
@@ -31,17 +37,20 @@ export default {
         href: 'school-application',
       },
     ],
-    steps: [
-      { title: 'EOI Approved', complete: true, isCurrent: false },
-      { title: 'App Submitted', complete: true, isCurrent: false },
-      { title: 'App Review', complete: true, isCurrent: false },
-      { title: 'Interview', complete: false, isCurrent: true },
-      { title: 'Pre-Certification', complete: false, isCurrent: false },
-      { title: 'Interim Certification', complete: false, isCurrent: false },
-    ],
   }),
+  computed: {
+    ...mapState(applicationsStore, ['getSchoolApplicationById']),
+  },
   mounted() {},
-  computed: {},
+  created() {
+    applicationsStore()
+      .getApplicationData()
+      .then(() => {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 500);
+      });
+  },
   methods: {},
 };
 </script>
