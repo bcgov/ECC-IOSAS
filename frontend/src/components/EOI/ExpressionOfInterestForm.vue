@@ -310,81 +310,102 @@
                   />
                 </v-col>
               </v-row>
-              <v-label><strong>School Address (Optional)</strong></v-label>
               <v-row>
-                <v-col cols="12" sm="12" md="8" xs="12">
-                  <v-text-field
-                    id="iosas_schooladdressline1"
-                    v-model="data.iosas_schooladdressline1"
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Address Line 1"
-                    color="rgb(59, 153, 252)"
-                  />
+                <v-col cols="12">
+                  <v-radio-group
+                    v-model="schoolAddressKnown"
+                    color="#003366"
+                    label="Is the School Address Known?"
+                    class="mt-4"
+                    direction="horizontal"
+                    inline
+                  >
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
+                  </v-radio-group>
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="8" xs="12">
-                  <v-text-field
-                    id="iosas_schooladdressline2"
-                    v-model="data.iosas_schooladdressline2"
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Address Line 2"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolcity"
-                    v-model="data.iosas_schoolcity"
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="City"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolprovince"
-                    v-model="data.iosas_schoolprovince"
-                    :rules="[]"
-                    :maxlength="255"
-                    disabled
-                    variant="outlined"
-                    label="Province"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolcountry"
-                    v-model="data.iosas_schoolcountry"
-                    disabled
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Country"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolpostalcode"
-                    v-model="data.iosas_schoolpostalcode"
-                    :rules="[]"
-                    :maxlength="7"
-                    variant="outlined"
-                    label="Postal Code"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-              </v-row>
+              <div v-if="schoolAddressKnown">
+                <v-label><strong>School Address</strong></v-label>
+                <v-row>
+                  <v-col cols="12" sm="12" md="8" xs="12">
+                    <v-text-field
+                      id="iosas_schooladdressline1"
+                      v-model="data.iosas_schooladdressline1"
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Address Line 1"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="8" xs="12">
+                    <v-text-field
+                      id="iosas_schooladdressline2"
+                      v-model="data.iosas_schooladdressline2"
+                      :rules="[]"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Address Line 2"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolcity"
+                      v-model="data.iosas_schoolcity"
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="City"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolprovince"
+                      v-model="data.iosas_schoolprovince"
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      disabled
+                      variant="outlined"
+                      label="Province"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolcountry"
+                      v-model="data.iosas_schoolcountry"
+                      disabled
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Country"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolpostalcode"
+                      v-model="data.iosas_schoolpostalcode"
+                      :rules="
+                        schoolAddressKnown
+                          ? [rules.required(), rules.postalCode()]
+                          : []
+                      "
+                      :maxlength="7"
+                      variant="outlined"
+                      label="Postal Code"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
@@ -563,6 +584,7 @@ export default {
       isFormValid: false,
       isEditing: false,
       defaultStatus: 'Submitted',
+      schoolAddressKnown: false,
       applicationConfirmation: false,
       rules: Rules,
       data: {
