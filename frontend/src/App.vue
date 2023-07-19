@@ -259,6 +259,7 @@ h1 {
 // unauthenticated and authenticated homepage containers
 .dashboard-container {
   margin-top: 50px;
+  padding-bottom: 50px;
   padding-right: 15em !important;
   padding-left: 15em !important;
 }
