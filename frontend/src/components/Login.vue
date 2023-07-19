@@ -1,6 +1,11 @@
 <template>
-  <div class="dashboard-container">
+  <div class="dashboard-container no-margin">
     <div class="header">
+      <img
+        tabindex="-1"
+        src="../assets/images/IOSAS-Banner.png"
+        alt="Independent School Logo"
+      />
       <h1>Welcome to the Independent School BC Portal</h1>
       <p>
         Apply online to open a new school in BC. Login to access your existing
@@ -8,7 +13,7 @@
       </p>
     </div>
 
-    <v-row>
+    <v-row class="mt-3">
       <v-col cols="12" sm="12" md="8" xs="12">
         <div class="d-flex justify-center">
           <v-row justify="center">
@@ -44,7 +49,7 @@
                 <v-card-actions>
                   <v-btn
                     id="register-button"
-                    href="https://www.bceid.ca/register/"
+                    :href="GOV_URL.bceidRegister"
                     class="ma-2"
                   >
                     Register for a BCeID <v-icon>mdi-login</v-icon>
@@ -54,8 +59,7 @@
             </v-col>
           </v-row>
         </div>
-        <v-divider></v-divider>
-        <v-row>
+        <v-row class="mt-5">
           <v-col cols="12">
             <v-card title="Submit an Expression of Interest as a Guest">
               <div class="card-content submission">
@@ -89,7 +93,7 @@
 <script>
 import { authStore } from '../store/modules/auth';
 import { mapState } from 'pinia';
-import { AuthRoutes } from '../utils/constants';
+import { AuthRoutes, GOV_URL } from '../utils/constants';
 import ContactCard from './common/ContactCard.vue';
 import RelatedLinksCard from './common/RelatedLinksCard.vue';
 
@@ -100,6 +104,7 @@ export default {
     return {
       appTitle: 'Independent School BC',
       authRoutes: AuthRoutes,
+      GOV_URL,
     };
   },
   computed: {
@@ -114,11 +119,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-divider {
-  margin-top: 50px !important;
-  margin: 30px;
-}
-
 .card-content {
   min-height: 130px;
   height: fit-content;
@@ -135,7 +135,28 @@ export default {
   background-color: #003366;
 }
 
+@media screen and (max-width: 1000px) {
+  .header {
+    position: relative;
+    top: 0px !important;
+  }
+}
+
 .header {
-  height: 100px;
+  width: 100%;
+  position: relative;
+  top: -30px;
+
+  p {
+    font-size: 14px;
+  }
+
+  img {
+    width: inherit !important;
+  }
+}
+
+.no-margin {
+  margin-top: 0;
 }
 </style>

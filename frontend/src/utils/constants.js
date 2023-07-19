@@ -230,3 +230,13 @@ export const YEAR_OPTIONS = [
   '2028/29 SY',
   '2029/30 SY',
 ];
+
+export const GOV_URL = {
+  independentActUrl:
+    'https://www2.gov.bc.ca/assets/gov/education/administration/legislation-policy/legislation/schoollaw/independent_school_act_contents.pdf',
+  schoolManualLawURL:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/manual-of-school-law',
+  establishingSchoolURL:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/establishing-an-independent-school',
+  bceidRegister: 'https://www.bceid.ca/register/',
+};
