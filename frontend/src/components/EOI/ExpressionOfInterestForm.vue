@@ -71,8 +71,8 @@
                   >
 
                   <v-text-field
-                    id="iosas_edu_schoolauthorityname"
-                    v-model="data.iosas_edu_schoolauthorityname"
+                    id="iosas_schoolauthorityname"
+                    v-model="data.iosas_schoolauthorityname"
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -590,22 +590,16 @@ export default {
       data: {
         iosas_eionumber: null,
         status: null,
-        iosas_edu_schoolauthority: null,
-        iosas_edu_school: null,
         iosas_authorityaddressline1: null,
         iosas_authorityaddressline2: null,
         iosas_authoritycity: null,
         iosas_authoritycountry: 'Canada',
         iosas_authorityheadfirstname: null,
         iosas_authorityheadname: null,
-        iosas_authorityheadyominame: null,
         iosas_authoritypostalcode: null,
         iosas_authorityprovince: 'British Columbia',
-        iosas_authoritycontactname: null,
-        iosas_contactname: null,
         iosas_designatedcontactfirstname: null,
         iosas_designatedcontactsameasauthorityhead: true,
-        iosas_edu_schoolauthorityname: null,
         _iosas_edu_year_value: null,
         iosas_groupclassification: null,
         iosas_proposedschoolname: null,
