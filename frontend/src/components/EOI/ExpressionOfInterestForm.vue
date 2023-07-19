@@ -13,9 +13,12 @@
       </v-col>
     </v-row>
     <template v-if="!isLoading">
-      <ConfirmationDialog ref="confirmEOI">
+      <ConfirmationDialog ref="confirmDelete">
         <template #message>
-          <p>Ensure everything is correct before submitting</p>
+          <p>
+            The Expression of Interest application will be deleted from your
+            records. A new EOI can be submitted in the future.
+          </p>
         </template>
       </ConfirmationDialog>
       <v-snackbar
@@ -540,6 +543,12 @@
                 >Submit</v-btn
               >
             </v-row>
+            <v-row align="end">
+              <v-spacer />
+              <v-btn variant="plain" @click="handleDelete" class="link-button">
+                Delete Draft
+              </v-btn>
+            </v-row>
           </v-container>
         </v-container>
       </v-form>
@@ -640,6 +649,32 @@ export default {
     isReadOnly() {
       return this.eoi.status !== 'Draft';
     },
+    async handleDelete() {
+      const confirmation = await this.$refs.confirmDelete.open(
+        'Delete Draft Expression of Interest?',
+        null,
+        {
+          color: '#fff',
+          width: 580,
+          closeIcon: false,
+          subtitle: false,
+          dark: false,
+          resolveText: 'Delete',
+          rejectText: 'Cancel',
+        }
+      );
+      if (!confirmation) {
+        return;
+      } else {
+        this.$emit('setIsLoading');
+        setTimeout(() => {
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'Delete' },
+          });
+        }, 1000);
+      }
+    },
     handleDraftSubmit() {
       this.defaultStatus = 'Draft';
       this.handleSubmit();
@@ -674,7 +709,7 @@ export default {
               params: { type: 'EOI' },
             });
             console.log(payload);
-          }, 2000);
+          }, 1000);
         }
       });
     },
