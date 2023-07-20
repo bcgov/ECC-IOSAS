@@ -26,7 +26,8 @@ export default {
   data: () => ({
     messages: {
       EOI: 'Thank you for submitting your Expression of Interest (EOI), you will be contacted once your submission has been reviewed.',
-      Delete: 'Application has been successfully removed from your records.',
+      Delete:
+        'Expression of Interest has been successfully removed from your records.',
       APP: 'Thank you for submitting your Application for an Independent School Certification, you will be contacted once your application has been reviewed.',
     },
     items: [
