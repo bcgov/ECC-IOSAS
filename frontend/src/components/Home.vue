@@ -62,14 +62,14 @@
             title="Expressions of Interest (EOI)"
             :buttonAction="redirectToEOIForm"
             buttonTitle="Create new EOI"
-            routeName="expressionOfInterest"
+            :routeName="routes.EOI"
           />
           <br />
           <br />
           <DataTable
             :data="schoolApplications"
             title="New School Applications"
-            routeName="schoolApplicationPage"
+            :routeName="routes.APP"
           />
         </v-container>
       </v-col>
@@ -119,6 +119,10 @@ export default {
       isLoading: true,
       schoolApplications: [],
       eioApplications: [],
+      routes: {
+        EOI: 'expressionOfInterest',
+        APP: 'schoolApplicationPage',
+      },
     };
   },
   computed: {

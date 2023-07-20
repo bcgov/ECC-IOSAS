@@ -234,7 +234,7 @@ h1 {
 }
 
 .reference-cards {
-  margin: 20px;
+  margin-bottom: 20px;
   border-radius: 0 !important;
   background-color: #385a8a !important;
   color: white !important;
