@@ -3,7 +3,6 @@
     <MsieBanner v-if="isIE" />
     <Header />
     <SnackBar />
-    <NavBar v-if="pageTitle" :title="pageTitle" />
     <v-main fluid class="align-start">
       <ModalIdle v-if="authStore().isAuthenticated" />
       <router-view />
@@ -23,7 +22,6 @@ import ModalIdle from './components/ModalIdle.vue';
 import MsieBanner from './components/MsieBanner.vue';
 import StaticConfig from './common/staticConfig';
 import SnackBar from './components/util/SnackBar.vue';
-import NavBar from './components/util/NavBar.vue';
 
 export default {
   name: 'App',
@@ -33,7 +31,6 @@ export default {
     ModalIdle,
     MsieBanner,
     SnackBar,
-    NavBar,
   },
   metaInfo: {
     meta: StaticConfig.VUE_APP_META_DATA,
