@@ -278,4 +278,10 @@ h1 {
     padding-left: 0.5em !important;
   }
 }
+
+.link-button {
+  text-decoration: underline !important;
+  color: #1976d2 !important;
+  opacity: 100% !important;
+}
 </style>

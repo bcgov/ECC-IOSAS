@@ -58,7 +58,7 @@
         <v-row>
           <v-col cols="12">
             <v-card title="Submit an Expression of Interest as a Guest">
-              <div class="card-content">
+              <div class="card-content submission">
                 <p>
                   As a guest user, you can submit an EOI and register for BCeID
                   after the EOI approval
@@ -113,7 +113,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .v-divider {
   margin-top: 50px !important;
   margin: 30px;
@@ -124,6 +124,10 @@ export default {
   height: fit-content;
   padding: 0.625rem 1rem;
   font-size: 14px;
+
+  &.submission {
+    min-height: inherit;
+  }
 }
 
 .v-btn {

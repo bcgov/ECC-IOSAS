@@ -13,9 +13,12 @@
       </v-col>
     </v-row>
     <template v-if="!isLoading">
-      <ConfirmationDialog ref="confirmEOI">
+      <ConfirmationDialog ref="confirmDelete">
         <template #message>
-          <p>Ensure everything is correct before submitting</p>
+          <p>
+            The Expression of Interest application will be deleted from your
+            records. A new EOI can be submitted in the future.
+          </p>
         </template>
       </ConfirmationDialog>
       <v-snackbar
@@ -71,8 +74,8 @@
                   >
 
                   <v-text-field
-                    id="iosas_edu_schoolauthorityname"
-                    v-model="data.iosas_edu_schoolauthorityname"
+                    id="iosas_schoolauthorityname"
+                    v-model="data.iosas_schoolauthorityname"
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -310,81 +313,102 @@
                   />
                 </v-col>
               </v-row>
-              <v-label><strong>School Address (Optional)</strong></v-label>
               <v-row>
-                <v-col cols="12" sm="12" md="8" xs="12">
-                  <v-text-field
-                    id="iosas_schooladdressline1"
-                    v-model="data.iosas_schooladdressline1"
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Address Line 1"
-                    color="rgb(59, 153, 252)"
-                  />
+                <v-col cols="12">
+                  <v-radio-group
+                    v-model="schoolAddressKnown"
+                    color="#003366"
+                    label="Is the School Address Known?"
+                    class="mt-4"
+                    direction="horizontal"
+                    inline
+                  >
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
+                  </v-radio-group>
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="8" xs="12">
-                  <v-text-field
-                    id="iosas_schooladdressline2"
-                    v-model="data.iosas_schooladdressline2"
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Address Line 2"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolcity"
-                    v-model="data.iosas_schoolcity"
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="City"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolprovince"
-                    v-model="data.iosas_schoolprovince"
-                    :rules="[]"
-                    :maxlength="255"
-                    disabled
-                    variant="outlined"
-                    label="Province"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolcountry"
-                    v-model="data.iosas_schoolcountry"
-                    disabled
-                    :rules="[]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Country"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="4" xs="12">
-                  <v-text-field
-                    id="iosas_schoolpostalcode"
-                    v-model="data.iosas_schoolpostalcode"
-                    :rules="[]"
-                    :maxlength="7"
-                    variant="outlined"
-                    label="Postal Code"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-              </v-row>
+              <div v-if="schoolAddressKnown">
+                <v-label><strong>School Address</strong></v-label>
+                <v-row>
+                  <v-col cols="12" sm="12" md="8" xs="12">
+                    <v-text-field
+                      id="iosas_schooladdressline1"
+                      v-model="data.iosas_schooladdressline1"
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Address Line 1"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="8" xs="12">
+                    <v-text-field
+                      id="iosas_schooladdressline2"
+                      v-model="data.iosas_schooladdressline2"
+                      :rules="[]"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Address Line 2"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolcity"
+                      v-model="data.iosas_schoolcity"
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="City"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolprovince"
+                      v-model="data.iosas_schoolprovince"
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      disabled
+                      variant="outlined"
+                      label="Province"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolcountry"
+                      v-model="data.iosas_schoolcountry"
+                      disabled
+                      :rules="schoolAddressKnown ? [rules.required()] : []"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Country"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-text-field
+                      id="iosas_schoolpostalcode"
+                      v-model="data.iosas_schoolpostalcode"
+                      :rules="
+                        schoolAddressKnown
+                          ? [rules.required(), rules.postalCode()]
+                          : []
+                      "
+                      :maxlength="7"
+                      variant="outlined"
+                      label="Postal Code"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-text-field
@@ -519,6 +543,12 @@
                 >Submit</v-btn
               >
             </v-row>
+            <v-row align="end">
+              <v-spacer />
+              <v-btn variant="plain" @click="handleDelete" class="link-button">
+                Delete Draft
+              </v-btn>
+            </v-row>
           </v-container>
         </v-container>
       </v-form>
@@ -563,27 +593,22 @@ export default {
       isFormValid: false,
       isEditing: false,
       defaultStatus: 'Submitted',
+      schoolAddressKnown: false,
       applicationConfirmation: false,
       rules: Rules,
       data: {
         iosas_eionumber: null,
         status: null,
-        iosas_edu_schoolauthority: null,
-        iosas_edu_school: null,
         iosas_authorityaddressline1: null,
         iosas_authorityaddressline2: null,
         iosas_authoritycity: null,
         iosas_authoritycountry: 'Canada',
         iosas_authorityheadfirstname: null,
         iosas_authorityheadname: null,
-        iosas_authorityheadyominame: null,
         iosas_authoritypostalcode: null,
         iosas_authorityprovince: 'British Columbia',
-        iosas_authoritycontactname: null,
-        iosas_contactname: null,
         iosas_designatedcontactfirstname: null,
         iosas_designatedcontactsameasauthorityhead: true,
-        iosas_edu_schoolauthorityname: null,
         _iosas_edu_year_value: null,
         iosas_groupclassification: null,
         iosas_proposedschoolname: null,
@@ -624,6 +649,32 @@ export default {
     isReadOnly() {
       return this.eoi.status !== 'Draft';
     },
+    async handleDelete() {
+      const confirmation = await this.$refs.confirmDelete.open(
+        'Delete Draft Expression of Interest?',
+        null,
+        {
+          color: '#fff',
+          width: 580,
+          closeIcon: false,
+          subtitle: false,
+          dark: false,
+          resolveText: 'Delete',
+          rejectText: 'Cancel',
+        }
+      );
+      if (!confirmation) {
+        return;
+      } else {
+        this.$emit('setIsLoading');
+        setTimeout(() => {
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'Delete' },
+          });
+        }, 1000);
+      }
+    },
     handleDraftSubmit() {
       this.defaultStatus = 'Draft';
       this.handleSubmit();
@@ -658,7 +709,7 @@ export default {
               params: { type: 'EOI' },
             });
             console.log(payload);
-          }, 2000);
+          }, 1000);
         }
       });
     },

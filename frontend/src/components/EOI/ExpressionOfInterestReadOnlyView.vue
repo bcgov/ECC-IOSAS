@@ -19,7 +19,7 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Authority</v-label>
-        <p>{{ eoi.iosas_edu_schoolauthorityname || nullString }}</p>
+        <p>{{ eoi.iosas_schoolauthorityname || nullString }}</p>
       </v-col>
     </v-row>
     <br />

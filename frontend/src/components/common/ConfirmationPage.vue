@@ -24,6 +24,11 @@ export default {
     ...mapState(authStore, ['isAuthenticated']),
   },
   data: () => ({
+    messages: {
+      EOI: 'Thank you for submitting your Expression of Interest (EOI), you will be contacted once your submission has been reviewed.',
+      Delete: 'Application has been successfully removed from your records.',
+      APP: 'Thank you for submitting your Application for an Independent School Certification, you will be contacted once your application has been reviewed.',
+    },
     items: [
       {
         title: 'Dashboard',
@@ -40,9 +45,7 @@ export default {
   methods: {
     authStore,
     getMessage() {
-      return this.$route.params.type === 'EOI'
-        ? 'Thank you for submitting your Expression of Interest (EOI), you will be contacted once your submission has been reviewed.'
-        : 'Thank you for submitting your Application for an Independent School Certification, you will be contacted once your application has been reviewed.';
+      return this.messages[this.$route.params.type];
     },
   },
 };
