@@ -25,8 +25,11 @@
       <v-toolbar-title>
         <h3 class="mainTitle" style="color: white">
           {{ appTitle }}
-        </h3></v-toolbar-title
-      >
+          <span :style="{ color: bannerColor }" class="environmen-flag"
+            >({{ bannerEnvironment }})</span
+          >
+        </h3>
+      </v-toolbar-title>
     </a>
 
     <v-spacer />
@@ -77,6 +80,7 @@
 import { authStore } from '../store/modules/auth';
 import { mapState } from 'pinia';
 import { AuthRoutes, ApiRoutes } from '../utils/constants';
+import StaticConfig from '../common/staticConfig';
 
 export default {
   data() {
@@ -84,6 +88,8 @@ export default {
       appTitle: 'Independent School BC portal',
       authRoutes: AuthRoutes,
       apiRoutes: ApiRoutes,
+      bannerEnvironment: StaticConfig.BANNER_ENVIRONMENT,
+      bannerColor: StaticConfig.BANNER_COLOR,
     };
   },
   props: {
@@ -163,5 +169,10 @@ a {
   .display-name {
     display: none;
   }
+}
+
+.environmen-flag {
+  font-weight: bolder;
+  font-size: 20px;
 }
 </style>
