@@ -1,7 +1,6 @@
 export const EOI_MOCK = [
   {
-    status: 'Draft',
-    group_classification: 'Group 4',
+    iosas_reviewstatus: 'Draft',
     _iosas_edu_year_value: '2025/26 SY',
     iosas_eionumber: 'EOI-01020',
     iosas_expressionofinterestid: null,
@@ -48,7 +47,7 @@ export const EOI_MOCK = [
     iosas_website: 'www.victoria-south-elementary.ca',
   },
   {
-    status: 'Approved',
+    iosas_reviewstatus: 'Approved',
     _iosas_edu_year_value: '2024/25 SY',
     iosas_eionumber: 'EOI-01016',
     iosas_expressionofinterestid: null,
@@ -95,7 +94,7 @@ export const EOI_MOCK = [
     iosas_website: null,
   },
   {
-    status: 'Approved',
+    iosas_reviewstatus: 'Approved',
     _iosas_edu_year_value: '2023/24 SY',
     iosas_eionumber: 'EOI-01003',
     iosas_expressionofinterestid: null,
