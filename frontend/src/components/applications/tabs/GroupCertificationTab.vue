@@ -215,4 +215,13 @@ export default {
 .v-label {
   white-space: break-spaces;
 }
+
+li {
+  display: list-item;
+  list-style-position: inside;
+}
+
+.block {
+  display: block;
+}
 </style>
