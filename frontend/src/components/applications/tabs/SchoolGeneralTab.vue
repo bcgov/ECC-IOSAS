@@ -1,82 +1,59 @@
 <template>
   <v-conatiner>
-    <h4>School Facility</h4>
+    <h4>General</h4>
     <br />
     <v-row>
-      <v-col cols="12" sm="12" md="8" xs="12">
+      <v-col cols="12" sm="12" md="6" xs="12">
         <v-text-field
-          :disabled="!isEditing"
-          id="school_phone"
-          v-model="formData.school_phone"
+          id="application_number"
+          v-model="formData.application_number"
           required
           :rules="[rules.required()]"
           :maxlength="255"
           variant="outlined"
-          label="Name of Municipality of Regional District"
+          disabled
+          label="Application Number"
+          color="rgb(59, 153, 252)"
+        />
+      </v-col>
+      <v-col cols="12" sm="12" md="6" xs="12">
+        <v-text-field
+          id="status"
+          v-model="formData.status"
+          required
+          :rules="[rules.required()]"
+          :maxlength="255"
+          variant="outlined"
+          label="Status"
+          disabled
           color="rgb(59, 153, 252)"
         />
       </v-col>
     </v-row>
-    <v-row align="center">
-      <v-col cols="8">
-        <v-label
-          >Has the authority contacted local government for confirmation that
-          school facility will meet all current municipal/regional district
-          codes, regarding zoning, building, fire prevention, and
-          health?</v-label
-        >
-      </v-col>
-      <v-col cols="4">
-        <v-radio-group
-          v-model="groupOneBoolRadioGroup"
-          color="#003366"
-          class="mt-4"
-          direction="horizontal"
-          inline
-          :disabled="!isEditing"
-        >
-          <v-radio label="Yes" color="#003366" v-bind:value="true">
-            <template #label>
-              <span :class="activeRadio">Yes</span>
-            </template>
-          </v-radio>
-          <v-radio label="No" color="#003366" v-bind:value="false">
-            <template #label>
-              <span :class="activeRadio">No</span>
-            </template>
-          </v-radio>
-        </v-radio-group>
-      </v-col>
-    </v-row>
-    <br />
     <v-label
-      >If a school location has not yet been confirmed, please describe what
-      steps you are taking to acquire a facility for the proposed school?
+      ><strong>
+        Will the proposed school comply with Section 1 of the Schedule of the
+        Independent School Act, which requires that:
+      </strong>
     </v-label>
     <v-row>
-      <v-col cols="12" sm="12" md="8" xs="12">
-        <v-textarea
-          :disabled="!isEditing"
-          id="school_phone"
-          v-model="formData.school_phone"
-          required
-          :rules="[rules.required()]"
-          :maxlength="255"
-          variant="outlined"
-          label=""
-          color="rgb(59, 153, 252)"
-        />
-      </v-col>
-    </v-row>
-    <v-row align="center">
-      <v-col cols="8">
-        <v-label
-          >Can the authority confirm that lead testing consistent with the
-          policy, Testing Lead Content in Drinking Water of Independent School
-          Facilities, will occur prior to students using the facility?</v-label
-        >
-      </v-col>
-      <v-col cols="4">
+      <br />
+      <v-col cols="12">
+        <v-label>
+          <ol type="1">
+            <li>
+              No program is in existence or is proposed at the independent
+              school that would, in theory or in practice, promote or foster
+              doctrines of:
+            </li>
+            <ol type="a" class="ml-5">
+              <li>racial or ethnic superiority or persecution,</li>
+              <li>religious intolerance or persecution,</li>
+              <li>social change through violent action, or,</li>
+              <li>sedition.</li>
+            </ol>
+          </ol>
+        </v-label>
         <v-radio-group
           v-model="groupOneBoolRadioGroup"
           color="#003366"
@@ -98,14 +75,17 @@
         </v-radio-group>
       </v-col>
     </v-row>
-    <br />
-    <v-row align="center">
-      <v-col cols="8">
-        <v-label>Will Students attending the school be housed in:</v-label>
-        <br />
-        <v-label class="ml-10">A homestay setting:</v-label>
-      </v-col>
-      <v-col cols="4">
+    <v-row>
+      <v-col cols="12">
+        <v-label>
+          <ol start="2">
+            <li>
+              The independent school facilities will comply with the enactments
+              of British Columbia and the municipality or regional district in
+              which the facilities are located, and,
+            </li>
+          </ol>
+        </v-label>
         <v-radio-group
           v-model="groupOneBoolRadioGroup"
           color="#003366"
@@ -127,11 +107,16 @@
         </v-radio-group>
       </v-col>
     </v-row>
-    <v-row align="center">
-      <v-col cols="8">
-        <v-label class="ml-10">A boarding/dormitory setting:</v-label>
-      </v-col>
-      <v-col cols="4">
+    <v-row>
+      <v-col cols="12">
+        <v-label>
+          <ol start="3">
+            <li>
+              The authority complies with the Independent School Act and its
+              regulations.
+            </li>
+          </ol>
+        </v-label>
         <v-radio-group
           v-model="groupOneBoolRadioGroup"
           color="#003366"
@@ -157,9 +142,9 @@
 </template>
 
 <script>
-import * as Rules from './../../utils/institute/formRules';
+import * as Rules from '../../../utils/institute/formRules';
 export default {
-  name: 'SchoolFacility',
+  name: 'SchoolGeneralTab',
   components: {},
   props: {
     formData: {

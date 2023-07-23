@@ -42,7 +42,7 @@
           now invited to fill out and submit a New School Application. We have
           created a draft for you. Click
           <router-link
-            :to="{ path: '/school-application' }"
+            :to="{ path: '/school-application/APP-1048' }"
             :target="'_self'"
             class="router-link-exact-active"
           >

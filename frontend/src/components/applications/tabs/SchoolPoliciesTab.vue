@@ -941,9 +941,9 @@
 </template>
 
 <script>
-import * as Rules from './../../utils/institute/formRules';
+import * as Rules from '../../../utils/institute/formRules';
 export default {
-  name: 'SchoolPolicies',
+  name: 'SchoolPoliciesTab',
   components: {},
   props: {
     formData: {
