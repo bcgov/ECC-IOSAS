@@ -12,8 +12,26 @@
         />
       </v-col>
     </v-row>
+
+    <v-navigation-drawer temporary class="mobile-tabs" v-model="drawer">
+      <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
+        <v-tab
+          v-for="item in items"
+          :key="item"
+          :value="item"
+          @click.stop="drawer = !drawer"
+        >
+          {{ item }}
+        </v-tab>
+      </v-tabs>
+    </v-navigation-drawer>
+
     <div class="d-flex justify-space-between" v-if="!isLoading">
-      <div class="flex-1">
+      <v-app-bar-nav-icon
+        @click.stop="drawer = !drawer"
+        class="mobile-tabs"
+      ></v-app-bar-nav-icon>
+      <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
           <v-tab v-for="item in items" :key="item" :value="item">
             {{ item }}
@@ -130,6 +148,27 @@
                 </v-row>
               </v-container>
             </div>
+            <br />
+            <v-container>
+              <v-row class="d-flex justify-space-between">
+                <PrimaryButton
+                  :disabled="tab === 'General'"
+                  type="submit"
+                  secondary
+                  text="Previous"
+                  class="mr-2"
+                  :click-action="prevTab"
+                />
+                <PrimaryButton
+                  :disabled="tab === 'Submissions'"
+                  id=""
+                  secondary
+                  text="Next"
+                  class="mr-2"
+                  :click-action="nextTab"
+                />
+              </v-row>
+            </v-container>
           </v-container>
         </v-form>
       </div>
@@ -192,6 +231,7 @@ export default {
   data() {
     return {
       GRADE_OPTIONS,
+      drawer: false,
       isEditing: false,
       isValidForm: false,
       requiredRules: [(v) => !!v || 'Required'],
@@ -232,6 +272,14 @@ export default {
           status: 'Draft',
         },
       ];
+    },
+    prevTab() {
+      const currentTabIndex = this.items.indexOf(this.tab);
+      return (this.tab = this.items[currentTabIndex - 1]);
+    },
+    nextTab() {
+      const currentTabIndex = this.items.indexOf(this.tab);
+      return (this.tab = this.items[currentTabIndex + 1]);
     },
   },
 };
@@ -281,6 +329,21 @@ li {
     padding-right: 0.5em !important;
     padding-left: 0.5em !important;
   }
+}
+
+@media screen and (max-width: 900px) {
+  .no-mobile-tabs {
+    display: none;
+  }
+
+  .mobile-tabs {
+    visibility: visible !important;
+  }
+}
+
+.mobile-tabs {
+  visibility: hidden;
+  /* display: none; */
 }
 
 .flex-1 {
