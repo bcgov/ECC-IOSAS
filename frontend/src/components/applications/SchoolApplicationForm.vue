@@ -343,7 +343,6 @@ li {
 
 .mobile-tabs {
   visibility: hidden;
-  /* display: none; */
 }
 
 .flex-1 {
