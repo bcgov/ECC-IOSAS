@@ -901,11 +901,10 @@
         </v-col>
       </v-row>
       <v-row>
+        <v-label
+          >If 'no' to any of the above policies, please explain below:</v-label
+        >
         <v-col cols="12">
-          <v-label
-            >If 'no' to any of the above policies, please explain
-            below:</v-label
-          >
           {{ NULL_STRING }}
         </v-col>
       </v-row>

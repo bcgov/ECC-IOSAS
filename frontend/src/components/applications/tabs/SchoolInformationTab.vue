@@ -351,7 +351,7 @@
         ACSIBC, SDA, or other if applicable)</v-label
       >
       <v-row>
-        <v-col cols="12" sm="12" md="6" xs="12">
+        <v-col cols="12" sm="12" md="12" xs="12">
           <v-text-field
             :disabled="!isEditing"
             id="intended_affilliation"
@@ -505,7 +505,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" sm="12" md="6" xs="12">
+        <v-col cols="12" sm="12" md="12" xs="12">
           <v-label
             >School's Intended Affiliation/Association (CIS, ISABC, SCSBC, AMG,
             ACSIBC, SDA, or other if applicable)</v-label
