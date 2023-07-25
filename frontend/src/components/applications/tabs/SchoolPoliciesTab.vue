@@ -511,25 +511,6 @@
 
       <v-row align="center">
         <v-col cols="8">
-          <v-label>Student Safety policies</v-label>
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            v-model="groupOneBoolRadioGroup"
-            color="#003366"
-            class="mt-4"
-            direction="horizontal"
-            inline
-            :disabled="!isEditing"
-          >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
           <v-label
             >Student Supervision (at school/field trips) policies</v-label
           >
@@ -854,15 +835,6 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Student Records policy</v-label>
-        </v-col>
-        <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label>Student Safety policies</v-label>
         </v-col>
         <v-col cols="4">
           {{ formatBooleanToYesNoString(true) }}

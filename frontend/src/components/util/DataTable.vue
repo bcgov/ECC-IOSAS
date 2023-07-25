@@ -102,9 +102,9 @@ export default {
   methods: {
     getNullMessage() {
       if (this.title === 'New School Applications') {
-        return 'There are no School Applications.';
+        return 'You dont currently have any active school applications. Your new school application will show up here after your Expression of Interest is approved.';
       }
-      return 'There are no active Expression of Interests.';
+      return 'You dont currently have any active Expression of Interests. Click `Create new EOI` button to get started.';
     },
     getTableHeaders() {
       const firstItem = this.data?.[0];
