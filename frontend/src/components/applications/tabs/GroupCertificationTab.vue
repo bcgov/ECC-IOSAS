@@ -22,7 +22,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_familiarwithgrantstoispolicyifseekingfunds"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -52,7 +52,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_willsaoperateonnonprofitbasis"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -195,7 +195,13 @@
           </v-label>
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_familiarwithgrantstoispolicyifseekingfunds
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
 
@@ -207,7 +213,13 @@
           </v-label>
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_willsaoperateonnonprofitbasis
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <br />

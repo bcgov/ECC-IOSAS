@@ -288,4 +288,13 @@ h1 {
 .v-checkbox {
   height: 30px !important;
 }
+
+a {
+  color: #1a5a96;
+}
+
+a:hover {
+  text-decoration: none;
+  color: blue;
+}
 </style>

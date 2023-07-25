@@ -2,13 +2,16 @@
   <v-container>
     <h4>Independent School Policies</h4>
     <v-label
-      ><strong>
-        Except where noted, these policies are required for all B.C. Independent
-        Schools. Please include all relevant policies with your submission. For
-        information on specific policies please visit Independent School: Create
-        School Specific Policies.
+      ><strong
+        >Except where noted, these policies are required for all B.C.
+        Independent Schools. Please include all relevant policies with your
+        submission. For information on specific policies please visit
+        <a :href="GOV_URL.independentSchoolInfoUrl"
+          >Independent School: Create School Specific Policies.</a
+        >
       </strong>
     </v-label>
+    <br />
     <br />
     <div v-if="isEditing">
       <v-row align="center">
@@ -977,7 +980,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolPoliciesTab',
   components: {},
@@ -993,6 +996,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GOV_URL,
     requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
@@ -1007,5 +1011,6 @@ export default {
 <style scoped>
 .v-label {
   white-space: break-spaces;
+  display: inline;
 }
 </style>

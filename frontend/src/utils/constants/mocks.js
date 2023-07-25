@@ -182,8 +182,8 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_proponentspreviouslyinvolvedinisbc: false,
     iosas_postalcode: 'V6X1N4',
     iosas_authorityprovince: 'BC',
-    iosas_studentshousedinahomesetting: false,
     iosas_country: 'Canada',
+    iosas_studentshousedinahomesetting: false,
     iosas_cantheauthorityconfirmtestingvspolicy: false,
     iosas_studentsupervisionpolicies: false,
     _createdby_value: 'GUID',
@@ -318,7 +318,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_numberofteachers: null,
     iosas_additionalprogramsother: null,
     _iosas_precertsubmissionreviewer_value: null,
-    iosas_whatstepsareyoutakingtoacquirethefacility: null,
     iosas_boardingsafetyandsupervisionpolicy: null,
     iosas_precertreviewnotes: null,
     iosas_reviewstatus: null,
@@ -352,6 +351,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_overview: null,
     iosas_awareoftherequirementsforcrchecks: false,
     iosas_awareofcertificationrequirements: null,
+    iosas_whatstepsareyoutakingtoacquirethefacility: null,
   },
   {
     // General
@@ -364,7 +364,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_endgrade: 100000012,
     iosas_overview: 'iosas_overview', // brief overview?
 
-    iosas_studentshousedinadormitorysetting: true,
     iosas_confirmationofwatertesting: false,
     iosas_proofofleasepurchaseoffacility: false,
     iosas_applicationid: 'GUID',
@@ -373,13 +372,10 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_acknowledgementofinterviewdecisionsent: false,
     iosas_writtenconfirmationofeligibility: false,
     iosas_hasthesaobtainedirrevocableloc: false,
-    iosas_hastheauthoritycontactedlocalgovernment: false,
     iosas_proofoffacilityinspection: false,
     _modifiedby_value: 'GUID',
-    iosas_willsaoperateonnonprofitbasis: false,
     iosas_municipalcomplianceletter: false,
     iosas_authorityheadlastname: 'Stewart',
-    iosas_businessplanincludingfinancialinformation: false,
     createdon: '2023-07-05T21:39:37Z',
     statecode: 0,
     _owningbusinessunit_value: 'GUID',
@@ -388,7 +384,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_proponentspreviouslyinvolvedinisbc: false,
     iosas_postalcode: 'V6X1N4',
     iosas_authorityprovince: 'BC',
-    iosas_studentshousedinahomesetting: false,
     iosas_country: 'Canada',
     _createdby_value: 'GUID',
     iosas_authorityaddressline1: '10111 Bird Rd',
@@ -396,7 +391,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_preexistingauthorityhead: true,
     iosas_authoritycomplieswithisaregulations: false,
     iosas_nopromotionofinappropriatedoctrines: false,
-    iosas_completesetofpoliciesoutlinedinchecklist: false,
     iosas_schoolauthority: '0532 Education Group Ltd.',
     _iosas_edu_year_value: '2023/24 SY',
     versionnumber: 26877904,
@@ -478,7 +472,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     _iosas_applicationsubmissionapprover_value: null,
     iosas_additionalprogramsother: null,
     _iosas_precertsubmissionreviewer_value: null,
-    iosas_whatstepsareyoutakingtoacquirethefacility: null,
     iosas_precertreviewnotes: null,
     iosas_reviewstatus: null,
     iosas_applicationsubmissionapprovaldate: null,
@@ -492,7 +485,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_mailingaddress1: null,
     _stageid_value: null,
     iosas_reviewnotes: null,
-    iosas_nameofmunicipalityorregionaldistrict: null,
     iosas_approvaldate: null,
     iosas_additionalprograms: null,
     _iosas_interviewapprover_value: null,
@@ -504,16 +496,27 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_incorporationtype: null,
     iosas_mailingaddresspostalcode: null,
 
-    // school Facility
+    // Group Certification - NEED CONFIRMATION
+    iosas_familiarwithgrantstoispolicyifseekingfunds: false,
+    iosas_willsaoperateonnonprofitbasis: false,
+
     iosas_hastheauthoritydevelopedarefundpolicy: null,
-    iosas_confirmationofleadtestingfordrinkingwater: false,
     iosas_completedfreetuitionrefundpolicy: false,
     iosas_cantheauthorityconfirmtestingvspolicy: false,
     iosas_feerefundpolicyconsistentwithguidelines: false,
-    iosas_familiarwithgrantstoispolicyifseekingfunds: false,
     iosas_policysubmitted: false,
 
-    // Scool Policies
+    // school Facility - DONE?
+    iosas_nameofmunicipalityorregionaldistrict:
+      'iosas_nameofmunicipalityorregionaldistrict',
+    iosas_whatstepsareyoutakingtoacquirethefacility:
+      'iosas_whatstepsareyoutakingtoacquirethefacility',
+    iosas_confirmationofleadtestingfordrinkingwater: false,
+    iosas_studentshousedinadormitorysetting: true,
+    iosas_studentshousedinahomesetting: false,
+    iosas_hastheauthoritycontactedlocalgovernment: false,
+
+    // Scool Policies - DONE?
     iosas_anaphylaxispolicyandprocedures: false,
     iosas_appealsprocesspolicy: false,
     iosas_boardingsafetyandsupervisionpolicy: null,
@@ -546,7 +549,7 @@ export const SCHOOL_APPLICATION_MOCK = [
 
     // School Authority
 
-    // student Enrolment
+    // student Enrolment - DONE - GET CONFIRMATION
     iosas_numberofstudentskindergarten: 1,
     iosas_numberofstudentsg1: 2,
     iosas_numberofstudentsg2: 3,
@@ -564,7 +567,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_highschooltotal: 0,
     iosas_totalenrolment: 0,
 
-    // school semester
+    // school semester - NEED 'school semester indicator type' fields
     iosas_halfdaykindergartenproposedhoursperday: 5,
     iosas_halfdaykindergartenproposedhoursperyear: 5,
     iosas_halfdaykindergartenproposeddaysinsession: 10,
@@ -575,9 +578,13 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_grades112proposeddaysinsession: 5,
     iosas_grades112proposedhoursperday: 5,
 
-    // teacher certification
+    // teacher certification - DONE - GET CONFIRMATION
     iosas_numberofteachers: 37,
     iosas_awareofcertificationrequirements: true,
     iosas_awareoftherequirementsforcrchecks: false,
+
+    // Submissions - DONE - GET CONFIRMATION
+    iosas_completesetofpoliciesoutlinedinchecklist: false,
+    iosas_businessplanincludingfinancialinformation: false,
   },
 ];

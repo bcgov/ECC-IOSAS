@@ -119,7 +119,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .gov-table {
   border-radius: 5px;
   box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
@@ -128,6 +128,10 @@ export default {
 }
 
 .table-title {
+  h3 {
+    margin-top: 5px;
+    margin-right: 10px;
+  }
   align-self: center;
   display: inline-flex;
 }

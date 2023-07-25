@@ -243,6 +243,8 @@ export const GOV_URL = {
     'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96216_01',
   independentSchoolInfoUrl:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/independent-schools',
+  interviewChecklistPDFUrl:
+    'https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/independent-schools/independent-school-interview-checklist.pdf',
 };
 
 export const NULL_STRING = '-';
