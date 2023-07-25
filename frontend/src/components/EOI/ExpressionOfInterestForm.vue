@@ -56,11 +56,11 @@
                 <v-row>
                   <v-col cols="12" sm="12" md="6" xs="12">
                     <v-label>EOI Number </v-label>
-                    <p>EOI-01020</p>
+                    <p>{{ data.iosas_eionumber }}</p>
                   </v-col>
                   <v-col cols="12" sm="12" md="6" xs="12">
                     <v-label>Status </v-label>
-                    <p>Draft</p>
+                    <p>{{ data.iosas_reviewstatus }}</p>
                   </v-col>
                 </v-row>
                 <v-divider></v-divider>
@@ -598,7 +598,7 @@ export default {
       rules: Rules,
       data: {
         iosas_eionumber: null,
-        status: null,
+        iosas_reviewstatus: null,
         iosas_authorityaddressline1: null,
         iosas_authorityaddressline2: null,
         iosas_authoritycity: null,
@@ -639,7 +639,7 @@ export default {
   },
   created() {
     this.data = this.isNew() ? this.data : this.eoi;
-    this.isEditing = this.eoi?.status === 'Draft';
+    this.isEditing = this.eoi?.iosas_reviewstatus === 'Draft';
   },
   methods: {
     authStore,
@@ -647,7 +647,7 @@ export default {
       return this.$route.name === 'newExpressionOfInterest';
     },
     isReadOnly() {
-      return this.eoi.status !== 'Draft';
+      return this.eoi.iosas_reviewstatus !== 'Draft';
     },
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(

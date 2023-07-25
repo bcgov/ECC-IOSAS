@@ -240,3 +240,5 @@ export const GOV_URL = {
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/establishing-an-independent-school',
   bceidRegister: 'https://www.bceid.ca/register/',
 };
+
+export const NULL_STRING = '-';

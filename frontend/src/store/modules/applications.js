@@ -23,7 +23,7 @@ export const applicationsStore = defineStore('applications', {
     getEOIApplicationsFormatted: (state) =>
       Object.values(Object.fromEntries(state.EOIApplicationsMap)).map((v) => ({
         EOI_number: v.iosas_eionumber,
-        status: v.status,
+        status: v.iosas_reviewstatus,
         proposed_school_name: v.iosas_proposedschoolname,
         school_year: v._iosas_edu_year_value,
         group_classification: v.iosas_groupclassification,

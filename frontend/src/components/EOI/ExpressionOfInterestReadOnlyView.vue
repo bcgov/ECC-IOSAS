@@ -5,11 +5,11 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>EOI Number</v-label>
-        <p>{{ eoi.iosas_eionumber || nullString }}</p>
+        <p>{{ eoi.iosas_eionumber || NULL_STRING }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>Status</v-label>
-        <p>{{ eoi.status || nullString }}</p>
+        <p>{{ eoi.iosas_reviewstatus || NULL_STRING }}</p>
       </v-col>
     </v-row>
     <br />
@@ -19,22 +19,22 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Authority</v-label>
-        <p>{{ eoi.iosas_schoolauthorityname || nullString }}</p>
+        <p>{{ eoi.iosas_schoolauthorityname || NULL_STRING }}</p>
       </v-col>
     </v-row>
     <br />
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Authority Head</v-label>
-        <p>{{ getAuthorityHeadName() || nullString }}</p>
+        <p>{{ getAuthorityHeadName() || NULL_STRING }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="3" xs="12">
         <v-label>E-Mail</v-label>
-        <p>{{ eoi.iosas_schoolauthorityheademail || nullString }}</p>
+        <p>{{ eoi.iosas_schoolauthorityheademail || NULL_STRING }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="3" xs="12">
         <v-label>Phone</v-label>
-        <p>{{ eoi.iosas_schoolauthorityheadphone || nullString }}</p>
+        <p>{{ eoi.iosas_schoolauthorityheadphone || NULL_STRING }}</p>
       </v-col>
     </v-row>
     <v-row>
@@ -55,15 +55,15 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Designated Authority Contact</v-label>
-          <p>{{ getDesignatedHeadName() || nullString }}</p>
+          <p>{{ getDesignatedHeadName() || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="3" xs="12">
           <v-label>E-mail</v-label>
-          <p>{{ eoi.iosas_schoolauthoritycontactemail || nullString }}</p>
+          <p>{{ eoi.iosas_schoolauthoritycontactemail || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="3" xs="12">
           <v-label>Phone</v-label>
-          <p>{{ eoi.ioas_schoolauthoritycontactphone || nullString }}</p>
+          <p>{{ eoi.ioas_schoolauthoritycontactphone || NULL_STRING }}</p>
         </v-col>
       </v-row>
     </div>
@@ -73,31 +73,31 @@
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Address Line 1</v-label>
-          <p>{{ eoi.iosas_authorityaddressline1 || nullString }}</p>
+          <p>{{ eoi.iosas_authorityaddressline1 || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Address Line 2</v-label>
-          <p>{{ eoi.iosas_authorityaddressline2 || nullString }}</p>
+          <p>{{ eoi.iosas_authorityaddressline2 || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>City</v-label>
-          <p>{{ eoi.iosas_authoritycity || nullString }}</p>
+          <p>{{ eoi.iosas_authoritycity || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Province</v-label>
-          <p>{{ eoi.iosas_authorityprovince || nullString }}</p>
+          <p>{{ eoi.iosas_authorityprovince || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Country</v-label>
-          <p>{{ eoi.iosas_authoritycountry || nullString }}</p>
+          <p>{{ eoi.iosas_authoritycountry || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Postal Code</v-label>
-          <p>{{ eoi.iosas_authoritypostalcode || nullString }}</p>
+          <p>{{ eoi.iosas_authoritypostalcode || NULL_STRING }}</p>
         </v-col>
       </v-row>
     </div>
@@ -108,7 +108,7 @@
     <v-row>
       <v-col cols="12" sm="12" md="8" xs="12">
         <v-label>Proposed School Name</v-label>
-        <p>{{ eoi.iosas_proposedschoolname || nullString }}</p>
+        <p>{{ eoi.iosas_proposedschoolname || NULL_STRING }}</p>
       </v-col>
     </v-row>
     <br />
@@ -117,31 +117,31 @@
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Address Line 1</v-label>
-          <p>{{ eoi.iosas_schooladdressline1 || nullString }}</p>
+          <p>{{ eoi.iosas_schooladdressline1 || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Address Line 2</v-label>
-          <p>{{ eoi.iosas_schooladdressline2 || nullString }}</p>
+          <p>{{ eoi.iosas_schooladdressline2 || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>City</v-label>
-          <p>{{ eoi.iosas_schoolcity || nullString }}</p>
+          <p>{{ eoi.iosas_schoolcity || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Province</v-label>
-          <p>{{ eoi.iosas_schoolprovince || nullString }}</p>
+          <p>{{ eoi.iosas_schoolprovince || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Country</v-label>
-          <p>{{ eoi.iosas_schoolcountry || nullString }}</p>
+          <p>{{ eoi.iosas_schoolcountry || NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Postal Code</v-label>
-          <p>{{ eoi.iosas_schoolpostalcode || nullString }}</p>
+          <p>{{ eoi.iosas_schoolpostalcode || NULL_STRING }}</p>
         </v-col>
       </v-row>
     </div>
@@ -149,18 +149,18 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>Website</v-label>
-        <p>{{ eoi.iosas_website || nullString }}</p>
+        <p>{{ eoi.iosas_website || NULL_STRING }}</p>
       </v-col>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Year</v-label>
-        <p>{{ eoi._iosas_edu_year_value || nullString }}</p>
+        <p>{{ eoi._iosas_edu_year_value || NULL_STRING }}</p>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12">
         <v-label>Group Calassification</v-label>
-        <p>{{ eoi.iosas_groupclassification || nullString }}</p>
+        <p>{{ eoi.iosas_groupclassification || NULL_STRING }}</p>
       </v-col>
     </v-row>
     <v-row>
@@ -189,6 +189,7 @@
 
 <script>
 import { formatBooleanToYesNoString } from '../../utils/format';
+import { NULL_STRING } from '../../utils/constants';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
   components: {},
@@ -201,7 +202,7 @@ export default {
   mounted() {},
   data() {
     return {
-      nullString: '-',
+      NULL_STRING,
     };
   },
   methods: {
