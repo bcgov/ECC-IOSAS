@@ -160,15 +160,31 @@
           <p>{{ NULL_STRING }}</p>
         </v-col>
       </v-row>
+      <br />
+      <v-label
+        >Please indicate under which legislation your School Authority is
+        incorporated:</v-label
+      >
       <v-row>
-        <v-col cols="12" sm="12" md="12" xs="12">
-          <v-label
-            >Please indicate under which legislation your School Authority is
-            incorporated:</v-label
-          >
-          <p><v-icon> mdi-check </v-icon>Societies Act</p>
-          <p><v-icon> mdi-check </v-icon>Business Corporation Act</p>
-          <p><v-icon> mdi-close </v-icon>an Order in Council or Private Act</p>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-checkbox
+            :disabled="!isEditing"
+            v-model="selected"
+            label="Societies Act"
+            value="Societies Act"
+          ></v-checkbox>
+          <v-checkbox
+            :disabled="!isEditing"
+            v-model="selected"
+            label="Business Corporation Act"
+            value="Business Corporation Act"
+          ></v-checkbox>
+          <v-checkbox
+            :disabled="!isEditing"
+            v-model="selected"
+            label="an Order in Council or Private Act"
+            value="an Order in Council or Private Act"
+          ></v-checkbox>
         </v-col>
       </v-row>
 

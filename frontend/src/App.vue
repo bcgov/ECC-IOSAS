@@ -284,4 +284,8 @@ h1 {
   color: #1976d2 !important;
   opacity: 100% !important;
 }
+
+.v-checkbox {
+  height: 30px !important;
+}
 </style>

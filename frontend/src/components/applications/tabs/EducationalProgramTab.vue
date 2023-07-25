@@ -3,13 +3,13 @@
     <br />
     <h4>Educational Program</h4>
     <br />
-    <div v-if="isEditing">
+    <div>
       <v-label
         >Describe familiarity with British Columbia’s curriculum and the school
         administration’s plans to support the implementation of B.C.s curriculum
         (pro-D, collaboration, etc.):</v-label
       >
-      <v-row>
+      <v-row v-if="isEditing">
         <v-col cols="12">
           <v-textarea
             :disabled="!isEditing"
@@ -22,6 +22,11 @@
             label=""
             color="rgb(59, 153, 252)"
           />
+        </v-col>
+      </v-row>
+      <v-row v-else>
+        <v-col cols="12">
+          {{ NULL_STRING }}
         </v-col>
       </v-row>
       <h4>Additional Programs</h4>
@@ -84,46 +89,6 @@
             label="other"
             color="rgb(59, 153, 252)"
           />
-        </v-col>
-      </v-row>
-    </div>
-    <div v-else>
-      <v-label
-        >Describe familiarity with British Columbia’s curriculum and the school
-        administration’s plans to support the implementation of B.C.s curriculum
-        (pro-D, collaboration, etc.):</v-label
-      >
-      <v-row>
-        <v-col cols="12">
-          {{ NULL_STRING }}
-        </v-col>
-      </v-row>
-      <br />
-      <h4>Additional Programs</h4>
-      <v-label
-        >At this time does the proposed school intend on enrolling any of the
-        following students? (Check all that apply)</v-label
-      >
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Indigenous Students</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>English Language Learner Students</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-close </v-icon>Business Corporation Act</p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-close </v-icon>Students with diverse abilities</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Other (please specify):</p>
-        </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          {{ NULL_STRING }}
         </v-col>
       </v-row>
     </div>

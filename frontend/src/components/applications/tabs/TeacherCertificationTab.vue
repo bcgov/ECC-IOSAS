@@ -30,13 +30,12 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="no"
-            v-model="formData.contact_email"
+            id="iosas_numberofteachers"
+            v-model="formData.iosas_numberofteachers"
             required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -97,7 +96,7 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          {{ NULL_STRING }}
+          {{ formData.iosas_numberofteachers || NULL_STRING }}
         </v-col>
       </v-row>
 
@@ -109,7 +108,13 @@
           >
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_awareofcertificationrequirements
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row align="center">
@@ -124,7 +129,13 @@
           >
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_awareoftherequirementsforcrchecks
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
     </div>

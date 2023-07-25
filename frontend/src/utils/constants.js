@@ -239,6 +239,10 @@ export const GOV_URL = {
   establishingSchoolURL:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/establishing-an-independent-school',
   bceidRegister: 'https://www.bceid.ca/register/',
+  independentSchoolActUrl:
+    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96216_01',
+  independentSchoolInfoUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/independent-schools',
 };
 
 export const NULL_STRING = '-';

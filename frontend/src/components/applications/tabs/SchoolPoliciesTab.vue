@@ -17,7 +17,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_anaphylaxispolicyandprocedures"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -36,7 +36,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_appealsprocesspolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -55,7 +55,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_boardingsafetyandsupervisionpolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -75,7 +75,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_childabusepreventionpolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -94,7 +94,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_studentconductstandardsdisciplinepolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -116,7 +116,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_emergencydrillspolicyproceduresresponse"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -139,7 +139,9 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="
+              formData.iosas_policyincludessectionsdealingwithemergencies
+            "
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -161,7 +163,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_otheremergencydrillsimplemeneted"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -183,7 +185,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_policyincludepermanentschoolclosure"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -202,7 +204,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_graduationprogramcreditspolicyifapplicable"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -222,7 +224,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_harassmentandbullyingpreventionpolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -242,7 +244,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_homeschoolingpolicyifapplicable"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -262,7 +264,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_internationalstudentpoliciesifapplicable"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -286,7 +288,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_complywithhomestayguidelines"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -310,7 +312,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_willapplyforstudentgraduationcreditpolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -333,7 +335,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_privacypolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -352,7 +354,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_specialeducationpolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -375,7 +377,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_willdevelopbudgetforexpenditurebasedoniep"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -398,7 +400,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_learningassistanceforspecialstudents"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -420,7 +422,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_willhavecompletioncertificatepolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -439,7 +441,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_educationalresourcepolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -458,7 +460,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_testingdrinkingwaterforleadcontentpolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -477,7 +479,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_schoolclosurepolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -496,7 +498,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_studentrecordspolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -517,7 +519,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_studentsupervisionpolicies"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -539,7 +541,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_refundpolicyconsistentwiththeguidelines"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -558,7 +560,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_teacherandprincipalevaluationpolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -577,8 +579,8 @@
         <v-col cols="12">
           <v-textarea
             :disabled="!isEditing"
-            id="no"
-            v-model="formData.contact_email"
+            id="iosas_ifnotoanyschoolpolicyexplainwhy"
+            v-model="formData.iosas_ifnotoanyschoolpolicyexplainwhy"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -595,7 +597,11 @@
           <v-label>Anaphylaxis Policy and Procedures </v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_anaphylaxispolicyandprocedures
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -604,7 +610,7 @@
           <v-label>Appeals Process Policy </v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{ formatBooleanToYesNoString(formData.iosas_appealsprocesspolicy) }}
         </v-col>
       </v-row>
 
@@ -613,7 +619,11 @@
           <v-label>Boarding Safety and Supervision Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_boardingsafetyandsupervisionpolicy
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -622,7 +632,11 @@
           <v-label>Child Abuse Prevention Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_childabusepreventionpolicy
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -631,7 +645,11 @@
           <v-label>Student Conduct/Standards/Discipline Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_studentconductstandardsdisciplinepolicy
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -643,7 +661,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_emergencydrillspolicyproceduresresponse
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -656,7 +678,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_policyincludessectionsdealingwithemergencies
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -668,7 +694,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_otheremergencydrillsimplemeneted
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -680,7 +710,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_policyincludepermanentschoolclosure
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -689,7 +723,11 @@
           <v-label>Graduation Program Credits policy (if applicable)</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_graduationprogramcreditspolicyifapplicable
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -698,7 +736,11 @@
           <v-label>Harassment and Bullying Prevention Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_harassmentandbullyingpreventionpolicy
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -707,7 +749,11 @@
           <v-label>Homeschooling policy (if applicable)</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_homeschoolingpolicyifapplicable
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -716,7 +762,11 @@
           <v-label>International Student policies (if applicable)</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_internationalstudentpoliciesifapplicable
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -729,7 +779,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_complywithhomestayguidelines
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -742,7 +796,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_willapplyforstudentgraduationcreditpolicy
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -754,7 +812,7 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{ formatBooleanToYesNoString(formData.iosas_privacypolicy) }}
         </v-col>
       </v-row>
 
@@ -763,7 +821,9 @@
           <v-label>Special Education Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(formData.iosas_specialeducationpolicy)
+          }}
         </v-col>
       </v-row>
 
@@ -776,7 +836,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_willdevelopbudgetforexpenditurebasedoniep
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -789,7 +853,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_learningassistanceforspecialstudents
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -801,7 +869,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_willhavecompletioncertificatepolicy
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -810,7 +882,9 @@
           <v-label>Educational Resource Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(formData.iosas_educationalresourcepolicy)
+          }}
         </v-col>
       </v-row>
 
@@ -819,7 +893,11 @@
           <v-label>Testing Drinking Water for Lead Content Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_testingdrinkingwaterforleadcontentpolicy
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -828,7 +906,7 @@
           <v-label>School Closure Policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{ formatBooleanToYesNoString(formData.iosas_schoolclosurepolicy) }}
         </v-col>
       </v-row>
 
@@ -837,7 +915,7 @@
           <v-label>Student Records policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{ formatBooleanToYesNoString(formData.iosas_studentrecordspolicy) }}
         </v-col>
       </v-row>
 
@@ -848,7 +926,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_studentsupervisionpolicies
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -860,7 +942,11 @@
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_refundpolicyconsistentwiththeguidelines
+            )
+          }}
         </v-col>
       </v-row>
 
@@ -869,7 +955,11 @@
           <v-label>Teacher and Principal Evaluation policy</v-label>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_teacherandprincipalevaluationpolicy
+            )
+          }}
         </v-col>
       </v-row>
       <v-row>
@@ -877,7 +967,7 @@
           >If 'no' to any of the above policies, please explain below:</v-label
         >
         <v-col cols="12">
-          {{ NULL_STRING }}
+          {{ formData.iosas_ifnotoanyschoolpolicyexplainwhy || NULL_STRING }}
         </v-col>
       </v-row>
     </div>

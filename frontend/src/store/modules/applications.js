@@ -13,11 +13,11 @@ export const applicationsStore = defineStore('applications', {
       // format the data for table view - keys are turned into table headers
       Object.values(Object.fromEntries(state.schoolApplicationsMap)).map(
         (v) => ({
-          application_number: v.application_number,
+          application_number: v.iosas_applicationnumber,
           status: v.status,
-          school_name: v.school_name,
-          school_year: v.school_year,
-          group_classification: v.group_classification,
+          school_name: v.iosas_proposedschoolname,
+          school_year: v._iosas_edu_year_value,
+          group_classification: v.iosas_groupclassification,
         })
       ),
     getEOIApplicationsFormatted: (state) =>
@@ -45,7 +45,10 @@ export const applicationsStore = defineStore('applications', {
     async setSchoolApplications(applicationsResponse) {
       this.schoolApplicationsMap = new Map();
       applicationsResponse.forEach((element) => {
-        this.schoolApplicationsMap.set(element.application_number, element);
+        this.schoolApplicationsMap.set(
+          element.iosas_applicationnumber,
+          element
+        );
       });
     },
     async getApplicationData() {

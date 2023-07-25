@@ -337,12 +337,12 @@ li {
   }
 
   .mobile-tabs {
-    visibility: visible !important;
+    display: block !important;
   }
 }
 
 .mobile-tabs {
-  visibility: hidden;
+  display: none;
 }
 
 .flex-1 {

@@ -6,7 +6,7 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Application Number</v-label>
-          <p>{{ formData.application_number }}</p>
+          <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
@@ -15,9 +15,11 @@
       </v-row>
       <br />
       <v-label
-        ><strong>
-          Will the proposed school comply with Section 1 of the Schedule of the
-          Independent School Act, which requires that:
+        ><strong
+          >Will the proposed school comply with Section 1 of the Schedule of the
+          <a :href="GOV_URL.independentSchoolActUrl" target="_blank"
+            >Independent School Act</a
+          >, which requires that:
         </strong>
       </v-label>
       <v-row>
@@ -127,7 +129,7 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Application Number</v-label>
-          <p>{{ formData.application_number }}</p>
+          <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
@@ -136,9 +138,11 @@
       </v-row>
       <br />
       <v-label
-        ><strong>
-          Will the proposed school comply with Section 1 of the Schedule of the
-          Independent School Act, which requires that:
+        ><strong
+          >Will the proposed school comply with Section 1 of the Schedule of the
+          <a :href="GOV_URL.independentSchoolActUrl" target="_blank"
+            >Independent School Act</a
+          >, which requires that:
         </strong>
       </v-label>
       <v-row>
@@ -195,6 +199,7 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { GOV_URL } from '../../../utils/constants';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
@@ -212,6 +217,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GOV_URL,
     requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),

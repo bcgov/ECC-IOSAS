@@ -7,8 +7,8 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="proposed_school_name"
-            v-model="formData.proposed_school_name"
+            id="iosas_proposedschoolname"
+            v-model="formData.iosas_proposedschoolname"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -56,8 +56,8 @@
         <v-col cols="12">
           <v-textarea
             :disabled="!isEditing"
-            id="proposed_school_name"
-            v-model="formData.proposed_school_name"
+            id="iosas_overview"
+            v-model="formData.iosas_overview"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -370,7 +370,7 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Proposed School Name</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>{{ formData.iosas_proposedschoolname || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <v-row>
@@ -391,7 +391,7 @@
             future years.</v-label
           >
           <p>
-            {{ NULL_STRING }}
+            {{ formData.iosas_overview || NULL_STRING }}
           </p>
         </v-col>
       </v-row>
