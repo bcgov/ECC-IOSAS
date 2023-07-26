@@ -230,80 +230,110 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Kindergarten</v-label>
           <p>
-            {{ displayData(formData.iosas_numberofstudentskindergarten) }}
+            {{
+              displayDefaultNumberValue(
+                formData.iosas_numberofstudentskindergarten
+              )
+            }}
           </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 1</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg1) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg1) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 2</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg2) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg2) }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 3</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg3) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg3) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 4</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg4) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg4) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 5</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg5) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg5) }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 6</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg6) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg6) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 7</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg7) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg7) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Total (A)</v-label>
-          <p>{{ displayData(formData.iosas_primaryschooltotal) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_primaryschooltotal) }}
+          </p>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 8</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg8) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg8) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 9</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg9) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg9) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 10</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg10) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg10) }}
+          </p>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 11</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg11) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg11) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 12</v-label>
-          <p>{{ displayData(formData.iosas_numberofstudentsg12) }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg12) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Total (B)</v-label>
-          <p>{{ displayData(formData.iosas_highschooltotal) }}</p>
+          <p>{{ displayDefaultNumberValue(formData.iosas_highschooltotal) }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Total of A and B enrolment</v-label>
-          <p>{{ displayData(formData.iosas_totalenrolment) }}</p>
+          <p>{{ displayDefaultNumberValue(formData.iosas_totalenrolment) }}</p>
         </v-col>
       </v-row>
     </div>
@@ -312,7 +342,10 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
-import { formatBooleanToYesNoString } from '../../../utils/format';
+import {
+  formatBooleanToYesNoString,
+  displayDefaultNumberValue,
+} from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'StudentEnrolmentTab',
@@ -336,9 +369,7 @@ export default {
   computed: {},
   methods: {
     formatBooleanToYesNoString,
-    displayData(data) {
-      return data || data === 0 ? data : NULL_STRING;
-    },
+    displayDefaultNumberValue,
   },
 };
 </script>
