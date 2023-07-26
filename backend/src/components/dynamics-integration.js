@@ -8,6 +8,7 @@ const dynamicIntegrationService = {
   },
   async health() {
     const endPoint = this.host() + '/Health';
+    logger.info(`D365 | Health | URL: ${endPoint}`);
     return (await axios.get(endPoint)).data;
   }
 };
