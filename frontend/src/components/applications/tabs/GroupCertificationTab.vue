@@ -1,7 +1,7 @@
 <template>
   <v-conatiner>
     <h4>Application for Group Certification</h4>
-    <v-label><strong> (Schools Seeking group and 4 only) </strong></v-label>
+    <v-label><strong>(Schools Seeking group and 4 only) </strong></v-label>
     <v-label
       >The proposed school will establish an educational program that will
       comply with the instructional goals, time, and program requirements
@@ -186,9 +186,9 @@
       </v-row>
     </div>
     <div v-else>
+      <v-label><strong>Group 2:</strong></v-label>
       <v-row align="center">
         <v-col cols="8">
-          <v-label><strong>Group 2:</strong></v-label>
           <v-label
             >If the proposed school is intending to seek funding, are you
             familiar with Grants to Independent Schools Policy?
@@ -204,12 +204,10 @@
           </p>
         </v-col>
       </v-row>
-
       <v-row align="center">
         <v-col cols="8">
-          <v-label><strong>Group 2:</strong></v-label>
-          <v-label
-            >Group 2: Will the School Authority operate on a non-profit basis?
+          <v-label>
+            Will the School Authority operate on a non-profit basis?
           </v-label>
         </v-col>
         <v-col cols="4">
