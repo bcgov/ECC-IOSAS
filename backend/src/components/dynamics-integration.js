@@ -2,7 +2,7 @@ const axios = require('axios');
 const config = require('../config/index');
 const logger = require('./logger');
 
-const d365 = null;
+let d365 = null;
 const dynamicIntegrationService = {
   config() {
     return d365 || (() => {
