@@ -228,10 +228,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-  margin-bottom: 10px;
-}
-</style>

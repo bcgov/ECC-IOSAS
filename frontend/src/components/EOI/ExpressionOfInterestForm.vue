@@ -718,11 +718,6 @@ export default {
 </script>
 
 <style scoped>
-.v-label {
-  white-space: break-spaces;
-  margin-bottom: 10px;
-}
-
 .submit-button {
   background-color: #003366 !important;
   color: white !important;

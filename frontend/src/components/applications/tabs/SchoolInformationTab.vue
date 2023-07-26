@@ -374,7 +374,7 @@
 
       <br />
       <v-label><strong>School Address</strong></v-label>
-      <div class="gray">
+      <div class="ml-5">
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Address Line 1</v-label>
@@ -410,7 +410,7 @@
 
       <br />
       <v-label><strong>School Mailing Address</strong></v-label>
-      <div class="gray">
+      <div class="ml-5">
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Address Line 1</v-label>
@@ -519,7 +519,6 @@ export default {
   data: () => ({
     NULL_STRING,
     GRADE_OPTIONS,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
@@ -529,15 +528,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-  margin-bottom: 10px;
-}
-
-.gray {
-  margin: 10px;
-  padding: 10px;
-}
-</style>

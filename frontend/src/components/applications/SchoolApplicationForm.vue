@@ -55,7 +55,6 @@
               </div>
               <br />
               <v-divider></v-divider>
-
               <v-window v-model="tab">
                 <v-window-item
                   v-for="tab in tabContent"
@@ -69,7 +68,6 @@
                   />
                 </v-window-item>
               </v-window>
-
               <v-row v-if="isLastPage()">
                 <v-col cols="12" sm="12" md="12" xs="12">
                   <v-checkbox
@@ -327,19 +325,13 @@ li {
   display: block;
 }
 
-.v-label {
-  white-space: break-spaces;
-  margin-bottom: 10px;
-}
 .submit-button {
   background-color: #003366 !important;
   color: white !important;
 }
-
 .v-window {
   margin-top: 20px;
 }
-
 /* Override the default settings for content-container as this view has side navigation */
 .content-container {
   padding-top: 0;
@@ -372,7 +364,6 @@ li {
   .no-mobile-tabs {
     display: none;
   }
-
   .mobile-tabs {
     display: block !important;
   }

@@ -47,7 +47,7 @@
         <v-col cols="8">
           <v-label><strong>Group 2:</strong></v-label>
           <v-label
-            >Group 2: Will the School Authority operate on a non-profit basis?
+            >Will the School Authority operate on a non-profit basis?
           </v-label>
         </v-col>
         <v-col cols="4">
@@ -318,16 +318,10 @@ export default {
 </script>
 
 <style scoped>
-.v-label {
-  white-space: break-spaces;
-  margin-bottom: 10px;
-}
-
 li {
   display: list-item;
   list-style-position: inside;
 }
-
 .block {
   display: block;
 }

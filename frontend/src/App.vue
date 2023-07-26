@@ -229,8 +229,10 @@ h1 {
 .v-divider {
   padding: 15px;
 }
+
 .v-label {
-  white-space: break-spaces;
+  white-space: break-spaces !important;
+  margin-bottom: 10px !important;
 }
 
 .reference-cards {

@@ -1,8 +1,6 @@
 <template>
   <v-conatiner>
-    <br />
     <h4>Educational Program</h4>
-    <br />
     <div>
       <v-label
         >Describe familiarity with British Columbia’s curriculum and the school
@@ -133,10 +131,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-  margin-bottom: 10px;
-}
-</style>
