@@ -3,8 +3,8 @@
     <h4>Certification of Teachers</h4>
     <v-label><strong>Schools seeking Group 2 and 4 only</strong></v-label>
     <br />
-    <v-label>
-      The school principal/head of school and all teachers teaching a subject
+    <v-label
+      >The school principal/head of school and all teachers teaching a subject
       that is reported out on student report cards must hold valid British
       Columbia teaching credentials issued by the Teacher Certification Branch
       (TCB). Initial certification of Group 2 and Group 4 schools will typically
@@ -173,5 +173,6 @@ export default {
 <style scoped>
 .v-label {
   white-space: break-spaces;
+  margin-bottom: 10px;
 }
 </style>

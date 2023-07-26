@@ -26,8 +26,8 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-select
             :disabled="!isEditing"
-            id="start_grade"
-            v-model="formData.start_grade"
+            id="iosas_startgrade"
+            v-model="formData.iosas_startgrade"
             label="Select Start Grade"
             variant="outlined"
             color="rgb(59, 153, 252)"
@@ -38,8 +38,8 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-select
             :disabled="!isEditing"
-            id="end_grade"
-            v-model="formData.end_grade"
+            id="iosas_endgrade"
+            v-model="formData.iosas_endgrade"
             label="Select End Grade"
             variant="outlined"
             color="rgb(59, 153, 252)"
@@ -73,8 +73,8 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_address_line_1"
-            v-model="formData.school_address"
+            id="iosas_addressline1"
+            v-model="formData.iosas_addressline1"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -88,8 +88,8 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_address_line_2"
-            v-model="formData.school_address"
+            id="iosas_addressline2"
+            v-model="formData.iosas_addressline2"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -101,8 +101,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_city"
-            v-model="formData.school_city"
+            id="iosas_city"
+            v-model="formData.iosas_city"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -115,8 +115,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            id="school_province"
-            v-model="formData.school_province"
+            id="iosas_province"
+            v-model="formData.iosas_province"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -128,8 +128,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            id="school_country"
-            v-model="formData.school_country"
+            id="iosas_country"
+            v-model="formData.iosas_country"
             required
             disabled
             :rules="[]"
@@ -142,8 +142,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_postal_code"
-            v-model="formData.school_postal_code"
+            id="iosas_postalcode"
+            v-model="formData.iosas_postalcode"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -158,8 +158,8 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_address_line_1"
-            v-model="formData.school_address"
+            id="iosas_mailingaddress1"
+            v-model="formData.iosas_mailingaddress1"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -173,8 +173,8 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_address_line_2"
-            v-model="formData.school_address"
+            id="iosas_mailingaddress2"
+            v-model="formData.iosas_mailingaddress2"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -186,8 +186,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_city"
-            v-model="formData.school_city"
+            id="iosas_mailingaddresscity"
+            v-model="formData.iosas_mailingaddresscity"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -200,8 +200,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            id="school_province"
-            v-model="formData.school_province"
+            id="iosas_mailingaddressprovince"
+            v-model="formData.iosas_mailingaddressprovince"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -213,8 +213,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            id="school_country"
-            v-model="formData.school_country"
+            id="iosas_mailingaddresscountry"
+            v-model="formData.iosas_mailingaddresscountry"
             required
             disabled
             :rules="[]"
@@ -226,8 +226,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            id="school_postal_code"
-            v-model="formData.school_postal_code"
+            id="iosas_mailingaddresspostalcode"
+            v-model="formData.iosas_mailingaddresspostalcode"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -241,8 +241,8 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="website_url"
-            v-model="formData.website_url"
+            id="iosas_website"
+            v-model="formData.iosas_website"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -269,8 +269,8 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_phone"
+            v-model="formData.iosas_phone"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -288,33 +288,17 @@
             Information)</v-label
           >
           <v-radio-group
-            v-model="groupRadioGroup"
+            v-model="formData.iosas_groupclassification"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Group 1" color="#003366" value="groupOne" disabled>
-              <template #label>
-                <span :class="activeRadio">Group 1</span>
-              </template>
-            </v-radio>
-            <v-radio label="Group 2" color="#003366" value="groupTwo">
-              <template #label>
-                <span :class="activeRadio">Group 2</span>
-              </template>
-            </v-radio>
-            <v-radio label="Group 3" color="#003366" value="groupThree">
-              <template #label>
-                <span :class="activeRadio">Group 3</span>
-              </template>
-            </v-radio>
-            <v-radio label="Group 3" color="#003366" value="groupFour">
-              <template #label>
-                <span :class="activeRadio">Group 4</span>
-              </template>
-            </v-radio>
+            <v-radio label="Group 1" color="#003366" value="Group 1" disabled />
+            <v-radio label="Group 2" color="#003366" value="Group 2" />
+            <v-radio label="Group 3" color="#003366" value="Group 3" />
+            <v-radio label="Group 4" color="#003366" value="Group 4" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -326,23 +310,15 @@
             subsequest year(s) of operation?
           </v-label>
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_seekgroup1classification"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -354,8 +330,8 @@
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="intended_affilliation"
-            v-model="formData.contact_email"
+            id="iosas_schoolaffiliation"
+            v-model="formData.iosas_schoolaffiliation"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -402,31 +378,31 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Address Line 1</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_addressline1 || NULL_STRING }}</p>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Address Line 2</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_addressline2 || NULL_STRING }}</p>
           </v-col>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>City</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_city || NULL_STRING }}</p>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>Province</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_province || NULL_STRING }}</p>
           </v-col>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>Country</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_country || NULL_STRING }}</p>
           </v-col>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>Postal Code</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_postalcode || NULL_STRING }}</p>
           </v-col>
         </v-row>
       </div>
@@ -438,31 +414,31 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Address Line 1</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_mailingaddress1 || NULL_STRING }}</p>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Address Line 2</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_mailingaddress2 || NULL_STRING }}</p>
           </v-col>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>City</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_mailingaddresscity || NULL_STRING }}</p>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>Province</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_mailingaddressprovince || NULL_STRING }}</p>
           </v-col>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>Country</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_mailingaddresscountry || NULL_STRING }}</p>
           </v-col>
           <v-col cols="12" sm="12" md="4" xs="12">
             <v-label>Postal Code</v-label>
-            <p>{{ NULL_STRING }}</p>
+            <p>{{ formData.iosas_mailingaddresspostalcode || NULL_STRING }}</p>
           </v-col>
         </v-row>
       </div>
@@ -471,7 +447,7 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Website address</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>{{ formData.iosas_website || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <v-row>
@@ -481,7 +457,7 @@
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>School Phone</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>{{ formData.iosas_phone || NULL_STRING }}</p>
         </v-col>
       </v-row>
 
@@ -491,7 +467,7 @@
             >Group Calassification applying for: (Group classification
             Information)</v-label
           >
-          <p>{{ NULL_STRING }}</p>
+          <p>{{ formData.iosas_groupclassification || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <v-row>
@@ -501,7 +477,13 @@
             current plans to seek Group 1 classification in the second or
             subsequest year(s) of operation?
           </v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_seekgroup1classification
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -510,7 +492,7 @@
             >School's Intended Affiliation/Association (CIS, ISABC, SCSBC, AMG,
             ACSIBC, SDA, or other if applicable)</v-label
           >
-          <p>{{ NULL_STRING }}</p>
+          <p>{{ formData.iosas_schoolaffiliation || NULL_STRING }}</p>
         </v-col>
       </v-row>
     </div>
@@ -519,7 +501,8 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
-import { NULL_STRING } from '../../../utils/constants';
+import { formatBooleanToYesNoString } from '../../../utils/format';
+import { NULL_STRING, GRADE_OPTIONS } from '../../../utils/constants';
 export default {
   name: 'SchoolInformationTab',
   components: {},
@@ -535,18 +518,22 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GRADE_OPTIONS,
     requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    formatBooleanToYesNoString,
+  },
 };
 </script>
 
 <style scoped>
 .v-label {
   white-space: break-spaces;
+  margin-bottom: 10px;
 }
 
 .gray {

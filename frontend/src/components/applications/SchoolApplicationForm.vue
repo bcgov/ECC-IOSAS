@@ -1,18 +1,5 @@
 <template>
   <div>
-    <v-row v-if="isLoading">
-      <v-col class="d-flex justify-center">
-        <v-progress-circular
-          class="mt-16"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-          :active="isLoading"
-        />
-      </v-col>
-    </v-row>
-
     <ConfirmationDialog ref="confirmDelete">
       <template #message>
         <p>
@@ -58,32 +45,35 @@
             <div class="form-container">
               <div class="d-flex justify-space-between">
                 <h1>Application for Independent School Certification</h1>
-                <!-- <PrimaryButton
+                <PrimaryButton
                   v-if="!isEditing"
                   secondary
                   text="Edit"
                   class="mr-2"
                   :click-action="toggleEditMode"
-                /> -->
+                />
               </div>
               <br />
               <v-divider></v-divider>
               <v-window v-model="tab">
                 <v-window-item key="General" value="General">
-                  <SchoolGeneralTab :formData="data" :isEditing="isEditing" />
+                  <SchoolGeneralTab
+                    :formData="formData"
+                    :isEditing="isEditing"
+                  />
                 </v-window-item>
                 <v-window-item
                   key="School Information"
                   value="School Information"
                 >
                   <SchoolInformationTab
-                    :formData="data"
+                    :formData="formData"
                     :isEditing="isEditing"
                   />
                 </v-window-item>
                 <v-window-item key="School Authority" value="School Authority">
                   <SchoolAuthorityInformationTab
-                    :formData="data"
+                    :formData="formData"
                     :isEditing="isEditing"
                   />
                 </v-window-item>
@@ -92,34 +82,43 @@
                   value="Student Enrolment"
                 >
                   <StudentEnrolmentTab
-                    :formData="data"
+                    :formData="formData"
                     :isEditing="isEditing"
                   />
                 </v-window-item>
                 <v-window-item key="School Semester" value="School Semester">
-                  <SchoolSemesterTab :formData="data" :isEditing="isEditing" />
+                  <SchoolSemesterTab
+                    :formData="formData"
+                    :isEditing="isEditing"
+                  />
                 </v-window-item>
                 <v-window-item
                   key="Group Certification"
                   value="Group Certification"
                 >
                   <GroupCertificationTab
-                    :formData="data"
+                    :formData="formData"
                     :isEditing="isEditing"
                   />
                 </v-window-item>
                 <v-window-item key="School Facility" value="School Facility">
-                  <SchoolFacilityTab :formData="data" :isEditing="isEditing" />
+                  <SchoolFacilityTab
+                    :formData="formData"
+                    :isEditing="isEditing"
+                  />
                 </v-window-item>
                 <v-window-item key="School Policies" value="School Policies">
-                  <SchoolPoliciesTab :formData="data" :isEditing="isEditing" />
+                  <SchoolPoliciesTab
+                    :formData="formData"
+                    :isEditing="isEditing"
+                  />
                 </v-window-item>
                 <v-window-item
                   key="Educational Program"
                   value="Educational Program"
                 >
                   <EducationalProgramTab
-                    :formData="data"
+                    :formData="formData"
                     :isEditing="isEditing"
                   />
                 </v-window-item>
@@ -128,12 +127,12 @@
                   value="Teacher Certification"
                 >
                   <TeacherCertificationTab
-                    :formData="data"
+                    :formData="formData"
                     :isEditing="isEditing"
                   />
                 </v-window-item>
                 <v-window-item key="Submissions" value="Submissions">
-                  <SubmissionTab :formData="data" :isEditing="isEditing" />
+                  <SubmissionTab :formData="formData" :isEditing="isEditing" />
                 </v-window-item>
               </v-window>
 
@@ -215,7 +214,6 @@ import * as Rules from './../../utils/institute/formRules';
 
 import DocumentUpload from '../common/DocumentUpload.vue';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
-import { GRADE_OPTIONS } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import SchoolPoliciesTab from './tabs/SchoolPoliciesTab.vue';
@@ -251,7 +249,7 @@ export default {
   emits: ['setIdLoading'],
   mixins: [alertMixin],
   props: {
-    data: {
+    formData: {
       type: Object,
       required: false,
     },
@@ -262,7 +260,6 @@ export default {
   },
   data() {
     return {
-      GRADE_OPTIONS,
       drawer: false,
       isEditing: false,
       isValidForm: false,
@@ -290,7 +287,9 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    this.isEditing = this.data?.status === 'Draft';
+    console.log(this.formData);
+    console.log(this.formData?.status === 'Draft');
+    this.isEditing = this.formData && this.formData?.status === 'Draft';
   },
   methods: {
     async validateForm() {

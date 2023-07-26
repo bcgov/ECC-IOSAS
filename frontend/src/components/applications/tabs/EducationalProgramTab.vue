@@ -12,9 +12,8 @@
       <v-row v-if="isEditing">
         <v-col cols="12">
           <v-textarea
-            :disabled="!isEditing"
-            id="no"
-            v-model="formData.contact_email"
+            id="iosas_describefamiliaritywithbcscurriculum"
+            v-model="formData.iosas_describefamiliaritywithbcscurriculum"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -26,9 +25,12 @@
       </v-row>
       <v-row v-else>
         <v-col cols="12">
-          {{ NULL_STRING }}
+          {{
+            formData.iosas_describefamiliaritywithbcscurriculum || NULL_STRING
+          }}
         </v-col>
       </v-row>
+      <br />
       <h4>Additional Programs</h4>
       <v-label
         >At this time does the proposed school intend on enrolling any of the
@@ -128,5 +130,6 @@ export default {
 <style scoped>
 .v-label {
   white-space: break-spaces;
+  margin-bottom: 10px;
 }
 </style>

@@ -1011,6 +1011,7 @@ export default {
 <style scoped>
 .v-label {
   white-space: break-spaces;
+  margin-bottom: 10px;
   display: inline;
 }
 </style>
