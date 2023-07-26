@@ -287,8 +287,6 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    console.log(this.formData);
-    console.log(this.formData?.status === 'Draft');
     this.isEditing = this.formData && this.formData?.status === 'Draft';
   },
   methods: {

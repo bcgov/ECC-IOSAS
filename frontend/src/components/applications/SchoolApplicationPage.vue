@@ -57,9 +57,6 @@ export default {
   computed: {
     ...mapState(applicationsStore, ['getSchoolApplicationById']),
   },
-  mounted() {
-    console.log(this.$route.params.id);
-  },
   created() {
     applicationsStore()
       .getApplicationData()
@@ -69,7 +66,6 @@ export default {
           this.applicationData = this.getSchoolApplicationById(
             this.$route.params.id
           );
-          console.log(this.applicationData);
         }, 500);
       });
   },
