@@ -29,6 +29,9 @@ nconf.overrides({
     buildId: process.env.BUILD_ID || 'NA',
     info: process.env.VERSION || 'NA',
     app: 'iosas-api'
+  },
+  d365: {
+    host: process.env.D365_HOST
   }
 });
 
