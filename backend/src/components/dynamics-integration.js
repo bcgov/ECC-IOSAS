@@ -4,7 +4,7 @@ const logger = require('./logger');
 
 const dynamicIntegrationService = {
   host() {
-    return `http://${config.get('d365:host').host}:5091/api`
+    return `http://${config.get('d365:host')}:5091/api`
   },
   async health() {
     const endPoint = this.host() + '/Health';
