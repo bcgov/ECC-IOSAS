@@ -55,88 +55,22 @@
               </div>
               <br />
               <v-divider></v-divider>
+
               <v-window v-model="tab">
-                <v-window-item key="General" value="General">
-                  <SchoolGeneralTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
                 <v-window-item
-                  key="School Information"
-                  value="School Information"
+                  v-for="tab in tabContent"
+                  :key="tab.tab"
+                  :value="tab.tab"
                 >
-                  <SchoolInformationTab
+                  <component
+                    :is="tab.component"
                     :formData="formData"
                     :isEditing="isEditing"
                   />
-                </v-window-item>
-                <v-window-item key="School Authority" value="School Authority">
-                  <SchoolAuthorityInformationTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Student Enrolment"
-                  value="Student Enrolment"
-                >
-                  <StudentEnrolmentTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Semester" value="School Semester">
-                  <SchoolSemesterTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Group Certification"
-                  value="Group Certification"
-                >
-                  <GroupCertificationTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Facility" value="School Facility">
-                  <SchoolFacilityTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Policies" value="School Policies">
-                  <SchoolPoliciesTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Educational Program"
-                  value="Educational Program"
-                >
-                  <EducationalProgramTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Teacher Certification"
-                  value="Teacher Certification"
-                >
-                  <TeacherCertificationTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="Submissions" value="Submissions">
-                  <SubmissionTab :formData="formData" :isEditing="isEditing" />
                 </v-window-item>
               </v-window>
 
-              <v-row v-if="tab === 'Submissions'">
+              <v-row v-if="isLastPage()">
                 <v-col cols="12" sm="12" md="12" xs="12">
                   <v-checkbox
                     v-model="applicationConfirmation"
@@ -157,7 +91,7 @@
                   />
 
                   <v-btn
-                    v-if="tab === 'Submissions'"
+                    v-if="isLastPage()"
                     type="submit"
                     primary
                     class="mt-2 submit-button"
@@ -182,7 +116,7 @@
             <v-container>
               <v-row class="d-flex justify-space-between">
                 <PrimaryButton
-                  :disabled="tab === 'General'"
+                  :disabled="isFirstPage()"
                   type="submit"
                   secondary
                   text="Previous"
@@ -190,7 +124,7 @@
                   :click-action="prevTab"
                 />
                 <PrimaryButton
-                  :disabled="tab === 'Submissions'"
+                  :disabled="isLastPage()"
                   id=""
                   secondary
                   text="Next"
@@ -267,6 +201,37 @@ export default {
       applicationConfirmation: false,
       requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
+      tabContent: [
+        {
+          tab: 'General',
+          component: 'SchoolGeneralTab',
+        },
+        {
+          tab: 'School Information',
+          component: 'SchoolInformationTab',
+        },
+        {
+          tab: 'School Authority',
+          component: 'SchoolAuthorityInformationTab',
+        },
+        {
+          tab: 'Student Enrolment',
+          component: 'StudentEnrolmentTab',
+        },
+        {
+          tab: 'School Semester',
+          component: 'SchoolSemesterTab',
+        },
+        {
+          tab: 'Group Certification',
+          component: 'GroupCertificationTab',
+        },
+        { tab: 'School Facility', component: 'SchoolFacilityTab' },
+        { tab: 'School Policies', component: 'SchoolPoliciesTab' },
+        { tab: 'Educational Program', component: 'EducationalProgramTab' },
+        { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
+        { tab: 'Submissions', component: 'SubmissionTab' },
+      ],
       tab: 'General',
       items: [
         'General',
@@ -290,6 +255,12 @@ export default {
     this.isEditing = this.formData && this.formData?.status === 'Draft';
   },
   methods: {
+    isLastPage() {
+      return this.tab === 'Submissions';
+    },
+    isFirstPage() {
+      return this.tab === 'General';
+    },
     async validateForm() {
       const valid = await this.$refs.schoolApplicationForm.validate();
       this.isFormValid = valid.valid;
