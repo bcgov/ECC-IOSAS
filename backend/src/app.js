@@ -153,9 +153,8 @@ app.use(/(\/api)?/, apiRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/user', userRouter);
 
-console.log(`SOAM URL: ${process.env.SOAM_URL}`);
+
 console.log(`NODE ENV: ${process.env.NODE_ENV} | PORT: ${process.env.API_PORT}`);
-console.log(`ID Key: ${process.env.UI_PRIVATE_KEY} | Public key: ${process.env.UI_PUBLIC_KEY}`)
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

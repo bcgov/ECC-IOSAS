@@ -35,7 +35,7 @@ objects:
         spec:
           containers:
             - env:
-                - name: D365-HOST
+                - name: D365_HOST
                   value: ${NAME}-d365
                 - name: BUILD_ID
                   value: ${BUILD_ID}
