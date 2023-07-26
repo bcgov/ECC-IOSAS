@@ -23,6 +23,7 @@ const noCache = require('nocache');
 const apiRouter = express.Router();
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
+const healthCheck = require('./routes/health-check');
 // const promMid = require('express-prometheus-middleware');
 //initialize app
 const app = express();
@@ -50,14 +51,6 @@ const logStream = {
 
 
 
-
-/*const Redis = require('./util/redis/redis-client');
-Redis.init(); // call the init to initialize appropriate client, and reuse it across the app.
-const RedisStore = connectRedis(session);
-const dbSession = new RedisStore({
-  client: Redis.getRedisClient(),
-  prefix: 'iosas-sess:',
-});*/
 const cookie = {
   secure: true,
   httpOnly: true,
@@ -74,7 +67,8 @@ app.use(session({
   saveUninitialized: true,
   cookie: cookie,
 }));
-app.use(require('./routes/health-check').router);
+healthCheck.configure();
+app.use(healthCheck.router);
 app.use(require('./routes/version').router);
 //initialize routing and session. Cookies are now only reachable via requests (not js)
 app.use(passport.initialize());
