@@ -7,8 +7,6 @@ const auth = require('../components/auth');
 const log = require('../components/logger');
 const {v4: uuidv4} = require('uuid');
 const {getSessionUser} = require('../components/utils');
-const {getAndSetupEDXUserAndRedirect} = require('../components/secureExchange');
-
 const {
   body,
   validationResult
