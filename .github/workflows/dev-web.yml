@@ -32,7 +32,6 @@ jobs:
           filters: |
             src:
               - 'frontend/**'
-              - 'tools/openshift/**'
           base: ${{ github.ref }}
       - name: Build changes
         if: steps.changes.outputs.src == 'true'
