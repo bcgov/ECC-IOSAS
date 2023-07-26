@@ -670,7 +670,7 @@ export default {
         setTimeout(() => {
           this.$router.push({
             name: 'applicationConfirmation',
-            params: { type: 'Delete' },
+            params: { type: 'Delete#EOI' },
           });
         }, 1000);
       }

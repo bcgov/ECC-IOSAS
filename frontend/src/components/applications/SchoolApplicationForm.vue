@@ -13,6 +13,16 @@
       </v-col>
     </v-row>
 
+    <ConfirmationDialog ref="confirmDelete">
+      <template #message>
+        <p>
+          The Application for Independent School Certification will be deleted
+          from your records. A new EOI can be submitted in the future to restart
+          the school application process.
+        </p>
+      </template>
+    </ConfirmationDialog>
+
     <v-navigation-drawer temporary class="mobile-tabs" v-model="drawer">
       <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
         <v-tab
@@ -48,13 +58,13 @@
             <div class="form-container">
               <div class="d-flex justify-space-between">
                 <h1>Application for Independent School Certification</h1>
-                <PrimaryButton
+                <!-- <PrimaryButton
                   v-if="!isEditing"
                   secondary
                   text="Edit"
                   class="mr-2"
                   :click-action="toggleEditMode"
-                />
+                /> -->
               </div>
               <br />
               <v-divider></v-divider>
@@ -127,24 +137,45 @@
                 </v-window-item>
               </v-window>
 
+              <v-row v-if="tab === 'Submissions'">
+                <v-col cols="12" sm="12" md="12" xs="12">
+                  <v-checkbox
+                    v-model="applicationConfirmation"
+                    label="I confirm this application is complete and ready to be submitted for review."
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+
               <br />
               <v-container v-if="isEditing">
                 <v-row align="end">
                   <v-spacer />
                   <PrimaryButton
+                    secondary
+                    text="Save Draft"
+                    class="mr-2"
+                    :click-action="handleDraftSubmit"
+                  />
+
+                  <v-btn
+                    v-if="tab === 'Submissions'"
                     type="submit"
                     primary
-                    text="Submit"
-                    class="mr-2"
-                    click-action="buttonAction"
-                  />
-                  <PrimaryButton
-                    id=""
-                    secondary
-                    text="Clear"
-                    class="mr-2"
-                    @click="handleReset"
-                  />
+                    class="mt-2 submit-button"
+                    variant="elevated"
+                    :disabled="!applicationConfirmation"
+                    >Submit</v-btn
+                  >
+                </v-row>
+                <v-row align="end">
+                  <v-spacer />
+                  <v-btn
+                    variant="plain"
+                    @click="handleDelete"
+                    class="link-button"
+                  >
+                    Delete Draft
+                  </v-btn>
                 </v-row>
               </v-container>
             </div>
@@ -217,6 +248,7 @@ export default {
     TeacherCertificationTab,
     SubmissionTab,
   },
+  emits: ['setIdLoading'],
   mixins: [alertMixin],
   props: {
     data: {
@@ -234,6 +266,8 @@ export default {
       drawer: false,
       isEditing: false,
       isValidForm: false,
+      defaultStatus: 'Submitted',
+      applicationConfirmation: false,
       requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
       tab: 'General',
@@ -255,8 +289,9 @@ export default {
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
-  mounted() {},
-  created() {},
+  created() {
+    this.isEditing = this.data?.status === 'Draft';
+  },
   methods: {
     async validateForm() {
       const valid = await this.$refs.schoolApplicationForm.validate();
@@ -265,6 +300,32 @@ export default {
     toggleEditMode() {
       return (this.isEditing = true);
     },
+    async handleDelete() {
+      const confirmation = await this.$refs.confirmDelete.open(
+        'Delete Draft of Independent School Certification?',
+        null,
+        {
+          color: '#fff',
+          width: 580,
+          closeIcon: false,
+          subtitle: false,
+          dark: false,
+          resolveText: 'Delete',
+          rejectText: 'Cancel',
+        }
+      );
+      if (!confirmation) {
+        return;
+      } else {
+        this.$emit('setIsLoading');
+        setTimeout(() => {
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'Delete#APP' },
+          });
+        }, 1000);
+      }
+    },
     getData() {
       return [
         {
@@ -272,6 +333,9 @@ export default {
           status: 'Draft',
         },
       ];
+    },
+    handleDraftSubmit() {
+      console.log('Saving draft');
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
@@ -297,6 +361,11 @@ li {
 
 .v-label {
   white-space: break-spaces;
+  margin-bottom: 10px;
+}
+.submit-button {
+  background-color: #003366 !important;
+  color: white !important;
 }
 
 .v-window {

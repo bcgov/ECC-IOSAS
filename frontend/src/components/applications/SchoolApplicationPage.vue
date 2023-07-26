@@ -9,6 +9,7 @@
     <SchoolApplicationForm
       :data="getSchoolApplicationById(this.$route.params.id)"
       :isLoading="isLoading"
+      @setIsLoading="setIsLoading"
     />
   </v-container>
 </template>
@@ -51,7 +52,11 @@ export default {
         }, 500);
       });
   },
-  methods: {},
+  methods: {
+    setIsLoading() {
+      this.isLoading = true;
+    },
+  },
 };
 </script>
 
