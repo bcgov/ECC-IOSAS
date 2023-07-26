@@ -79,18 +79,25 @@
             value="Other (please specify):"
           ></v-checkbox>
         </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
+        <v-spacer />
+      </v-row>
+      <br />
+      <v-label>Other</v-label>
+      <v-row>
+        <v-col cols="12" sm="12" md="12" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="no"
-            v-model="formData.contact_email"
+            v-if="isEditing"
+            id="iosas_additionalprogramsother"
+            v-model="formData.iosas_additionalprogramsother"
             required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label="other"
             color="rgb(59, 153, 252)"
           />
+          <div v-else>
+            {{ formData.iosas_additionalprogramsother || NULL_STRING }}
+          </div>
         </v-col>
       </v-row>
     </div>

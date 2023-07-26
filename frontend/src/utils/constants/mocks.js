@@ -358,6 +358,9 @@ export const SCHOOL_APPLICATION_MOCK = [
     status: 'Interim Certification',
     iosas_applicationnumber: 'APP-1011',
 
+    // MISSING - compliance booleans
+    iosas_willcomplywithenactmentsofbc: false,
+
     // School Information - DONE - GET CONFIRMATION
     // MISSING - EMAIL
     iosas_proposedschoolname: 'Victoria South Middle School',
@@ -377,7 +380,8 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_mailingaddresscountry: 'iosas_mailingaddresscountry',
     iosas_mailingaddresspostalcode: 'V8V 2Y4',
     iosas_website: 'iosas_website.com',
-    iosas_phone: 'iosas_phone',
+    iosas_phone: 'iosas_phone', // which one?
+    iosas_phonenumber: 'iosas_phonenumber', // which one?
     iosas_groupclassification: 'Group 2',
     iosas_seekgroup1classification: false,
     iosas_schoolaffiliation: 'iosas_schoolaffiliation',
@@ -440,7 +444,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_submissiondate: '2023-07-05T07:00:00Z',
     iosas_irrevocableletterofcreditorsuretybond: false,
     iosas_name: 'SA-2024/25 SY-Demo 05-07-2023',
-    iosas_willcomplywithenactmentsofbc: false,
     iosas_hassaobtaineddocumentsregardingbondingreqs: false,
     iosas_precertsubmissionreviewdate: null,
     iosas_interimcertificationapprovaldate: null,
@@ -480,7 +483,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     _iosas_interimcertificationreviewer_value: null,
     iosas_interviewadditionalinformation: null,
     _iosas_applicationsubmissionapprover_value: null,
-    iosas_additionalprogramsother: null,
     _iosas_precertsubmissionreviewer_value: null,
     iosas_precertreviewnotes: null,
     iosas_reviewstatus: null,
@@ -493,7 +495,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     _stageid_value: null,
     iosas_reviewnotes: null,
     iosas_approvaldate: null,
-    iosas_additionalprograms: null,
     _iosas_interviewapprover_value: null,
     iosas_interviewapprovaldate: null,
     iosas_schoolassociationother: null,
@@ -549,12 +550,15 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_refundpolicyconsistentwiththeguidelines: false,
     iosas_teacherandprincipalevaluationpolicy: false,
     iosas_ifnotoanyschoolpolicyexplainwhy:
-      'This is why we said no to some of the policies above',
+      'iosas_ifnotoanyschoolpolicyexplainwhy',
 
     // Educational Program
     // MISSING - additional programs checklist
     iosas_describefamiliaritywithbcscurriculum:
       'iosas_describefamiliaritywithbcscurriculum',
+
+    iosas_additionalprograms: null,
+    iosas_additionalprogramsother: 'iosas_additionalprogramsother',
 
     // student Enrolment - DONE - GET CONFIRMATION
     iosas_numberofstudentskindergarten: 1,
@@ -587,7 +591,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_grades112proposedhoursperday: 5,
 
     // teacher certification - DONE - GET CONFIRMATION
-    iosas_numberofteachers: 37,
+    iosas_numberofteachers: 'iosas_numberofteachers',
     iosas_awareofcertificationrequirements: true,
     iosas_awareoftherequirementsforcrchecks: false,
 

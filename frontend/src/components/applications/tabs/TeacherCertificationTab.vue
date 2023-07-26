@@ -50,7 +50,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_awareofcertificationrequirements"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -76,7 +76,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_awareoftherequirementsforcrchecks"
             color="#003366"
             class="mt-4"
             direction="horizontal"
