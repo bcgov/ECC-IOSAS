@@ -58,83 +58,18 @@
               <br />
               <v-divider></v-divider>
               <v-window v-model="tab">
-                <v-window-item key="General" value="General">
-                  <SchoolGeneralTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
                 <v-window-item
-                  key="School Information"
-                  value="School Information"
+                  v-for="t in tabContent"
+                  :key="t.tab"
+                  :value="t.tab"
                 >
-                  <SchoolInformationTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Authority" value="School Authority">
-                  <SchoolAuthorityInformationTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Student Enrolment"
-                  value="Student Enrolment"
-                >
-                  <StudentEnrolmentTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Semester" value="School Semester">
-                  <SchoolSemesterTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Group Certification"
-                  value="Group Certification"
-                >
-                  <GroupCertificationTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Facility" value="School Facility">
-                  <SchoolFacilityTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Policies" value="School Policies">
-                  <SchoolPoliciesTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Educational Program"
-                  value="Educational Program"
-                >
-                  <EducationalProgramTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Teacher Certification"
-                  value="Teacher Certification"
-                >
-                  <TeacherCertificationTab
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="Submissions" value="Submissions">
-                  <SubmissionTab :formData="formData" :isEditing="isEditing" />
+                  <keep-alive>
+                    <component
+                      :is="t.component"
+                      :formData="formData"
+                      :isEditing="isEditing"
+                    />
+                  </keep-alive>
                 </v-window-item>
               </v-window>
               <v-row v-if="isLastPage()">
@@ -268,6 +203,37 @@ export default {
       applicationConfirmation: false,
       requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
+      tabContent: [
+        {
+          tab: 'General',
+          component: 'SchoolGeneralTab',
+        },
+        {
+          tab: 'School Information',
+          component: 'SchoolInformationTab',
+        },
+        {
+          tab: 'School Authority',
+          component: 'SchoolAuthorityInformationTab',
+        },
+        {
+          tab: 'Student Enrolment',
+          component: 'StudentEnrolmentTab',
+        },
+        {
+          tab: 'School Semester',
+          component: 'SchoolSemesterTab',
+        },
+        {
+          tab: 'Group Certification',
+          component: 'GroupCertificationTab',
+        },
+        { tab: 'School Facility', component: 'SchoolFacilityTab' },
+        { tab: 'School Policies', component: 'SchoolPoliciesTab' },
+        { tab: 'Educational Program', component: 'EducationalProgramTab' },
+        { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
+        { tab: 'Submissions', component: 'SubmissionTab' },
+      ],
       tab: 'General',
       items: [
         'General',
@@ -297,10 +263,6 @@ export default {
     isFirstPage() {
       return this.tab === 'General';
     },
-    // async validateForm() {
-    //   const valid = await this.$refs.schoolApplicationForm.validate();
-    //   this.isFormValid = valid.valid;
-    // },
     toggleEditMode() {
       return (this.isEditing = true);
     },
@@ -351,7 +313,7 @@ export default {
               name: 'applicationConfirmation',
               params: { type: 'APP' },
             });
-            console.log(this.data);
+            console.log(this.formData);
           }, 1000);
         }
       });
