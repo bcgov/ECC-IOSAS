@@ -38,8 +38,10 @@
       <div class="flex-4">
         <v-form
           ref="schoolApplicationForm"
+          @submit.prevent="handleSubmit"
+          id="schoolApplicationForm"
+          validate-on="blur"
           v-model="isFormValid"
-          @submit.prevent="submit"
         >
           <v-container class="content-container">
             <div class="form-container">
@@ -302,6 +304,21 @@ export default {
     },
     handleDraftSubmit() {
       console.log('Saving draft');
+    },
+    async handleSubmit() {
+      this.$refs.schoolApplicationForm.validate().then(() => {
+        if (this.isFormValid) {
+          this.$emit('setIsLoading');
+          // mocking a loading state - will be replaced when API is connected.
+          setTimeout(() => {
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'APP' },
+            });
+            console.log(this.data);
+          }, 1000);
+        }
+      });
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);

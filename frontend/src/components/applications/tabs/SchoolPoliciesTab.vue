@@ -997,7 +997,6 @@ export default {
   data: () => ({
     NULL_STRING,
     GOV_URL,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},

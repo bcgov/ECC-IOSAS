@@ -123,7 +123,6 @@ export default {
   },
   data: () => ({
     GOV_URL,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},

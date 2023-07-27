@@ -29,16 +29,8 @@
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -59,16 +51,8 @@
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -93,16 +77,8 @@
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -145,21 +121,9 @@
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="null">
-              <template #label>
-                <span :class="activeRadio">N/A</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="No" color="#003366" v-bind:value="null" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -304,7 +268,6 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
