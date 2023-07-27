@@ -157,8 +157,14 @@
               </li>
             </ol>
           </v-label>
-          <span class="orange">????</span>
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <span class="orange">iosas_willcomplywithenactmentsofbc</span>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_willcomplywithenactmentsofbc
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
