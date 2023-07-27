@@ -263,7 +263,7 @@ export default {
     return {
       drawer: false,
       isEditing: false,
-      isValidForm: false,
+      isFormValid: false,
       defaultStatus: 'Submitted',
       applicationConfirmation: false,
       requiredRules: [(v) => !!v || 'Required'],
