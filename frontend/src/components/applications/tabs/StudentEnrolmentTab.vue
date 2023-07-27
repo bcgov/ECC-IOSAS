@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Projected Student Enrolment</h4>
     <v-label
       ><strong>
@@ -337,7 +337,7 @@
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>General</h4>
     <br />
     <div v-if="isEditing">
@@ -176,7 +176,7 @@
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>

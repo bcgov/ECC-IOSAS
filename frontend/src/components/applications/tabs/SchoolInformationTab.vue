@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>School Information</h4>
     <br />
     <div v-if="isEditing">
@@ -497,7 +497,7 @@
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>

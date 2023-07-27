@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Application for Group Certification</h4>
     <v-label><strong>(Schools Seeking group and 4 only) </strong></v-label>
     <v-label
@@ -251,7 +251,7 @@
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>

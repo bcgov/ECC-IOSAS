@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Educational Program</h4>
     <div>
       <v-label
@@ -100,7 +100,7 @@
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>

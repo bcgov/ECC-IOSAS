@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>School Semester Indicator Type</h4>
     <v-label
       >Schools Seeking Group 1, 2 and 4 only. Please select however many fit the
@@ -276,7 +276,7 @@
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>

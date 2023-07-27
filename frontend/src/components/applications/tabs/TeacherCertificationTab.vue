@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Certification of Teachers</h4>
     <v-label><strong>Schools seeking Group 2 and 4 only</strong></v-label>
     <br />
@@ -141,7 +141,7 @@
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
