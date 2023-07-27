@@ -598,6 +598,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Anaphylaxis Policy and Procedures </v-label>
+          <span class="orange">iosas_anaphylaxispolicyandprocedures</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -611,6 +612,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Appeals Process Policy </v-label>
+          <span class="orange">iosas_appealsprocesspolicy</span>
         </v-col>
         <v-col cols="4">
           {{ formatBooleanToYesNoString(formData.iosas_appealsprocesspolicy) }}
@@ -620,6 +622,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Boarding Safety and Supervision Policy</v-label>
+          <span class="orange">iosas_boardingsafetyandsupervisionpolicy</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -633,6 +636,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Child Abuse Prevention Policy</v-label>
+          <span class="orange">iosas_childabusepreventionpolicy</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -646,6 +650,9 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Student Conduct/Standards/Discipline Policy</v-label>
+          <span class="orange"
+            >iosas_studentconductstandardsdisciplinepolicy</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -661,6 +668,9 @@
           <v-label
             >Emergency Drills Policy and Procedures and Emergency Response
             Plan</v-label
+          >
+          <span class="orange"
+            >iosas_emergencydrillspolicyproceduresresponse</span
           >
         </v-col>
         <v-col cols="4">
@@ -679,6 +689,9 @@
             medical alert situations, fire, earthquake, and lockdown
             drills?</v-label
           >
+          <span class="orange"
+            >iosas_policyincludessectionsdealingwithemergencies</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -695,6 +708,7 @@
             >Are other emergency drills (emergency response plan, etc.)
             implemented at the proposed school?</v-label
           >
+          <span class="orange">iosas_otheremergencydrillsimplemeneted</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -711,6 +725,7 @@
             >Does the policy include a section on dealing with permanent school
             closure?</v-label
           >
+          <span class="orange">iosas_policyincludepermanentschoolclosure</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -724,6 +739,9 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Graduation Program Credits policy (if applicable)</v-label>
+          <span class="orange"
+            >iosas_graduationprogramcreditspolicyifapplicable</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -737,6 +755,9 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Harassment and Bullying Prevention Policy</v-label>
+          <span class="orange"
+            >iosas_harassmentandbullyingpreventionpolicy</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -750,6 +771,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Homeschooling policy (if applicable)</v-label>
+          <span class="orange">iosas_homeschoolingpolicyifapplicable</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -763,6 +785,9 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>International Student policies (if applicable)</v-label>
+          <span class="orange"
+            >iosas_internationalstudentpoliciesifapplicable</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -780,6 +805,7 @@
             comply) with the Homestay Guidelines, including obtaining health
             insurance, when hosting international students?</v-label
           >
+          <span class="orange">iosas_complywithhomestayguidelines</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -797,6 +823,9 @@
             Graduation Credit Policy determining equivalency credits for
             international students?</v-label
           >
+          <span class="orange"
+            >iosas_willapplyforstudentgraduationcreditpolicy</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -813,6 +842,7 @@
             >Privacy Policy (for the collection, use and disclosure of student,
             teacher and parent information collected by the school)</v-label
           >
+          <span class="orange">iosas_privacypolicy</span>
         </v-col>
         <v-col cols="4">
           {{ formatBooleanToYesNoString(formData.iosas_privacypolicy) }}
@@ -822,6 +852,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Special Education Policy</v-label>
+          <span class="orange">iosas_specialeducationpolicy</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -836,6 +867,9 @@
             >Will the proposed school develop a separate Special Education
             Budget to reflect anticipated expenditures based on the needs
             identified in the IEPs?</v-label
+          >
+          <span class="orange"
+            >iosas_willdevelopbudgetforexpenditurebasedoniep</span
           >
         </v-col>
         <v-col cols="4">
@@ -854,6 +888,7 @@
             special education students who are not additionally funded through
             Supplementary Special Education grants?</v-label
           >
+          <span class="orange">iosas_learningassistanceforspecialstudents</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -870,6 +905,7 @@
             >Will the proposed school have a School Completion Certificate
             Policy/Program?</v-label
           >
+          <span class="orange">iosas_willhavecompletioncertificatepolicy</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -883,6 +919,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Educational Resource Policy</v-label>
+          <span class="orange">iosas_educationalresourcepolicy</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -894,6 +931,9 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Testing Drinking Water for Lead Content Policy</v-label>
+          <span class="orange"
+            >iosas_testingdrinkingwaterforleadcontentpolicy</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -907,6 +947,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>School Closure Policy</v-label>
+          <span class="orange">iosas_schoolclosurepolicy</span>
         </v-col>
         <v-col cols="4">
           {{ formatBooleanToYesNoString(formData.iosas_schoolclosurepolicy) }}
@@ -916,6 +957,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Student Records policy</v-label>
+          <span class="orange">iosas_studentrecordspolicy</span>
         </v-col>
         <v-col cols="4">
           {{ formatBooleanToYesNoString(formData.iosas_studentrecordspolicy) }}
@@ -927,6 +969,7 @@
           <v-label
             >Student Supervision (at school/field trips) policies</v-label
           >
+          <span class="orange">iosas_studentsupervisionpolicies</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -943,6 +986,9 @@
             >School Fee Refund policy consistent with the Independent School Fee
             Refund Guidelines</v-label
           >
+          <span class="orange"
+            >iosas_refundpolicyconsistentwiththeguidelines</span
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -956,6 +1002,7 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label>Teacher and Principal Evaluation policy</v-label>
+          <span class="orange">iosas_teacherandprincipalevaluationpolicy</span>
         </v-col>
         <v-col cols="4">
           {{

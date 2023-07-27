@@ -232,7 +232,7 @@ h1 {
 
 .v-label {
   white-space: break-spaces !important;
-  margin-bottom: 10px !important;
+  // margin-bottom: 10px !important;
 }
 
 .reference-cards {
@@ -289,5 +289,10 @@ h1 {
 
 .v-checkbox {
   height: 30px !important;
+}
+
+// using for field name confirmations - Will be removed
+.orange {
+  color: orangered !important;
 }
 </style>

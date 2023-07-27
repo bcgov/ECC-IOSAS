@@ -58,16 +58,21 @@
               <br />
               <v-divider></v-divider>
               <v-window v-model="tab">
+                <!-- <v-window-item key="Submissions" value="Submissions">
+                  <SubmissionTab :formData="formData" :isEditing="isEditing" />
+                </v-window-item> -->
                 <v-window-item
-                  v-for="tab in tabContent"
-                  :key="tab.tab"
-                  :value="tab.tab"
+                  v-for="t in tabContent"
+                  :key="t.tab"
+                  :value="t.tab"
                 >
-                  <component
-                    :is="tab.component"
-                    :formData="formData"
-                    :isEditing="isEditing"
-                  />
+                  <keep-alive>
+                    <component
+                      :is="t.component"
+                      :formData="formData"
+                      :isEditing="isEditing"
+                    />
+                  </keep-alive>
                 </v-window-item>
               </v-window>
               <v-row v-if="isLastPage()">
@@ -180,7 +185,7 @@ export default {
     TeacherCertificationTab,
     SubmissionTab,
   },
-  emits: ['setIdLoading'],
+  emits: ['setIsLoading'],
   mixins: [alertMixin],
   props: {
     formData: {
@@ -261,10 +266,10 @@ export default {
     isFirstPage() {
       return this.tab === 'General';
     },
-    async validateForm() {
-      const valid = await this.$refs.schoolApplicationForm.validate();
-      this.isFormValid = valid.valid;
-    },
+    // async validateForm() {
+    //   const valid = await this.$refs.schoolApplicationForm.validate();
+    //   this.isFormValid = valid.valid;
+    // },
     toggleEditMode() {
       return (this.isEditing = true);
     },

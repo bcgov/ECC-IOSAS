@@ -453,6 +453,7 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Application Contact E-mail</v-label>
+          <span class="orange">????</span>
           <p>{{ NULL_STRING }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">

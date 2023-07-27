@@ -363,13 +363,13 @@ export const SCHOOL_APPLICATION_MOCK = [
 
     // School Information - DONE - GET CONFIRMATION
     // MISSING - EMAIL
-    iosas_proposedschoolname: 'Victoria South Middle School',
+    iosas_proposedschoolname: 'iosas_proposedschoolname',
     iosas_startgrade: 'Kindergarten',
     iosas_endgrade: '6',
     iosas_overview: 'iosas_overview', // brief overview?
     iosas_addressline1: 'iosas_addressline1',
     iosas_addressline2: 'iosas_addressline2',
-    iosas_postalcode: 'V6X1N4',
+    iosas_postalcode: 'iosas_postalcode',
     iosas_country: 'iosas_country',
     iosas_province: 'iosas_province',
     iosas_city: 'iosas_city',
@@ -378,8 +378,8 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_mailingaddress2: 'iosas_mailingaddress2',
     iosas_mailingaddress1: 'iosas_mailingaddress1',
     iosas_mailingaddresscountry: 'iosas_mailingaddresscountry',
-    iosas_mailingaddresspostalcode: 'V8V 2Y4',
-    iosas_website: 'iosas_website.com',
+    iosas_mailingaddresspostalcode: 'iosas_mailingaddresspostalcode',
+    iosas_website: 'iosas_website',
     iosas_phone: 'iosas_phone', // which one?
     iosas_phonenumber: 'iosas_phonenumber', // which one?
     iosas_groupclassification: 'Group 2',
@@ -388,14 +388,14 @@ export const SCHOOL_APPLICATION_MOCK = [
 
     // School Authority  - GET CONFIRMATION
     // MISSING - legislation checklist
-    iosas_schoolauthority: '0532 Education Group Ltd.',
-    iosas_authorityheadphone: '250 415-5448',
-    iosas_authorityheadfirstname: 'Jack',
-    iosas_authorityheadlastname: 'Smith',
-    iosas_authorityaddressline1: '10111 Bird Rd',
-    iosas_authorityheademail: 'jack.smith@gmail.com',
+    iosas_schoolauthority: 'iosas_schoolauthority',
+    iosas_authorityheadphone: 'iosas_authorityheadphone',
+    iosas_authorityheadfirstname: 'iosas_authorityheadfirstname',
+    iosas_authorityheadlastname: 'iosas_authorityheadlastname',
+    iosas_authorityaddressline1: 'iosas_authorityaddressline1',
+    iosas_authorityheademail: 'iosas_authorityheademail',
     iosas_officialregistrationnumber: 'iosas_officialregistrationnumber',
-    iosas_dateoflastannualreport: null,
+    iosas_dateoflastannualreport: 'iosas_dateoflastannualreport',
     iosas_howwillyouexercisegovernanceduties:
       'iosas_howwillyouexercisegovernanceduties',
     iosas_proponentspreviouslyinvolvedinisbc: false, // Is this a boolean or string field? Is there a seperate string field?
@@ -557,7 +557,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_describefamiliaritywithbcscurriculum:
       'iosas_describefamiliaritywithbcscurriculum',
 
-    iosas_additionalprograms: null,
+    iosas_additionalprograms: null, // Is this an array for the checklists??
     iosas_additionalprogramsother: 'iosas_additionalprogramsother',
 
     // student Enrolment - DONE - GET CONFIRMATION

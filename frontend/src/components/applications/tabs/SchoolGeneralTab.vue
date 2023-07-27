@@ -5,7 +5,7 @@
     <div v-if="isEditing">
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Application Number</v-label>
+          <v-label>Application Number </v-label>
           <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
@@ -41,7 +41,6 @@
             </ol>
           </v-label>
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -61,11 +60,12 @@
                 The independent school facilities will comply with the
                 enactments of British Columbia and the municipality or regional
                 district in which the facilities are located, and,
+                iosas_willcomplywithenactmentsofbc
               </li>
             </ol>
           </v-label>
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_willcomplywithenactmentsofbc"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -88,7 +88,6 @@
             </ol>
           </v-label>
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -104,11 +103,15 @@
     <div v-else>
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Application Number</v-label>
+          <v-label
+            >Application Number
+            <span class="orange">iosas_applicationnumber</span></v-label
+          >
           <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
+          <span class="orange">????</span>
           <p>{{ formData.status }}</p>
         </v-col>
       </v-row>
@@ -139,6 +142,7 @@
               </ol>
             </ol>
           </v-label>
+          <span class="orange">????</span>
           <p>{{ formatBooleanToYesNoString(true) }}</p>
         </v-col>
       </v-row>
@@ -153,6 +157,7 @@
               </li>
             </ol>
           </v-label>
+          <span class="orange">????</span>
           <p>{{ formatBooleanToYesNoString(true) }}</p>
         </v-col>
       </v-row>
@@ -166,6 +171,7 @@
               </li>
             </ol>
           </v-label>
+          <span class="orange">????</span>
           <p>{{ formatBooleanToYesNoString(true) }}</p>
         </v-col>
       </v-row>

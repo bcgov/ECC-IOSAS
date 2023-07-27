@@ -182,6 +182,7 @@
         >Please indicate under which legislation your School Authority is
         incorporated:</v-label
       >
+      <span class="orange">????</span>
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-checkbox
@@ -237,6 +238,9 @@
             involved in operating an independent school in BC or elsewhere in
             the past 10 years. If so, please provide details below.
           </v-label>
+          <span class="orange"
+            >Is this a boolean?? iosas_proponentspreviouslyinvolvedinisbc</span
+          >
           <p>
             {{
               formData.iosas_proponentspreviouslyinvolvedinisbc.toString() ||

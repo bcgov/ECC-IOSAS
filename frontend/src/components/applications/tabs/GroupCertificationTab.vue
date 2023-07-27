@@ -70,7 +70,6 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -114,7 +113,6 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -157,6 +155,9 @@
             >If the proposed school is intending to seek funding, are you
             familiar with Grants to Independent Schools Policy?
           </v-label>
+          <span class="orange"
+            >iosas_familiarwithgrantstoispolicyifseekingfunds</span
+          >
         </v-col>
         <v-col cols="4">
           <p>
@@ -173,6 +174,7 @@
           <v-label>
             Will the School Authority operate on a non-profit basis?
           </v-label>
+          <span class="orange">iosas_willsaoperateonnonprofitbasis</span>
         </v-col>
         <v-col cols="4">
           <p>
@@ -195,6 +197,7 @@
             (sections 12 to 17) as these apply to Group 4 independent
             schools?</v-label
           >
+          <span class="orange">???</span>
         </v-col>
         <v-col cols="4">
           <p>{{ formatBooleanToYesNoString(true) }}</p>
@@ -229,6 +232,7 @@
             Certification until the required bonding instrument has been
             provided by the Group 4 applicant.</v-label
           >
+          <span class="orange">???</span>
         </v-col>
         <v-col cols="4">
           <p>{{ formatBooleanToYesNoString(true) }}</p>
@@ -240,6 +244,7 @@
         ensures refunds in the event the school is unable to obtain or maintain
         a Group 4 Certificate of Classification in the first year of operation?
       </v-label>
+      <span class="orange">???</span>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           {{ NULL_STRING }}

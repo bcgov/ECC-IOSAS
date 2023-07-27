@@ -106,6 +106,7 @@
             >Are you aware of the requirements of teacher certification as they
             relate employees of Group 2, or 4 schools?</v-label
           >
+          <span class="orange">iosas_awareofcertificationrequirements</span>
         </v-col>
         <v-col cols="4">
           <p>
@@ -127,6 +128,7 @@
             consultants, specialists, janitors, and persons assigned other
             special tasks?</v-label
           >
+          <span class="orange">iosas_awareoftherequirementsforcrchecks</span>
         </v-col>
         <v-col cols="4">
           <p>
