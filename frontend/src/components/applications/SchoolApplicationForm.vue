@@ -72,17 +72,17 @@
                   </keep-alive>
                 </v-window-item>
               </v-window>
-              <v-row v-if="isLastPage()">
-                <v-col cols="12" sm="12" md="12" xs="12">
-                  <v-checkbox
-                    v-model="applicationConfirmation"
-                    label="I confirm this application is complete and ready to be submitted for review."
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-
-              <br />
               <v-container v-if="isEditing">
+                <v-row v-if="isLastPage()">
+                  <v-col cols="12" sm="12" md="12" xs="12">
+                    <v-checkbox
+                      v-model="applicationConfirmation"
+                      label="I confirm this application is complete and ready to be submitted for review."
+                    ></v-checkbox>
+                  </v-col>
+                </v-row>
+
+                <br />
                 <v-row align="end">
                   <v-spacer />
                   <PrimaryButton
