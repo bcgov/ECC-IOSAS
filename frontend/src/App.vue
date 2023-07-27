@@ -232,7 +232,10 @@ h1 {
 
 .v-label {
   white-space: break-spaces !important;
-  // margin-bottom: 10px !important;
+  margin-bottom: 10px !important;
+}
+.v-selection-control--inline .v-label {
+  margin-bottom: 0 !important;
 }
 
 .reference-cards {
