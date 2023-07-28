@@ -114,7 +114,7 @@ const router = createRouter({
       props: {},
       meta: {
         pageTitle: 'Application',
-        // requiresAuth: true,
+        requiresAuth: true,
       },
     },
     {
