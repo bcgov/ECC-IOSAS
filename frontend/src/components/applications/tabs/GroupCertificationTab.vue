@@ -1,7 +1,9 @@
 <template>
   <v-container>
     <h4>Application for Group Certification</h4>
-    <v-label><strong>(Schools Seeking group and 4 only) </strong></v-label>
+    <v-label><strong>Schools Seeking group and 4 only</strong></v-label>
+    <br />
+    <br />
     <v-label
       >The proposed school will establish an educational program that will
       comply with the instructional goals, time, and program requirements
@@ -17,7 +19,10 @@
           <v-label><strong>Group 2:</strong></v-label>
           <v-label
             >If the proposed school is intending to seek funding, are you
-            familiar with Grants to Independent Schools Policy?
+            familiar with
+            <a :href="GOV_URL.independentSchoolGrants" target="_blank"
+              >Grants to Independent Schools Policy?</a
+            >
           </v-label>
         </v-col>
         <v-col cols="4">
@@ -63,9 +68,11 @@
           <v-label
             >Has the school applicant's authority obtained written confirmation
             from a bank or surety provider of the authority's eligibility to
-            meet the bonding requirements of the Independent School Regulation
-            (sections 12 to 17) as these apply to Group 4 independent
-            schools?</v-label
+            meet the bonding requirements of the
+            <a :href="GOV_URL.independentSchoolRegulations" target="_blank"
+              >Independent School Regulation (sections 12 to 17)</a
+            >
+            as these apply to Group 4 independent schools?</v-label
           >
         </v-col>
         <v-col cols="4">
@@ -90,6 +97,9 @@
         obtain a bond in the form of an irrevocable letter of credit or surety
         bond in the amount of $100,000, consistent with requirements of the
         Independent School Regulation?
+        <a :href="GOV_URL.independentSchoolRegulations" target="_blank">
+          Independent School Regulation?</a
+        >
         <br />
         Specifically:
         <ul class="ml-10">
@@ -153,7 +163,10 @@
         <v-col cols="8">
           <v-label
             >If the proposed school is intending to seek funding, are you
-            familiar with Grants to Independent Schools Policy?
+            familiar with
+            <a :href="GOV_URL.independentSchoolGrants" target="_blank"
+              >Grants to Independent Schools Policy?</a
+            >
           </v-label>
           <span class="orange"
             >iosas_familiarwithgrantstoispolicyifseekingfunds</span
@@ -193,9 +206,11 @@
           <v-label
             >Has the school applicant's authority obtained written confirmation
             from a bank or surety provider of the authority's eligibility to
-            meet the bonding requirements of the Independent School Regulation
-            (sections 12 to 17) as these apply to Group 4 independent
-            schools?</v-label
+            meet the bonding requirements of the
+            <a :href="GOV_URL.independentSchoolRegulations" target="_blank"
+              >Independent School Regulation (sections 12 to 17)</a
+            >
+            as these apply to Group 4 independent schools?</v-label
           >
           <span class="orange">???</span>
         </v-col>
@@ -211,7 +226,9 @@
         a financial institution or surety provider of their eligibility to
         obtain a bond in the form of an irrevocable letter of credit or surety
         bond in the amount of $100,000, consistent with requirements of the
-        Independent School Regulation?
+        <a :href="GOV_URL.independentSchoolRegulations" target="_blank">
+          Independent School Regulation?</a
+        >
         <br />
         Specifically:
         <ul class="ml-10">
@@ -257,7 +274,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'GroupCertificationTab',
   components: {},
@@ -273,6 +290,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GOV_URL,
     rules: Rules,
   }),
   mounted() {},
@@ -290,5 +308,9 @@ li {
 }
 .block {
   display: block;
+}
+
+.v-label {
+  display: inline;
 }
 </style>
