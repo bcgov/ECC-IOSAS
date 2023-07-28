@@ -80,7 +80,9 @@
                 <v-card-actions>
                   <v-btn
                     id="register-button"
-                    :href="GOV_URL.bceidRegister"
+                    :href="
+                      isDev() ? GOV_URL.devBceidRegister : GOV_URL.bceidRegister
+                    "
                     class="ma-2"
                   >
                     Register for a BCeID <v-icon>mdi-login</v-icon>
@@ -95,8 +97,17 @@
             <v-card title="Submit an Expression of Interest as a Guest">
               <div class="card-content submission">
                 <p>
-                  As a guest user, you can submit an EOI and register for BCeID
-                  after the EOI approval
+                  As a guest user, you can submit an Expression of Interest and
+                  register for BCeID after the EOI approval.
+                </p>
+                <br />
+                <p>
+                  New school proponents are solely responsible for being aware
+                  of, and meeting, all the submission dates, and other
+                  requirements set out in the
+                  <a :href="GOV_URL.establishingSchoolURL" target="_blank"
+                    >procedures</a
+                  >
                 </p>
               </div>
               <v-card-actions>
@@ -127,6 +138,7 @@ import { mapState } from 'pinia';
 import { AuthRoutes, GOV_URL } from '../utils/constants';
 import ContactCard from './common/ContactCard.vue';
 import RelatedLinksCard from './common/RelatedLinksCard.vue';
+import StaticConfig from '../common/staticConfig';
 
 export default {
   name: 'Login',
@@ -136,12 +148,16 @@ export default {
       appTitle: 'Independent School BC',
       authRoutes: AuthRoutes,
       GOV_URL,
+      bannerEnvironment: StaticConfig.BANNER_ENVIRONMENT,
     };
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated']),
   },
   methods: {
+    isDev() {
+      return this.bannerEnvironment === 'DEV';
+    },
     clearStorage() {
       authStore().setJwtToken();
     },

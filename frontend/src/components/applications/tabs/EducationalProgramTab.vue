@@ -1,20 +1,17 @@
 <template>
-  <v-conatiner>
-    <br />
+  <v-container>
     <h4>Educational Program</h4>
-    <br />
-    <div v-if="isEditing">
+    <div>
       <v-label
         >Describe familiarity with British Columbia’s curriculum and the school
         administration’s plans to support the implementation of B.C.s curriculum
         (pro-D, collaboration, etc.):</v-label
       >
-      <v-row>
+      <v-row v-if="isEditing">
         <v-col cols="12">
           <v-textarea
-            :disabled="!isEditing"
-            id="no"
-            v-model="formData.contact_email"
+            id="iosas_describefamiliaritywithbcscurriculum"
+            v-model="formData.iosas_describefamiliaritywithbcscurriculum"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -24,11 +21,20 @@
           />
         </v-col>
       </v-row>
+      <v-row v-else>
+        <v-col cols="12">
+          {{
+            formData.iosas_describefamiliaritywithbcscurriculum || NULL_STRING
+          }}
+        </v-col>
+      </v-row>
+      <br />
       <h4>Additional Programs</h4>
       <v-label
         >At this time does the proposed school intend on enrolling any of the
         following students? (Check all that apply)</v-label
       >
+      <span class="orange">iosas_additionalprograms</span>
       <v-row>
         <v-col cols="6" sm="6" md="4" xs="6">
           <v-checkbox
@@ -72,62 +78,29 @@
             value="Other (please specify):"
           ></v-checkbox>
         </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
+        <v-spacer />
+      </v-row>
+      <br />
+      <v-label>Other</v-label>
+      <v-row>
+        <v-col cols="12" sm="12" md="12" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="no"
-            v-model="formData.contact_email"
+            v-if="isEditing"
+            id="iosas_additionalprogramsother"
+            v-model="formData.iosas_additionalprogramsother"
             required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label="other"
             color="rgb(59, 153, 252)"
           />
+          <div v-else>
+            {{ formData.iosas_additionalprogramsother || NULL_STRING }}
+          </div>
         </v-col>
       </v-row>
     </div>
-    <div v-else>
-      <v-label
-        >Describe familiarity with British Columbia’s curriculum and the school
-        administration’s plans to support the implementation of B.C.s curriculum
-        (pro-D, collaboration, etc.):</v-label
-      >
-      <v-row>
-        <v-col cols="12">
-          {{ NULL_STRING }}
-        </v-col>
-      </v-row>
-      <br />
-      <h4>Additional Programs</h4>
-      <v-label
-        >At this time does the proposed school intend on enrolling any of the
-        following students? (Check all that apply)</v-label
-      >
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Indigenous Students</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>English Language Learner Students</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-close </v-icon>Business Corporation Act</p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-close </v-icon>Students with diverse abilities</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Other (please specify):</p>
-        </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          {{ NULL_STRING }}
-        </v-col>
-      </v-row>
-    </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
@@ -149,7 +122,6 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
@@ -159,9 +131,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-}
-</style>

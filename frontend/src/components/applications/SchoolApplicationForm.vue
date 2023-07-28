@@ -1,17 +1,14 @@
 <template>
   <div>
-    <v-row v-if="isLoading">
-      <v-col class="d-flex justify-center">
-        <v-progress-circular
-          class="mt-16"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-          :active="isLoading"
-        />
-      </v-col>
-    </v-row>
+    <ConfirmationDialog ref="confirmDelete">
+      <template #message>
+        <p>
+          The Application for Independent School Certification will be deleted
+          from your records. A new EOI can be submitted in the future to restart
+          the school application process.
+        </p>
+      </template>
+    </ConfirmationDialog>
 
     <v-navigation-drawer temporary class="mobile-tabs" v-model="drawer">
       <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
@@ -41,8 +38,10 @@
       <div class="flex-4">
         <v-form
           ref="schoolApplicationForm"
+          @submit.prevent="handleSubmit"
+          id="schoolApplicationForm"
+          validate-on="blur"
           v-model="isFormValid"
-          @submit.prevent="submit"
         >
           <v-container class="content-container">
             <div class="form-container">
@@ -59,92 +58,59 @@
               <br />
               <v-divider></v-divider>
               <v-window v-model="tab">
-                <v-window-item key="General" value="General">
-                  <SchoolGeneralTab :formData="data" :isEditing="isEditing" />
-                </v-window-item>
                 <v-window-item
-                  key="School Information"
-                  value="School Information"
+                  v-for="t in tabContent"
+                  :key="t.tab"
+                  :value="t.tab"
                 >
-                  <SchoolInformationTab
-                    :formData="data"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Authority" value="School Authority">
-                  <SchoolAuthorityInformationTab
-                    :formData="data"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Student Enrolment"
-                  value="Student Enrolment"
-                >
-                  <StudentEnrolmentTab
-                    :formData="data"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Semester" value="School Semester">
-                  <SchoolSemesterTab :formData="data" :isEditing="isEditing" />
-                </v-window-item>
-                <v-window-item
-                  key="Group Certification"
-                  value="Group Certification"
-                >
-                  <GroupCertificationTab
-                    :formData="data"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="School Facility" value="School Facility">
-                  <SchoolFacilityTab :formData="data" :isEditing="isEditing" />
-                </v-window-item>
-                <v-window-item key="School Policies" value="School Policies">
-                  <SchoolPoliciesTab :formData="data" :isEditing="isEditing" />
-                </v-window-item>
-                <v-window-item
-                  key="Educational Program"
-                  value="Educational Program"
-                >
-                  <EducationalProgramTab
-                    :formData="data"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item
-                  key="Teacher Certification"
-                  value="Teacher Certification"
-                >
-                  <TeacherCertificationTab
-                    :formData="data"
-                    :isEditing="isEditing"
-                  />
-                </v-window-item>
-                <v-window-item key="Submissions" value="Submissions">
-                  <SubmissionTab :formData="data" :isEditing="isEditing" />
+                  <keep-alive>
+                    <component
+                      :is="t.component"
+                      :formData="formData"
+                      :isEditing="isEditing"
+                    />
+                  </keep-alive>
                 </v-window-item>
               </v-window>
-
-              <br />
               <v-container v-if="isEditing">
+                <v-row v-if="isLastPage()">
+                  <v-col cols="12" sm="12" md="12" xs="12">
+                    <v-checkbox
+                      v-model="applicationConfirmation"
+                      label="I confirm this application is complete and ready to be submitted for review."
+                    ></v-checkbox>
+                  </v-col>
+                </v-row>
+
+                <br />
                 <v-row align="end">
                   <v-spacer />
                   <PrimaryButton
+                    secondary
+                    text="Save Draft"
+                    class="mr-2"
+                    :click-action="handleDraftSubmit"
+                  />
+
+                  <v-btn
+                    v-if="isLastPage()"
                     type="submit"
                     primary
-                    text="Submit"
-                    class="mr-2"
-                    click-action="buttonAction"
-                  />
-                  <PrimaryButton
-                    id=""
-                    secondary
-                    text="Clear"
-                    class="mr-2"
-                    @click="handleReset"
-                  />
+                    class="mt-2 submit-button"
+                    variant="elevated"
+                    :disabled="!applicationConfirmation"
+                    >Submit</v-btn
+                  >
+                </v-row>
+                <v-row align="end">
+                  <v-spacer />
+                  <v-btn
+                    variant="plain"
+                    @click="handleDelete"
+                    class="link-button"
+                  >
+                    Delete Draft
+                  </v-btn>
                 </v-row>
               </v-container>
             </div>
@@ -152,7 +118,7 @@
             <v-container>
               <v-row class="d-flex justify-space-between">
                 <PrimaryButton
-                  :disabled="tab === 'General'"
+                  :disabled="isFirstPage()"
                   type="submit"
                   secondary
                   text="Previous"
@@ -160,7 +126,7 @@
                   :click-action="prevTab"
                 />
                 <PrimaryButton
-                  :disabled="tab === 'Submissions'"
+                  :disabled="isLastPage()"
                   id=""
                   secondary
                   text="Next"
@@ -184,7 +150,6 @@ import * as Rules from './../../utils/institute/formRules';
 
 import DocumentUpload from '../common/DocumentUpload.vue';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
-import { GRADE_OPTIONS } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import SchoolPoliciesTab from './tabs/SchoolPoliciesTab.vue';
@@ -217,9 +182,10 @@ export default {
     TeacherCertificationTab,
     SubmissionTab,
   },
+  emits: ['setIsLoading'],
   mixins: [alertMixin],
   props: {
-    data: {
+    formData: {
       type: Object,
       required: false,
     },
@@ -230,12 +196,44 @@ export default {
   },
   data() {
     return {
-      GRADE_OPTIONS,
       drawer: false,
       isEditing: false,
-      isValidForm: false,
+      isFormValid: false,
+      defaultStatus: 'Submitted',
+      applicationConfirmation: false,
       requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
+      tabContent: [
+        {
+          tab: 'General',
+          component: 'SchoolGeneralTab',
+        },
+        {
+          tab: 'School Information',
+          component: 'SchoolInformationTab',
+        },
+        {
+          tab: 'School Authority',
+          component: 'SchoolAuthorityInformationTab',
+        },
+        {
+          tab: 'Student Enrolment',
+          component: 'StudentEnrolmentTab',
+        },
+        {
+          tab: 'School Semester',
+          component: 'SchoolSemesterTab',
+        },
+        {
+          tab: 'Group Certification',
+          component: 'GroupCertificationTab',
+        },
+        { tab: 'School Facility', component: 'SchoolFacilityTab' },
+        { tab: 'School Policies', component: 'SchoolPoliciesTab' },
+        { tab: 'Educational Program', component: 'EducationalProgramTab' },
+        { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
+        { tab: 'Submissions', component: 'SubmissionTab' },
+      ],
       tab: 'General',
       items: [
         'General',
@@ -255,15 +253,44 @@ export default {
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
-  mounted() {},
-  created() {},
+  created() {
+    this.isEditing = this.formData && this.formData?.status === 'Draft';
+  },
   methods: {
-    async validateForm() {
-      const valid = await this.$refs.schoolApplicationForm.validate();
-      this.isFormValid = valid.valid;
+    isLastPage() {
+      return this.tab === 'Submissions';
+    },
+    isFirstPage() {
+      return this.tab === 'General';
     },
     toggleEditMode() {
       return (this.isEditing = true);
+    },
+    async handleDelete() {
+      const confirmation = await this.$refs.confirmDelete.open(
+        'Delete Draft of Independent School Certification?',
+        null,
+        {
+          color: '#fff',
+          width: 580,
+          closeIcon: false,
+          subtitle: false,
+          dark: false,
+          resolveText: 'Delete',
+          rejectText: 'Cancel',
+        }
+      );
+      if (!confirmation) {
+        return;
+      } else {
+        this.$emit('setIsLoading');
+        setTimeout(() => {
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'Delete#APP' },
+          });
+        }, 1000);
+      }
     },
     getData() {
       return [
@@ -272,6 +299,24 @@ export default {
           status: 'Draft',
         },
       ];
+    },
+    handleDraftSubmit() {
+      console.log('Saving draft');
+    },
+    async handleSubmit() {
+      this.$refs.schoolApplicationForm.validate().then(() => {
+        if (this.isFormValid) {
+          this.$emit('setIsLoading');
+          // mocking a loading state - will be replaced when API is connected.
+          setTimeout(() => {
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'APP' },
+            });
+            console.log(this.formData);
+          }, 1000);
+        }
+      });
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
@@ -295,14 +340,13 @@ li {
   display: block;
 }
 
-.v-label {
-  white-space: break-spaces;
+.submit-button {
+  background-color: #003366 !important;
+  color: white !important;
 }
-
 .v-window {
   margin-top: 20px;
 }
-
 /* Override the default settings for content-container as this view has side navigation */
 .content-container {
   padding-top: 0;
@@ -335,14 +379,13 @@ li {
   .no-mobile-tabs {
     display: none;
   }
-
   .mobile-tabs {
-    visibility: visible !important;
+    display: block !important;
   }
 }
 
 .mobile-tabs {
-  visibility: hidden;
+  display: none;
 }
 
 .flex-1 {

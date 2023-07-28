@@ -1,7 +1,7 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Application for Group Certification</h4>
-    <v-label><strong> (Schools Seeking group and 4 only) </strong></v-label>
+    <v-label><strong>(Schools Seeking group and 4 only) </strong></v-label>
     <v-label
       >The proposed school will establish an educational program that will
       comply with the instructional goals, time, and program requirements
@@ -22,23 +22,15 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_familiarwithgrantstoispolicyifseekingfunds"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -47,28 +39,20 @@
         <v-col cols="8">
           <v-label><strong>Group 2:</strong></v-label>
           <v-label
-            >Group 2: Will the School Authority operate on a non-profit basis?
+            >Will the School Authority operate on a non-profit basis?
           </v-label>
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_willsaoperateonnonprofitbasis"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -86,23 +70,14 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -138,28 +113,15 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="null">
-              <template #label>
-                <span :class="activeRadio">N/A</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="No" color="#003366" v-bind:value="null" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -186,28 +148,42 @@
       </v-row>
     </div>
     <div v-else>
+      <v-label><strong>Group 2:</strong></v-label>
       <v-row align="center">
         <v-col cols="8">
-          <v-label><strong>Group 2:</strong></v-label>
           <v-label
             >If the proposed school is intending to seek funding, are you
             familiar with Grants to Independent Schools Policy?
           </v-label>
+          <span class="orange"
+            >iosas_familiarwithgrantstoispolicyifseekingfunds</span
+          >
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_familiarwithgrantstoispolicyifseekingfunds
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
-
       <v-row align="center">
         <v-col cols="8">
-          <v-label><strong>Group 2:</strong></v-label>
-          <v-label
-            >Group 2: Will the School Authority operate on a non-profit basis?
+          <v-label>
+            Will the School Authority operate on a non-profit basis?
           </v-label>
+          <span class="orange">iosas_willsaoperateonnonprofitbasis</span>
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_willsaoperateonnonprofitbasis
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <br />
@@ -221,6 +197,7 @@
             (sections 12 to 17) as these apply to Group 4 independent
             schools?</v-label
           >
+          <span class="orange">???</span>
         </v-col>
         <v-col cols="4">
           <p>{{ formatBooleanToYesNoString(true) }}</p>
@@ -255,6 +232,7 @@
             Certification until the required bonding instrument has been
             provided by the Group 4 applicant.</v-label
           >
+          <span class="orange">???</span>
         </v-col>
         <v-col cols="4">
           <p>{{ formatBooleanToYesNoString(true) }}</p>
@@ -266,13 +244,14 @@
         ensures refunds in the event the school is unable to obtain or maintain
         a Group 4 Certificate of Classification in the first year of operation?
       </v-label>
+      <span class="orange">???</span>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           {{ NULL_STRING }}
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
@@ -294,7 +273,6 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
@@ -306,15 +284,10 @@ export default {
 </script>
 
 <style scoped>
-.v-label {
-  white-space: break-spaces;
-}
-
 li {
   display: list-item;
   list-style-position: inside;
 }
-
 .block {
   display: block;
 }

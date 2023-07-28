@@ -6,10 +6,25 @@
       </template>
     </v-breadcrumbs>
     <br />
-    <SchoolApplicationForm
-      :data="getSchoolApplicationById(this.$route.params.id)"
-      :isLoading="isLoading"
-    />
+    <v-row v-if="isLoading">
+      <v-col class="d-flex justify-center">
+        <v-progress-circular
+          class="mt-16"
+          :size="70"
+          :width="7"
+          color="primary"
+          indeterminate
+          :active="isLoading"
+        />
+      </v-col>
+    </v-row>
+    <div v-else>
+      <SchoolApplicationForm
+        :formData="applicationData"
+        :isLoading="isLoading"
+        @setIsLoading="setIsLoading"
+      />
+    </div>
   </v-container>
 </template>
 
@@ -25,6 +40,7 @@ export default {
   },
   data: () => ({
     isLoading: true,
+    applicationData: null,
     breadcrumbs: [
       {
         title: 'Dashboard',
@@ -41,17 +57,23 @@ export default {
   computed: {
     ...mapState(applicationsStore, ['getSchoolApplicationById']),
   },
-  mounted() {},
   created() {
     applicationsStore()
       .getApplicationData()
       .then(() => {
         setTimeout(() => {
           this.isLoading = false;
+          this.applicationData = this.getSchoolApplicationById(
+            this.$route.params.id
+          );
         }, 500);
       });
   },
-  methods: {},
+  methods: {
+    setIsLoading() {
+      this.isLoading = true;
+    },
+  },
 };
 </script>
 

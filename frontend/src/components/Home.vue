@@ -82,6 +82,15 @@
               Application process. Once your EOI is approved, you will receive
               an invitation to submit an application.
             </p>
+            <br />
+            <p>
+              New school proponents are solely responsible for being aware of,
+              and meeting, all the submission dates, and other requirements set
+              out in the
+              <a :href="GOV_URL.establishingSchoolURL" target="_blank"
+                >procedures</a
+              >
+            </p>
           </div>
         </v-card>
         <RelatedLinksCard />
@@ -97,7 +106,7 @@ import { authStore } from '../store/modules/auth';
 import { applicationsStore } from '../store/modules/applications';
 import { AuthRoutes } from '../utils/constants';
 import { mapState } from 'pinia';
-import { PAGE_TITLES } from '../utils/constants';
+import { GOV_URL } from '../utils/constants';
 import PrimaryButton from './util/PrimaryButton.vue';
 import DataTable from './util/DataTable.vue';
 import ContactCard from './common/ContactCard.vue';
@@ -115,7 +124,7 @@ export default {
   data() {
     return {
       AuthRoutes,
-      PAGE_TITLES: PAGE_TITLES,
+      GOV_URL,
       isLoading: true,
       schoolApplications: [],
       eioApplications: [],

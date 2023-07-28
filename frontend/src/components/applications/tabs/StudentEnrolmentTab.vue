@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Projected Student Enrolment</h4>
     <v-label
       ><strong>
@@ -16,9 +16,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_numberofstudentskindergarten"
+            v-model="formData.iosas_numberofstudentskindergarten"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -29,9 +28,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_numberofstudentsg1"
+            v-model="formData.iosas_numberofstudentsg1"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -42,9 +40,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_numberofstudentsg2"
+            v-model="formData.iosas_numberofstudentsg2"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -57,9 +54,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_numberofstudentsg3"
+            v-model="formData.iosas_numberofstudentsg3"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -70,9 +66,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_numberofstudentsg4"
+            v-model="formData.iosas_numberofstudentsg4"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -83,9 +78,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_numberofstudentsg5"
+            v-model="formData.iosas_numberofstudentsg5"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -98,9 +92,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_numberofstudentsg6"
+            v-model="formData.iosas_numberofstudentsg6"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -111,9 +104,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_numberofstudentsg7"
+            v-model="formData.iosas_numberofstudentsg7"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -125,8 +117,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             disabled
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_primaryschooltotal"
+            v-model="formData.iosas_primaryschooltotal"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -140,9 +132,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_numberofstudentsg8"
+            v-model="formData.iosas_numberofstudentsg8"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -153,9 +144,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_numberofstudentsg9"
+            v-model="formData.iosas_numberofstudentsg9"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -166,9 +156,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_numberofstudentsg10"
+            v-model="formData.iosas_numberofstudentsg10"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -182,9 +171,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_numberofstudentsg11"
+            v-model="formData.iosas_numberofstudentsg11"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -195,9 +183,8 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_numberofstudentsg12"
+            v-model="formData.iosas_numberofstudentsg12"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -209,8 +196,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             disabled
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_highschooltotal"
+            v-model="formData.iosas_highschooltotal"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -224,8 +211,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             disabled
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_totalenrolment"
+            v-model="formData.iosas_totalenrolment"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -242,88 +229,123 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Kindergarten</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              displayDefaultNumberValue(
+                formData.iosas_numberofstudentskindergarten
+              )
+            }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 1</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg1) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 2</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg2) }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 3</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg3) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 4</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg4) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 5</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg5) }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 6</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg6) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 7</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg7) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Total (A)</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_primaryschooltotal) }}
+          </p>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 8</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg8) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 9</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg9) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 10</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg10) }}
+          </p>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 11</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg11) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Grade 12</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ displayDefaultNumberValue(formData.iosas_numberofstudentsg12) }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Total (B)</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>{{ displayDefaultNumberValue(formData.iosas_highschooltotal) }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Total of A and B enrolment</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>{{ displayDefaultNumberValue(formData.iosas_totalenrolment) }}</p>
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
-import { formatBooleanToYesNoString } from '../../../utils/format';
+import {
+  formatBooleanToYesNoString,
+  displayDefaultNumberValue,
+} from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'StudentEnrolmentTab',
@@ -340,19 +362,13 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
   computed: {},
   methods: {
     formatBooleanToYesNoString,
+    displayDefaultNumberValue,
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-}
-</style>

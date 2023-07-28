@@ -1,12 +1,12 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>General</h4>
     <br />
     <div v-if="isEditing">
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Application Number</v-label>
-          <p>{{ formData.application_number }}</p>
+          <v-label>Application Number </v-label>
+          <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
@@ -15,9 +15,11 @@
       </v-row>
       <br />
       <v-label
-        ><strong>
-          Will the proposed school comply with Section 1 of the Schedule of the
-          Independent School Act, which requires that:
+        ><strong
+          >Will the proposed school comply with Section 1 of the Schedule of the
+          <a :href="GOV_URL.independentSchoolActUrl" target="_blank"
+            >Independent School Act</a
+          >, which requires that:
         </strong>
       </v-label>
       <v-row>
@@ -39,23 +41,14 @@
             </ol>
           </v-label>
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -67,27 +60,20 @@
                 The independent school facilities will comply with the
                 enactments of British Columbia and the municipality or regional
                 district in which the facilities are located, and,
+                iosas_willcomplywithenactmentsofbc
               </li>
             </ol>
           </v-label>
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_willcomplywithenactmentsofbc"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -102,23 +88,14 @@
             </ol>
           </v-label>
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true">
-              <template #label>
-                <span :class="activeRadio">Yes</span>
-              </template>
-            </v-radio>
-            <v-radio label="No" color="#003366" v-bind:value="false">
-              <template #label>
-                <span :class="activeRadio">No</span>
-              </template>
-            </v-radio>
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -126,19 +103,25 @@
     <div v-else>
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Application Number</v-label>
-          <p>{{ formData.application_number }}</p>
+          <v-label
+            >Application Number
+            <span class="orange">iosas_applicationnumber</span></v-label
+          >
+          <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
+          <span class="orange">????</span>
           <p>{{ formData.status }}</p>
         </v-col>
       </v-row>
       <br />
       <v-label
-        ><strong>
-          Will the proposed school comply with Section 1 of the Schedule of the
-          Independent School Act, which requires that:
+        ><strong
+          >Will the proposed school comply with Section 1 of the Schedule of the
+          <a :href="GOV_URL.independentSchoolActUrl" target="_blank"
+            >Independent School Act</a
+          >, which requires that:
         </strong>
       </v-label>
       <v-row>
@@ -159,6 +142,7 @@
               </ol>
             </ol>
           </v-label>
+          <span class="orange">????</span>
           <p>{{ formatBooleanToYesNoString(true) }}</p>
         </v-col>
       </v-row>
@@ -173,6 +157,7 @@
               </li>
             </ol>
           </v-label>
+          <span class="orange">????</span>
           <p>{{ formatBooleanToYesNoString(true) }}</p>
         </v-col>
       </v-row>
@@ -186,15 +171,17 @@
               </li>
             </ol>
           </v-label>
+          <span class="orange">????</span>
           <p>{{ formatBooleanToYesNoString(true) }}</p>
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { GOV_URL } from '../../../utils/constants';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
@@ -212,7 +199,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
+    GOV_URL,
     rules: Rules,
   }),
   mounted() {},
@@ -222,9 +209,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-}
-</style>

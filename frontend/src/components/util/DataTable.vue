@@ -102,9 +102,9 @@ export default {
   methods: {
     getNullMessage() {
       if (this.title === 'New School Applications') {
-        return 'There are no School Applications.';
+        return 'You dont currently have any active school applications. Your new school application will show up here after your Expression of Interest is approved.';
       }
-      return 'There are no active Expression of Interests.';
+      return 'You dont currently have any active Expression of Interests. Click `Create new EOI` button to get started.';
     },
     getTableHeaders() {
       const firstItem = this.data?.[0];
@@ -119,7 +119,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .gov-table {
   border-radius: 5px;
   box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
@@ -128,6 +128,10 @@ export default {
 }
 
 .table-title {
+  h3 {
+    margin-top: 5px;
+    margin-right: 10px;
+  }
   align-self: center;
   display: inline-flex;
 }

@@ -1,56 +1,58 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>School Semester Indicator Type</h4>
-    <div v-if="isEditing">
-      <v-label
-        >Schools Seeking Group 1, 2 and 4 only. Please select however many fit
-        the intended school.</v-label
-      >
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Semestered"
-            value="Semestered"
-          ></v-checkbox>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Linear"
-            value="Linear"
-          ></v-checkbox>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Regular School Year (Sept - June)"
-            value="Regular School Year (Sept - June)"
-          ></v-checkbox>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Summer"
-            value="Summer"
-          ></v-checkbox>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="All Year"
-            value="All Year"
-          ></v-checkbox>
-        </v-col>
-      </v-row>
+    <v-label
+      >Schools Seeking Group 1, 2 and 4 only. Please select however many fit the
+      intended school.</v-label
+    >
+    <span class="orange">????</span>
+    <v-row>
+      <v-col cols="6" sm="6" md="4" xs="6">
+        <v-checkbox
+          :disabled="!isEditing"
+          v-model="selected"
+          label="Semestered"
+          value="Semestered"
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="6" sm="6" md="4" xs="6">
+        <v-checkbox
+          :disabled="!isEditing"
+          v-model="selected"
+          label="Linear"
+          value="Linear"
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="6" sm="6" md="4" xs="6">
+        <v-checkbox
+          :disabled="!isEditing"
+          v-model="selected"
+          label="Regular School Year (Sept - June)"
+          value="Regular School Year (Sept - June)"
+        ></v-checkbox>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="6" sm="6" md="4" xs="6">
+        <v-checkbox
+          :disabled="!isEditing"
+          v-model="selected"
+          label="Summer"
+          value="Summer"
+        ></v-checkbox>
+      </v-col>
+      <v-col cols="6" sm="6" md="4" xs="6">
+        <v-checkbox
+          :disabled="!isEditing"
+          v-model="selected"
+          label="All Year"
+          value="All Year"
+        ></v-checkbox>
+      </v-col>
+    </v-row>
 
+    <div v-if="isEditing">
+      <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
       <v-label> Minimum required hours per year 450 Hours </v-label>
@@ -58,8 +60,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_halfdaykindergartenproposedhoursperday"
+            v-model="formData.iosas_halfdaykindergartenproposedhoursperday"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -71,8 +73,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_halfdaykindergartenproposeddaysinsession"
+            v-model="formData.iosas_halfdaykindergartenproposeddaysinsession"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -84,8 +86,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_halfdaykindergartenproposedhoursperyear"
+            v-model="formData.iosas_halfdaykindergartenproposedhoursperyear"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -102,8 +104,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_fulldaykindergartenproposedhoursperyear"
+            v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -115,8 +117,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_fulldaykindergartenproposeddaysinsession"
+            v-model="formData.iosas_fulldaykindergartenproposeddaysinsession"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -128,8 +130,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_fulldaykindergartenproposedhoursperday"
+            v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -146,8 +148,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_grades112proposedhoursperyear"
+            v-model="formData.iosas_grades112proposedhoursperyear"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -159,8 +161,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_grades112proposeddaysinsession"
+            v-model="formData.iosas_grades112proposeddaysinsession"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -172,8 +174,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
+            id="iosas_grades112proposedhoursperday"
+            v-model="formData.iosas_grades112proposedhoursperday"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -185,30 +187,6 @@
       </v-row>
     </div>
     <div v-else>
-      <v-label
-        >Schools Seeking Group 1, 2 and 4 only. Please select however many fit
-        the intended school.</v-label
-      >
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Semestered</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Linear</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Regular School Year (Sept - June)</p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-check </v-icon>Summer</p>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <p><v-icon> mdi-close </v-icon>All Year</p>
-        </v-col>
-      </v-row>
-
       <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
@@ -216,15 +194,30 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_halfdaykindergartenproposedhoursperday ||
+              NULL_STRING
+            }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Number of Days in Session</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_halfdaykindergartenproposeddaysinsession ||
+              NULL_STRING
+            }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Year</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_halfdaykindergartenproposedhoursperyear ||
+              NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-label><strong>Full day Kindergarten</strong></v-label>
@@ -233,15 +226,30 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_fulldaykindergartenproposedhoursperday ||
+              NULL_STRING
+            }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Number of Days in Session</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_fulldaykindergartenproposeddaysinsession ||
+              NULL_STRING
+            }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Year</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_fulldaykindergartenproposedhoursperday ||
+              NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-label><strong>Grades 1-12</strong></v-label>
@@ -250,19 +258,25 @@
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ formData.iosas_grades112proposedhoursperday || NULL_STRING }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Number of Days in Session</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ formData.iosas_grades112proposeddaysinsession || NULL_STRING }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Year</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{ formData.iosas_grades112proposedhoursperyear || NULL_STRING }}
+          </p>
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
@@ -284,7 +298,6 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
@@ -292,9 +305,3 @@ export default {
   methods: { formatBooleanToYesNoString },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-}
-</style>

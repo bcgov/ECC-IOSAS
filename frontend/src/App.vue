@@ -229,8 +229,13 @@ h1 {
 .v-divider {
   padding: 15px;
 }
+
 .v-label {
-  white-space: break-spaces;
+  white-space: break-spaces !important;
+  margin-bottom: 10px !important;
+}
+.v-selection-control--inline .v-label {
+  margin-bottom: 0 !important;
 }
 
 .reference-cards {
@@ -283,5 +288,14 @@ h1 {
   text-decoration: underline !important;
   color: #1976d2 !important;
   opacity: 100% !important;
+}
+
+.v-checkbox {
+  height: 30px !important;
+}
+
+// using for field name confirmations - Will be removed
+.orange {
+  color: orangered !important;
 }
 </style>

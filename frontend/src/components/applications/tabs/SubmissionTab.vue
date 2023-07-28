@@ -1,5 +1,5 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Application Submission</h4>
     <div v-if="isEditing">
       <v-label
@@ -13,13 +13,15 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label
-            >Complete set of policies/procedures as outlined in the Interview
-            Checklist (PDF)</v-label
+            >Complete set of policies/procedures as outlined in the
+            <a :href="GOV_URL.interviewChecklistPDFUrl"
+              >Interview Checklist (PDF)</a
+            ></v-label
           >
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_completesetofpoliciesoutlinedinchecklist"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -35,12 +37,14 @@
         <v-col cols="8">
           <v-label
             >Business Plan with required financial information (Part A and B)
-            (Interview Checklist (PDF))</v-label
+            <a :href="GOV_URL.interviewChecklistPDFUrl"
+              >Interview Checklist (PDF)</a
+            ></v-label
           >
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_businessplanincludingfinancialinformation"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -65,32 +69,51 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label
-            >Complete set of policies/procedures as outlined in the Interview
-            Checklist (PDF)</v-label
+            >Complete set of policies/procedures as outlined in the
+            <a :href="GOV_URL.interviewChecklistPDFUrl"
+              >Interview Checklist (PDF)</a
+            ></v-label
+          >
+          <span class="orange"
+            >iosas_completesetofpoliciesoutlinedinchecklist</span
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_completesetofpoliciesoutlinedinchecklist
+            )
+          }}
         </v-col>
       </v-row>
       <v-row align="center">
         <v-col cols="8">
           <v-label
             >Business Plan with required financial information (Part A and B)
-            (Interview Checklist (PDF))</v-label
+            <a :href="GOV_URL.interviewChecklistPDFUrl"
+              >(Interview Checklist (PDF))</a
+            ></v-label
+          >
+          <span class="orange"
+            >iosas_businessplanincludingfinancialinformation</span
           >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_businessplanincludingfinancialinformation
+            )
+          }}
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
+import { GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SubmissionTab',
   components: {},
@@ -105,7 +128,7 @@ export default {
     },
   },
   data: () => ({
-    requiredRules: [(v) => !!v || 'Required'],
+    GOV_URL,
     rules: Rules,
   }),
   mounted() {},
@@ -118,6 +141,6 @@ export default {
 
 <style scoped>
 .v-label {
-  white-space: break-spaces;
+  display: inline;
 }
 </style>

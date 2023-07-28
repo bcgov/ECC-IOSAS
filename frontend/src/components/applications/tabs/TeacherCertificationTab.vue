@@ -1,10 +1,10 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>Certification of Teachers</h4>
     <v-label><strong>Schools seeking Group 2 and 4 only</strong></v-label>
     <br />
-    <v-label>
-      The school principal/head of school and all teachers teaching a subject
+    <v-label
+      >The school principal/head of school and all teachers teaching a subject
       that is reported out on student report cards must hold valid British
       Columbia teaching credentials issued by the Teacher Certification Branch
       (TCB). Initial certification of Group 2 and Group 4 schools will typically
@@ -30,13 +30,12 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="no"
-            v-model="formData.contact_email"
+            id="iosas_numberofteachers"
+            v-model="formData.iosas_numberofteachers"
             required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -51,7 +50,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_awareofcertificationrequirements"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -77,7 +76,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_awareoftherequirementsforcrchecks"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -97,7 +96,7 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          {{ NULL_STRING }}
+          {{ formData.iosas_numberofteachers || NULL_STRING }}
         </v-col>
       </v-row>
 
@@ -107,9 +106,16 @@
             >Are you aware of the requirements of teacher certification as they
             relate employees of Group 2, or 4 schools?</v-label
           >
+          <span class="orange">iosas_awareofcertificationrequirements</span>
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_awareofcertificationrequirements
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row align="center">
@@ -122,13 +128,20 @@
             consultants, specialists, janitors, and persons assigned other
             special tasks?</v-label
           >
+          <span class="orange">iosas_awareoftherequirementsforcrchecks</span>
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_awareoftherequirementsforcrchecks
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
@@ -150,7 +163,6 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
@@ -158,9 +170,3 @@ export default {
   methods: { formatBooleanToYesNoString },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-}
-</style>

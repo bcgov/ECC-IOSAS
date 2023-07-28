@@ -1,14 +1,13 @@
 <template>
-  <v-conatiner>
+  <v-container>
     <h4>School Facility</h4>
     <br />
     <div v-if="isEditing">
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-text-field
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_nameofmunicipalityorregionaldistrict"
+            v-model="formData.iosas_nameofmunicipalityorregionaldistrict"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -29,12 +28,11 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_hastheauthoritycontactedlocalgovernment"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -49,9 +47,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-textarea
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
+            id="iosas_whatstepsareyoutakingtoacquirethefacility"
+            v-model="formData.iosas_whatstepsareyoutakingtoacquirethefacility"
             required
             :rules="[rules.required()]"
             :maxlength="255"
@@ -72,12 +69,11 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_confirmationofleadtestingfordrinkingwater"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -93,12 +89,11 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_studentshousedinahomesetting"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -111,12 +106,11 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="groupOneBoolRadioGroup"
+            v-model="formData.iosas_studentshousedinadormitorysetting"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -128,7 +122,11 @@
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Name of Municipality of Regional District</v-label>
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_nameofmunicipalityorregionaldistrict || NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row align="center">
@@ -139,9 +137,16 @@
             codes, regarding zoning, building, fire prevention, and
             health?</v-label
           >
+          <span class="orange"
+            >iosas_hastheauthoritycontactedlocalgovernment</span
+          >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_hastheauthoritycontactedlocalgovernment
+            )
+          }}
         </v-col>
       </v-row>
       <br />
@@ -151,7 +156,12 @@
       </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
-          <p>{{ NULL_STRING }}</p>
+          <p>
+            {{
+              formData.iosas_whatstepsareyoutakingtoacquirethefacility ||
+              NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row align="center">
@@ -162,9 +172,16 @@
             Facilities, will occur prior to students using the
             facility?</v-label
           >
+          <span class="orange"
+            >iosas_confirmationofleadtestingfordrinkingwater</span
+          >
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_confirmationofleadtestingfordrinkingwater
+            )
+          }}
         </v-col>
       </v-row>
       <br />
@@ -173,21 +190,31 @@
           <v-label>Will Students attending the school be housed in:</v-label>
           <br />
           <v-label class="ml-10">A homestay setting:</v-label>
+          <span class="orange">iosas_studentshousedinahomesetting</span>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_studentshousedinahomesetting
+            )
+          }}
         </v-col>
       </v-row>
       <v-row align="center">
         <v-col cols="8">
           <v-label class="ml-10">A boarding/dormitory setting:</v-label>
+          <span class="orange">iosas_studentshousedinadormitorysetting</span>
         </v-col>
         <v-col cols="4">
-          {{ formatBooleanToYesNoString(true) }}
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_studentshousedinadormitorysetting
+            )
+          }}
         </v-col>
       </v-row>
     </div>
-  </v-conatiner>
+  </v-container>
 </template>
 
 <script>
@@ -209,7 +236,6 @@ export default {
   },
   data: () => ({
     NULL_STRING,
-    requiredRules: [(v) => !!v || 'Required'],
     rules: Rules,
   }),
   mounted() {},
@@ -219,9 +245,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  white-space: break-spaces;
-}
-</style>
