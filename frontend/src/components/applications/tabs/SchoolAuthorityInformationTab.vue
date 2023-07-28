@@ -77,9 +77,14 @@
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"
-            label="Business Corporation Act"
             value="Business Corporation Act"
-          ></v-checkbox>
+          >
+            <template v-slot:label>
+              <a target="_blank" :href="GOV_URL.businessCorporationActUrl">
+                Business Corporation Act
+              </a>
+            </template>
+          </v-checkbox>
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"
@@ -194,9 +199,14 @@
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"
-            label="Business Corporation Act"
             value="Business Corporation Act"
-          ></v-checkbox>
+          >
+            <template v-slot:label>
+              <a target="_blank" :href="GOV_URL.businessCorporationActUrl">
+                Business Corporation Act
+              </a>
+            </template>
+          </v-checkbox>
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"
@@ -255,7 +265,7 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
   components: {},
@@ -270,6 +280,7 @@ export default {
     },
   },
   data: () => ({
+    GOV_URL,
     NULL_STRING,
     rules: Rules,
   }),

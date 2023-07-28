@@ -15,9 +15,13 @@
     <br />
     <v-label
       >Note: All employees must have a criminal record check completed through
-      theMinistry of Public Safety and Solicitor General. Volunteers working
-      with childrenmay also have their criminal record check completed by the
-      Ministry of Public Safety and Solicitor General or local police.
+      the
+      <a :href="GOV_URL.criminalRecordCheckUrl" target="_blank">
+        Ministry of Public Safety and Solicitor General.</a
+      >
+      Volunteers working with childrenmay also have their criminal record check
+      completed by the Ministry of Public Safety and Solicitor General or local
+      police.
     </v-label>
     <br />
     <br />
@@ -147,7 +151,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'TeacherCertificationTab',
   components: {},
@@ -163,6 +167,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GOV_URL,
     rules: Rules,
   }),
   mounted() {},
@@ -170,3 +175,9 @@ export default {
   methods: { formatBooleanToYesNoString },
 };
 </script>
+
+<style scoped>
+.v-label {
+  display: inline-block;
+}
+</style>

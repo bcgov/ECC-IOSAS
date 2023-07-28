@@ -2,8 +2,8 @@
   <v-container>
     <h4>Projected Student Enrolment</h4>
     <v-label
-      ><strong>
-        NOTE: A new school must have 10 or more school age students who are
+      ><strong
+        >NOTE: A new school must have 10 or more school age students who are
         enrolled with the school and reported as 1.00 FTE each in accordance
         with the 1701 instructions for independent schools for the September
         data collection.

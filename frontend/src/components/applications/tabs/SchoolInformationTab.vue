@@ -284,8 +284,10 @@
       <v-row>
         <v-col cols="12">
           <v-label
-            >Group Calassification applying for: (Group classification
-            Information)</v-label
+            >Group Calassification applying for:
+            <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+              >(Group classification Information)</a
+            ></v-label
           >
           <v-radio-group
             v-model="formData.iosas_groupclassification"
@@ -323,8 +325,17 @@
         </v-col>
       </v-row>
       <v-label
-        >School's Intended Affiliation/Association (CIS, ISABC, SCSBC, AMG,
-        ACSIBC, SDA, or other if applicable)</v-label
+        >School's Intended Affiliation/Association (<a
+          :href="GOV_URL.CIS"
+          target="_blank"
+          >CIS, </a
+        ><a :href="GOV_URL.ISABC" target="_blank">ISABC, </a>
+        <a :href="GOV_URL.SCSBC" target="_blank">SCSBC,</a>
+        <!-- <a :href="GOV_URL.AMG" target="_blank">AMG, </a> -->
+        AMG,
+        <a :href="GOV_URL.ACSIBC" target="_blank">ACSIBC, </a>
+        <a :href="GOV_URL.SDA" target="_blank">SDA,</a> or other if
+        applicable)</v-label
       >
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
@@ -465,8 +476,10 @@
       <v-row>
         <v-col cols="12">
           <v-label
-            >Group Calassification applying for: (Group classification
-            Information)</v-label
+            >Group Calassification applying for:
+            <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+              >(Group classification Information)</a
+            ></v-label
           >
           <p>{{ formData.iosas_groupclassification || NULL_STRING }}</p>
         </v-col>
@@ -490,8 +503,17 @@
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-label
-            >School's Intended Affiliation/Association (CIS, ISABC, SCSBC, AMG,
-            ACSIBC, SDA, or other if applicable)</v-label
+            >School's Intended Affiliation/Association (<a
+              :href="GOV_URL.CIS"
+              target="_blank"
+              >CIS, </a
+            ><a :href="GOV_URL.ISABC" target="_blank">ISABC, </a>
+            <a :href="GOV_URL.SCSBC" target="_blank">SCSBC,</a>
+            <!-- <a :href="GOV_URL.AMG" target="_blank">AMG, </a> -->
+            AMG,
+            <a :href="GOV_URL.ACSIBC" target="_blank">ACSIBC, </a>
+            <a :href="GOV_URL.SDA" target="_blank">SDA,</a> or other if
+            applicable)</v-label
           >
           <p>{{ formData.iosas_schoolaffiliation || NULL_STRING }}</p>
         </v-col>
@@ -503,7 +525,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING, GRADE_OPTIONS } from '../../../utils/constants';
+import { NULL_STRING, GRADE_OPTIONS, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolInformationTab',
   components: {},
@@ -519,6 +541,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GOV_URL,
     GRADE_OPTIONS,
     rules: Rules,
   }),

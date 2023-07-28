@@ -5,7 +5,10 @@
       <v-label
         >You will be contacted via email with the results of your application.
         Successful applicants will be invited for an Interview as outlined In
-        Step 3 of the Establishing an Independent School Policy.
+        Step 3 of the
+        <a :href="GOV_URL.establishingSchoolURL"
+          >Establishing an Independent School Policy.</a
+        >.
       </v-label>
       <br />
       <br />
@@ -61,7 +64,10 @@
       <v-label
         >You will be contacted via email with the results of your application.
         Successful applicants will be invited for an Interview as outlined In
-        Step 3 of the Establishing an Independent School Policy.
+        Step 3 of the
+        <a :href="GOV_URL.establishingSchoolURL"
+          >Establishing an Independent School Policy.</a
+        >
       </v-label>
       <br />
       <br />

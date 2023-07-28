@@ -163,6 +163,35 @@ export const GOV_URL = {
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/independent-schools',
   interviewChecklistPDFUrl:
     'https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/independent-schools/independent-school-interview-checklist.pdf',
+  groupClassificationUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/classification-of-independent-schools#:~:text=%20Classification%20of%20Independent%20Schools%20%201%20Date,be%20operated%20by%20an%20authority.%20The...%20More%20',
+  CIS: 'https://fisabc.ca/who-are-we/member-associations/catholic-independent-schools-british-columbia/',
+  ISABC: 'https://www.isabc.ca/',
+  SCSBC: 'https://scsbc.ca/',
+  AMG: null,
+  ACSIBC:
+    'https://fisabc.ca/who-are-we/member-associations/association-christian-schools-international/',
+  SDA: 'https://sdabceducation.net/',
+  independentSchoolGrants:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/grants-to-independent-schools',
+  independentSchoolRegulations:
+    'https://www2.gov.bc.ca/assets/gov/education/administration/legislation-policy/legislation/schoollaw/i/bcreg_262_89.pdf',
+  societiesActUrl: null,
+  businessCorporationActUrl:
+    'https://www2.gov.bc.ca/gov/content/employment-business/business/managing-a-business/permits-licences/businesses-incorporated-companies',
+  instructionsForIndependentSchoolsUrl: null,
+  educationalStandardsOrderUrl: null,
+  leadTestingUrl: null,
+  homestayGuidelinesUrl:
+    'https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/internationaleducation/home_stay_guidelines.pdf',
+  internationalStudentGraduationCreditPolicyUrl: null,
+  schoolCompletionCertificatePolicyUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/support/school-completion-certificate-program',
+  schoolFeeRefundPolicyUrl:
+    'https://www2.gov.bc.ca/assets/gov/education/administration/legislation-policy/independent-schools/school-fee-refund-guidelines.pdf',
+  teacherCertificationBranchUrl: null,
+  criminalRecordCheckUrl:
+    'https://www2.gov.bc.ca/gov/content/safety/crime-prevention/criminal-record-check',
 };
 
 export const NULL_STRING = '-';
