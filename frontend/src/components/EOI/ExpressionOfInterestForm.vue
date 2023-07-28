@@ -137,12 +137,14 @@
                 </v-col>
               </v-row>
               <v-row>
+                <v-label class="no-margin"
+                  >Is the Designated Authority the same as Authority
+                  Head?</v-label
+                >
                 <v-col cols="12">
                   <v-radio-group
                     v-model="data.iosas_designatedcontactsameasauthorityhead"
                     color="#003366"
-                    label="Is the Designated Authority the same as Authority
-                    Head?"
                     class="mt-4"
                     direction="horizontal"
                     inline
@@ -435,13 +437,17 @@
                 </v-col>
               </v-row>
 
+              <v-label>
+                Group Calassification applying for:
+                <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+                  >(Group classification Information)</a
+                >
+              </v-label>
               <v-row>
                 <v-col cols="12">
                   <v-radio-group
                     v-model="data.iosas_groupclassification"
                     color="#003366"
-                    label="Group Calassification applying for: (Group classification
-                    Information)"
                     class="mt-4"
                     direction="horizontal"
                     inline
@@ -562,7 +568,7 @@ import { mapState } from 'pinia';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
-import { GRADE_OPTIONS, YEAR_OPTIONS } from '../../utils/constants';
+import { GRADE_OPTIONS, YEAR_OPTIONS, GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
@@ -589,6 +595,7 @@ export default {
   data() {
     return {
       GRADE_OPTIONS,
+      GOV_URL,
       YEAR_OPTIONS,
       isFormValid: false,
       isEditing: false,
@@ -721,5 +728,9 @@ export default {
 .submit-button {
   background-color: #003366 !important;
   color: white !important;
+}
+
+.no-margin {
+  margin-bottom: 0 !important;
 }
 </style>
