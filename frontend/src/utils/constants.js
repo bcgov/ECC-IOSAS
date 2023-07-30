@@ -195,3 +195,17 @@ export const GOV_URL = {
 };
 
 export const NULL_STRING = '-';
+
+// School Application form tabs - disabled by default until form is valid
+export const DISABLED_TABS = [
+  'School Information',
+  'School Authority',
+  'Student Enrolment',
+  'School Semester',
+  'Group Certification',
+  'School Facility',
+  'School Policies',
+  'Educational Program',
+  'Teacher Certification',
+  'Submissions',
+];

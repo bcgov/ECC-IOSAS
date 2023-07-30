@@ -14,6 +14,7 @@
       <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
         <v-tab
           v-for="item in items"
+          :disabled="disabledTabs.includes(item)"
           :key="item"
           :value="item"
           @click.stop="drawer = !drawer"
@@ -30,7 +31,12 @@
       ></v-app-bar-nav-icon>
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
-          <v-tab v-for="item in items" :key="item" :value="item">
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            :value="item"
+            :disabled="disabledTabs.includes(item)"
+          >
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -47,13 +53,6 @@
             <div class="form-container">
               <div class="d-flex justify-space-between">
                 <h1>Application for Independent School Certification</h1>
-                <PrimaryButton
-                  v-if="!isEditing"
-                  secondary
-                  text="Edit"
-                  class="mr-2"
-                  :click-action="toggleEditMode"
-                />
               </div>
               <br />
               <v-divider></v-divider>
@@ -72,6 +71,7 @@
                   </keep-alive>
                 </v-window-item>
               </v-window>
+
               <v-container v-if="isEditing">
                 <v-row v-if="isLastPage()">
                   <v-col cols="12" sm="12" md="12" xs="12">
@@ -82,6 +82,14 @@
                   </v-col>
                 </v-row>
 
+                <v-row aligh="center" v-if="!isFormValid">
+                  <v-col>
+                    <p class="error">
+                      Ensure all required fields are filled out before
+                      proceeding to the next step
+                    </p>
+                  </v-col>
+                </v-row>
                 <br />
                 <v-row align="end">
                   <v-spacer />
@@ -89,6 +97,7 @@
                     secondary
                     text="Save Draft"
                     class="mr-2"
+                    :disabled="!isFormValid"
                     :click-action="handleDraftSubmit"
                   />
 
@@ -98,7 +107,7 @@
                     primary
                     class="mt-2 submit-button"
                     variant="elevated"
-                    :disabled="!applicationConfirmation"
+                    :disabled="!applicationConfirmation || !isFormValid"
                     >Submit</v-btn
                   >
                 </v-row>
@@ -163,6 +172,7 @@ import GroupCertificationTab from './tabs/GroupCertificationTab.vue';
 import EducationalProgramTab from './tabs/EducationalProgramTab.vue';
 import TeacherCertificationTab from './tabs/TeacherCertificationTab.vue';
 import SubmissionTab from './tabs/SubmissionTab.vue';
+import { DISABLED_TABS } from '../../utils/constants';
 
 export default {
   name: 'SchoolApplicationForm',
@@ -196,9 +206,11 @@ export default {
   },
   data() {
     return {
+      DISABLED_TABS,
       drawer: false,
+      disabledTabs: [],
       isEditing: false,
-      isFormValid: false,
+      isFormValid: true,
       defaultStatus: 'Submitted',
       applicationConfirmation: false,
       requiredRules: [(v) => !!v || 'Required'],
@@ -250,11 +262,30 @@ export default {
       ],
     };
   },
+  watch: {
+    // If next button is clicked && form is valid
+    //remove current tab from disabled tab list
+    tab: {
+      handler() {
+        if (this.disabledTabs.length) {
+          this.disabledTabs = this.disabledTabs.filter(
+            (tab) => tab !== this.tab
+          );
+        }
+        console.log(this.disabledTabs);
+      },
+    },
+  },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    this.isEditing = this.formData && this.formData?.status === 'Draft';
+    const isDraft = this.formData && this.formData?.status === 'Draft';
+    this.isEditing = isDraft;
+    // TODO: Do not disable tab if application has been updated/submitted but still in progress
+    this.disabledTabs = isDraft ? DISABLED_TABS : [];
+
+    console.log(this.isFormValid);
   },
   methods: {
     isLastPage() {
@@ -263,9 +294,7 @@ export default {
     isFirstPage() {
       return this.tab === 'General';
     },
-    toggleEditMode() {
-      return (this.isEditing = true);
-    },
+    validatePage() {},
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
         'Delete Draft of Independent School Certification?',
@@ -305,26 +334,29 @@ export default {
     },
     async handleSubmit() {
       this.$refs.schoolApplicationForm.validate().then(() => {
-        if (this.isFormValid) {
-          this.$emit('setIsLoading');
-          // mocking a loading state - will be replaced when API is connected.
-          setTimeout(() => {
-            this.$router.push({
-              name: 'applicationConfirmation',
-              params: { type: 'APP' },
-            });
-            console.log(this.formData);
-          }, 1000);
-        }
+        this.$emit('setIsLoading');
+        // mocking a loading state - will be replaced when API is connected.
+        setTimeout(() => {
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'APP' },
+          });
+          console.log(this.formData);
+        }, 1000);
       });
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
       return (this.tab = this.items[currentTabIndex - 1]);
     },
-    nextTab() {
+    async nextTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
-      return (this.tab = this.items[currentTabIndex + 1]);
+      const valid = await this.$refs.schoolApplicationForm.validate();
+      this.isFormValid = valid.valid;
+      // Ensure form is valid before moving to the next step
+      if (this.isFormValid) {
+        return (this.tab = this.items[currentTabIndex + 1]);
+      }
     },
   },
 };
@@ -394,5 +426,9 @@ li {
 
 .flex-4 {
   flex: 4;
+}
+
+.error {
+  color: rgb(176, 0, 32);
 }
 </style>

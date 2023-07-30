@@ -254,7 +254,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_willdevelopbudgetforexpenditurebasedoniep: false,
     iosas_irrevocableletterofcreditorsuretybond: false,
     iosas_name: 'SA-2024/25 SY-Demo 05-07-2023',
-    iosas_willcomplywithenactmentsofbc: false,
+    iosas_willcomplywithenactmentsofbc: null,
     iosas_hassaobtaineddocumentsregardingbondingreqs: false,
     iosas_precertsubmissionreviewdate: null,
     iosas_testingdrinkingwaterforleadcontentpolicy: null,
@@ -312,7 +312,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_authorityaddressline2: null,
     _iosas_interimcertificationreviewer_value: null,
     iosas_fulldaykindergartenproposedhoursperyear: null,
-    iosas_mailingaddressprovince: null,
+    iosas_mailingaddressprovince: 'British Columbia',
     iosas_interviewadditionalinformation: null,
     _iosas_applicationsubmissionapprover_value: null,
     iosas_numberofteachers: null,
@@ -360,6 +360,8 @@ export const SCHOOL_APPLICATION_MOCK = [
 
     // MISSING - compliance booleans
     iosas_willcomplywithenactmentsofbc: false,
+    placerholder1: null,
+    placeholder2: null,
 
     // School Information - DONE - GET CONFIRMATION
     // MISSING - EMAIL

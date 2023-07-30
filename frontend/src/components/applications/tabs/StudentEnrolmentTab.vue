@@ -18,8 +18,6 @@
           <v-text-field
             id="iosas_numberofstudentskindergarten"
             v-model="formData.iosas_numberofstudentskindergarten"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Kindergarten"
@@ -30,8 +28,6 @@
           <v-text-field
             id="iosas_numberofstudentsg1"
             v-model="formData.iosas_numberofstudentsg1"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 1"
@@ -42,8 +38,6 @@
           <v-text-field
             id="iosas_numberofstudentsg2"
             v-model="formData.iosas_numberofstudentsg2"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 2"
@@ -56,8 +50,6 @@
           <v-text-field
             id="iosas_numberofstudentsg3"
             v-model="formData.iosas_numberofstudentsg3"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 3"
@@ -68,8 +60,6 @@
           <v-text-field
             id="iosas_numberofstudentsg4"
             v-model="formData.iosas_numberofstudentsg4"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 4"
@@ -80,8 +70,6 @@
           <v-text-field
             id="iosas_numberofstudentsg5"
             v-model="formData.iosas_numberofstudentsg5"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 5"
@@ -94,8 +82,6 @@
           <v-text-field
             id="iosas_numberofstudentsg6"
             v-model="formData.iosas_numberofstudentsg6"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 6"
@@ -106,8 +92,6 @@
           <v-text-field
             id="iosas_numberofstudentsg7"
             v-model="formData.iosas_numberofstudentsg7"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 7"
@@ -119,8 +103,6 @@
             disabled
             id="iosas_primaryschooltotal"
             v-model="formData.iosas_primaryschooltotal"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Total (A)"
@@ -134,8 +116,6 @@
           <v-text-field
             id="iosas_numberofstudentsg8"
             v-model="formData.iosas_numberofstudentsg8"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 8"
@@ -146,8 +126,6 @@
           <v-text-field
             id="iosas_numberofstudentsg9"
             v-model="formData.iosas_numberofstudentsg9"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 9"
@@ -158,8 +136,6 @@
           <v-text-field
             id="iosas_numberofstudentsg10"
             v-model="formData.iosas_numberofstudentsg10"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 10"
@@ -173,8 +149,6 @@
           <v-text-field
             id="iosas_numberofstudentsg11"
             v-model="formData.iosas_numberofstudentsg11"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 11"
@@ -185,8 +159,6 @@
           <v-text-field
             id="iosas_numberofstudentsg12"
             v-model="formData.iosas_numberofstudentsg12"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Grade 12"
@@ -198,8 +170,6 @@
             disabled
             id="iosas_highschooltotal"
             v-model="formData.iosas_highschooltotal"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Total (B)"
@@ -213,8 +183,6 @@
             disabled
             id="iosas_totalenrolment"
             v-model="formData.iosas_totalenrolment"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Total of A and B enrolment"

@@ -9,7 +9,6 @@
             :disabled="!isEditing"
             id="iosas_proposedschoolname"
             v-model="formData.iosas_proposedschoolname"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -58,7 +57,6 @@
             :disabled="!isEditing"
             id="iosas_overview"
             v-model="formData.iosas_overview"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -75,7 +73,6 @@
             :disabled="!isEditing"
             id="iosas_addressline1"
             v-model="formData.iosas_addressline1"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -90,8 +87,6 @@
             :disabled="!isEditing"
             id="iosas_addressline2"
             v-model="formData.iosas_addressline2"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Address Line 2"
@@ -117,7 +112,6 @@
           <v-text-field
             id="iosas_province"
             v-model="formData.iosas_province"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             disabled
@@ -130,9 +124,7 @@
           <v-text-field
             id="iosas_country"
             v-model="formData.iosas_country"
-            required
             disabled
-            :rules="[]"
             :maxlength="255"
             variant="outlined"
             label="Country"
@@ -144,7 +136,6 @@
             :disabled="!isEditing"
             id="iosas_postalcode"
             v-model="formData.iosas_postalcode"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -160,7 +151,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddress1"
             v-model="formData.iosas_mailingaddress1"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -175,8 +165,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddress2"
             v-model="formData.iosas_mailingaddress2"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Address Line 2"
@@ -188,7 +176,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddresscity"
             v-model="formData.iosas_mailingaddresscity"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -202,8 +189,6 @@
           <v-text-field
             id="iosas_mailingaddressprovince"
             v-model="formData.iosas_mailingaddressprovince"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             disabled
             variant="outlined"
@@ -215,7 +200,6 @@
           <v-text-field
             id="iosas_mailingaddresscountry"
             v-model="formData.iosas_mailingaddresscountry"
-            required
             disabled
             :rules="[]"
             :maxlength="255"
@@ -228,7 +212,6 @@
           <v-text-field
             id="iosas_mailingaddresspostalcode"
             v-model="formData.iosas_mailingaddresspostalcode"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -243,8 +226,6 @@
             :disabled="!isEditing"
             id="iosas_website"
             v-model="formData.iosas_website"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Website address (optional)"
@@ -258,7 +239,6 @@
             :disabled="!isEditing"
             id="contact_email"
             v-model="formData.contact_email"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -271,8 +251,6 @@
             :disabled="!isEditing"
             id="iosas_phone"
             v-model="formData.iosas_phone"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="School Phone (optional)"
@@ -552,3 +530,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-label {
+  display: inline-block;
+}
+</style>

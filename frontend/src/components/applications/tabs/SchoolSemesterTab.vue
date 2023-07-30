@@ -62,8 +62,6 @@
             :disabled="!isEditing"
             id="iosas_halfdaykindergartenproposedhoursperday"
             v-model="formData.iosas_halfdaykindergartenproposedhoursperday"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -75,8 +73,6 @@
             :disabled="!isEditing"
             id="iosas_halfdaykindergartenproposeddaysinsession"
             v-model="formData.iosas_halfdaykindergartenproposeddaysinsession"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Number of Days in Session"
@@ -88,8 +84,6 @@
             :disabled="!isEditing"
             id="iosas_halfdaykindergartenproposedhoursperyear"
             v-model="formData.iosas_halfdaykindergartenproposedhoursperyear"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -106,8 +100,6 @@
             :disabled="!isEditing"
             id="iosas_fulldaykindergartenproposedhoursperyear"
             v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -119,8 +111,6 @@
             :disabled="!isEditing"
             id="iosas_fulldaykindergartenproposeddaysinsession"
             v-model="formData.iosas_fulldaykindergartenproposeddaysinsession"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Number of Days in Session"
@@ -132,8 +122,6 @@
             :disabled="!isEditing"
             id="iosas_fulldaykindergartenproposedhoursperday"
             v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -150,8 +138,6 @@
             :disabled="!isEditing"
             id="iosas_grades112proposedhoursperyear"
             v-model="formData.iosas_grades112proposedhoursperyear"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -163,8 +149,6 @@
             :disabled="!isEditing"
             id="iosas_grades112proposeddaysinsession"
             v-model="formData.iosas_grades112proposeddaysinsession"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Number of Days in Session"
@@ -176,8 +160,6 @@
             :disabled="!isEditing"
             id="iosas_grades112proposedhoursperday"
             v-model="formData.iosas_grades112proposedhoursperday"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"

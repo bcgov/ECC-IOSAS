@@ -23,7 +23,7 @@
             v-model="formData.iosas_anaphylaxispolicyandprocedures"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -42,7 +42,7 @@
             v-model="formData.iosas_appealsprocesspolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -61,7 +61,6 @@
             v-model="formData.iosas_boardingsafetyandsupervisionpolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -81,7 +80,7 @@
             v-model="formData.iosas_childabusepreventionpolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -100,7 +99,7 @@
             v-model="formData.iosas_studentconductstandardsdisciplinepolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -122,7 +121,7 @@
             v-model="formData.iosas_emergencydrillspolicyproceduresresponse"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -147,7 +146,7 @@
             "
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -169,7 +168,7 @@
             v-model="formData.iosas_otheremergencydrillsimplemeneted"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -191,7 +190,7 @@
             v-model="formData.iosas_policyincludepermanentschoolclosure"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -210,7 +209,6 @@
             v-model="formData.iosas_graduationprogramcreditspolicyifapplicable"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -230,7 +228,6 @@
             v-model="formData.iosas_harassmentandbullyingpreventionpolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -250,7 +247,6 @@
             v-model="formData.iosas_homeschoolingpolicyifapplicable"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -270,7 +266,6 @@
             v-model="formData.iosas_internationalstudentpoliciesifapplicable"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -298,7 +293,6 @@
             v-model="formData.iosas_complywithhomestayguidelines"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -322,7 +316,6 @@
             v-model="formData.iosas_willapplyforstudentgraduationcreditpolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -345,7 +338,7 @@
             v-model="formData.iosas_privacypolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -364,7 +357,7 @@
             v-model="formData.iosas_specialeducationpolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -387,7 +380,7 @@
             v-model="formData.iosas_willdevelopbudgetforexpenditurebasedoniep"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -410,7 +403,7 @@
             v-model="formData.iosas_learningassistanceforspecialstudents"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -436,7 +429,7 @@
             v-model="formData.iosas_willhavecompletioncertificatepolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -455,7 +448,7 @@
             v-model="formData.iosas_educationalresourcepolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -474,7 +467,7 @@
             v-model="formData.iosas_testingdrinkingwaterforleadcontentpolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -493,7 +486,7 @@
             v-model="formData.iosas_schoolclosurepolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -512,7 +505,7 @@
             v-model="formData.iosas_studentrecordspolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -533,7 +526,7 @@
             v-model="formData.iosas_studentsupervisionpolicies"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -558,7 +551,7 @@
             v-model="formData.iosas_refundpolicyconsistentwiththeguidelines"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -577,7 +570,7 @@
             v-model="formData.iosas_teacherandprincipalevaluationpolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -590,12 +583,12 @@
         >If 'no' to any of the above policies, please explain below:</v-label
       >
       <v-row>
+        <!-- Additional logic to force requirement if any bool is false? -->
         <v-col cols="12">
           <v-textarea
             :disabled="!isEditing"
             id="iosas_ifnotoanyschoolpolicyexplainwhy"
             v-model="formData.iosas_ifnotoanyschoolpolicyexplainwhy"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"

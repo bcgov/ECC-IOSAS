@@ -38,7 +38,6 @@
             :disabled="!isEditing"
             id="iosas_authorityheadlastname"
             v-model="formData.iosas_authorityheadlastname"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -53,7 +52,6 @@
             :disabled="!isEditing"
             id="iosas_authorityheademail"
             v-model="formData.iosas_authorityheademail"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -101,7 +99,6 @@
             :disabled="!isEditing"
             id="iosas_officialregistrationnumber"
             v-model="formData.iosas_officialregistrationnumber"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -114,8 +111,6 @@
             :disabled="!isEditing"
             id="iosas_dateoflastannualreport"
             v-model="formData.iosas_dateoflastannualreport"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Date of last Annual Report (optional)"
@@ -134,7 +129,6 @@
             :disabled="!isEditing"
             id="iosas_howwillyouexercisegovernanceduties"
             v-model="formData.iosas_howwillyouexercisegovernanceduties"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -155,7 +149,6 @@
             :disabled="!isEditing"
             id="iosas_proponentspreviouslyinvolvedinisbc"
             v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"

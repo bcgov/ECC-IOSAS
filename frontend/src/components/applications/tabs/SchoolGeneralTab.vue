@@ -41,10 +41,12 @@
             </ol>
           </v-label>
           <v-radio-group
+            v-model="formData.placerholder1"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
+            :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
@@ -60,7 +62,6 @@
                 The independent school facilities will comply with the
                 enactments of British Columbia and the municipality or regional
                 district in which the facilities are located, and,
-                iosas_willcomplywithenactmentsofbc
               </li>
             </ol>
           </v-label>
@@ -70,6 +71,7 @@
             class="mt-4"
             direction="horizontal"
             inline
+            :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
@@ -88,10 +90,12 @@
             </ol>
           </v-label>
           <v-radio-group
+            v-model="formData.placerholder2"
             color="#003366"
             class="mt-4"
             direction="horizontal"
             inline
+            :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
@@ -156,8 +160,8 @@
                 district in which the facilities are located, and,
               </li>
             </ol>
+            <span class="orange"> iosas_willcomplywithenactmentsofbc </span>
           </v-label>
-          <span class="orange">????</span>
           <p>{{ formatBooleanToYesNoString(true) }}</p>
         </v-col>
       </v-row>
@@ -206,6 +210,9 @@ export default {
   computed: {},
   methods: {
     formatBooleanToYesNoString,
+    // validateRequiredFields() {
+
+    // }
   },
 };
 </script>
