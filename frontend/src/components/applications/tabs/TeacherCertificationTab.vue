@@ -36,7 +36,6 @@
             :disabled="!isEditing"
             id="iosas_numberofteachers"
             v-model="formData.iosas_numberofteachers"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -57,7 +56,6 @@
             v-model="formData.iosas_awareofcertificationrequirements"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :disabled="!isEditing"
           >
@@ -83,7 +81,7 @@
             v-model="formData.iosas_awareoftherequirementsforcrchecks"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >

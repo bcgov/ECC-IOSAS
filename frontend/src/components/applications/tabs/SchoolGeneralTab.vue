@@ -41,6 +41,8 @@
             </ol>
           </v-label>
           <v-radio-group
+            id="placeholder1"
+            name="placeholder1"
             v-model="formData.placerholder1"
             color="#003366"
             class="mt-4"
@@ -48,6 +50,7 @@
             inline
             :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
+            @change="validate"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -66,6 +69,7 @@
             </ol>
           </v-label>
           <v-radio-group
+            id="iosas_willcomplywithenactmentsofbc"
             v-model="formData.iosas_willcomplywithenactmentsofbc"
             color="#003366"
             class="mt-4"
@@ -73,6 +77,7 @@
             inline
             :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
+            @change="validate"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -90,6 +95,7 @@
             </ol>
           </v-label>
           <v-radio-group
+            :id="placeholder2"
             v-model="formData.placerholder2"
             color="#003366"
             class="mt-4"
@@ -97,6 +103,7 @@
             inline
             :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
+            @change="validate"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -210,9 +217,11 @@ export default {
   computed: {},
   methods: {
     formatBooleanToYesNoString,
-    // validateRequiredFields() {
-
-    // }
+    validate(e) {
+      console.log(e.target.name);
+      console.log(e);
+      console.log('this was called?', e.target.value);
+    },
   },
 };
 </script>

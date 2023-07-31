@@ -12,7 +12,6 @@
           <v-textarea
             id="iosas_describefamiliaritywithbcscurriculum"
             v-model="formData.iosas_describefamiliaritywithbcscurriculum"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -88,8 +87,6 @@
             v-if="isEditing"
             id="iosas_additionalprogramsother"
             v-model="formData.iosas_additionalprogramsother"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"

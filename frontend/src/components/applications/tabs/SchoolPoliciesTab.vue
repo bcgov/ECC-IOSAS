@@ -583,13 +583,12 @@
         >If 'no' to any of the above policies, please explain below:</v-label
       >
       <v-row>
-        <!-- Additional logic to force requirement if any bool is false? -->
+        <!--TODO: Additional logic to force requirement if any bool is false? -->
         <v-col cols="12">
           <v-textarea
             :disabled="!isEditing"
             id="iosas_ifnotoanyschoolpolicyexplainwhy"
             v-model="formData.iosas_ifnotoanyschoolpolicyexplainwhy"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label=""

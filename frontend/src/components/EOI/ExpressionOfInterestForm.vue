@@ -698,7 +698,7 @@ export default {
             const payload = {
               ...this.data,
               iosas_eionumber: eoiNumber,
-              status: this.defaultStatus,
+              iosas_reviewstatus: this.defaultStatus,
             };
             // mocking database interactions  - will be replaced when API is connected.
             const storedApplications = JSON.parse(
@@ -731,6 +731,6 @@ export default {
 }
 
 .no-margin {
-  margin-bottom: 0 !important;
+  margin-bottom: none !important;
 }
 </style>

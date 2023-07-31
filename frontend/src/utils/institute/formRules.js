@@ -13,6 +13,7 @@
 //  under data do rules: Rules <- allows you to use in <template>.
 
 import { LocalDate } from '@js-joda/core';
+import { isNil } from 'lodash';
 
 /**
  * Rule for emails
@@ -149,7 +150,10 @@ const requiredSelect = (message = 'Required') => {
  * @returns Function
  */
 const requiredRadio = (message = 'Required') => {
-  return (v) => v != null || message;
+  return (v) => {
+    console.log('v', v);
+    return !isNil(v) || message;
+  };
 };
 
 export {

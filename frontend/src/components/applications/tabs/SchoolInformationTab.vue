@@ -112,8 +112,6 @@
           <v-text-field
             id="iosas_province"
             v-model="formData.iosas_province"
-            :rules="[rules.required()]"
-            :maxlength="255"
             disabled
             variant="outlined"
             label="Province"
@@ -125,7 +123,6 @@
             id="iosas_country"
             v-model="formData.iosas_country"
             disabled
-            :maxlength="255"
             variant="outlined"
             label="Country"
             color="rgb(59, 153, 252)"

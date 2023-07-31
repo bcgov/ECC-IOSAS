@@ -27,7 +27,7 @@
             v-model="formData.iosas_completesetofpoliciesoutlinedinchecklist"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -50,7 +50,7 @@
             v-model="formData.iosas_businessplanincludingfinancialinformation"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >

@@ -82,7 +82,7 @@
                   </v-col>
                 </v-row>
 
-                <v-row aligh="center" v-if="!isFormValid">
+                <v-row justify="center" align="center" v-if="showError">
                   <v-col>
                     <p class="error">
                       Ensure all required fields are filled out before
@@ -211,9 +211,9 @@ export default {
       disabledTabs: [],
       isEditing: false,
       isFormValid: true,
+      showError: false,
       defaultStatus: 'Submitted',
       applicationConfirmation: false,
-      requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
       tabContent: [
         {
@@ -275,17 +275,27 @@ export default {
         console.log(this.disabledTabs);
       },
     },
+    isFormValid: {
+      handler(val) {
+        if (val) {
+          this.showError = false;
+        } else if (val === false) {
+          this.showError = true;
+        }
+
+        console.log('isFormValid', val);
+      },
+    },
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
     const isDraft = this.formData && this.formData?.status === 'Draft';
+    this.isFormValid = true;
     this.isEditing = isDraft;
     // TODO: Do not disable tab if application has been updated/submitted but still in progress
     this.disabledTabs = isDraft ? DISABLED_TABS : [];
-
-    console.log(this.isFormValid);
   },
   methods: {
     isLastPage() {
@@ -352,11 +362,18 @@ export default {
     async nextTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
       const valid = await this.$refs.schoolApplicationForm.validate();
-      this.isFormValid = valid.valid;
+      console.log(valid);
+      this.showError = !valid.valid;
       // Ensure form is valid before moving to the next step
       if (this.isFormValid) {
         return (this.tab = this.items[currentTabIndex + 1]);
       }
+    },
+    validate(e) {
+      // console.log(e.target.name);
+      // console.log(e);
+      // this.formData = { ...this.formData, ${e.target.name}: e.target.value };
+      // console.log('this was called?', e.target.value);
     },
   },
 };
