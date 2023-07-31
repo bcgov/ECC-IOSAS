@@ -150,10 +150,7 @@ const requiredSelect = (message = 'Required') => {
  * @returns Function
  */
 const requiredRadio = (message = 'Required') => {
-  return (v) => {
-    console.log('v', v);
-    return !isNil(v) || message;
-  };
+  return (v) => !isNil(v) || message;
 };
 
 export {

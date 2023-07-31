@@ -211,9 +211,3 @@ export function isValidEmail(value) {
     )
   );
 }
-
-export const validationsPerTab = [
-  {
-    tab,
-  },
-];

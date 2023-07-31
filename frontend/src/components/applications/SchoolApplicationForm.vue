@@ -272,7 +272,6 @@ export default {
             (tab) => tab !== this.tab
           );
         }
-        console.log(this.disabledTabs);
       },
     },
     isFormValid: {
@@ -282,8 +281,6 @@ export default {
         } else if (val === false) {
           this.showError = true;
         }
-
-        console.log('isFormValid', val);
       },
     },
   },
@@ -362,18 +359,11 @@ export default {
     async nextTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
       const valid = await this.$refs.schoolApplicationForm.validate();
-      console.log(valid);
       this.showError = !valid.valid;
       // Ensure form is valid before moving to the next step
       if (this.isFormValid) {
         return (this.tab = this.items[currentTabIndex + 1]);
       }
-    },
-    validate(e) {
-      // console.log(e.target.name);
-      // console.log(e);
-      // this.formData = { ...this.formData, ${e.target.name}: e.target.value };
-      // console.log('this was called?', e.target.value);
     },
   },
 };
