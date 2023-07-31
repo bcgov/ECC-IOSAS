@@ -33,7 +33,6 @@
         >At this time does the proposed school intend on enrolling any of the
         following students? (Check all that apply)</v-label
       >
-      <span class="orange">iosas_additionalprograms</span>
       <v-row>
         <v-col cols="6" sm="6" md="4" xs="6">
           <v-checkbox

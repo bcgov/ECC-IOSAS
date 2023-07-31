@@ -53,6 +53,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_awareofcertificationrequirements"
             v-model="formData.iosas_awareofcertificationrequirements"
             color="#003366"
             class="mt-4"
@@ -78,6 +79,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_awareoftherequirementsforcrchecks"
             v-model="formData.iosas_awareoftherequirementsforcrchecks"
             color="#003366"
             class="mt-4"
@@ -108,7 +110,6 @@
             >Are you aware of the requirements of teacher certification as they
             relate employees of Group 2, or 4 schools?</v-label
           >
-          <span class="orange">iosas_awareofcertificationrequirements</span>
         </v-col>
         <v-col cols="4">
           <p>
@@ -130,7 +131,6 @@
             consultants, specialists, janitors, and persons assigned other
             special tasks?</v-label
           >
-          <span class="orange">iosas_awareoftherequirementsforcrchecks</span>
         </v-col>
         <v-col cols="4">
           <p>

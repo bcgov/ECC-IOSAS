@@ -84,10 +84,10 @@
 
                 <v-row justify="center" align="center" v-if="showError">
                   <v-col>
-                    <p class="error">
+                    <v-alert type="error" title="Error" variant="outlined">
                       Ensure all required fields are filled out before
                       proceeding to the next step
-                    </p>
+                    </v-alert>
                   </v-col>
                 </v-row>
                 <br />
@@ -288,7 +288,7 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    const isDraft = this.formData && this.formData?.status === 'Draft';
+    const isDraft = this.formData && this.formData?.statuscode === 'Draft';
     this.isFormValid = true;
     this.isEditing = isDraft;
     // TODO: Do not disable tab if application has been updated/submitted but still in progress
@@ -433,9 +433,5 @@ li {
 
 .flex-4 {
   flex: 4;
-}
-
-.error {
-  color: rgb(176, 0, 32);
 }
 </style>

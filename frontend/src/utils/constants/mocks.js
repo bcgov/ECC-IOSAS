@@ -145,7 +145,7 @@ export const EOI_MOCK = [
 export const SCHOOL_APPLICATION_MOCK = [
   {
     iosas_applicationnumber: 'APP-1048',
-    status: 'Draft',
+    statuscode: 'Draft',
     iosas_proposedschoolname: 'Victoria South High',
     iosas_studentshousedinadormitorysetting: true,
     iosas_confirmationofwatertesting: false,
@@ -235,7 +235,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_addressline1: '10111 Bird Rd',
     timezoneruleversionnumber: 0,
     iosas_acknowledgementofdecisionsent: false,
-    statuscode: 100000003,
     iosas_numberofstudentsg11: 0,
     iosas_numberofstudentsg12: 0,
     iosas_reviewpassedsuccessfully: false,
@@ -355,13 +354,11 @@ export const SCHOOL_APPLICATION_MOCK = [
   },
   {
     // General
-    status: 'Interim Certification',
+    statuscode: 'Interim Certification',
     iosas_applicationnumber: 'APP-1011',
-
-    // MISSING - compliance booleans
+    iosas_nopromotionofinappropriatedoctrines: true,
     iosas_willcomplywithenactmentsofbc: false,
-    placerholder1: null,
-    placeholder2: null,
+    iosas_authoritycomplieswithisaregulations: false,
 
     // School Information - DONE - GET CONFIRMATION
     // MISSING - EMAIL
@@ -390,6 +387,9 @@ export const SCHOOL_APPLICATION_MOCK = [
 
     // School Authority  - GET CONFIRMATION
     // MISSING - legislation checklist
+    iosas_existingauthority: true,
+    edu_incorporationtype: [], // if !iosas_existingauthority
+    iosas_incorporationtype: [], // if iosas_existingauthority
     iosas_schoolauthority: 'iosas_schoolauthority',
     iosas_authorityheadphone: 'iosas_authorityheadphone',
     iosas_authorityheadfirstname: 'iosas_authorityheadfirstname',
@@ -411,7 +411,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     _iosas_expressionofinterest_value: 'GUID',
     iosas_acknowledgementofinterviewdecisionsent: false,
     iosas_writtenconfirmationofeligibility: false,
-    iosas_hasthesaobtainedirrevocableloc: false,
     iosas_proofoffacilityinspection: false,
     _modifiedby_value: 'GUID',
     iosas_municipalcomplianceletter: false,
@@ -421,8 +420,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     _owninguser_value: 'GUID',
     iosas_authorityprovince: 'BC',
     _createdby_value: 'GUID',
-    iosas_authoritycomplieswithisaregulations: false,
-    iosas_nopromotionofinappropriatedoctrines: false,
     _iosas_edu_year_value: '2023/24 SY',
     versionnumber: 26877904,
     _iosas_schoolauthorityhead_value: 'GUID',
@@ -439,7 +436,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_authoritypostalcode: 'V6X1N4',
     timezoneruleversionnumber: 0,
     iosas_acknowledgementofdecisionsent: false,
-    statuscode: 100000003,
     iosas_reviewpassedsuccessfully: false,
     modifiedon: '2023-07-08T00:05:27Z',
     iosas_designatedcontactsameasauthorityhead: false,
@@ -502,23 +498,24 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_schoolassociationother: null,
     iosas_acknowledgementdate: null,
     iosas_incorporationtype: null,
-    iosas_hastheauthoritydevelopedarefundpolicy: null,
     iosas_completedfreetuitionrefundpolicy: false,
-    iosas_cantheauthorityconfirmtestingvspolicy: false,
     iosas_feerefundpolicyconsistentwithguidelines: false,
     iosas_policysubmitted: false,
 
-    // Group Certification - NEED CONFIRMATION
-    // MISSING - group 4 fields
+    // Group Certification
     iosas_familiarwithgrantstoispolicyifseekingfunds: false,
     iosas_willsaoperateonnonprofitbasis: false,
+    iosas_hasthesaobtainedirrevocableloc: false,
+    iosas_hassaobtaineddocumentsregardingbondingreqs: null,
+    iosas_hastheauthoritydevelopedarefundpolicy: null,
 
-    // school Facility - DONE?
+    // school Facility
     iosas_nameofmunicipalityorregionaldistrict:
       'iosas_nameofmunicipalityorregionaldistrict',
     iosas_whatstepsareyoutakingtoacquirethefacility:
       'iosas_whatstepsareyoutakingtoacquirethefacility',
-    iosas_confirmationofleadtestingfordrinkingwater: false,
+    iosas_cantheauthorityconfirmtestingvspolicy: false, // CONFIRM??
+    iosas_confirmationofleadtestingfordrinkingwater: false, // CONFIRM??
     iosas_studentshousedinadormitorysetting: true,
     iosas_studentshousedinahomesetting: false,
     iosas_hastheauthoritycontactedlocalgovernment: false,
@@ -549,7 +546,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_schoolclosurepolicy: false,
     iosas_studentrecordspolicy: false,
     iosas_studentsupervisionpolicies: false,
-    iosas_refundpolicyconsistentwiththeguidelines: false,
+    iosas_feerefundpolicyconsistentwithguidelines: false, // CONFIRM - given
     iosas_teacherandprincipalevaluationpolicy: false,
     iosas_ifnotoanyschoolpolicyexplainwhy:
       'iosas_ifnotoanyschoolpolicyexplainwhy',
@@ -562,7 +559,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_additionalprograms: null, // Is this an array for the checklists??
     iosas_additionalprogramsother: 'iosas_additionalprogramsother',
 
-    // student Enrolment - DONE - GET CONFIRMATION
+    // student Enrolment - CONFIRMED
     iosas_numberofstudentskindergarten: 1,
     iosas_numberofstudentsg1: 2,
     iosas_numberofstudentsg2: 3,
@@ -592,12 +589,12 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_grades112proposeddaysinsession: 5,
     iosas_grades112proposedhoursperday: 5,
 
-    // teacher certification - DONE - GET CONFIRMATION
+    // teacher certification - CONFIRMED
     iosas_numberofteachers: 'iosas_numberofteachers',
     iosas_awareofcertificationrequirements: true,
     iosas_awareoftherequirementsforcrchecks: false,
 
-    // Submissions - DONE - GET CONFIRMATION
+    // Submissions - CONFIRMED
     iosas_completesetofpoliciesoutlinedinchecklist: false,
     iosas_businessplanincludingfinancialinformation: false,
   },

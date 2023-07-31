@@ -138,21 +138,38 @@
         </v-col>
       </v-row>
 
-      <v-label
-        >Have any of the proponents for the proposed school been previously
-        involved in operating an independent school in BC or elsewhere in the
-        past 10 years. If so, please provide details below.
-      </v-label>
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Have any of the proponents for the proposed school been previously
+            involved in operating an independent school in BC or elsewhere in
+            the past 10 years?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_proponentspreviouslyinvolvedinisbc "
+            v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
+            color="#003366"
+            class="mt-4"
+            direction="horizontal"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" v-bind:value="true" />
+            <v-radio label="No" color="#003366" v-bind:value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-label>If so, please provide details below. </v-label>
       <v-row>
         <v-col cols="12">
           <v-textarea
             :disabled="!isEditing"
             id="iosas_proponentspreviouslyinvolvedinisbc"
             v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -180,7 +197,6 @@
         >Please indicate under which legislation your School Authority is
         incorporated:</v-label
       >
-      <span class="orange">????</span>
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-checkbox
@@ -233,22 +249,26 @@
           </p>
         </v-col>
       </v-row>
-
-      <v-row>
-        <v-col cols="12">
+      <v-row align="center">
+        <v-col cols="8">
           <v-label
             >Have any of the proponents for the proposed school been previously
             involved in operating an independent school in BC or elsewhere in
-            the past 10 years. If so, please provide details below.
-          </v-label>
-          <span class="orange"
-            >Is this a boolean?? iosas_proponentspreviouslyinvolvedinisbc</span
+            the past 10 years?</v-label
           >
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(iosas_proponentspreviouslyinvolvedinisbc)
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12">
+          <v-label>If so, please provide details below. </v-label>
           <p>
-            {{
-              formData.iosas_proponentspreviouslyinvolvedinisbc.toString() ||
-              NULL_STRING
-            }}
+            {{ NULL_STRING }}
           </p>
         </v-col>
       </v-row>
@@ -258,6 +278,7 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
@@ -280,6 +301,7 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    formatBooleanToYesNoString,
     getAuthorityHeadName() {
       return this.formData.iosas_authorityheadfirstname
         ? this.formData.iosas_authorityheadfirstname +

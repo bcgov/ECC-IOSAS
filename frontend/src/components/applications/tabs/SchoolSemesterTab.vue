@@ -5,7 +5,6 @@
       >Schools Seeking Group 1, 2 and 4 only. Please select however many fit the
       intended school.</v-label
     >
-    <span class="orange">????</span>
     <v-row>
       <v-col cols="6" sm="6" md="4" xs="6">
         <v-checkbox

@@ -80,9 +80,6 @@
               >Interview Checklist (PDF)</a
             ></v-label
           >
-          <span class="orange"
-            >iosas_completesetofpoliciesoutlinedinchecklist</span
-          >
         </v-col>
         <v-col cols="4">
           {{
@@ -99,9 +96,6 @@
             <a :href="GOV_URL.interviewChecklistPDFUrl"
               >(Interview Checklist (PDF))</a
             ></v-label
-          >
-          <span class="orange"
-            >iosas_businessplanincludingfinancialinformation</span
           >
         </v-col>
         <v-col cols="4">

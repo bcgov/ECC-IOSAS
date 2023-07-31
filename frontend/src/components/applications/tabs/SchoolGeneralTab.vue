@@ -10,7 +10,7 @@
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
-          <p>{{ formData.status }}</p>
+          <p>{{ formData.statuscode }}</p>
         </v-col>
       </v-row>
       <br />
@@ -41,9 +41,9 @@
             </ol>
           </v-label>
           <v-radio-group
-            id="placeholder1"
-            name="placeholder1"
-            v-model="formData.placerholder1"
+            id="iosas_nopromotionofinappropriatedoctrines"
+            name="iosas_nopromotionofinappropriatedoctrines"
+            v-model="formData.iosas_nopromotionofinappropriatedoctrines"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -95,8 +95,8 @@
             </ol>
           </v-label>
           <v-radio-group
-            :id="placeholder2"
-            v-model="formData.placerholder2"
+            id="iosas_authoritycomplieswithisaregulations"
+            v-model="formData.iosas_authoritycomplieswithisaregulations"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -114,16 +114,12 @@
     <div v-else>
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label
-            >Application Number
-            <span class="orange">iosas_applicationnumber</span></v-label
-          >
+          <v-label>Application Number </v-label>
           <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
-          <span class="orange">????</span>
-          <p>{{ formData.status }}</p>
+          <p>{{ formData.statuscode }}</p>
         </v-col>
       </v-row>
       <br />
@@ -153,8 +149,13 @@
               </ol>
             </ol>
           </v-label>
-          <span class="orange">????</span>
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_nopromotionofinappropriatedoctrines
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -167,9 +168,14 @@
                 district in which the facilities are located, and,
               </li>
             </ol>
-            <span class="orange"> iosas_willcomplywithenactmentsofbc </span>
           </v-label>
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_willcomplywithenactmentsofbc
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -182,8 +188,13 @@
               </li>
             </ol>
           </v-label>
-          <span class="orange">????</span>
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_authoritycomplieswithisaregulations
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
     </div>

@@ -137,9 +137,6 @@
             codes, regarding zoning, building, fire prevention, and
             health?</v-label
           >
-          <span class="orange"
-            >iosas_hastheauthoritycontactedlocalgovernment</span
-          >
         </v-col>
         <v-col cols="4">
           {{
@@ -190,7 +187,6 @@
           <v-label>Will Students attending the school be housed in:</v-label>
           <br />
           <v-label class="ml-10">A homestay setting:</v-label>
-          <span class="orange">iosas_studentshousedinahomesetting</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -203,7 +199,6 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label class="ml-10">A boarding/dormitory setting:</v-label>
-          <span class="orange">iosas_studentshousedinadormitorysetting</span>
         </v-col>
         <v-col cols="4">
           {{
