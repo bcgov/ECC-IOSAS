@@ -379,8 +379,8 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_mailingaddresscountry: 'iosas_mailingaddresscountry',
     iosas_mailingaddresspostalcode: 'iosas_mailingaddresspostalcode',
     iosas_website: 'iosas_website',
-    iosas_phone: 'iosas_phone', // which one?
-    iosas_phonenumber: 'iosas_phonenumber', // which one?
+    iosas_phone: 'iosas_phone',
+    iosas_phonenumber: 'iosas_phonenumber', // School Phone
     iosas_groupclassification: 'Group 2',
     iosas_seekgroup1classification: false,
     iosas_schoolaffiliation: 'iosas_schoolaffiliation',

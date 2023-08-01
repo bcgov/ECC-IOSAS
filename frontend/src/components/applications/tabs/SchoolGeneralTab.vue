@@ -42,7 +42,6 @@
           </v-label>
           <v-radio-group
             id="iosas_nopromotionofinappropriatedoctrines"
-            name="iosas_nopromotionofinappropriatedoctrines"
             v-model="formData.iosas_nopromotionofinappropriatedoctrines"
             color="#003366"
             class="mt-4"
@@ -52,8 +51,8 @@
             :disabled="!isEditing"
             @change="validate"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -79,8 +78,8 @@
             :disabled="!isEditing"
             @change="validate"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -105,8 +104,8 @@
             :disabled="!isEditing"
             @change="validate"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>

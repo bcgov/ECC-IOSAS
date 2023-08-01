@@ -229,25 +229,11 @@
             color="rgb(59, 153, 252)"
           />
         </v-col>
-      </v-row>
-      <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
-            :rules="[rules.required()]"
-            :maxlength="255"
-            variant="outlined"
-            label="Application Contact E-mail"
-            color="rgb(59, 153, 252)"
-          />
-        </v-col>
-        <v-col cols="12" sm="12" md="6" xs="12">
-          <v-text-field
-            :disabled="!isEditing"
-            id="iosas_phone"
-            v-model="formData.iosas_phone"
+            id="iosas_phonenumber"
+            v-model="formData.iosas_phonenumber"
             :maxlength="255"
             variant="outlined"
             label="School Phone (optional)"
@@ -255,7 +241,6 @@
           />
         </v-col>
       </v-row>
-
       <v-row>
         <v-col cols="12">
           <v-label
@@ -434,18 +419,11 @@
           <v-label>Website address</v-label>
           <p>{{ formData.iosas_website || NULL_STRING }}</p>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Application Contact E-mail</v-label>
-          <p>{{ NULL_STRING }}</p>
-        </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>School Phone</v-label>
           <p>{{ formData.iosas_phone || NULL_STRING }}</p>
         </v-col>
       </v-row>
-
       <v-row>
         <v-col cols="12">
           <v-label
