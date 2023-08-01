@@ -229,7 +229,7 @@ export default {
   methods: {
     formatBooleanToYesNoString,
     validate(e) {
-      console.log(e.target.name);
+      console.log(e.target.id);
       console.log(e);
       console.log('this was called?', e.target.value);
     },

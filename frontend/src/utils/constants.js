@@ -168,7 +168,7 @@ export const GOV_URL = {
   CIS: 'https://fisabc.ca/who-are-we/member-associations/catholic-independent-schools-british-columbia/',
   ISABC: 'https://www.isabc.ca/',
   SCSBC: 'https://scsbc.ca/',
-  AMG: null,
+  AMS: 'https://fisabc.ca/who-are-we/member-associations/associate-member-society/',
   ACSIBC:
     'https://fisabc.ca/who-are-we/member-associations/association-christian-schools-international/',
   SDA: 'https://sdabceducation.net/',
