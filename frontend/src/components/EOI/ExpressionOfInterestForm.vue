@@ -520,36 +520,48 @@
                   ></v-checkbox>
                 </v-col>
               </v-row>
+              <v-row justify="center" align="center" v-if="showError">
+                <v-col>
+                  <v-alert type="error" title="Error" variant="outlined">
+                    Ensure all required fields are filled out before proceeding
+                    to the next step
+                  </v-alert>
+                </v-col>
+              </v-row>
+
+              <br />
+              <v-container v-if="isEditing || isNew()">
+                <v-row align="end">
+                  <v-spacer />
+                  <PrimaryButton
+                    v-if="authStore().isAuthenticated"
+                    secondary
+                    text="Save Draft"
+                    class="mr-2"
+                    :click-action="handleDraftSubmit"
+                  />
+                  <v-btn
+                    type="submit"
+                    primary
+                    class="mt-2 submit-button"
+                    variant="elevated"
+                    :disabled="!applicationConfirmation"
+                    >Submit</v-btn
+                  >
+                </v-row>
+                <v-row align="end">
+                  <v-spacer />
+                  <v-btn
+                    variant="plain"
+                    @click="handleDelete"
+                    class="link-button"
+                  >
+                    Delete Draft
+                  </v-btn>
+                </v-row>
+              </v-container>
             </div>
           </div>
-
-          <br />
-          <v-container v-if="isEditing || isNew()">
-            <v-row align="end">
-              <v-spacer />
-              <PrimaryButton
-                v-if="authStore().isAuthenticated"
-                secondary
-                text="Save Draft"
-                class="mr-2"
-                :click-action="handleDraftSubmit"
-              />
-              <v-btn
-                type="submit"
-                primary
-                class="mt-2 submit-button"
-                variant="elevated"
-                :disabled="!applicationConfirmation"
-                >Submit</v-btn
-              >
-            </v-row>
-            <v-row align="end">
-              <v-spacer />
-              <v-btn variant="plain" @click="handleDelete" class="link-button">
-                Delete Draft
-              </v-btn>
-            </v-row>
-          </v-container>
         </v-container>
       </v-form>
     </template>
@@ -584,6 +596,17 @@ export default {
     isLoading: {
       type: Boolean,
       required: true,
+    },
+  },
+  watch: {
+    isFormValid: {
+      handler(val) {
+        if (val) {
+          this.showError = false;
+        } else if (val === false) {
+          this.showError = true;
+        }
+      },
     },
   },
   data() {
@@ -633,6 +656,7 @@ export default {
       },
       showActivationSnackBar: false,
       activationErrorMessage: null,
+      showError: false,
     };
   },
   computed: {
@@ -681,38 +705,40 @@ export default {
       this.handleSubmit();
     },
     async handleSubmit() {
-      this.$refs.expressionOfInterestForm.validate().then(() => {
-        if (this.isFormValid) {
-          this.$emit('setIsLoading');
-          // mocking a loading state - will be replaced when API is connected.
-          setTimeout(() => {
-            // mocking eoiNumber - will be replaced when API is connected.
-            const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
-            const eoiNumber = `EOI-0${number}`;
-            const payload = {
-              ...this.data,
-              iosas_eionumber: eoiNumber,
-              iosas_reviewstatus: this.defaultStatus,
-            };
-            // mocking database interactions  - will be replaced when API is connected.
-            const storedApplications = JSON.parse(
-              localStorage.getItem('applications')
-            );
-            let applications = [];
-            if (storedApplications) {
-              applications = [...storedApplications, payload];
-            } else {
-              applications = [payload];
-            }
-            localStorage.setItem('applications', JSON.stringify(applications));
-            this.$router.push({
-              name: 'applicationConfirmation',
-              params: { type: 'EOI' },
-            });
-            console.log(payload);
-          }, 1000);
-        }
-      });
+      const valid = await this.$refs.expressionOfInterestForm.validate();
+
+      this.isFormValid = valid.valid;
+      this.showError = !this.isFormValid;
+      if (this.isFormValid) {
+        this.$emit('setIsLoading');
+        // mocking a loading state - will be replaced when API is connected.
+        setTimeout(() => {
+          // mocking eoiNumber - will be replaced when API is connected.
+          const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
+          const eoiNumber = `EOI-0${number}`;
+          const payload = {
+            ...this.data,
+            iosas_eionumber: eoiNumber,
+            iosas_reviewstatus: this.defaultStatus,
+          };
+          // mocking database interactions  - will be replaced when API is connected.
+          const storedApplications = JSON.parse(
+            localStorage.getItem('applications')
+          );
+          let applications = [];
+          if (storedApplications) {
+            applications = [...storedApplications, payload];
+          } else {
+            applications = [payload];
+          }
+          localStorage.setItem('applications', JSON.stringify(applications));
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'EOI' },
+          });
+          console.log(payload);
+        }, 1000);
+      }
     },
   },
 };

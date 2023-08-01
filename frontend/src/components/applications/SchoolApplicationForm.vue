@@ -382,8 +382,6 @@ export default {
         ...this.formData,
         [e.target.attributes?.name?.value]: e.target.value,
       };
-      // console.log(e);
-      // console.log('this was called?', e.target.value);
     },
   },
 };
