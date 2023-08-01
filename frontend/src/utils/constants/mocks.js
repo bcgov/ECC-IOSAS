@@ -400,7 +400,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_dateoflastannualreport: 'iosas_dateoflastannualreport',
     iosas_howwillyouexercisegovernanceduties:
       'iosas_howwillyouexercisegovernanceduties',
-    iosas_proponentspreviouslyinvolvedinisbc: false, // Is this a boolean or string field? Is there a seperate string field?
+    iosas_proponentspreviouslyinvolvedinisbc: false, // boolean - NEED the "is so, describe" field
 
     _iosas_edu_schoolauthority_value: 'GUID',
     iosas_preexistingauthorityhead: true,

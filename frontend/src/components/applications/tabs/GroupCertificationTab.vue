@@ -7,9 +7,13 @@
     <v-label
       >The proposed school will establish an educational program that will
       comply with the instructional goals, time, and program requirements
-      determined by the Minister, as specified in the Educational Standards
-      Order.</v-label
-    >
+      determined by the Minister, as specified in the<a
+        :href="GOV_URL.educationalStandardsOrderUrl"
+        target="_blank"
+      >
+        Educational Standards Order.
+      </a>
+    </v-label>
     <br />
     <br />
 

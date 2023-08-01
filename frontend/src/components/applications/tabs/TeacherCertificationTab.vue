@@ -6,7 +6,10 @@
     <v-label
       >The school principal/head of school and all teachers teaching a subject
       that is reported out on student report cards must hold valid British
-      Columbia teaching credentials issued by the Teacher Certification Branch
+      Columbia teaching credentials issued by the
+      <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
+        Teacher Certification Branch</a
+      >
       (TCB). Initial certification of Group 2 and Group 4 schools will typically
       not be possible for schools employing teachers relying on a Letter of
       Permission as certification.
@@ -47,8 +50,10 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label
-            >Are you aware of the requirements of teacher certification as they
-            relate employees of Group 2, or 4 schools?</v-label
+            >Are you aware of the requirements of
+            <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
+              teacher certification</a
+            >as they relate employees of Group 2, or 4 schools?</v-label
           >
         </v-col>
         <v-col cols="4">
@@ -107,8 +112,11 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label
-            >Are you aware of the requirements of teacher certification as they
-            relate employees of Group 2, or 4 schools?</v-label
+            >Are you aware of the requirements of
+            <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
+              teacher certification</a
+            >
+            as they relate employees of Group 2, or 4 schools?</v-label
           >
         </v-col>
         <v-col cols="4">

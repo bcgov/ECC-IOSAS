@@ -320,10 +320,13 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label class="ml-5"
-            >Will the proposed school apply the Ministry’s International Student
-            Graduation Credit Policy determining equivalency credits for
-            international students?</v-label
-          >
+            >Will the proposed school apply the Ministry’s
+            <a
+              :href="GOV_URL.internationalStudentGraduationCreditPolicyUrl"
+              target="_blank"
+              >International Student Graduation Credit Policy</a
+            >determining equivalency credits for international students?
+          </v-label>
         </v-col>
         <v-col cols="4">
           <v-radio-group
@@ -485,8 +488,8 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            id="iosas_testingdrinkingwaterforleadcontentpolicy"
-            v-model="formData.iosas_testingdrinkingwaterforleadcontentpolicy"
+            id="iosas_cantheauthorityconfirmtestingvspolicy"
+            v-model="formData.iosas_cantheauthorityconfirmtestingvspolicy"
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
@@ -824,9 +827,12 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label class="ml-5"
-            >Will the proposed school apply the Ministry’s International Student
-            Graduation Credit Policy determining equivalency credits for
-            international students?
+            >Will the proposed school apply the Ministry’s
+            <a
+              :href="GOV_URL.internationalStudentGraduationCreditPolicyUrl"
+              target="_blank"
+              >International Student Graduation Credit Policy</a
+            >determining equivalency credits for international students?
           </v-label>
         </v-col>
         <v-col cols="4">
@@ -933,7 +939,7 @@
         <v-col cols="4">
           {{
             formatBooleanToYesNoString(
-              formData.iosas_testingdrinkingwaterforleadcontentpolicy
+              formData.iosas_cantheauthorityconfirmtestingvspolicy
             )
           }}
         </v-col>

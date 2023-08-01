@@ -5,8 +5,11 @@
       ><strong
         >NOTE: A new school must have 10 or more school age students who are
         enrolled with the school and reported as 1.00 FTE each in accordance
-        with the 1701 instructions for independent schools for the September
-        data collection.
+        with the
+        <a :href="GOV_URL.instructionsForIndependentSchoolsUrl" target="_blank">
+          1701 instructions for independent schools
+        </a>
+        for the September data collection.
       </strong>
     </v-label>
     <br />
@@ -314,7 +317,7 @@ import {
   formatBooleanToYesNoString,
   displayDefaultNumberValue,
 } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'StudentEnrolmentTab',
   components: {},
@@ -329,6 +332,7 @@ export default {
     },
   },
   data: () => ({
+    GOV_URL,
     NULL_STRING,
     rules: Rules,
   }),

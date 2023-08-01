@@ -62,14 +62,15 @@
         <v-col cols="8">
           <v-label
             >Can the authority confirm that lead testing consistent with the
-            policy, Testing Lead Content in Drinking Water of Independent School
-            Facilities, will occur prior to students using the
-            facility?</v-label
+            policy,<a :href="GOV_URL.leadTestingUrl" target="_blank">
+              Testing Lead Content in Drinking Water of Independent School
+              Facilities, </a
+            >will occur prior to students using the facility?</v-label
           >
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="formData.iosas_confirmationofleadtestingfordrinkingwater"
+            v-model="formData.iosas_cantheauthorityconfirmtestingvspolicy"
             color="#003366"
             class="mt-4"
             direction="horizontal"
@@ -165,18 +166,16 @@
         <v-col cols="8">
           <v-label
             >Can the authority confirm that lead testing consistent with the
-            policy, Testing Lead Content in Drinking Water of Independent School
-            Facilities, will occur prior to students using the
-            facility?</v-label
-          >
-          <span class="orange"
-            >iosas_confirmationofleadtestingfordrinkingwater</span
+            policy,<a :href="GOV_URL.leadTestingUrl" target="_blank">
+              Testing Lead Content in Drinking Water of Independent School
+              Facilities, </a
+            >will occur prior to students using the facility?</v-label
           >
         </v-col>
         <v-col cols="4">
           {{
             formatBooleanToYesNoString(
-              formData.iosas_confirmationofleadtestingfordrinkingwater
+              formData.iosas_cantheauthorityconfirmtestingvspolicy
             )
           }}
         </v-col>
@@ -215,7 +214,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolFacility',
   components: {},
@@ -230,6 +229,7 @@ export default {
     },
   },
   data: () => ({
+    GOV_URL,
     NULL_STRING,
     rules: Rules,
   }),
@@ -240,3 +240,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-label {
+  display: inline-block;
+}
+</style>

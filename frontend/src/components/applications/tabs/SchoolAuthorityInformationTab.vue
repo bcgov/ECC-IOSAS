@@ -69,9 +69,14 @@
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"
-            label="Societies Act"
             value="Societies Act"
-          ></v-checkbox>
+          >
+            <template v-slot:label>
+              <a target="_blank" :href="GOV_URL.societiesActUrl">
+                Societies Act
+              </a>
+            </template>
+          </v-checkbox>
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"
@@ -202,9 +207,14 @@
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"
-            label="Societies Act"
             value="Societies Act"
-          ></v-checkbox>
+          >
+            <template v-slot:label>
+              <a target="_blank" :href="GOV_URL.societiesActUrl">
+                Societies Act
+              </a>
+            </template>
+          </v-checkbox>
           <v-checkbox
             :disabled="!isEditing"
             v-model="selected"

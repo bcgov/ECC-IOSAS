@@ -176,20 +176,26 @@ export const GOV_URL = {
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/grants-to-independent-schools',
   independentSchoolRegulations:
     'https://www2.gov.bc.ca/assets/gov/education/administration/legislation-policy/legislation/schoollaw/i/bcreg_262_89.pdf',
-  societiesActUrl: null,
+  societiesActUrl:
+    'https://www2.gov.bc.ca/gov/content/employment-business/business/not-for-profit-organizations',
   businessCorporationActUrl:
     'https://www2.gov.bc.ca/gov/content/employment-business/business/managing-a-business/permits-licences/businesses-incorporated-companies',
-  instructionsForIndependentSchoolsUrl: null,
-  educationalStandardsOrderUrl: null,
-  leadTestingUrl: null,
+  instructionsForIndependentSchoolsUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/data-collections',
+  educationalStandardsOrderUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/educational-standards-for-independent-schools#:~:text=Educational%20programs%20in%20Group%201%2C%202%20and%204,Educational%20Standards%20Order%20Rationale%20or%20purpose%20of%20policy',
+  leadTestingUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/testing-lead-content-in-drinking-water',
   homestayGuidelinesUrl:
     'https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/internationaleducation/home_stay_guidelines.pdf',
-  internationalStudentGraduationCreditPolicyUrl: null,
+  internationalStudentGraduationCreditPolicyUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/public-schools/international-student-graduation-credit',
   schoolCompletionCertificatePolicyUrl:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/support/school-completion-certificate-program',
   schoolFeeRefundPolicyUrl:
     'https://www2.gov.bc.ca/assets/gov/education/administration/legislation-policy/independent-schools/school-fee-refund-guidelines.pdf',
-  teacherCertificationBranchUrl: null,
+  teacherCertificationBranchUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/teach',
   criminalRecordCheckUrl:
     'https://www2.gov.bc.ca/gov/content/safety/crime-prevention/criminal-record-check',
 };
