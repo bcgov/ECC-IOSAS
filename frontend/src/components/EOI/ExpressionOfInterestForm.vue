@@ -146,7 +146,6 @@
                     v-model="data.iosas_designatedcontactsameasauthorityhead"
                     color="#003366"
                     class="mt-4"
-                    direction="horizontal"
                     inline
                   >
                     <v-radio label="Yes" color="#003366" :value="true" />
@@ -322,7 +321,6 @@
                     color="#003366"
                     label="Is the School Address Known?"
                     class="mt-4"
-                    direction="horizontal"
                     inline
                   >
                     <v-radio label="Yes" color="#003366" :value="true" />
@@ -446,11 +444,12 @@
                 </v-label>
                 <v-col cols="12">
                   <v-radio-group
+                    id="iosas_groupclassification"
                     v-model="data.iosas_groupclassification"
                     color="#003366"
                     class="mt-4"
-                    direction="horizontal"
                     inline
+                    @change="validateAndPopulate"
                     :rules="[rules.requiredRadio()]"
                   >
                     <v-radio label="Group 2" color="#003366" value="Group 2" />
@@ -467,15 +466,16 @@
                     second or subsequest year of operation?
                   </v-label>
                   <v-radio-group
+                    id="iosas_seekgrouponeclassification"
                     v-model="data.iosas_seekgrouponeclassification"
                     color="#003366"
                     class="mt-4"
-                    direction="horizontal"
                     inline
+                    @change="validateAndPopulate"
                     :rules="[rules.requiredRadio()]"
                   >
-                    <v-radio label="Yes" color="#003366" v-bind:value="true" />
-                    <v-radio label="No" color="#003366" v-bind:value="false" />
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -738,6 +738,21 @@ export default {
           });
           console.log(payload);
         }, 1000);
+      }
+    },
+    validateAndPopulate(e) {
+      // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
+      // must attach a change event, and set the field programatically.
+      // RadioGroup appears to work following the happy path, This is only needed for RadioGroups with 'Required' validation
+      const isBoolean = ['true', 'false'].includes(e.target.value);
+      const defaultValue = isBoolean
+        ? JSON.parse(e.target.value)
+        : e.target.value;
+      this.data[e.target.attributes?.name?.value] = defaultValue;
+
+      // if the form is already !valid, trigger the validation to clear the error on the updated radioGroup
+      if (this.isFormValid === false) {
+        this.$refs.expressionOfInterestForm.validate();
       }
     },
   },
