@@ -437,13 +437,13 @@
                 </v-col>
               </v-row>
 
-              <v-label>
-                Group Calassification applying for:
-                <a :href="GOV_URL.groupClassificationUrl" target="_blank"
-                  >(Group classification Information)</a
-                >
-              </v-label>
               <v-row>
+                <v-label>
+                  Group Calassification applying for:
+                  <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+                    >(Group classification Information)</a
+                  >
+                </v-label>
                 <v-col cols="12">
                   <v-radio-group
                     v-model="data.iosas_groupclassification"
@@ -453,12 +453,6 @@
                     inline
                     :rules="[rules.requiredRadio()]"
                   >
-                    <v-radio
-                      label="Group 1"
-                      color="#003366"
-                      value="Group 1"
-                      disabled
-                    />
                     <v-radio label="Group 2" color="#003366" value="Group 2" />
                     <v-radio label="Group 3" color="#003366" value="Group 3" />
                     <v-radio label="Group 4" color="#003366" value="Group 4" />
@@ -732,5 +726,9 @@ export default {
 
 .no-margin {
   margin-bottom: none !important;
+}
+
+.v-label {
+  display: inline-block;
 }
 </style>

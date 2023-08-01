@@ -67,6 +67,7 @@
                       :is="t.component"
                       :formData="formData"
                       :isEditing="isEditing"
+                      @validate="validateRadioButtons"
                     />
                   </keep-alive>
                 </v-window-item>
@@ -355,16 +356,34 @@ export default {
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
+      // this.$refs.schoolApplicationForm.resetValidation();
       return (this.tab = this.items[currentTabIndex - 1]);
     },
     async nextTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
-      const valid = await this.$refs.schoolApplicationForm.validate();
-      this.showError = !valid.valid;
-      // Ensure form is valid before moving to the next step
-      if (this.isFormValid) {
-        return (this.tab = this.items[currentTabIndex + 1]);
+      const nextTab = this.items[currentTabIndex + 1];
+      const nextTabUnlocked = !this.disabledTabs.includes(nextTab);
+
+      if (nextTabUnlocked) {
+        // Allow users to navigate through tabs without triggering validation errors until they try to access a locked tab.
+        return (this.tab = nextTab);
+      } else {
+        const valid = await this.$refs.schoolApplicationForm.validate();
+        this.showError = !valid.valid;
+        if (this.isFormValid) {
+          return (this.tab = nextTab);
+        }
       }
+    },
+    validateRadioButtons(e) {
+      console.log(e.target.attributes?.name?.value);
+      console.log('GETTING CALLED!?!?');
+      this.formData = {
+        ...this.formData,
+        [e.target.attributes?.name?.value]: e.target.value,
+      };
+      // console.log(e);
+      // console.log('this was called?', e.target.value);
     },
   },
 };

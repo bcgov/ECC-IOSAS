@@ -49,7 +49,7 @@
             inline
             :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
-            @change="validate"
+            @change="populate"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -76,7 +76,7 @@
             inline
             :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
-            @change="validate"
+            @change="populate"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -102,7 +102,7 @@
             inline
             :rules="[rules.requiredRadio()]"
             :disabled="!isEditing"
-            @change="validate"
+            @change="populate"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -207,6 +207,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'SchoolGeneralTab',
+  emits: ['validate'],
   components: {},
   props: {
     formData: {
@@ -215,6 +216,10 @@ export default {
     },
     isEditing: {
       type: Boolean,
+      required: true,
+    },
+    validate: {
+      type: Function,
       required: true,
     },
   },
@@ -227,11 +232,15 @@ export default {
   computed: {},
   methods: {
     formatBooleanToYesNoString,
-    validate(e) {
-      console.log(e.target.id);
+    populate(e) {
       console.log(e);
-      console.log('this was called?', e.target.value);
+      this.$emit('validate', e);
     },
+    // validate(e) {
+    //   console.log(e.target.attributes?.name?.value);
+    //   console.log(e);
+    //   console.log('this was called?', e.target.value);
+    // },
   },
 };
 </script>
