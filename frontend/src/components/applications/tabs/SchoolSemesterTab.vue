@@ -54,7 +54,7 @@
       <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 450 Hours </v-label>
+      <v-label>Minimum required hours per year 450 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
@@ -92,7 +92,7 @@
       </v-row>
       <v-label><strong>Full day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
@@ -130,7 +130,7 @@
       </v-row>
       <v-label><strong>Grades 1-12</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
@@ -171,7 +171,7 @@
       <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 450 Hours </v-label>
+      <v-label>Minimum required hours per year 450 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -201,9 +201,10 @@
           </p>
         </v-col>
       </v-row>
+      <br />
       <v-label><strong>Full day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -233,9 +234,10 @@
           </p>
         </v-col>
       </v-row>
+      <br />
       <v-label><strong>Grades 1-12</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
