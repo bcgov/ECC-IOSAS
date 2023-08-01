@@ -34,9 +34,7 @@
             v-model="formData.iosas_familiarwithgrantstoispolicyifseekingfunds"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -55,9 +53,7 @@
             v-model="formData.iosas_willsaoperateonnonprofitbasis"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -84,9 +80,7 @@
             v-model="formData.iosas_hassaobtaineddocumentsregardingbondingreqs"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -131,9 +125,7 @@
             v-model="formData.iosas_hasthesaobtainedirrevocableloc"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -152,10 +144,8 @@
           <v-textarea
             id="iosas_hastheauthoritydevelopedarefundpolicy"
             v-model="formData.iosas_hastheauthoritydevelopedarefundpolicy"
-            :disabled="!isEditing"
             :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>

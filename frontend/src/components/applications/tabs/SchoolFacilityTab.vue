@@ -28,14 +28,16 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_hastheauthoritycontactedlocalgovernment"
             v-model="formData.iosas_hastheauthoritycontactedlocalgovernment"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -53,7 +55,6 @@
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -73,11 +74,12 @@
             v-model="formData.iosas_cantheauthorityconfirmtestingvspolicy"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -93,11 +95,12 @@
             v-model="formData.iosas_studentshousedinahomesetting"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -110,11 +113,12 @@
             v-model="formData.iosas_studentshousedinadormitorysetting"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -217,7 +221,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolFacility',
-  components: {},
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,
@@ -227,14 +231,16 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
     GOV_URL,
     NULL_STRING,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
     formatBooleanToYesNoString,
   },

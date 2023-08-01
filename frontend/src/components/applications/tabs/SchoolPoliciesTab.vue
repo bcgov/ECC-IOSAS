@@ -25,11 +25,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -45,11 +45,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -65,10 +65,9 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
             <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
@@ -85,11 +84,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -105,11 +104,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -128,11 +127,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -154,11 +153,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -177,11 +176,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -200,11 +199,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -220,10 +219,9 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
             <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
@@ -240,10 +238,9 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
             <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
@@ -260,10 +257,9 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
             <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
@@ -280,10 +276,9 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
             <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
@@ -308,10 +303,9 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
             <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
@@ -335,10 +329,9 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
             <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
@@ -358,11 +351,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -378,11 +371,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -402,11 +395,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -426,11 +419,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -453,11 +446,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -473,11 +466,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -493,11 +486,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -513,11 +506,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -533,11 +526,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -555,11 +548,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -581,11 +574,11 @@
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -596,16 +589,16 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            id="iosas_feerefundpolicyconsistentwithguidelines"
+            id="iosas_teacherandprincipalevaluationpolicy"
             v-model="formData.iosas_teacherandprincipalevaluationpolicy"
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -616,7 +609,6 @@
         <!--TODO: Additional logic to force requirement if any bool is false? -->
         <v-col cols="12">
           <v-textarea
-            :disabled="!isEditing"
             id="iosas_ifnotoanyschoolpolicyexplainwhy"
             v-model="formData.iosas_ifnotoanyschoolpolicyexplainwhy"
             :maxlength="255"
@@ -1027,7 +1019,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolPoliciesTab',
-  components: {},
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,
@@ -1037,14 +1029,16 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
     NULL_STRING,
     GOV_URL,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
     formatBooleanToYesNoString,
   },

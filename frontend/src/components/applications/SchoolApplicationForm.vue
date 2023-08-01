@@ -67,7 +67,7 @@
                       :is="t.component"
                       :formData="formData"
                       :isEditing="isEditing"
-                      @validate="validateRadioButtons"
+                      @validateAndPopulate="validateAndPopulateRadioButtons"
                     />
                   </keep-alive>
                 </v-window-item>
@@ -98,7 +98,6 @@
                     secondary
                     text="Save Draft"
                     class="mr-2"
-                    :disabled="!isFormValid"
                     :click-action="handleDraftSubmit"
                   />
 
@@ -108,7 +107,7 @@
                     primary
                     class="mt-2 submit-button"
                     variant="elevated"
-                    :disabled="!applicationConfirmation || !isFormValid"
+                    :disabled="!applicationConfirmation"
                     >Submit</v-btn
                   >
                 </v-row>
@@ -275,7 +274,11 @@ export default {
         }
       },
     },
-
+    formData: {
+      handler(val) {
+        console.log(val);
+      },
+    },
     isFormValid: {
       handler(val) {
         if (val) {
@@ -356,7 +359,6 @@ export default {
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
-      // this.$refs.schoolApplicationForm.resetValidation();
       return (this.tab = this.items[currentTabIndex - 1]);
     },
     async nextTab() {
@@ -375,13 +377,18 @@ export default {
         }
       }
     },
-    validateRadioButtons(e) {
-      console.log(e.target.attributes?.name?.value);
-      console.log('GETTING CALLED!?!?');
-      this.formData = {
-        ...this.formData,
-        [e.target.attributes?.name?.value]: e.target.value,
-      };
+    validateAndPopulateRadioButtons(e) {
+      // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
+      // must attach a change event, and set the field programatically.
+      // RadioGroup appears to work following the happy path, This is only needed for RadioGroups with 'Required' validation
+      this.formData[e.target.attributes?.name?.value] = JSON.parse(
+        e.target.value
+      );
+
+      // if the form is already !valid, trigger the validation to clear the error on the updated radioGroup
+      if (this.isFormValid === false) {
+        this.$refs.schoolApplicationForm.validate();
+      }
     },
   },
 };

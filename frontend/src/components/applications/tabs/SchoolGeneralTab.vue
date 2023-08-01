@@ -45,11 +45,9 @@
             v-model="formData.iosas_nopromotionofinappropriatedoctrines"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :rules="[rules.requiredRadio()]"
-            :disabled="!isEditing"
-            @change="populate"
+            @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -72,11 +70,9 @@
             v-model="formData.iosas_willcomplywithenactmentsofbc"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :rules="[rules.requiredRadio()]"
-            :disabled="!isEditing"
-            @change="populate"
+            @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -98,11 +94,9 @@
             v-model="formData.iosas_authoritycomplieswithisaregulations"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
             :rules="[rules.requiredRadio()]"
-            :disabled="!isEditing"
-            @change="populate"
+            @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -207,8 +201,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'SchoolGeneralTab',
-  emits: ['validate'],
-  components: {},
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,
@@ -218,7 +211,7 @@ export default {
       type: Boolean,
       required: true,
     },
-    validate: {
+    validateAndPopulate: {
       type: Function,
       required: true,
     },
@@ -228,19 +221,8 @@ export default {
     GOV_URL,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
     formatBooleanToYesNoString,
-    populate(e) {
-      console.log(e);
-      this.$emit('validate', e);
-    },
-    // validate(e) {
-    //   console.log(e.target.attributes?.name?.value);
-    //   console.log(e);
-    //   console.log('this was called?', e.target.value);
-    // },
   },
 };
 </script>

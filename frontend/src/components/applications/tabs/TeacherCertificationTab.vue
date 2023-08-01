@@ -36,10 +36,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
-            :disabled="!isEditing"
             id="iosas_numberofteachers"
             v-model="formData.iosas_numberofteachers"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"
@@ -63,7 +61,6 @@
             color="#003366"
             class="mt-4"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -88,9 +85,7 @@
             v-model="formData.iosas_awareoftherequirementsforcrchecks"
             color="#003366"
             class="mt-4"
-            :rules="[rules.requiredRadio()]"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />

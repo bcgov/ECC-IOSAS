@@ -157,11 +157,13 @@
             v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
             color="#003366"
             class="mt-4"
+            :rules="[rules.requiredRadio()]"
             direction="horizontal"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -170,9 +172,6 @@
       <v-row>
         <v-col cols="12">
           <v-textarea
-            :disabled="!isEditing"
-            id="iosas_proponentspreviouslyinvolvedinisbc"
-            v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
             :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"
@@ -292,7 +291,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
-  components: {},
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,
@@ -302,14 +301,16 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
     GOV_URL,
     NULL_STRING,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
     formatBooleanToYesNoString,
     getAuthorityHeadName() {
