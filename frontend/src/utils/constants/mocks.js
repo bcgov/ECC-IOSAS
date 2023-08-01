@@ -180,6 +180,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_numberofstudentskindergarten: 0,
     iosas_familiarwithgrantstoispolicyifseekingfunds: null,
     iosas_proponentspreviouslyinvolvedinisbc: null,
+    iosas_detailsofinvolvement: null,
     iosas_postalcode: 'V6X1N4',
     iosas_authorityprovince: 'BC',
     iosas_country: 'Canada',
@@ -385,8 +386,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_seekgroup1classification: false,
     iosas_schoolaffiliation: 'iosas_schoolaffiliation',
 
-    // School Authority  - GET CONFIRMATION
-    // MISSING - legislation checklist
+    // School Authority  - DONE - ADD 'incorporation type' for API
     iosas_existingauthority: true,
     edu_incorporationtype: [], // if !iosas_existingauthority
     iosas_incorporationtype: [], // if iosas_existingauthority
@@ -400,7 +400,8 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_dateoflastannualreport: 'iosas_dateoflastannualreport',
     iosas_howwillyouexercisegovernanceduties:
       'iosas_howwillyouexercisegovernanceduties',
-    iosas_proponentspreviouslyinvolvedinisbc: false, // boolean - NEED the "is so, describe" field
+    iosas_proponentspreviouslyinvolvedinisbc: false,
+    iosas_detailsofinvolvement: null,
 
     _iosas_edu_schoolauthority_value: 'GUID',
     iosas_preexistingauthorityhead: true,
@@ -497,7 +498,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_interviewapprovaldate: null,
     iosas_schoolassociationother: null,
     iosas_acknowledgementdate: null,
-    iosas_incorporationtype: null,
+    iosas_incorporationtype: [],
     iosas_completedfreetuitionrefundpolicy: false,
     iosas_feerefundpolicyconsistentwithguidelines: false,
     iosas_policysubmitted: false,

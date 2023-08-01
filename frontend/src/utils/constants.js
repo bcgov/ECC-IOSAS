@@ -215,3 +215,20 @@ export const DISABLED_TABS = [
   'Teacher Certification',
   'Submissions',
 ];
+
+// Getting replaced with PickLists
+export const SEMESTER_TYPE_OPTIONS = [''];
+
+export const INDICATOR_TYPE_OPTIONS = [
+  { label: 'Societies Act', url: GOV_URL.societiesActUrl, value: 'Societies' },
+  {
+    label: 'Business Corporation Act',
+    url: GOV_URL.businessCorporationActUrl,
+    value: 'Business',
+  },
+  {
+    label: 'an Order in Council or Private Act',
+    url: null,
+    value: 'Council/Private',
+  },
+];

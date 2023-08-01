@@ -9,7 +9,7 @@
       <v-col cols="6" sm="6" md="4" xs="6">
         <v-checkbox
           :disabled="!isEditing"
-          v-model="selected"
+          v-model="formData.iosas_semestertype"
           label="Semestered"
           value="Semestered"
         ></v-checkbox>
@@ -17,7 +17,7 @@
       <v-col cols="6" sm="6" md="4" xs="6">
         <v-checkbox
           :disabled="!isEditing"
-          v-model="selected"
+          v-model="formData.iosas_semestertype"
           label="Linear"
           value="Linear"
         ></v-checkbox>
@@ -25,7 +25,7 @@
       <v-col cols="6" sm="6" md="4" xs="6">
         <v-checkbox
           :disabled="!isEditing"
-          v-model="selected"
+          v-model="formData.iosas_semestertype"
           label="Regular School Year (Sept - June)"
           value="Regular School Year (Sept - June)"
         ></v-checkbox>
@@ -35,7 +35,7 @@
       <v-col cols="6" sm="6" md="4" xs="6">
         <v-checkbox
           :disabled="!isEditing"
-          v-model="selected"
+          v-model="formData.iosas_semestertype"
           label="Summer"
           value="Summer"
         ></v-checkbox>
@@ -43,7 +43,7 @@
       <v-col cols="6" sm="6" md="4" xs="6">
         <v-checkbox
           :disabled="!isEditing"
-          v-model="selected"
+          v-model="formData.iosas_semestertype"
           label="All Year"
           value="All Year"
         ></v-checkbox>
