@@ -106,9 +106,6 @@ const gradeRangeRule = (
   message = 'End grade cannot be before start grade'
 ) => {
   if (startGrade && endGrade) {
-    console.log(
-      startGrade.localeCompare(endGrade, undefined, { numeric: true })
-    );
     return (
       (startGrade === 'Kindergarten' &&
         startGrade.localeCompare(endGrade, undefined, { numeric: true }) ==
