@@ -69,7 +69,6 @@
           <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
             <v-checkbox
               v-model="formData.iosas_incorporationtype"
-              :label="item.label"
               :value="item.value"
             >
               <template v-slot:label>
@@ -194,7 +193,6 @@
           <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
             <v-checkbox
               v-model="formData.iosas_incorporationtype"
-              :label="item.label"
               :value="item.value"
               disabled
             >
@@ -293,10 +291,6 @@ export default {
   }),
   methods: {
     formatBooleanToYesNoString,
-    comparator(a, b) {
-      console.log(a, b);
-      return a == b;
-    },
     getAuthorityHeadName() {
       return this.formData.iosas_authorityheadfirstname
         ? this.formData.iosas_authorityheadfirstname +

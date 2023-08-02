@@ -31,8 +31,12 @@
       ></v-app-bar-nav-icon>
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
-          <v-tab v-for="item in items" :key="item" :value="item">
-            <!-- :disabled="disabledTabs.includes(item)" -->
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            :value="item"
+            :disabled="disabledTabs.includes(item)"
+          >
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -270,11 +274,6 @@ export default {
         }
       },
     },
-    formData: {
-      handler(val) {
-        console.log(val);
-      },
-    },
     isFormValid: {
       handler(val) {
         if (val) {
@@ -338,6 +337,7 @@ export default {
       ];
     },
     handleDraftSubmit() {
+      this.handleSubmit();
       console.log('Saving draft');
     },
     async handleSubmit() {
@@ -363,7 +363,8 @@ export default {
       const nextTabUnlocked = !this.disabledTabs.includes(nextTab);
 
       if (nextTabUnlocked) {
-        // Allow users to navigate through tabs without triggering validation errors until they try to access a locked tab.
+        // Allow users to navigate through tabs without
+        // triggering validation errors until they try to access a locked tab.
         return (this.tab = nextTab);
       } else {
         const valid = await this.$refs.schoolApplicationForm.validate();
