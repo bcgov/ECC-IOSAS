@@ -514,45 +514,131 @@
 
               <v-divider></v-divider>
               <h4>Documents</h4>
-              <v-btn @click="toggleUpload">Upload</v-btn>
-
-              <v-table>
-                <thead>
-                  <tr>
-                    <th class="text-left">Document Type</th>
-                    <th class="text-left">Certificate Issue date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in documents" :key="item.type">
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.issue_date }}</td>
-                  </tr>
-                </tbody>
-              </v-table>
+              <v-row>
+                <v-col cols="12" sm="12" md="4" xs="12">
+                  <v-label>Incorporation Certificate</v-label>
+                  <br />
+                  <div
+                    v-if="
+                      documents.filter(
+                        ({ documentTypeCode }) =>
+                          documentTypeCode === 'incorporation'
+                      )[0]
+                    "
+                  >
+                    <v-icon
+                      aria-hidden="false"
+                      color="rgb(0, 51, 102)"
+                      size="20"
+                    >
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    {{
+                      documents.filter(
+                        ({ documentTypeCode }) =>
+                          documentTypeCode === 'incorporation'
+                      )[0].fileName
+                    }}
+                  </div>
+                  <PrimaryButton
+                    v-else
+                    secondary
+                    text="Upload"
+                    class="mr-2"
+                    :click-action="toggleUpload"
+                  />
+                </v-col>
+                <v-col cols="12" sm="12" md="8" xs="12">
+                  <v-label>Certificate Issue Date</v-label>
+                  <VueDatePicker
+                    ref="certificateIssueDate"
+                    v-model="certificateIssueDate"
+                    :rules="[rules.required()]"
+                    :enable-time-picker="false"
+                    format="yyyy-MM-dd"
+                  />
+                </v-col>
+              </v-row>
+              <v-spacer />
+              <v-row>
+                <v-col cols="12" sm="12" md="4" xs="12">
+                  <v-label>Certificate of Good Standing (Optional)</v-label>
+                  <div
+                    v-if="
+                      documents.filter(
+                        ({ documentTypeCode }) =>
+                          documentTypeCode === 'goodStanding'
+                      )[0]
+                    "
+                  >
+                    <v-icon
+                      aria-hidden="false"
+                      color="rgb(0, 51, 102)"
+                      size="20"
+                    >
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    {{
+                      documents.filter(
+                        ({ documentTypeCode }) =>
+                          documentTypeCode === 'goodStanding'
+                      )[0].fileName
+                    }}
+                  </div>
+                  <PrimaryButton
+                    v-else
+                    secondary
+                    text="Upload"
+                    class="mr-2"
+                    :click-action="toggleUpload"
+                  />
+                </v-col>
+                <v-col cols="12" sm="12" md="8" xs="12">
+                  <v-label>Certificate of Good Standing Issue Date</v-label>
+                  <VueDatePicker
+                    ref="goodStandingIssueDate"
+                    v-model="goodStandingIssueDate"
+                    :rules="[rules.required()]"
+                    :enable-time-picker="false"
+                    format="yyyy-MM-dd"
+                  />
+                </v-col>
+              </v-row>
+              <v-spacer />
+              <v-label>Other (Optional)</v-label>
+              <v-row>
+                <v-col cols="12" sm="12" md="4" xs="12">
+                  <div
+                    v-for="document in documents.filter(
+                      ({ documentTypeCode }) => documentTypeCode === 'other'
+                    )"
+                    key="document.documentData"
+                  >
+                    <v-icon
+                      aria-hidden="false"
+                      color="rgb(0, 51, 102)"
+                      size="20"
+                    >
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    {{ document.fileName }}
+                  </div>
+                  <PrimaryButton
+                    secondary
+                    text="Upload"
+                    class="mr-2"
+                    :click-action="toggleUpload"
+                  />
+                </v-col>
+              </v-row>
 
               <br />
               <br />
-              <!-- <div v-if="!documentUpload">
-                <v-card class="document-upload-card">
-                  <v-row align-self="center" justify="center">
-                    <v-btn @click="toggleUpload">Upload</v-btn>
-                  </v-row>
-                </v-card>
-              </div> -->
-              <!-- <div v-else>
-                <DocumentUpload
-                  ref="documentUpload"
-                  @close:form="showOptions"
-                  @upload="uploadDocument"
-                />
-              </div> -->
-
               <v-dialog v-model="documentUpload" width="auto">
                 <DocumentUpload
                   ref="documentUpload"
-                  @close:form="showOptions"
-                  @upload="uploadDocument"
+                  @upload="upload"
+                  @close="toggleUpload"
                 />
               </v-dialog>
 
@@ -565,7 +651,7 @@
                 </v-col>
               </v-row>
               <v-row justify="center" align="center" v-if="showError">
-                <v-col>
+                <v-col cols="12">
                   <v-alert type="error" title="Error" variant="outlined">
                     Ensure all required fields are filled out before proceeding
                     to the next step
@@ -574,66 +660,40 @@
               </v-row>
 
               <br />
-              <v-container v-if="isEditing || isNew()">
-                <v-row align="end">
-                  <v-spacer />
-                  <PrimaryButton
-                    v-if="authStore().isAuthenticated"
-                    secondary
-                    text="Save Draft"
-                    class="mr-2"
-                    :click-action="handleDraftSubmit"
-                  />
-                  <v-btn
-                    type="submit"
-                    primary
-                    class="mt-2 submit-button"
-                    variant="elevated"
-                    :disabled="!applicationConfirmation"
-                    >Submit</v-btn
-                  >
-                </v-row>
-                <v-row align="end">
-                  <v-spacer />
-                  <v-btn
-                    variant="plain"
-                    @click="handleDelete"
-                    class="link-button"
-                  >
-                    Delete Draft
-                  </v-btn>
-                </v-row>
-              </v-container>
+              <v-row>
+                <v-container v-if="isEditing || isNew()">
+                  <v-row align="end">
+                    <v-spacer />
+                    <PrimaryButton
+                      v-if="authStore().isAuthenticated"
+                      secondary
+                      text="Save Draft"
+                      class="mr-2"
+                      :click-action="handleDraftSubmit"
+                    />
+                    <v-btn
+                      type="submit"
+                      primary
+                      class="mt-2 submit-button"
+                      variant="elevated"
+                      :disabled="!applicationConfirmation"
+                      >Submit</v-btn
+                    >
+                  </v-row>
+                  <v-row align="end">
+                    <v-spacer />
+                    <v-btn
+                      variant="plain"
+                      @click="handleDelete"
+                      class="link-button"
+                    >
+                      Delete Draft
+                    </v-btn>
+                  </v-row>
+                </v-container>
+              </v-row>
             </div>
           </div>
-
-          <br />
-          <v-container v-if="isEditing || isNew()">
-            <v-row align="end">
-              <v-spacer />
-              <PrimaryButton
-                v-if="authStore().isAuthenticated"
-                secondary
-                text="Save Draft"
-                class="mr-2"
-                :click-action="handleDraftSubmit"
-              />
-              <v-btn
-                type="submit"
-                primary
-                class="mt-2 submit-button"
-                variant="elevated"
-                :disabled="!applicationConfirmation"
-                >Submit</v-btn
-              >
-            </v-row>
-            <v-row align="end" v-if="!isNew()">
-              <v-spacer />
-              <v-btn variant="plain" @click="handleDelete" class="link-button">
-                Delete Draft
-              </v-btn>
-            </v-row>
-          </v-container>
         </v-container>
       </v-form>
     </template>
@@ -643,6 +703,9 @@
 <script>
 import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import moment from 'moment';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
@@ -659,6 +722,7 @@ export default {
     ConfirmationDialog,
     ExpressionOfInterestReadOnlyView,
     DocumentUpload,
+    VueDatePicker,
   },
   emits: ['setIdLoading'],
   mixins: [alertMixin],
@@ -685,6 +749,10 @@ export default {
   },
   data() {
     return {
+      from: "uuuu-MM-dd'T'HH:mm:ss",
+      pickerFormat: 'uuuu-MM-dd',
+      certificateIssueDate: null,
+      goodStandingIssueDate: null,
       GRADE_OPTIONS,
       GOV_URL,
       YEAR_OPTIONS,
@@ -740,6 +808,7 @@ export default {
         iosas_endgrade: null,
         iosas_website: null,
       },
+      documents: [],
       showActivationSnackBar: false,
       activationErrorMessage: null,
       showError: false,
@@ -754,8 +823,14 @@ export default {
   },
   methods: {
     authStore,
+    saveEditContactExpiryDate() {
+      this.certificateIssueDate = moment(this.editContact.expiryDate)
+        .format('YYYY-MM-DD')
+        .toString();
+      // this.validateForm();
+    },
     toggleUpload() {
-      this.documentUpload = true;
+      this.documentUpload = !this.documentUpload;
     },
     async handleAddDocuments() {
       const confirmation = await this.$refs.documentUpload.open(
@@ -855,6 +930,13 @@ export default {
         }, 1000);
       }
     },
+    async upload(document) {
+      // this.data.documents.push(document);
+
+      this.documents = [...this.documents, document];
+
+      console.log(this.documents);
+    },
     validateAndPopulate(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
       // must attach a change event, and set the field programatically.
@@ -891,6 +973,22 @@ export default {
   padding: 1.1rem;
   max-width: 50rem;
   min-width: 10rem;
-  /* height: 250px; */
+}
+
+:deep(.dp__input) {
+  height: 55px;
+}
+:deep(.mdi-information) {
+  color: #003366;
+}
+:deep(.dp__active_date) {
+  background-color: #003366;
+  color: white;
+}
+:deep(.dp__select) {
+  color: #003366;
+}
+:deep(.dp__today) {
+  border-color: #003366;
 }
 </style>

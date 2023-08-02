@@ -11,26 +11,13 @@
               id="uploadDocumentTypeCodeSelect"
               v-model="documentTypeCode"
               color="#003366"
-              required
-              variant="underlined"
+              variant="outlined"
               :rules="requiredRules"
               outlined
               item-title="text"
               class="pb-0 mb-0"
-              :eager="eager"
               :items="documentTypes"
               label="Document Type"
-            />
-            <v-text-field
-              v-model="documentIssueDate"
-              color="#003366"
-              required
-              variant="underlined"
-              :rules="requiredRules"
-              outlined
-              item-title="text"
-              class="pb-0 mb-0"
-              label="Issue Date"
             />
             <v-file-input
               id="selectFileInput"
@@ -38,7 +25,6 @@
               color="#003366"
               variant="underlined"
               :accept="fileAccept"
-              :disabled="hasReadOnlyRoleAccess()"
               hint="JPEG, PNG, and PDF files supported"
               :error-messages="fileInputError"
               placeholder="Select your file"
@@ -107,13 +93,17 @@ export default {
       validForm: false,
       fileInputError: [],
       documentTypeCode: null,
-      documentIssueDate: null,
       uploadFileValue: null,
       active: false,
       buttonKey: 0,
       alert: false,
       alertMessage: null,
       alertType: null,
+      documentTypes: [
+        { text: 'Incorporation Certificate', value: 'incorporation' },
+        { text: 'Certificate of Good Standing', value: 'goodStanding' },
+        { text: 'Other', value: 'other' },
+      ],
     };
   },
   computed: {
@@ -121,14 +111,14 @@ export default {
     dataReady() {
       return this.validForm && this.uploadFileValue;
     },
-    documentTypes() {
-      return sortBy(this.secureExchangeDocumentTypes, ['displayOrder']).map(
-        (code) => ({
-          text: code.label,
-          value: code.secureExchangeDocumentTypeCode,
-        })
-      );
-    },
+    // documentTypes() {
+    //   return sortBy(this.secureExchangeDocumentTypes, ['displayOrder']).map(
+    //     (code) => ({
+    //       text: code.label,
+    //       value: code.secureExchangeDocumentTypeCode,
+    //     })
+    //   );
+    // },
   },
   watch: {
     dataReady() {
@@ -137,19 +127,15 @@ export default {
     },
   },
   async created() {
-    await edxStore().getSecureExchangeDocumentTypes();
-    await edxStore().getFileRequirements();
-
-    this.getFileRules();
-    await this.validateForm();
+    // await edxStore().getSecureExchangeDocumentTypes();
+    // await edxStore().getFileRequirements();
+    // this.getFileRules();
+    // await this.validateForm();
   },
   methods: {
-    hasReadOnlyRoleAccess() {
-      return false;
-    },
     closeForm() {
       this.resetForm();
-      this.$emit('close:form');
+      this.$emit('close');
     },
     resetForm() {
       this.$refs.documentForm.reset();
@@ -227,7 +213,7 @@ export default {
       };
       this.$emit('upload', document);
       this.resetForm();
-      this.$emit('close:form');
+      this.$emit('close');
     },
     makefileFormatList(extensions) {
       extensions = extensions
@@ -301,9 +287,9 @@ ul {
 
 .v-input {
   padding-bottom: 0;
+  width: 90%;
 }
 .bottom-text {
-  /* margin-top: -0.7rem; */
   padding-top: 0;
   color: #666666;
   margin-left: 1.7rem;
