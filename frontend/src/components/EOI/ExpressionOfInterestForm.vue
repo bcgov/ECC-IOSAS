@@ -512,6 +512,50 @@
                 </v-col>
               </v-row>
 
+              <v-divider></v-divider>
+              <h4>Documents</h4>
+              <v-btn @click="toggleUpload">Upload</v-btn>
+
+              <v-table>
+                <thead>
+                  <tr>
+                    <th class="text-left">Document Type</th>
+                    <th class="text-left">Certificate Issue date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in documents" :key="item.type">
+                    <td>{{ item.type }}</td>
+                    <td>{{ item.issue_date }}</td>
+                  </tr>
+                </tbody>
+              </v-table>
+
+              <br />
+              <br />
+              <!-- <div v-if="!documentUpload">
+                <v-card class="document-upload-card">
+                  <v-row align-self="center" justify="center">
+                    <v-btn @click="toggleUpload">Upload</v-btn>
+                  </v-row>
+                </v-card>
+              </div> -->
+              <!-- <div v-else>
+                <DocumentUpload
+                  ref="documentUpload"
+                  @close:form="showOptions"
+                  @upload="uploadDocument"
+                />
+              </div> -->
+
+              <v-dialog v-model="documentUpload" width="auto">
+                <DocumentUpload
+                  ref="documentUpload"
+                  @close:form="showOptions"
+                  @upload="uploadDocument"
+                />
+              </v-dialog>
+
               <v-row>
                 <v-col cols="12" sm="12" md="12" xs="12">
                   <v-checkbox
@@ -562,6 +606,34 @@
               </v-container>
             </div>
           </div>
+
+          <br />
+          <v-container v-if="isEditing || isNew()">
+            <v-row align="end">
+              <v-spacer />
+              <PrimaryButton
+                v-if="authStore().isAuthenticated"
+                secondary
+                text="Save Draft"
+                class="mr-2"
+                :click-action="handleDraftSubmit"
+              />
+              <v-btn
+                type="submit"
+                primary
+                class="mt-2 submit-button"
+                variant="elevated"
+                :disabled="!applicationConfirmation"
+                >Submit</v-btn
+              >
+            </v-row>
+            <v-row align="end" v-if="!isNew()">
+              <v-spacer />
+              <v-btn variant="plain" @click="handleDelete" class="link-button">
+                Delete Draft
+              </v-btn>
+            </v-row>
+          </v-container>
         </v-container>
       </v-form>
     </template>
@@ -574,6 +646,7 @@ import { mapState } from 'pinia';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
+import DocumentUpload from '../common/DocumentUpload.vue';
 import { GRADE_OPTIONS, YEAR_OPTIONS, GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
@@ -585,6 +658,7 @@ export default {
     PrimaryButton,
     ConfirmationDialog,
     ExpressionOfInterestReadOnlyView,
+    DocumentUpload,
   },
   emits: ['setIdLoading'],
   mixins: [alertMixin],
@@ -619,7 +693,19 @@ export default {
       defaultStatus: 'Submitted',
       schoolAddressKnown: false,
       applicationConfirmation: false,
+      documentUpload: false,
       rules: Rules,
+      documents: [
+        {
+          type: 'Incorporation Certificate',
+          issue_date: null,
+        },
+        {
+          type: 'Certificate of Good standing',
+          issue_date: null,
+        },
+        { type: 'Other', issue_date: null },
+      ],
       data: {
         iosas_eionumber: null,
         iosas_reviewstatus: null,
@@ -668,6 +754,35 @@ export default {
   },
   methods: {
     authStore,
+    toggleUpload() {
+      this.documentUpload = true;
+    },
+    async handleAddDocuments() {
+      const confirmation = await this.$refs.documentUpload.open(
+        'Delete Draft Expression of Interest?',
+        null,
+        {
+          color: '#fff',
+          width: 580,
+          closeIcon: false,
+          subtitle: false,
+          dark: false,
+          resolveText: 'Delete',
+          rejectText: 'Cancel',
+        }
+      );
+      if (!confirmation) {
+        return;
+      } else {
+        this.$emit('setIsLoading');
+        setTimeout(() => {
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'Delete' },
+          });
+        }, 1000);
+      }
+    },
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
     },
@@ -771,5 +886,11 @@ export default {
 
 .v-label {
   display: inline-block;
+}
+.document-upload-card {
+  padding: 1.1rem;
+  max-width: 50rem;
+  min-width: 10rem;
+  /* height: 250px; */
 }
 </style>

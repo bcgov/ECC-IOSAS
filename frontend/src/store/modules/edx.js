@@ -15,41 +15,42 @@ export const edxStore = defineStore('edx', {
     secureExchangeDocumentTypes: [],
     secureExchangeDocuments: [],
     fileRequirements: [],
-    secureExchangeStudents:[]
+    secureExchangeStudents: [],
   }),
   getters: {
-    statusesGet: state => state.statuses,
-    exchangeGet: state => state.exchange,
-    secureExchangeIDGet: state => state.exchange.secureExchangeID,
-    ministryTeamsGet: state => state.ministryTeams,
-    secureExchangeDocumentTypesGet: state => state.secureExchangeDocumentTypes,
-    secureExchangeDocumentsGet: state => state.secureExchangeDocuments,
-    fileRequirementsGet: state => state.fileRequirements,
-    secureExchangeStudentsGet: state => state.secureExchangeStudents,
+    statusesGet: (state) => state.statuses,
+    exchangeGet: (state) => state.exchange,
+    secureExchangeIDGet: (state) => state.exchange.secureExchangeID,
+    ministryTeamsGet: (state) => state.ministryTeams,
+    secureExchangeDocumentTypesGet: (state) =>
+      state.secureExchangeDocumentTypes,
+    secureExchangeDocumentsGet: (state) => state.secureExchangeDocuments,
+    fileRequirementsGet: (state) => state.fileRequirements,
+    secureExchangeStudentsGet: (state) => state.secureExchangeStudents,
   },
   actions: {
-    async setStatuses(statuses){
+    async setStatuses(statuses) {
       this.statuses = statuses;
     },
-    async setExchange(exchange){
+    async setExchange(exchange) {
       this.exchange = exchange;
     },
     async setExchangeSchoolIds(payload) {
       this.exchangeSchoolIds = payload;
     },
-    async setSchoolRoles(payload){
+    async setSchoolRoles(payload) {
       this.schoolRoles = JSON.parse(JSON.stringify(payload));
     },
-    async setSchoolRolesCopy(payload){
+    async setSchoolRolesCopy(payload) {
       this.schoolRolesCopy = JSON.parse(JSON.stringify(payload));
     },
-    async setDistrictRoles(payload){
+    async setDistrictRoles(payload) {
       this.districtRoles = JSON.parse(JSON.stringify(payload));
     },
-    async setDistrictRolesCopy(payload){
+    async setDistrictRolesCopy(payload) {
       this.districtRolesCopy = JSON.parse(JSON.stringify(payload));
     },
-    async setMinistryTeams(ministryTeams){
+    async setMinistryTeams(ministryTeams) {
       this.ministryTeams = ministryTeams;
     },
     async setSecureExchangeDocumentTypes(payload) {
@@ -66,14 +67,18 @@ export const edxStore = defineStore('edx', {
     async setFileRequirements(payload) {
       this.fileRequirements = payload;
     },
-    async setSecureExchangeStudents(payload){
-      this.secureExchangeStudents= payload;
+    async setSecureExchangeStudents(payload) {
+      this.secureExchangeStudents = payload;
     },
     async deleteSecureExchangeStudentsByID(payload) {
-      this.secureExchangeStudents = this.secureExchangeStudents.filter(secureExchangeStudent => secureExchangeStudent.studentID !== payload.studentID);
+      this.secureExchangeStudents = this.secureExchangeStudents.filter(
+        (secureExchangeStudent) =>
+          secureExchangeStudent.studentID !== payload.studentID
+      );
     },
     async getMinistryTeams() {
-      if (localStorage.getItem('jwtToken')) { // DONT Call api if there is not token.
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
         if (this.ministryTeams.length === 0) {
           const response = await ApiService.getMinistryTeamCodes();
           await this.setMinistryTeams(response.data);
@@ -81,7 +86,8 @@ export const edxStore = defineStore('edx', {
       }
     },
     async getExchangeStatusCodes() {
-      if (localStorage.getItem('jwtToken')) { // DONT Call api if there is not token.
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
         if (this.statuses.length === 0) {
           const response = await ApiService.getExchangeStatuses();
           await this.setStatuses(response.data);
@@ -89,12 +95,13 @@ export const edxStore = defineStore('edx', {
       }
     },
     async getExchangeSchoolIds() {
-      if(localStorage.getItem('jwtToken')) { // DONT Call api if there is not token.
-        if(this.exchangeSchoolIds.length === 0) {
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
+        if (this.exchangeSchoolIds.length === 0) {
           const query = {
             params: {
-              permissionCode : 'SECURE_EXCHANGE',
-            }
+              permissionCode: 'SECURE_EXCHANGE',
+            },
           };
 
           const response = await ApiService.getEdxExchangeSchoolIds(query);
@@ -103,12 +110,13 @@ export const edxStore = defineStore('edx', {
       }
     },
     async getSchoolExchangeRoles() {
-      if(localStorage.getItem('jwtToken')) { // DONT Call api if there is not token.
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
         if (this.schoolRoles.length === 0) {
           const params = {
             params: {
-              instituteType:'SCHOOL'
-            }
+              instituteType: 'SCHOOL',
+            },
           };
           const response = await ApiService.getEdxRoles(params);
           await this.setSchoolRoles(response.data);
@@ -117,12 +125,13 @@ export const edxStore = defineStore('edx', {
       }
     },
     async getDistrictExchangeRoles() {
-      if(localStorage.getItem('jwtToken')) { // DONT Call api if there is not token.
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
         if (this.districtRoles.length === 0) {
           const params = {
             params: {
-              instituteType:'DISTRICT'
-            }
+              instituteType: 'DISTRICT',
+            },
           };
           const response = await ApiService.getEdxRoles(params);
           await this.setDistrictRoles(response.data);
@@ -131,7 +140,8 @@ export const edxStore = defineStore('edx', {
       }
     },
     async getSecureExchangeDocumentTypes() {
-      if(localStorage.getItem('jwtToken')) { // DONT Call api if there is not token.
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
         if (this.secureExchangeDocumentTypes.length === 0) {
           const response = await ApiService.getSecureExchangeDocumentTypes();
           await this.setSecureExchangeDocumentTypes(response.data);
@@ -139,12 +149,13 @@ export const edxStore = defineStore('edx', {
       }
     },
     async getFileRequirements() {
-      if(localStorage.getItem('jwtToken')) { // DONT Call api if there is not token.
-        if(this.fileRequirements.length === 0) {
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
+        if (this.fileRequirements.length === 0) {
           const response = await ApiService.getFileRequirements();
           await this.setFileRequirements(response.data);
         }
       }
     },
-  }
+  },
 });
