@@ -50,7 +50,7 @@ const proxyMiddleWare = async (req, resp, next) => {
 };
 
 router.use(passport.authenticate('jwt', {session: false}));
-// router.use(auth.isValidBackendToken);
+router.use(auth.isValidBackendToken());
 router.use(proxyMiddleWare);
 allowedPaths.forEach(path => router.all(`/${path}`), () => log.info(`Dynamic | Sholud be handled by middlewre`));
 router.all('/', (_, resp) => resp.send(HttpStatus.NOT_FOUND).send(''));
