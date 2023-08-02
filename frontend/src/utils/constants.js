@@ -217,9 +217,15 @@ export const DISABLED_TABS = [
 ];
 
 // Getting replaced with PickLists
-export const SEMESTER_TYPE_OPTIONS = [''];
+export const SEMESTER_TYPE_OPTIONS = [
+  { label: 'Semestered', value: 'semestered' },
+  { label: 'Linear', value: 'linear' },
+  { label: 'Regular School Year (Sept - June)', value: 'regular' },
+  { label: 'Summer', value: 'summer' },
+  { label: 'All Year', value: 'all' },
+];
 
-export const INDICATOR_TYPE_OPTIONS = [
+export const INCORPORATION_TYPE_OPTIONS = [
   { label: 'Societies Act', url: GOV_URL.societiesActUrl, value: 'Societies' },
   {
     label: 'Business Corporation Act',
@@ -231,4 +237,12 @@ export const INDICATOR_TYPE_OPTIONS = [
     url: null,
     value: 'Council/Private',
   },
+];
+
+export const ADDITIONAL_PROGRAMS = [
+  { label: 'Indigenous Students', value: 'indigenousStudents' },
+  { label: 'English Language Learner Students', value: 'ESL' },
+  { label: 'International Students', value: 'InternationalStudents' },
+  { label: 'Students with diverse abilities', value: 'diverseAbilities' },
+  { label: 'Other (please specify):', value: 'Other' },
 ];

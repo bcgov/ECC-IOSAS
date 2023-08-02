@@ -66,31 +66,20 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-checkbox
-            v-model="formData.iosas_incorporationtype"
-            value="SocietiesAct"
-          >
-            <template v-slot:label>
-              <a target="_blank" :href="GOV_URL.societiesActUrl">
-                Societies Act
-              </a>
-            </template>
-          </v-checkbox>
-          <v-checkbox
-            v-model="formData.iosas_incorporationtype"
-            value="Business"
-          >
-            <template v-slot:label>
-              <a target="_blank" :href="GOV_URL.businessCorporationActUrl">
-                Business Corporation Act
-              </a>
-            </template>
-          </v-checkbox>
-          <v-checkbox
-            v-model="formData.iosas_incorporationtype"
-            label="an Order in Council or Private Act"
-            value="councilPrivate"
-          ></v-checkbox>
+          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
+            <v-checkbox
+              v-model="formData.iosas_incorporationtype"
+              :label="item.label"
+              :value="item.value"
+            >
+              <template v-slot:label>
+                <a target="_blank" :href="item.url" v-if="item.url">
+                  {{ item.label }}
+                </a>
+                <p v-else>{{ item.label }}</p>
+              </template>
+            </v-checkbox>
+          </div>
         </v-col>
         <v-spacer />
       </v-row>
@@ -202,34 +191,21 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-checkbox
-            v-model="formData.iosas_incorporationtype"
-            :disabled="!isEditing"
-            value="Societies Act"
-          >
-            <template v-slot:label>
-              <a target="_blank" :href="GOV_URL.societiesActUrl">
-                Societies Act
-              </a>
-            </template>
-          </v-checkbox>
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="formData.iosas_incorporationtype"
-            value="Business Corporation Act"
-          >
-            <template v-slot:label>
-              <a target="_blank" :href="GOV_URL.businessCorporationActUrl">
-                Business Corporation Act
-              </a>
-            </template>
-          </v-checkbox>
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="formData.iosas_incorporationtype"
-            label="an Order in Council or Private Act"
-            value="an Order in Council or Private Act"
-          ></v-checkbox>
+          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
+            <v-checkbox
+              v-model="formData.iosas_incorporationtype"
+              :label="item.label"
+              :value="item.value"
+              disabled
+            >
+              <template v-slot:label>
+                <a target="_blank" :href="item.url" v-if="item.url">
+                  {{ item.label }}
+                </a>
+                <p v-else>{{ item.label }}</p>
+              </template>
+            </v-checkbox>
+          </div>
         </v-col>
       </v-row>
 
@@ -290,7 +266,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import {
   NULL_STRING,
   GOV_URL,
-  INDICATOR_TYPE_OPTIONS,
+  INCORPORATION_TYPE_OPTIONS,
 } from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
@@ -312,11 +288,15 @@ export default {
   data: () => ({
     GOV_URL,
     NULL_STRING,
-    INDICATOR_TYPE_OPTIONS,
+    INCORPORATION_TYPE_OPTIONS,
     rules: Rules,
   }),
   methods: {
     formatBooleanToYesNoString,
+    comparator(a, b) {
+      console.log(a, b);
+      return a == b;
+    },
     getAuthorityHeadName() {
       return this.formData.iosas_authorityheadfirstname
         ? this.formData.iosas_authorityheadfirstname +

@@ -6,47 +6,16 @@
       intended school.</v-label
     >
     <v-row>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="formData.iosas_semestertype"
-          label="Semestered"
-          value="Semestered"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="formData.iosas_semestertype"
-          label="Linear"
-          value="Linear"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="formData.iosas_semestertype"
-          label="Regular School Year (Sept - June)"
-          value="Regular School Year (Sept - June)"
-        ></v-checkbox>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="formData.iosas_semestertype"
-          label="Summer"
-          value="Summer"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="formData.iosas_semestertype"
-          label="All Year"
-          value="All Year"
-        ></v-checkbox>
+      <v-col cols="6" sm="6" md="6" xs="6">
+        <div v-for="item in SEMESTER_TYPE_OPTIONS" :key="item.value">
+          <v-checkbox
+            v-model="formData.iosas_semestertype"
+            :label="item.label"
+            :value="item.value"
+            :disabled="!isEditing"
+          >
+          </v-checkbox>
+        </div>
       </v-col>
     </v-row>
 
@@ -265,7 +234,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, SEMESTER_TYPE_OPTIONS } from '../../../utils/constants';
 export default {
   name: 'SchoolSemesterTab',
   components: {},
@@ -280,6 +249,7 @@ export default {
     },
   },
   data: () => ({
+    SEMESTER_TYPE_OPTIONS,
     NULL_STRING,
     rules: Rules,
   }),

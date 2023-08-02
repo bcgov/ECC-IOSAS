@@ -286,7 +286,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_schoolaffiliation: null,
     iosas_dateoflastannualreport: null,
     _owningteam_value: null,
-    iosas_semestertype: null,
+    iosas_semestertype: [],
     _modifiedonbehalfby_value: null,
     iosas_schoolmincode: null,
     iosas_interviewscoring: null,
@@ -337,7 +337,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_reviewnotes: null,
     iosas_nameofmunicipalityorregionaldistrict: null,
     iosas_approvaldate: null,
-    iosas_additionalprograms: null,
+    iosas_additionalprograms: [],
     _iosas_interviewapprover_value: null,
     iosas_interviewapprovaldate: null,
     iosas_phone: null,
@@ -345,7 +345,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_mailingaddresscountry: null,
     iosas_halfdaykindergartenproposeddaysinsession: null,
     iosas_acknowledgementdate: null,
-    iosas_incorporationtype: null,
+    iosas_incorporationtype: [],
     iosas_mailingaddresspostalcode: null,
     iosas_fulldaykindergartenproposedhoursperday: null,
     iosas_overview: null,
@@ -386,7 +386,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_seekgroup1classification: false,
     iosas_schoolaffiliation: 'iosas_schoolaffiliation',
 
-    // School Authority  - DONE - ADD 'incorporation type' for API
+    // School Authority  - CONFIRMED
     iosas_existingauthority: true,
     edu_incorporationtype: [], // if !iosas_existingauthority
     iosas_incorporationtype: [], // if iosas_existingauthority
@@ -463,7 +463,7 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_authoritycode: null,
     iosas_applicationsubmissionreviewdate: null,
     _owningteam_value: null,
-    iosas_semestertype: null,
+    iosas_semestertype: [],
     _modifiedonbehalfby_value: null,
     iosas_schoolmincode: null,
     iosas_interviewscoring: null,
@@ -552,12 +552,10 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_ifnotoanyschoolpolicyexplainwhy:
       'iosas_ifnotoanyschoolpolicyexplainwhy',
 
-    // Educational Program
-    // MISSING - additional programs checklist
+    // Educational Program - CONFIRMED
     iosas_describefamiliaritywithbcscurriculum:
       'iosas_describefamiliaritywithbcscurriculum',
-
-    iosas_additionalprograms: null, // Is this an array for the checklists??
+    iosas_additionalprograms: [],
     iosas_additionalprogramsother: 'iosas_additionalprogramsother',
 
     // student Enrolment - CONFIRMED

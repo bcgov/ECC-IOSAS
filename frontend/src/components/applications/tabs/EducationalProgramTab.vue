@@ -34,47 +34,16 @@
         following students? (Check all that apply)</v-label
       >
       <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Indigenous Students"
-            value="Indigenous Students"
-          ></v-checkbox>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="English Language Learner Students"
-            value="English Language Learner Students"
-          ></v-checkbox>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="International Students"
-            value="Business Corporation Act"
-          ></v-checkbox>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Students with diverse abilities"
-            value="Students with diverse abilities"
-          ></v-checkbox>
-        </v-col>
-        <v-col cols="6" sm="6" md="4" xs="6">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Other (please specify):"
-            value="Other (please specify):"
-          ></v-checkbox>
+        <v-col cols="6" sm="6" md="6" xs="6">
+          <div v-for="item in ADDITIONAL_PROGRAMS" :key="item.value">
+            <v-checkbox
+              v-model="formData.iosas_additionalprograms"
+              :label="item.label"
+              :value="item.value"
+              :disabled="!isEditing"
+            >
+            </v-checkbox>
+          </div>
         </v-col>
         <v-spacer />
       </v-row>
@@ -102,7 +71,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, ADDITIONAL_PROGRAMS } from '../../../utils/constants';
 export default {
   name: 'EducationalProgramTab',
   components: {},
@@ -117,6 +86,7 @@ export default {
     },
   },
   data: () => ({
+    ADDITIONAL_PROGRAMS,
     NULL_STRING,
     rules: Rules,
   }),
