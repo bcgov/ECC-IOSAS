@@ -46,6 +46,11 @@ const dynamicIntegrationService = {
         dynamicContactId: null
       }
     }
+  },
+  async swagger() {
+    const endPoint = this.host() + '/swagger/index.html';
+    const { data } = await axios.get(endPoint);
+    return data;
   }
 };
 
