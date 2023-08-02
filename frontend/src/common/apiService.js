@@ -60,6 +60,19 @@ export default {
     }
   },
 
+  /**
+   * Health Check Dynamic
+   * @returns 
+   */
+  async dynamicHealthCheck() {
+    try {
+      return apiAxios.get(ApiRoutes.dynamic.HEALTH);
+    } catch (err) {
+      console.log(`Failed to get from Nodejs dynamic health API - ${e}`);
+      throw e;
+    }
+  },
+
   async getDocumentTypeCodes() {
     try{
       return await apiAxios.get(ApiRoutes.edx.DOCUMENT_TYPES_URL);

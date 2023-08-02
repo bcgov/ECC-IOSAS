@@ -13,7 +13,7 @@ const cors = require('cors');
 const utils = require('./components/utils');
 const auth = require('./components/auth');
 const bodyParser = require('body-parser');
-const connectRedis = require('connect-redis');
+// const connectRedis = require('connect-redis');
 dotenv.config();
 
 const JWTStrategy = require('passport-jwt').Strategy;
@@ -24,6 +24,7 @@ const apiRouter = express.Router();
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const healthCheck = require('./routes/health-check');
+const dynamicRouter = require('./routes/dynamics');
 // const promMid = require('express-prometheus-middleware');
 //initialize app
 const app = express();
@@ -90,7 +91,6 @@ function addLoginPassportUse(discovery, strategyName, callbackURI, kc_idp_hint) 
       (typeof (refreshToken) === 'undefined') || (refreshToken === null)) {
       return done('No access token', null);
     }
-
     //set access and refresh tokens
     profile.jwtFrontend = auth.generateUiToken();
     profile.jwt = accessToken;
@@ -152,9 +152,10 @@ app.use(/(\/api)?/, apiRouter);
 
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/user', userRouter);
+apiRouter.use('/dynamic', dynamicRouter);
 
 
-console.log(`NODE ENV: ${process.env.NODE_ENV} | PORT: ${process.env.API_PORT}`);
+console.log(`INFO: NODE ENV: ${process.env.NODE_ENV} | PORT: ${process.env.API_PORT}`);
 
 //Handle 500 error
 app.use((err, _req, res, next) => {

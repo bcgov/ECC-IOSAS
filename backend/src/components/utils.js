@@ -28,7 +28,7 @@ async function getOidcDiscovery() {
       const { data = {} } = response;
       // Get realam inof
       const realamInfoResponse = await axios.get(data.issuer);
-      const { data: realamInfo = {} } = realamInfoResponse
+      const { data: realamInfo = {} } = realamInfoResponse;
       discovery = {
         ...data,
         realamInfo

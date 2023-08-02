@@ -194,3 +194,6 @@ promote-web:
 	@echo "+\n++ Web: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
 	@oc -n "$(BUILD_NAMESPACE)" tag $(Web):$(BUILD_TAG) $(Web):$(HOST_PREFIX)
 
+d365-api-tunnel:
+	@echo "+\n++ Port Forwarding to D365 stack"
+	@oc -n $(NAMESPACE) port-forward svc/$(API)-d365 5091

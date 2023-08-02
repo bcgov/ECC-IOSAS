@@ -7,6 +7,7 @@ const auth = require('../components/auth');
 const log = require('../components/logger');
 const {v4: uuidv4} = require('uuid');
 const {getSessionUser} = require('../components/utils');
+const dynamicIntegrationService = require('../components/dynamics-integration');
 const {
   body,
   validationResult
@@ -44,7 +45,7 @@ router.get('/callback_bceid',
   passport.authenticate('oidcBceid', {
     failureRedirect: 'error'
   }),
-  (req, res) => {
+  async (req, res) => {
     const userInfo = getSessionUser(req);
     const accessToken = userInfo.jwt;
     const digitalID = userInfo._json.digitalIdentityID;
@@ -52,6 +53,10 @@ router.get('/callback_bceid',
     req.session.accessToken = accessToken;
     req.session.digitalID = digitalID;
     req.session.correlationID = correlationID;
+    // Dynamic: Getting Dynamic conatct Id and saving in session
+    const { dynamicContactId } = await dynamicIntegrationService.register(userInfo._json);
+    log.info('auth | callback_bceid | dynamic conatct id = ', dynamicContactId);
+    req.session.dynamicContactId = dynamicContactId;
     res.redirect(config.get('server:frontend'));
   }
 );
@@ -138,9 +143,11 @@ router.get('/token', auth.refreshJWT, (req, res) => {
       req.session.correlationID = correlationID;
       const correlation = {
         user_guid: req.session?.passport?.user?._json.user_guid,
-        correlation_id: correlationID
+        correlation_id: correlationID,
+        dynamicContactId: req.session.dynamicContactId,
+        preferred_username: req.session?.passport?.user?._json.preferred_username
       };
-      log.info('created correlation id and stored in session', correlation);
+      log.info('token | created correlation id and stored in session', correlation);
     }
     const responseJson = {
       jwtFrontend: req.user.jwtFrontend

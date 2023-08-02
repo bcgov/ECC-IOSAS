@@ -2,7 +2,6 @@
 
 const config = require('./config/index');
 const http = require('http');
-const constants = require('./util/constants');
 const log = require('./components/logger');
 const localDateTime = require('@js-joda/core').LocalDateTime;
 //Add timestamp to log

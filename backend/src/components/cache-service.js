@@ -5,7 +5,7 @@
 
 const cachedData = {};
 
-const retries = 0;
+// const retries = 0;
 
 const cacheService = {
   getCachedData(){

@@ -12,7 +12,7 @@ class VersionController {
   }
 
   async version(_, res) {
-    res.status(HttpStatus.OK).json(config.get('buildInfo') || {})
+    res.status(HttpStatus.OK).json(config.get('buildInfo') || {});
   }
 }
 const EXPRESS = require('express');

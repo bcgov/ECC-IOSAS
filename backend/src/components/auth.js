@@ -151,26 +151,25 @@ const auth = {
       if (req?.session?.passport?.user?.jwt) {
         try {
           utils.getOidcDiscovery()
-          .then(discovery => {
-            
-            try {
-              const publicKey = discovery.realamInfo.public_key
-              const formattedPubKey = `-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
-              log.info(`Public key: ${publicKey}`);
-              log.info(`Formatted key: ${formattedPubKey}`);
-              jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
-            } catch (e) {
-              log.info('The kc token verification fail with underlying error');
-              log.error('error is from verify', e);
-              return res.status(HttpStatus.UNAUTHORIZED).json();
-            }
-            log.info('Backend token is valid moving to next');
-            return next();
-          })
-          .catch(error => {
-            log.error('Unable to get discovery with error: ', error);
-            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json();
-          });
+            .then(discovery => {
+              try {
+                const publicKey = discovery.realamInfo.public_key;
+                const formattedPubKey = `-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
+                // log.info(`Public key: ${publicKey}`);
+                // log.info(`Formatted key: ${formattedPubKey}`);
+                jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
+              } catch (e) {
+                log.info('The kc token verification fail with underlying error');
+                log.error('error is from verify', e);
+                return res.status(HttpStatus.UNAUTHORIZED).json();
+              }
+              log.info('Backend token is valid moving to next');
+              return next();
+            })
+            .catch(error => {
+              log.error('Unable to get discovery with error: ', error);
+              res.status(HttpStatus.INTERNAL_SERVER_ERROR).json();
+            });
         } catch (e) {
           log.error('Unable to get discovery with error(1): ', e);
           res.status(HttpStatus.INTERNAL_SERVER_ERROR).json();

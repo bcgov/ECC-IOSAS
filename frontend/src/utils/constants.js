@@ -9,6 +9,9 @@ const districtRequestRoot = baseRoot + '/institute/districts';
 const schoolRequestRoot = baseRoot + '/institute/schools';
 const sldRoot = baseRoot + '/sld';
 
+// Dynamic
+const dynamicRoot = baseRoot + '/dynamic';
+
 let object;
 
 object = {
@@ -32,6 +35,11 @@ export const AuthRoutes = Object.freeze(object);
 export const ApiRoutes = Object.freeze({
   USER: baseRoot + '/user',
   CONFIG: baseRoot + '/config',
+  // ** Dynamic **/
+  dynamic: {
+    BASE_URL: dynamicRoot,
+    HEALTH: dynamicRoot + '/Health'
+  },
   school: {
     BASE_URL: schoolRoot,
     SCHOOLS_LAST_UPDATED_DATE: schoolRoot + '/lastUpdated',
