@@ -36,8 +36,8 @@
             class="mt-4"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -55,8 +55,8 @@
             class="mt-4"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -82,8 +82,8 @@
             class="mt-4"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -127,27 +127,33 @@
             class="mt-4"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
-            <v-radio label="No" color="#003366" v-bind:value="null" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+            <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
       </v-row>
       <br />
-      <v-label
-        >Has the authority developed a fees and tuition refund policy that
-        ensures refunds in the event the school is unable to obtain or maintain
-        a Group 4 Certificate of Classification in the first year of operation?
-      </v-label>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
-          <v-textarea
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Has the authority developed a fees and tuition refund policy that
+            ensures refunds in the event the school is unable to obtain or
+            maintain a Group 4 Certificate of Classification in the first year
+            of operation?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
             id="iosas_hastheauthoritydevelopedarefundpolicy"
             v-model="formData.iosas_hastheauthoritydevelopedarefundpolicy"
-            :maxlength="255"
-            variant="outlined"
-            color="rgb(59, 153, 252)"
-          />
+            color="#003366"
+            class="mt-4"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
         </v-col>
       </v-row>
     </div>
@@ -256,13 +262,16 @@
         </v-col>
       </v-row>
       <br />
-      <v-label
-        >Has the authority developed a fees and tuition refund policy that
-        ensures refunds in the event the school is unable to obtain or maintain
-        a Group 4 Certificate of Classification in the first year of operation?
-      </v-label>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Has the authority developed a fees and tuition refund policy that
+            ensures refunds in the event the school is unable to obtain or
+            maintain a Group 4 Certificate of Classification in the first year
+            of operation?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
           {{
             formatBooleanToYesNoString(
               formData.iosas_hastheauthoritydevelopedarefundpolicy

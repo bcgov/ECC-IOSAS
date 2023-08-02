@@ -71,7 +71,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            v-model="formData.iosas_cantheauthorityconfirmtestingvspolicy"
+            v-model="formData.iosas_confirmationofleadtestingfordrinkingwater"
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
@@ -179,7 +179,7 @@
         <v-col cols="4">
           {{
             formatBooleanToYesNoString(
-              formData.iosas_cantheauthorityconfirmtestingvspolicy
+              formData.iosas_confirmationofleadtestingfordrinkingwater
             )
           }}
         </v-col>

@@ -355,14 +355,14 @@ export const SCHOOL_APPLICATION_MOCK = [
   },
   {
     // General
+    iosas_applicationid: 'GUID',
     statuscode: 'Interim Certification',
     iosas_applicationnumber: 'APP-1011',
     iosas_nopromotionofinappropriatedoctrines: true,
     iosas_willcomplywithenactmentsofbc: false,
     iosas_authoritycomplieswithisaregulations: false,
 
-    // School Information - DONE - GET CONFIRMATION
-    // MISSING - EMAIL
+    // School Information - GET CONFIRMATION
     iosas_proposedschoolname: 'iosas_proposedschoolname',
     iosas_startgrade: 'Kindergarten',
     iosas_endgrade: '6',
@@ -387,7 +387,8 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_schoolaffiliation: 'iosas_schoolaffiliation',
 
     // School Authority  - CONFIRMED
-    iosas_existingauthority: true,
+    iosas_preexistingauthorityhead: true,
+    iosas_preexistingauthority: true,
     edu_incorporationtype: [], // if !iosas_existingauthority
     iosas_incorporationtype: [], // if iosas_existingauthority
     iosas_schoolauthority: 'iosas_schoolauthority',
@@ -403,125 +404,41 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_proponentspreviouslyinvolvedinisbc: false,
     iosas_detailsofinvolvement: null,
 
-    _iosas_edu_schoolauthority_value: 'GUID',
-    iosas_preexistingauthorityhead: true,
     iosas_confirmationofwatertesting: false,
-    iosas_proofofleasepurchaseoffacility: false,
-    iosas_applicationid: 'GUID',
-    _iosas_designatedcontact_value: 'GUID',
-    _iosas_expressionofinterest_value: 'GUID',
-    iosas_acknowledgementofinterviewdecisionsent: false,
-    iosas_writtenconfirmationofeligibility: false,
-    iosas_proofoffacilityinspection: false,
-    _modifiedby_value: 'GUID',
-    iosas_municipalcomplianceletter: false,
-    createdon: '2023-07-05T21:39:37Z',
     statecode: 0,
-    _owningbusinessunit_value: 'GUID',
-    _owninguser_value: 'GUID',
     iosas_authorityprovince: 'BC',
-    _createdby_value: 'GUID',
     _iosas_edu_year_value: '2023/24 SY',
-    versionnumber: 26877904,
-    _iosas_schoolauthorityhead_value: 'GUID',
-    iosas_interviewpassedsuccessfully: false,
-    iosas_submissionmethod: 100000000,
     iosas_authoritycity: 'Richmond',
-    iosas_contactinformationfortwobusinessreferences: false,
-    iosas_preexistingauthority: true,
-    iosas_businessplansubmitted: false,
-    iosas_approvedforinterimcertification: false,
     iosas_studentsafetypolicies: false,
     iosas_authoritycountry: 'CANADA',
-    iosas_acknowledgementofreceiptsent: false,
     iosas_authoritypostalcode: 'V6X1N4',
-    timezoneruleversionnumber: 0,
-    iosas_acknowledgementofdecisionsent: false,
-    iosas_reviewpassedsuccessfully: false,
-    modifiedon: '2023-07-08T00:05:27Z',
     iosas_designatedcontactsameasauthorityhead: false,
-    iosas_submissiondate: '2023-07-05T07:00:00Z',
-    iosas_irrevocableletterofcreditorsuretybond: false,
-    iosas_name: 'SA-2024/25 SY-Demo 05-07-2023',
-    iosas_hassaobtaineddocumentsregardingbondingreqs: false,
-    iosas_precertsubmissionreviewdate: null,
-    iosas_interimcertificationapprovaldate: null,
-    iosas_reviewpanel: null,
-    importsequencenumber: null,
-    utcconversiontimezonecode: null,
-    overriddencreatedon: null,
-    _iosas_interimcertificationapprover_value: null,
-    iosas_interviewoutcomenotes: null,
-    _iosas_interviewreviewer_value: null,
-    iosas_interimcertificationreviewdate: null,
-    iosas_decisionlettersentdate: null,
-    processid: null,
-    _iosas_reviewer_value: null,
-    traversedpath: null,
-    _iosas_applicationsubmissionreviewer_value: null,
-    iosas_proofoffacilityinspectionreceiveddate: null,
     iosas_authoritycode: null,
-    iosas_applicationsubmissionreviewdate: null,
-    _owningteam_value: null,
-    iosas_semestertype: [],
-    _modifiedonbehalfby_value: null,
-    iosas_schoolmincode: null,
-    iosas_interviewscoring: null,
     iosas_authoritywebsite: null,
-    _createdonbehalfby_value: null,
-    iosas_reviewstatus1: null,
-    iosas_reviewdate: null,
-    iosas_notes: null,
     _iosas_edu_school_value: null,
-    iosas_proofofleasereceiveddate: null,
-    iosas_precertsubmissionapprovaldate: null,
-    _iosas_precertsubmissionapprover_value: null,
-    iosas_interviewreviewnotes: null,
-    iosas_interviewstatus1: null,
     iosas_authorityaddressline2: null,
-    _iosas_interimcertificationreviewer_value: null,
-    iosas_interviewadditionalinformation: null,
-    _iosas_applicationsubmissionapprover_value: null,
-    _iosas_precertsubmissionreviewer_value: null,
-    iosas_precertreviewnotes: null,
-    iosas_reviewstatus: null,
-    iosas_applicationsubmissionapprovaldate: null,
-    iosas_interviewreviewdate: null,
-    _iosas_approver_value: null,
-    iosas_detailsofinvolvement: null,
-    iosas_phonenumber: null,
-    iosas_precertificationstatus: null,
-    _stageid_value: null,
-    iosas_reviewnotes: null,
-    iosas_approvaldate: null,
-    _iosas_interviewapprover_value: null,
-    iosas_interviewapprovaldate: null,
-    iosas_schoolassociationother: null,
-    iosas_acknowledgementdate: null,
-    iosas_incorporationtype: [],
     iosas_completedfreetuitionrefundpolicy: false,
     iosas_feerefundpolicyconsistentwithguidelines: false,
-    iosas_policysubmitted: false,
 
-    // Group Certification
+    // Group Certification - CONFIRMED
     iosas_familiarwithgrantstoispolicyifseekingfunds: false,
     iosas_willsaoperateonnonprofitbasis: false,
     iosas_hasthesaobtainedirrevocableloc: false,
     iosas_hassaobtaineddocumentsregardingbondingreqs: null,
     iosas_hastheauthoritydevelopedarefundpolicy: null,
 
-    // school Facility
+    // school Facility - CONFIRMED
     iosas_nameofmunicipalityorregionaldistrict:
       'iosas_nameofmunicipalityorregionaldistrict',
     iosas_whatstepsareyoutakingtoacquirethefacility:
       'iosas_whatstepsareyoutakingtoacquirethefacility',
-    iosas_cantheauthorityconfirmtestingvspolicy: false, // CONFIRM??
-    iosas_confirmationofleadtestingfordrinkingwater: false, // CONFIRM??
+    iosas_cantheauthorityconfirmtestingvspolicy: false, // NOT IN USE?
+    iosas_confirmationofleadtestingfordrinkingwater: false, // CONFIRMED
     iosas_studentshousedinadormitorysetting: true,
     iosas_studentshousedinahomesetting: false,
     iosas_hastheauthoritycontactedlocalgovernment: false,
 
-    // Scool Policies - DONE?
+    // Scool Policies - CONFIRMED
     iosas_anaphylaxispolicyandprocedures: false,
     iosas_appealsprocesspolicy: false,
     iosas_boardingsafetyandsupervisionpolicy: null,
@@ -552,12 +469,6 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_ifnotoanyschoolpolicyexplainwhy:
       'iosas_ifnotoanyschoolpolicyexplainwhy',
 
-    // Educational Program - CONFIRMED
-    iosas_describefamiliaritywithbcscurriculum:
-      'iosas_describefamiliaritywithbcscurriculum',
-    iosas_additionalprograms: [],
-    iosas_additionalprogramsother: 'iosas_additionalprogramsother',
-
     // student Enrolment - CONFIRMED
     iosas_numberofstudentskindergarten: 1,
     iosas_numberofstudentsg1: 2,
@@ -576,8 +487,8 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_highschooltotal: 0,
     iosas_totalenrolment: 0,
 
-    // school semester -
-    // MISSING - 'school semester indicator type' fields
+    // school semester - CONFIRMED
+    iosas_semestertype: [],
     iosas_halfdaykindergartenproposedhoursperday: 5,
     iosas_halfdaykindergartenproposedhoursperyear: 5,
     iosas_halfdaykindergartenproposeddaysinsession: 10,
@@ -587,6 +498,12 @@ export const SCHOOL_APPLICATION_MOCK = [
     iosas_grades112proposedhoursperyear: 5,
     iosas_grades112proposeddaysinsession: 5,
     iosas_grades112proposedhoursperday: 5,
+
+    // Educational Program - CONFIRMED
+    iosas_describefamiliaritywithbcscurriculum:
+      'iosas_describefamiliaritywithbcscurriculum',
+    iosas_additionalprograms: [],
+    iosas_additionalprogramsother: 'iosas_additionalprogramsother',
 
     // teacher certification - CONFIRMED
     iosas_numberofteachers: 'iosas_numberofteachers',
