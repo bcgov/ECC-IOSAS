@@ -14,6 +14,7 @@
       <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
         <v-tab
           v-for="item in items"
+          :disabled="disabledTabs.includes(item)"
           :key="item"
           :value="item"
           @click.stop="drawer = !drawer"
@@ -30,7 +31,12 @@
       ></v-app-bar-nav-icon>
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
-          <v-tab v-for="item in items" :key="item" :value="item">
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            :value="item"
+            :disabled="disabledTabs.includes(item)"
+          >
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -47,13 +53,6 @@
             <div class="form-container">
               <div class="d-flex justify-space-between">
                 <h1>Application for Independent School Certification</h1>
-                <PrimaryButton
-                  v-if="!isEditing"
-                  secondary
-                  text="Edit"
-                  class="mr-2"
-                  :click-action="toggleEditMode"
-                />
               </div>
               <br />
               <v-divider></v-divider>
@@ -68,10 +67,12 @@
                       :is="t.component"
                       :formData="formData"
                       :isEditing="isEditing"
+                      @validateAndPopulate="validateAndPopulateRadioButtons"
                     />
                   </keep-alive>
                 </v-window-item>
               </v-window>
+
               <v-container v-if="isEditing">
                 <v-row v-if="isLastPage()">
                   <v-col cols="12" sm="12" md="12" xs="12">
@@ -82,6 +83,14 @@
                   </v-col>
                 </v-row>
 
+                <v-row justify="center" align="center" v-if="showError">
+                  <v-col>
+                    <v-alert type="error" title="Error" variant="outlined">
+                      Ensure all required fields are filled out before
+                      proceeding to the next step
+                    </v-alert>
+                  </v-col>
+                </v-row>
                 <br />
                 <v-row align="end">
                   <v-spacer />
@@ -163,6 +172,7 @@ import GroupCertificationTab from './tabs/GroupCertificationTab.vue';
 import EducationalProgramTab from './tabs/EducationalProgramTab.vue';
 import TeacherCertificationTab from './tabs/TeacherCertificationTab.vue';
 import SubmissionTab from './tabs/SubmissionTab.vue';
+import { DISABLED_TABS } from '../../utils/constants';
 
 export default {
   name: 'SchoolApplicationForm',
@@ -196,12 +206,14 @@ export default {
   },
   data() {
     return {
+      DISABLED_TABS,
       drawer: false,
+      disabledTabs: [],
       isEditing: false,
-      isFormValid: false,
+      isFormValid: true,
+      showError: false,
       defaultStatus: 'Submitted',
       applicationConfirmation: false,
-      requiredRules: [(v) => !!v || 'Required'],
       rules: Rules,
       tabContent: [
         {
@@ -250,11 +262,37 @@ export default {
       ],
     };
   },
+  watch: {
+    // If next button is clicked && form is valid
+    //remove current tab from disabled tab list
+    tab: {
+      handler() {
+        if (this.disabledTabs.length) {
+          this.disabledTabs = this.disabledTabs.filter(
+            (tab) => tab !== this.tab
+          );
+        }
+      },
+    },
+    isFormValid: {
+      handler(val) {
+        if (val) {
+          this.showError = false;
+        } else if (val === false) {
+          this.showError = true;
+        }
+      },
+    },
+  },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    this.isEditing = this.formData && this.formData?.status === 'Draft';
+    const isDraft = this.formData && this.formData?.statuscode === 'Draft';
+    this.isFormValid = true;
+    this.isEditing = isDraft;
+    // TODO: Do not disable tab if application has been updated/submitted but still in progress
+    this.disabledTabs = isDraft ? DISABLED_TABS : [];
   },
   methods: {
     isLastPage() {
@@ -263,9 +301,7 @@ export default {
     isFirstPage() {
       return this.tab === 'General';
     },
-    toggleEditMode() {
-      return (this.isEditing = true);
-    },
+    validatePage() {},
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
         'Delete Draft of Independent School Certification?',
@@ -301,30 +337,55 @@ export default {
       ];
     },
     handleDraftSubmit() {
+      this.handleSubmit();
       console.log('Saving draft');
     },
     async handleSubmit() {
       this.$refs.schoolApplicationForm.validate().then(() => {
-        if (this.isFormValid) {
-          this.$emit('setIsLoading');
-          // mocking a loading state - will be replaced when API is connected.
-          setTimeout(() => {
-            this.$router.push({
-              name: 'applicationConfirmation',
-              params: { type: 'APP' },
-            });
-            console.log(this.formData);
-          }, 1000);
-        }
+        this.$emit('setIsLoading');
+        // mocking a loading state - will be replaced when API is connected.
+        setTimeout(() => {
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'APP' },
+          });
+          console.log(this.formData);
+        }, 1000);
       });
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
       return (this.tab = this.items[currentTabIndex - 1]);
     },
-    nextTab() {
+    async nextTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
-      return (this.tab = this.items[currentTabIndex + 1]);
+      const nextTab = this.items[currentTabIndex + 1];
+      const nextTabUnlocked = !this.disabledTabs.includes(nextTab);
+
+      if (nextTabUnlocked) {
+        // Allow users to navigate through tabs without
+        // triggering validation errors until they try to access a locked tab.
+        return (this.tab = nextTab);
+      } else {
+        const valid = await this.$refs.schoolApplicationForm.validate();
+        this.showError = !valid.valid;
+        if (this.isFormValid) {
+          return (this.tab = nextTab);
+        }
+      }
+    },
+    validateAndPopulateRadioButtons(e) {
+      // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
+      // must attach a change event, and set the field programatically.
+      // RadioGroup appears to work following the happy path, This is only needed for RadioGroups with 'Required' validation
+      this.formData[e.target.attributes?.name?.value] = JSON.parse(
+        e.target.value
+      );
+
+      // if the form is already !valid, trigger the validation to clear the error on the updated radioGroup
+      if (this.isFormValid === false) {
+        this.$refs.schoolApplicationForm.validate();
+      }
     },
   },
 };

@@ -28,14 +28,16 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_hastheauthoritycontactedlocalgovernment"
             v-model="formData.iosas_hastheauthoritycontactedlocalgovernment"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -53,7 +55,6 @@
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -62,9 +63,10 @@
         <v-col cols="8">
           <v-label
             >Can the authority confirm that lead testing consistent with the
-            policy, Testing Lead Content in Drinking Water of Independent School
-            Facilities, will occur prior to students using the
-            facility?</v-label
+            policy,<a :href="GOV_URL.leadTestingUrl" target="_blank">
+              Testing Lead Content in Drinking Water of Independent School
+              Facilities, </a
+            >will occur prior to students using the facility?</v-label
           >
         </v-col>
         <v-col cols="4">
@@ -72,11 +74,12 @@
             v-model="formData.iosas_confirmationofleadtestingfordrinkingwater"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -92,11 +95,12 @@
             v-model="formData.iosas_studentshousedinahomesetting"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -109,11 +113,12 @@
             v-model="formData.iosas_studentshousedinadormitorysetting"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -136,9 +141,6 @@
             school facility will meet all current municipal/regional district
             codes, regarding zoning, building, fire prevention, and
             health?</v-label
-          >
-          <span class="orange"
-            >iosas_hastheauthoritycontactedlocalgovernment</span
           >
         </v-col>
         <v-col cols="4">
@@ -168,12 +170,10 @@
         <v-col cols="8">
           <v-label
             >Can the authority confirm that lead testing consistent with the
-            policy, Testing Lead Content in Drinking Water of Independent School
-            Facilities, will occur prior to students using the
-            facility?</v-label
-          >
-          <span class="orange"
-            >iosas_confirmationofleadtestingfordrinkingwater</span
+            policy,<a :href="GOV_URL.leadTestingUrl" target="_blank">
+              Testing Lead Content in Drinking Water of Independent School
+              Facilities, </a
+            >will occur prior to students using the facility?</v-label
           >
         </v-col>
         <v-col cols="4">
@@ -190,7 +190,6 @@
           <v-label>Will Students attending the school be housed in:</v-label>
           <br />
           <v-label class="ml-10">A homestay setting:</v-label>
-          <span class="orange">iosas_studentshousedinahomesetting</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -203,7 +202,6 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label class="ml-10">A boarding/dormitory setting:</v-label>
-          <span class="orange">iosas_studentshousedinadormitorysetting</span>
         </v-col>
         <v-col cols="4">
           {{
@@ -220,10 +218,10 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolFacility',
-  components: {},
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,
@@ -233,15 +231,24 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
+    GOV_URL,
     NULL_STRING,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
     formatBooleanToYesNoString,
   },
 };
 </script>
+
+<style scoped>
+.v-label {
+  display: inline-block;
+}
+</style>

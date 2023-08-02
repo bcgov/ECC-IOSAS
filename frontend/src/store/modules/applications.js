@@ -14,7 +14,7 @@ export const applicationsStore = defineStore('applications', {
       Object.values(Object.fromEntries(state.schoolApplicationsMap)).map(
         (v) => ({
           application_number: v.iosas_applicationnumber,
-          status: v.status,
+          status: v.statuscode,
           school_name: v.iosas_proposedschoolname,
           school_year: v._iosas_edu_year_value,
           group_classification: v.iosas_groupclassification,

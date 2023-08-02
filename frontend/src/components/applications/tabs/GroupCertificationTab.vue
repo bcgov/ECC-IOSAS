@@ -1,23 +1,32 @@
 <template>
   <v-container>
     <h4>Application for Group Certification</h4>
-    <v-label><strong>(Schools Seeking group and 4 only) </strong></v-label>
+    <v-label><strong>Schools Seeking group 2 and 4 only</strong></v-label>
+    <br />
+    <br />
     <v-label
       >The proposed school will establish an educational program that will
       comply with the instructional goals, time, and program requirements
-      determined by the Minister, as specified in the Educational Standards
-      Order.</v-label
-    >
+      determined by the Minister, as specified in the<a
+        :href="GOV_URL.educationalStandardsOrderUrl"
+        target="_blank"
+      >
+        Educational Standards Order.
+      </a>
+    </v-label>
     <br />
     <br />
 
     <div v-if="isEditing">
+      <v-label><strong>Group 2:</strong></v-label>
       <v-row align="center">
         <v-col cols="8">
-          <v-label><strong>Group 2:</strong></v-label>
           <v-label
             >If the proposed school is intending to seek funding, are you
-            familiar with Grants to Independent Schools Policy?
+            familiar with
+            <a :href="GOV_URL.independentSchoolGrants" target="_blank"
+              >Grants to Independent Schools Policy?</a
+            >
           </v-label>
         </v-col>
         <v-col cols="4">
@@ -25,19 +34,16 @@
             v-model="formData.iosas_familiarwithgrantstoispolicyifseekingfunds"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
 
       <v-row align="center">
         <v-col cols="8">
-          <v-label><strong>Group 2:</strong></v-label>
           <v-label
             >Will the School Authority operate on a non-profit basis?
           </v-label>
@@ -47,37 +53,37 @@
             v-model="formData.iosas_willsaoperateonnonprofitbasis"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
       <br />
-      <v-label><strong>Group 4 only:</strong></v-label>
+      <v-label><strong>Group 4:</strong></v-label>
       <v-row align="center">
         <v-col cols="8">
           <v-label
             >Has the school applicant's authority obtained written confirmation
             from a bank or surety provider of the authority's eligibility to
-            meet the bonding requirements of the Independent School Regulation
-            (sections 12 to 17) as these apply to Group 4 independent
-            schools?</v-label
+            meet the bonding requirements of the
+            <a :href="GOV_URL.independentSchoolRegulations" target="_blank"
+              >Independent School Regulation (sections 12 to 17)</a
+            >
+            as these apply to Group 4 independent schools?</v-label
           >
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_hassaobtaineddocumentsregardingbondingreqs"
+            v-model="formData.iosas_hassaobtaineddocumentsregardingbondingreqs"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -89,7 +95,9 @@
         a financial institution or surety provider of their eligibility to
         obtain a bond in the form of an irrevocable letter of credit or surety
         bond in the amount of $100,000, consistent with requirements of the
-        Independent School Regulation?
+        <a :href="GOV_URL.independentSchoolRegulations" target="_blank">
+          Independent School Regulation?</a
+        >
         <br />
         Specifically:
         <ul class="ml-10">
@@ -113,37 +121,39 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_hasthesaobtainedirrevocableloc"
+            v-model="formData.iosas_hasthesaobtainedirrevocableloc"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
-            <v-radio label="No" color="#003366" v-bind:value="null" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+            <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
       </v-row>
       <br />
-      <v-label
-        >Has the authority developed a fees and tuition refund policy that
-        ensures refunds in the event the school is unable to obtain or maintain
-        a Group 4 Certificate of Classification in the first year of operation?
-      </v-label>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
-          <v-textarea
-            :disabled="!isEditing"
-            id="school_phone"
-            v-model="formData.school_phone"
-            required
-            :rules="[rules.required()]"
-            :maxlength="255"
-            variant="outlined"
-            label=""
-            color="rgb(59, 153, 252)"
-          />
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Has the authority developed a fees and tuition refund policy that
+            ensures refunds in the event the school is unable to obtain or
+            maintain a Group 4 Certificate of Classification in the first year
+            of operation?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_hastheauthoritydevelopedarefundpolicy"
+            v-model="formData.iosas_hastheauthoritydevelopedarefundpolicy"
+            color="#003366"
+            class="mt-4"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
         </v-col>
       </v-row>
     </div>
@@ -153,11 +163,11 @@
         <v-col cols="8">
           <v-label
             >If the proposed school is intending to seek funding, are you
-            familiar with Grants to Independent Schools Policy?
+            familiar with
+            <a :href="GOV_URL.independentSchoolGrants" target="_blank"
+              >Grants to Independent Schools Policy?</a
+            >
           </v-label>
-          <span class="orange"
-            >iosas_familiarwithgrantstoispolicyifseekingfunds</span
-          >
         </v-col>
         <v-col cols="4">
           <p>
@@ -174,7 +184,6 @@
           <v-label>
             Will the School Authority operate on a non-profit basis?
           </v-label>
-          <span class="orange">iosas_willsaoperateonnonprofitbasis</span>
         </v-col>
         <v-col cols="4">
           <p>
@@ -193,14 +202,21 @@
           <v-label
             >Has the school applicant's authority obtained written confirmation
             from a bank or surety provider of the authority's eligibility to
-            meet the bonding requirements of the Independent School Regulation
-            (sections 12 to 17) as these apply to Group 4 independent
-            schools?</v-label
+            meet the bonding requirements of the
+            <a :href="GOV_URL.independentSchoolRegulations" target="_blank"
+              >Independent School Regulation (sections 12 to 17)</a
+            >
+            as these apply to Group 4 independent schools?</v-label
           >
-          <span class="orange">???</span>
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_hassaobtaineddocumentsregardingbondingreqs
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
 
@@ -211,7 +227,9 @@
         a financial institution or surety provider of their eligibility to
         obtain a bond in the form of an irrevocable letter of credit or surety
         bond in the amount of $100,000, consistent with requirements of the
-        Independent School Regulation?
+        <a :href="GOV_URL.independentSchoolRegulations" target="_blank">
+          Independent School Regulation?</a
+        >
         <br />
         Specifically:
         <ul class="ml-10">
@@ -232,22 +250,33 @@
             Certification until the required bonding instrument has been
             provided by the Group 4 applicant.</v-label
           >
-          <span class="orange">???</span>
         </v-col>
         <v-col cols="4">
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_hasthesaobtainedirrevocableloc
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <br />
-      <v-label
-        >Has the authority developed a fees and tuition refund policy that
-        ensures refunds in the event the school is unable to obtain or maintain
-        a Group 4 Certificate of Classification in the first year of operation?
-      </v-label>
-      <span class="orange">???</span>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
-          {{ NULL_STRING }}
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Has the authority developed a fees and tuition refund policy that
+            ensures refunds in the event the school is unable to obtain or
+            maintain a Group 4 Certificate of Classification in the first year
+            of operation?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_hastheauthoritydevelopedarefundpolicy
+            )
+          }}
         </v-col>
       </v-row>
     </div>
@@ -255,9 +284,8 @@
 </template>
 
 <script>
-import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'GroupCertificationTab',
   components: {},
@@ -272,8 +300,8 @@ export default {
     },
   },
   data: () => ({
+    GOV_URL,
     NULL_STRING,
-    rules: Rules,
   }),
   mounted() {},
   computed: {},
@@ -284,6 +312,10 @@ export default {
 </script>
 
 <style scoped>
+.v-label {
+  display: inline;
+}
+
 li {
   display: list-item;
   list-style-position: inside;

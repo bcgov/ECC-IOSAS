@@ -5,7 +5,10 @@
       <v-label
         >You will be contacted via email with the results of your application.
         Successful applicants will be invited for an Interview as outlined In
-        Step 3 of the Establishing an Independent School Policy.
+        Step 3 of the
+        <a :href="GOV_URL.establishingSchoolURL"
+          >Establishing an Independent School Policy.</a
+        >.
       </v-label>
       <br />
       <br />
@@ -24,7 +27,7 @@
             v-model="formData.iosas_completesetofpoliciesoutlinedinchecklist"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -47,7 +50,7 @@
             v-model="formData.iosas_businessplanincludingfinancialinformation"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
+            :rules="[rules.requiredRadio()]"
             inline
             :disabled="!isEditing"
           >
@@ -61,7 +64,10 @@
       <v-label
         >You will be contacted via email with the results of your application.
         Successful applicants will be invited for an Interview as outlined In
-        Step 3 of the Establishing an Independent School Policy.
+        Step 3 of the
+        <a :href="GOV_URL.establishingSchoolURL"
+          >Establishing an Independent School Policy.</a
+        >
       </v-label>
       <br />
       <br />
@@ -73,9 +79,6 @@
             <a :href="GOV_URL.interviewChecklistPDFUrl"
               >Interview Checklist (PDF)</a
             ></v-label
-          >
-          <span class="orange"
-            >iosas_completesetofpoliciesoutlinedinchecklist</span
           >
         </v-col>
         <v-col cols="4">
@@ -93,9 +96,6 @@
             <a :href="GOV_URL.interviewChecklistPDFUrl"
               >(Interview Checklist (PDF))</a
             ></v-label
-          >
-          <span class="orange"
-            >iosas_businessplanincludingfinancialinformation</span
           >
         </v-col>
         <v-col cols="4">

@@ -9,7 +9,6 @@
             :disabled="!isEditing"
             id="iosas_proposedschoolname"
             v-model="formData.iosas_proposedschoolname"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -58,7 +57,6 @@
             :disabled="!isEditing"
             id="iosas_overview"
             v-model="formData.iosas_overview"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -75,7 +73,6 @@
             :disabled="!isEditing"
             id="iosas_addressline1"
             v-model="formData.iosas_addressline1"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -90,8 +87,6 @@
             :disabled="!isEditing"
             id="iosas_addressline2"
             v-model="formData.iosas_addressline2"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Address Line 2"
@@ -117,9 +112,6 @@
           <v-text-field
             id="iosas_province"
             v-model="formData.iosas_province"
-            required
-            :rules="[rules.required()]"
-            :maxlength="255"
             disabled
             variant="outlined"
             label="Province"
@@ -130,10 +122,7 @@
           <v-text-field
             id="iosas_country"
             v-model="formData.iosas_country"
-            required
             disabled
-            :rules="[]"
-            :maxlength="255"
             variant="outlined"
             label="Country"
             color="rgb(59, 153, 252)"
@@ -144,7 +133,6 @@
             :disabled="!isEditing"
             id="iosas_postalcode"
             v-model="formData.iosas_postalcode"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -160,7 +148,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddress1"
             v-model="formData.iosas_mailingaddress1"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -175,8 +162,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddress2"
             v-model="formData.iosas_mailingaddress2"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Address Line 2"
@@ -188,7 +173,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddresscity"
             v-model="formData.iosas_mailingaddresscity"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -202,8 +186,6 @@
           <v-text-field
             id="iosas_mailingaddressprovince"
             v-model="formData.iosas_mailingaddressprovince"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             disabled
             variant="outlined"
@@ -215,7 +197,6 @@
           <v-text-field
             id="iosas_mailingaddresscountry"
             v-model="formData.iosas_mailingaddresscountry"
-            required
             disabled
             :rules="[]"
             :maxlength="255"
@@ -228,7 +209,6 @@
           <v-text-field
             id="iosas_mailingaddresspostalcode"
             v-model="formData.iosas_mailingaddresspostalcode"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -243,36 +223,17 @@
             :disabled="!isEditing"
             id="iosas_website"
             v-model="formData.iosas_website"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Website address (optional)"
             color="rgb(59, 153, 252)"
           />
         </v-col>
-      </v-row>
-      <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="contact_email"
-            v-model="formData.contact_email"
-            required
-            :rules="[rules.required()]"
-            :maxlength="255"
-            variant="outlined"
-            label="Application Contact E-mail"
-            color="rgb(59, 153, 252)"
-          />
-        </v-col>
-        <v-col cols="12" sm="12" md="6" xs="12">
-          <v-text-field
-            :disabled="!isEditing"
-            id="iosas_phone"
-            v-model="formData.iosas_phone"
-            required
-            :rules="[rules.required()]"
+            id="iosas_phonenumber"
+            v-model="formData.iosas_phonenumber"
             :maxlength="255"
             variant="outlined"
             label="School Phone (optional)"
@@ -280,12 +241,13 @@
           />
         </v-col>
       </v-row>
-
       <v-row>
         <v-col cols="12">
           <v-label
-            >Group Calassification applying for: (Group classification
-            Information)</v-label
+            >Group Calassification applying for:
+            <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+              >(Group classification Information)</a
+            ></v-label
           >
           <v-radio-group
             v-model="formData.iosas_groupclassification"
@@ -323,8 +285,16 @@
         </v-col>
       </v-row>
       <v-label
-        >School's Intended Affiliation/Association (CIS, ISABC, SCSBC, AMG,
-        ACSIBC, SDA, or other if applicable)</v-label
+        >School's Intended Affiliation/Association (<a
+          :href="GOV_URL.CIS"
+          target="_blank"
+          >CIS, </a
+        ><a :href="GOV_URL.ISABC" target="_blank">ISABC, </a>
+        <a :href="GOV_URL.SCSBC" target="_blank">SCSBC, </a>
+        <a :href="GOV_URL.AMS" target="_blank">AMS, </a>
+        <a :href="GOV_URL.ACSIBC" target="_blank">ACSIBC, </a>
+        <a :href="GOV_URL.SDA" target="_blank">SDA,</a> or other if
+        applicable)</v-label
       >
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
@@ -449,24 +419,18 @@
           <v-label>Website address</v-label>
           <p>{{ formData.iosas_website || NULL_STRING }}</p>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Application Contact E-mail</v-label>
-          <span class="orange">????</span>
-          <p>{{ NULL_STRING }}</p>
-        </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>School Phone</v-label>
           <p>{{ formData.iosas_phone || NULL_STRING }}</p>
         </v-col>
       </v-row>
-
       <v-row>
         <v-col cols="12">
           <v-label
-            >Group Calassification applying for: (Group classification
-            Information)</v-label
+            >Group Calassification applying for:
+            <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+              >(Group classification Information)</a
+            ></v-label
           >
           <p>{{ formData.iosas_groupclassification || NULL_STRING }}</p>
         </v-col>
@@ -490,8 +454,16 @@
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-label
-            >School's Intended Affiliation/Association (CIS, ISABC, SCSBC, AMG,
-            ACSIBC, SDA, or other if applicable)</v-label
+            >School's Intended Affiliation/Association (<a
+              :href="GOV_URL.CIS"
+              target="_blank"
+              >CIS, </a
+            ><a :href="GOV_URL.ISABC" target="_blank">ISABC, </a>
+            <a :href="GOV_URL.SCSBC" target="_blank">SCSBC, </a>
+            <a :href="GOV_URL.AMS" target="_blank">AMS, </a>
+            <a :href="GOV_URL.ACSIBC" target="_blank">ACSIBC, </a>
+            <a :href="GOV_URL.SDA" target="_blank">SDA,</a> or other if
+            applicable)</v-label
           >
           <p>{{ formData.iosas_schoolaffiliation || NULL_STRING }}</p>
         </v-col>
@@ -503,7 +475,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING, GRADE_OPTIONS } from '../../../utils/constants';
+import { NULL_STRING, GRADE_OPTIONS, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolInformationTab',
   components: {},
@@ -519,6 +491,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GOV_URL,
     GRADE_OPTIONS,
     rules: Rules,
   }),
@@ -529,3 +502,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-label {
+  display: inline-block;
+}
+</style>

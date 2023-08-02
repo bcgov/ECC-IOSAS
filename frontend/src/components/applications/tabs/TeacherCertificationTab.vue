@@ -6,7 +6,10 @@
     <v-label
       >The school principal/head of school and all teachers teaching a subject
       that is reported out on student report cards must hold valid British
-      Columbia teaching credentials issued by the Teacher Certification Branch
+      Columbia teaching credentials issued by the
+      <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
+        Teacher Certification Branch</a
+      >
       (TCB). Initial certification of Group 2 and Group 4 schools will typically
       not be possible for schools employing teachers relying on a Letter of
       Permission as certification.
@@ -15,9 +18,13 @@
     <br />
     <v-label
       >Note: All employees must have a criminal record check completed through
-      theMinistry of Public Safety and Solicitor General. Volunteers working
-      with childrenmay also have their criminal record check completed by the
-      Ministry of Public Safety and Solicitor General or local police.
+      the
+      <a :href="GOV_URL.criminalRecordCheckUrl" target="_blank">
+        Ministry of Public Safety and Solicitor General.</a
+      >
+      Volunteers working with childrenmay also have their criminal record check
+      completed by the Ministry of Public Safety and Solicitor General or local
+      police.
     </v-label>
     <br />
     <br />
@@ -29,11 +36,8 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-text-field
-            :disabled="!isEditing"
             id="iosas_numberofteachers"
             v-model="formData.iosas_numberofteachers"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"
@@ -44,18 +48,19 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label
-            >Are you aware of the requirements of teacher certification as they
-            relate employees of Group 2, or 4 schools?</v-label
+            >Are you aware of the requirements of
+            <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
+              teacher certification</a
+            >as they relate employees of Group 2, or 4 schools?</v-label
           >
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_awareofcertificationrequirements"
             v-model="formData.iosas_awareofcertificationrequirements"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -76,12 +81,11 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_awareoftherequirementsforcrchecks"
             v-model="formData.iosas_awareoftherequirementsforcrchecks"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
             <v-radio label="No" color="#003366" v-bind:value="false" />
@@ -103,10 +107,12 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label
-            >Are you aware of the requirements of teacher certification as they
-            relate employees of Group 2, or 4 schools?</v-label
+            >Are you aware of the requirements of
+            <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
+              teacher certification</a
+            >
+            as they relate employees of Group 2, or 4 schools?</v-label
           >
-          <span class="orange">iosas_awareofcertificationrequirements</span>
         </v-col>
         <v-col cols="4">
           <p>
@@ -128,7 +134,6 @@
             consultants, specialists, janitors, and persons assigned other
             special tasks?</v-label
           >
-          <span class="orange">iosas_awareoftherequirementsforcrchecks</span>
         </v-col>
         <v-col cols="4">
           <p>
@@ -147,7 +152,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'TeacherCertificationTab',
   components: {},
@@ -163,6 +168,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    GOV_URL,
     rules: Rules,
   }),
   mounted() {},
@@ -170,3 +176,9 @@ export default {
   methods: { formatBooleanToYesNoString },
 };
 </script>
+
+<style scoped>
+.v-label {
+  display: inline-block;
+}
+</style>

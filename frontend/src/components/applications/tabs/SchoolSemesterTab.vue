@@ -5,49 +5,17 @@
       >Schools Seeking Group 1, 2 and 4 only. Please select however many fit the
       intended school.</v-label
     >
-    <span class="orange">????</span>
     <v-row>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="selected"
-          label="Semestered"
-          value="Semestered"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="selected"
-          label="Linear"
-          value="Linear"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="selected"
-          label="Regular School Year (Sept - June)"
-          value="Regular School Year (Sept - June)"
-        ></v-checkbox>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="selected"
-          label="Summer"
-          value="Summer"
-        ></v-checkbox>
-      </v-col>
-      <v-col cols="6" sm="6" md="4" xs="6">
-        <v-checkbox
-          :disabled="!isEditing"
-          v-model="selected"
-          label="All Year"
-          value="All Year"
-        ></v-checkbox>
+      <v-col cols="6" sm="6" md="6" xs="6">
+        <div v-for="item in SEMESTER_TYPE_OPTIONS" :key="item.value">
+          <v-checkbox
+            v-model="formData.iosas_semestertype"
+            :label="item.label"
+            :value="item.value"
+            :disabled="!isEditing"
+          >
+          </v-checkbox>
+        </div>
       </v-col>
     </v-row>
 
@@ -55,15 +23,13 @@
       <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 450 Hours </v-label>
+      <v-label>Minimum required hours per year 450 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
             id="iosas_halfdaykindergartenproposedhoursperday"
             v-model="formData.iosas_halfdaykindergartenproposedhoursperday"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -75,8 +41,6 @@
             :disabled="!isEditing"
             id="iosas_halfdaykindergartenproposeddaysinsession"
             v-model="formData.iosas_halfdaykindergartenproposeddaysinsession"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Number of Days in Session"
@@ -88,8 +52,6 @@
             :disabled="!isEditing"
             id="iosas_halfdaykindergartenproposedhoursperyear"
             v-model="formData.iosas_halfdaykindergartenproposedhoursperyear"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -99,15 +61,13 @@
       </v-row>
       <v-label><strong>Full day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
             id="iosas_fulldaykindergartenproposedhoursperyear"
             v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -119,8 +79,6 @@
             :disabled="!isEditing"
             id="iosas_fulldaykindergartenproposeddaysinsession"
             v-model="formData.iosas_fulldaykindergartenproposeddaysinsession"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Number of Days in Session"
@@ -132,8 +90,6 @@
             :disabled="!isEditing"
             id="iosas_fulldaykindergartenproposedhoursperday"
             v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -143,15 +99,13 @@
       </v-row>
       <v-label><strong>Grades 1-12</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
             id="iosas_grades112proposedhoursperyear"
             v-model="formData.iosas_grades112proposedhoursperyear"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -163,8 +117,6 @@
             :disabled="!isEditing"
             id="iosas_grades112proposeddaysinsession"
             v-model="formData.iosas_grades112proposeddaysinsession"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Number of Days in Session"
@@ -176,8 +128,6 @@
             :disabled="!isEditing"
             id="iosas_grades112proposedhoursperday"
             v-model="formData.iosas_grades112proposedhoursperday"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -190,7 +140,7 @@
       <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 450 Hours </v-label>
+      <v-label>Minimum required hours per year 450 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -220,9 +170,10 @@
           </p>
         </v-col>
       </v-row>
+      <br />
       <v-label><strong>Full day Kindergarten</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -252,9 +203,10 @@
           </p>
         </v-col>
       </v-row>
+      <br />
       <v-label><strong>Grades 1-12</strong></v-label>
       <br />
-      <v-label> Minimum required hours per year 850 Hours </v-label>
+      <v-label>Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -282,7 +234,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING } from '../../../utils/constants';
+import { NULL_STRING, SEMESTER_TYPE_OPTIONS } from '../../../utils/constants';
 export default {
   name: 'SchoolSemesterTab',
   components: {},
@@ -297,6 +249,7 @@ export default {
     },
   },
   data: () => ({
+    SEMESTER_TYPE_OPTIONS,
     NULL_STRING,
     rules: Rules,
   }),

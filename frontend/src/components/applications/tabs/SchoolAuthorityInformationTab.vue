@@ -38,7 +38,6 @@
             :disabled="!isEditing"
             id="iosas_authorityheadlastname"
             v-model="formData.iosas_authorityheadlastname"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -53,7 +52,6 @@
             :disabled="!isEditing"
             id="iosas_authorityheademail"
             v-model="formData.iosas_authorityheademail"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -68,24 +66,19 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Societies Act"
-            value="Societies Act"
-          ></v-checkbox>
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Business Corporation Act"
-            value="Business Corporation Act"
-          ></v-checkbox>
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="an Order in Council or Private Act"
-            value="an Order in Council or Private Act"
-          ></v-checkbox>
+          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
+            <v-checkbox
+              v-model="formData.iosas_incorporationtype"
+              :value="item.value"
+            >
+              <template v-slot:label>
+                <a target="_blank" :href="item.url" v-if="item.url">
+                  {{ item.label }}
+                </a>
+                <p v-else>{{ item.label }}</p>
+              </template>
+            </v-checkbox>
+          </div>
         </v-col>
         <v-spacer />
       </v-row>
@@ -96,7 +89,6 @@
             :disabled="!isEditing"
             id="iosas_officialregistrationnumber"
             v-model="formData.iosas_officialregistrationnumber"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -109,8 +101,6 @@
             :disabled="!isEditing"
             id="iosas_dateoflastannualreport"
             v-model="formData.iosas_dateoflastannualreport"
-            required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Date of last Annual Report (optional)"
@@ -129,7 +119,6 @@
             :disabled="!isEditing"
             id="iosas_howwillyouexercisegovernanceduties"
             v-model="formData.iosas_howwillyouexercisegovernanceduties"
-            required
             :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
@@ -139,22 +128,39 @@
         </v-col>
       </v-row>
 
-      <v-label
-        >Have any of the proponents for the proposed school been previously
-        involved in operating an independent school in BC or elsewhere in the
-        past 10 years. If so, please provide details below.
-      </v-label>
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Have any of the proponents for the proposed school been previously
+            involved in operating an independent school in BC or elsewhere in
+            the past 10 years?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_proponentspreviouslyinvolvedinisbc "
+            v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            direction="horizontal"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-label>If so, please provide details below. </v-label>
       <v-row>
         <v-col cols="12">
           <v-textarea
-            :disabled="!isEditing"
-            id="iosas_proponentspreviouslyinvolvedinisbc"
-            v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
-            required
-            :rules="[rules.required()]"
+            id="iosas_detailsofinvolvement"
+            v-model="formData.iosas_detailsofinvolvement"
             :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -182,27 +188,22 @@
         >Please indicate under which legislation your School Authority is
         incorporated:</v-label
       >
-      <span class="orange">????</span>
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Societies Act"
-            value="Societies Act"
-          ></v-checkbox>
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="Business Corporation Act"
-            value="Business Corporation Act"
-          ></v-checkbox>
-          <v-checkbox
-            :disabled="!isEditing"
-            v-model="selected"
-            label="an Order in Council or Private Act"
-            value="an Order in Council or Private Act"
-          ></v-checkbox>
+          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
+            <v-checkbox
+              v-model="formData.iosas_incorporationtype"
+              :value="item.value"
+              disabled
+            >
+              <template v-slot:label>
+                <a target="_blank" :href="item.url" v-if="item.url">
+                  {{ item.label }}
+                </a>
+                <p v-else>{{ item.label }}</p>
+              </template>
+            </v-checkbox>
+          </div>
         </v-col>
       </v-row>
 
@@ -230,22 +231,26 @@
           </p>
         </v-col>
       </v-row>
-
-      <v-row>
-        <v-col cols="12">
+      <v-row align="center">
+        <v-col cols="8">
           <v-label
             >Have any of the proponents for the proposed school been previously
             involved in operating an independent school in BC or elsewhere in
-            the past 10 years. If so, please provide details below.
-          </v-label>
-          <span class="orange"
-            >Is this a boolean?? iosas_proponentspreviouslyinvolvedinisbc</span
+            the past 10 years?</v-label
           >
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(iosas_proponentspreviouslyinvolvedinisbc)
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12">
+          <v-label>If so, please provide details below. </v-label>
           <p>
-            {{
-              formData.iosas_proponentspreviouslyinvolvedinisbc.toString() ||
-              NULL_STRING
-            }}
+            {{ formData.iosas_detailsofinvolvement || NULL_STRING }}
           </p>
         </v-col>
       </v-row>
@@ -255,10 +260,15 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
-import { NULL_STRING } from '../../../utils/constants';
+import { formatBooleanToYesNoString } from '../../../utils/format';
+import {
+  NULL_STRING,
+  GOV_URL,
+  INCORPORATION_TYPE_OPTIONS,
+} from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
-  components: {},
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,
@@ -268,14 +278,19 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
+    GOV_URL,
     NULL_STRING,
+    INCORPORATION_TYPE_OPTIONS,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
+    formatBooleanToYesNoString,
     getAuthorityHeadName() {
       return this.formData.iosas_authorityheadfirstname
         ? this.formData.iosas_authorityheadfirstname +

@@ -13,6 +13,7 @@
 //  under data do rules: Rules <- allows you to use in <template>.
 
 import { LocalDate } from '@js-joda/core';
+import { isNil } from 'lodash';
 
 /**
  * Rule for emails
@@ -110,9 +111,9 @@ const gradeRangeRule = (
         startGrade.localeCompare(endGrade, undefined, { numeric: true }) ==
           1) ||
       (endGrade !== 'Kindergarten' &&
-        startGrade.localeCompare(endGrade, undefined, { numeric: true }) != 1 &&
         startGrade.localeCompare(endGrade, undefined, { numeric: true }) !=
-          0) ||
+          1) ||
+      (startGrade === 'Kindergarten' && endGrade === 'Kindergarten') ||
       message
     );
   }
@@ -149,7 +150,7 @@ const requiredSelect = (message = 'Required') => {
  * @returns Function
  */
 const requiredRadio = (message = 'Required') => {
-  return (v) => v != null || message;
+  return (v) => !isNil(v) || message;
 };
 
 export {

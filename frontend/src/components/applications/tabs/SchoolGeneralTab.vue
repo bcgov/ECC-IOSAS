@@ -10,7 +10,7 @@
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
-          <p>{{ formData.status }}</p>
+          <p>{{ formData.statuscode }}</p>
         </v-col>
       </v-row>
       <br />
@@ -41,14 +41,16 @@
             </ol>
           </v-label>
           <v-radio-group
+            id="iosas_nopromotionofinappropriatedoctrines"
+            v-model="formData.iosas_nopromotionofinappropriatedoctrines"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -60,20 +62,20 @@
                 The independent school facilities will comply with the
                 enactments of British Columbia and the municipality or regional
                 district in which the facilities are located, and,
-                iosas_willcomplywithenactmentsofbc
               </li>
             </ol>
           </v-label>
           <v-radio-group
+            id="iosas_willcomplywithenactmentsofbc"
             v-model="formData.iosas_willcomplywithenactmentsofbc"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -88,14 +90,16 @@
             </ol>
           </v-label>
           <v-radio-group
+            id="iosas_authoritycomplieswithisaregulations"
+            v-model="formData.iosas_authoritycomplieswithisaregulations"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -103,16 +107,12 @@
     <div v-else>
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label
-            >Application Number
-            <span class="orange">iosas_applicationnumber</span></v-label
-          >
+          <v-label>Application Number </v-label>
           <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Status </v-label>
-          <span class="orange">????</span>
-          <p>{{ formData.status }}</p>
+          <p>{{ formData.statuscode }}</p>
         </v-col>
       </v-row>
       <br />
@@ -142,8 +142,13 @@
               </ol>
             </ol>
           </v-label>
-          <span class="orange">????</span>
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_nopromotionofinappropriatedoctrines
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -157,8 +162,13 @@
               </li>
             </ol>
           </v-label>
-          <span class="orange">????</span>
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_willcomplywithenactmentsofbc
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -171,8 +181,13 @@
               </li>
             </ol>
           </v-label>
-          <span class="orange">????</span>
-          <p>{{ formatBooleanToYesNoString(true) }}</p>
+          <p>
+            {{
+              formatBooleanToYesNoString(
+                formData.iosas_authoritycomplieswithisaregulations
+              )
+            }}
+          </p>
         </v-col>
       </v-row>
     </div>
@@ -186,7 +201,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'SchoolGeneralTab',
-  components: {},
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,
@@ -196,14 +211,16 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
     NULL_STRING,
     GOV_URL,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
     formatBooleanToYesNoString,
   },

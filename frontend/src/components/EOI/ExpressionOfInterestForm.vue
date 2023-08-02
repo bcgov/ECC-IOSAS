@@ -137,14 +137,15 @@
                 </v-col>
               </v-row>
               <v-row>
+                <v-label class="no-margin"
+                  >Is the Designated Authority the same as Authority
+                  Head?</v-label
+                >
                 <v-col cols="12">
                   <v-radio-group
                     v-model="data.iosas_designatedcontactsameasauthorityhead"
                     color="#003366"
-                    label="Is the Designated Authority the same as Authority
-                    Head?"
                     class="mt-4"
-                    direction="horizontal"
                     inline
                   >
                     <v-radio label="Yes" color="#003366" :value="true" />
@@ -320,7 +321,6 @@
                     color="#003366"
                     label="Is the School Address Known?"
                     class="mt-4"
-                    direction="horizontal"
                     inline
                   >
                     <v-radio label="Yes" color="#003366" :value="true" />
@@ -436,23 +436,22 @@
               </v-row>
 
               <v-row>
+                <v-label>
+                  Group Calassification applying for:
+                  <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+                    >(Group classification Information)</a
+                  >
+                </v-label>
                 <v-col cols="12">
                   <v-radio-group
+                    id="iosas_groupclassification"
                     v-model="data.iosas_groupclassification"
                     color="#003366"
-                    label="Group Calassification applying for: (Group classification
-                    Information)"
                     class="mt-4"
-                    direction="horizontal"
                     inline
+                    @change="validateAndPopulate"
                     :rules="[rules.requiredRadio()]"
                   >
-                    <v-radio
-                      label="Group 1"
-                      color="#003366"
-                      value="Group 1"
-                      disabled
-                    />
                     <v-radio label="Group 2" color="#003366" value="Group 2" />
                     <v-radio label="Group 3" color="#003366" value="Group 3" />
                     <v-radio label="Group 4" color="#003366" value="Group 4" />
@@ -467,15 +466,16 @@
                     second or subsequest year of operation?
                   </v-label>
                   <v-radio-group
+                    id="iosas_seekgrouponeclassification"
                     v-model="data.iosas_seekgrouponeclassification"
                     color="#003366"
                     class="mt-4"
-                    direction="horizontal"
                     inline
+                    @change="validateAndPopulate"
                     :rules="[rules.requiredRadio()]"
                   >
-                    <v-radio label="Yes" color="#003366" v-bind:value="true" />
-                    <v-radio label="No" color="#003366" v-bind:value="false" />
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -520,36 +520,48 @@
                   ></v-checkbox>
                 </v-col>
               </v-row>
+              <v-row justify="center" align="center" v-if="showError">
+                <v-col>
+                  <v-alert type="error" title="Error" variant="outlined">
+                    Ensure all required fields are filled out before proceeding
+                    to the next step
+                  </v-alert>
+                </v-col>
+              </v-row>
+
+              <br />
+              <v-container v-if="isEditing || isNew()">
+                <v-row align="end">
+                  <v-spacer />
+                  <PrimaryButton
+                    v-if="authStore().isAuthenticated"
+                    secondary
+                    text="Save Draft"
+                    class="mr-2"
+                    :click-action="handleDraftSubmit"
+                  />
+                  <v-btn
+                    type="submit"
+                    primary
+                    class="mt-2 submit-button"
+                    variant="elevated"
+                    :disabled="!applicationConfirmation"
+                    >Submit</v-btn
+                  >
+                </v-row>
+                <v-row align="end">
+                  <v-spacer />
+                  <v-btn
+                    variant="plain"
+                    @click="handleDelete"
+                    class="link-button"
+                  >
+                    Delete Draft
+                  </v-btn>
+                </v-row>
+              </v-container>
             </div>
           </div>
-
-          <br />
-          <v-container v-if="isEditing || isNew()">
-            <v-row align="end">
-              <v-spacer />
-              <PrimaryButton
-                v-if="authStore().isAuthenticated"
-                secondary
-                text="Save Draft"
-                class="mr-2"
-                :click-action="handleDraftSubmit"
-              />
-              <v-btn
-                type="submit"
-                primary
-                class="mt-2 submit-button"
-                variant="elevated"
-                :disabled="!applicationConfirmation"
-                >Submit</v-btn
-              >
-            </v-row>
-            <v-row align="end">
-              <v-spacer />
-              <v-btn variant="plain" @click="handleDelete" class="link-button">
-                Delete Draft
-              </v-btn>
-            </v-row>
-          </v-container>
         </v-container>
       </v-form>
     </template>
@@ -562,7 +574,7 @@ import { mapState } from 'pinia';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
-import { GRADE_OPTIONS, YEAR_OPTIONS } from '../../utils/constants';
+import { GRADE_OPTIONS, YEAR_OPTIONS, GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
@@ -586,9 +598,21 @@ export default {
       required: true,
     },
   },
+  watch: {
+    isFormValid: {
+      handler(val) {
+        if (val) {
+          this.showError = false;
+        } else if (val === false) {
+          this.showError = true;
+        }
+      },
+    },
+  },
   data() {
     return {
       GRADE_OPTIONS,
+      GOV_URL,
       YEAR_OPTIONS,
       isFormValid: false,
       isEditing: false,
@@ -632,6 +656,7 @@ export default {
       },
       showActivationSnackBar: false,
       activationErrorMessage: null,
+      showError: false,
     };
   },
   computed: {
@@ -680,38 +705,55 @@ export default {
       this.handleSubmit();
     },
     async handleSubmit() {
-      this.$refs.expressionOfInterestForm.validate().then(() => {
-        if (this.isFormValid) {
-          this.$emit('setIsLoading');
-          // mocking a loading state - will be replaced when API is connected.
-          setTimeout(() => {
-            // mocking eoiNumber - will be replaced when API is connected.
-            const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
-            const eoiNumber = `EOI-0${number}`;
-            const payload = {
-              ...this.data,
-              iosas_eionumber: eoiNumber,
-              status: this.defaultStatus,
-            };
-            // mocking database interactions  - will be replaced when API is connected.
-            const storedApplications = JSON.parse(
-              localStorage.getItem('applications')
-            );
-            let applications = [];
-            if (storedApplications) {
-              applications = [...storedApplications, payload];
-            } else {
-              applications = [payload];
-            }
-            localStorage.setItem('applications', JSON.stringify(applications));
-            this.$router.push({
-              name: 'applicationConfirmation',
-              params: { type: 'EOI' },
-            });
-            console.log(payload);
-          }, 1000);
-        }
-      });
+      const valid = await this.$refs.expressionOfInterestForm.validate();
+
+      this.isFormValid = valid.valid;
+      this.showError = !this.isFormValid;
+      if (this.isFormValid) {
+        this.$emit('setIsLoading');
+        // mocking a loading state - will be replaced when API is connected.
+        setTimeout(() => {
+          // mocking eoiNumber - will be replaced when API is connected.
+          const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
+          const eoiNumber = `EOI-0${number}`;
+          const payload = {
+            ...this.data,
+            iosas_eionumber: eoiNumber,
+            iosas_reviewstatus: this.defaultStatus,
+          };
+          // mocking database interactions  - will be replaced when API is connected.
+          const storedApplications = JSON.parse(
+            localStorage.getItem('applications')
+          );
+          let applications = [];
+          if (storedApplications) {
+            applications = [...storedApplications, payload];
+          } else {
+            applications = [payload];
+          }
+          localStorage.setItem('applications', JSON.stringify(applications));
+          this.$router.push({
+            name: 'applicationConfirmation',
+            params: { type: 'EOI' },
+          });
+          console.log(payload);
+        }, 1000);
+      }
+    },
+    validateAndPopulate(e) {
+      // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
+      // must attach a change event, and set the field programatically.
+      // RadioGroup appears to work following the happy path, This is only needed for RadioGroups with 'Required' validation
+      const isBoolean = ['true', 'false'].includes(e.target.value);
+      const defaultValue = isBoolean
+        ? JSON.parse(e.target.value)
+        : e.target.value;
+      this.data[e.target.attributes?.name?.value] = defaultValue;
+
+      // if the form is already !valid, trigger the validation to clear the error on the updated radioGroup
+      if (this.isFormValid === false) {
+        this.$refs.expressionOfInterestForm.validate();
+      }
     },
   },
 };
@@ -721,5 +763,13 @@ export default {
 .submit-button {
   background-color: #003366 !important;
   color: white !important;
+}
+
+.no-margin {
+  margin-bottom: none !important;
+}
+
+.v-label {
+  display: inline-block;
 }
 </style>
