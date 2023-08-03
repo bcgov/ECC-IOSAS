@@ -37,6 +37,7 @@ export const applicationsStore = defineStore('applications', {
   },
   actions: {
     async setEOIApplications(applicationsResponse) {
+      if (!applicationsStore) return [];
       this.EOIApplicationsMap = new Map();
       applicationsResponse.forEach((element) => {
         this.EOIApplicationsMap.set(element.iosas_eionumber, element);
@@ -70,6 +71,11 @@ export const applicationsStore = defineStore('applications', {
           await this.setSchoolApplications(SCHOOL_APPLICATION_MOCK);
         }
       }
+    },
+    // Returning 404 for 'no data'
+    async getAllEOI() {
+      const response = await ApiService.getAllEOIByUser();
+      await this.setEOIApplications(response.data);
     },
   },
 });

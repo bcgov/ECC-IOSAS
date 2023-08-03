@@ -9,6 +9,7 @@
       :eoi="getEOIApplicationById(this.$route.params.id)"
       :isLoading="isLoading"
       @setIsLoading="setIsLoading"
+      :schoolYearOptions="schoolYearOptions"
     />
   </v-container>
 </template>
@@ -17,7 +18,9 @@
 import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
+import { documentStore } from '../../store/modules/document';
 import { applicationsStore } from '../../store/modules/applications';
+import { metaDataStore } from '../../store/modules/metaData';
 
 export default {
   name: 'ExpressionOfInterestPage',
@@ -26,6 +29,8 @@ export default {
   },
   data: () => ({
     isLoading: true,
+    documentTypeOptions: [],
+    schoolYearOptions: [],
     items: [
       {
         title: 'Dashboard',
@@ -42,19 +47,36 @@ export default {
   mounted() {},
   computed: {
     ...mapState(authStore, ['isAuthenticated']),
-    ...mapState(applicationsStore, ['getEOIApplicationById']),
+    ...mapState(applicationsStore, [
+      'getApplicationData',
+      'getEOIApplicationById',
+    ]),
+    ...mapState(metaDataStore, [
+      'getActiveSchoolYearSelect',
+      'getActiveSchoolYear',
+      'getEOIPickLists',
+    ]),
+    // ...mapState(documentStore, [
+    //   'getEOIDocumentOptionsSelect',
+    //   'getEOIDocumentTypeCodes',
+    // ]),
   },
-  created() {
-    applicationsStore()
-      .getApplicationData()
-      .then(() => {
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 500);
-      });
+  async created() {
+    await metaDataStore().getActiveSchoolYear();
+    await applicationsStore().getApplicationData();
+    // await metaDataStore().getEOIPickLists();
+    // await documentStore().getEOIDocumentTypeCodes();
+
+    this.schoolYearOptions = this.getActiveSchoolYearSelect;
+    // this.documentTypeOptions = this.getEOIDocumentOptionsSelect;
+    // console.log(this.documentTypeOptions);
+    console.log(this.schoolYearOptions);
+    this.isLoading = false;
   },
   methods: {
     authStore,
+    metaDataStore,
+    documentStore,
     setIsLoading() {
       this.isLoading = true;
     },

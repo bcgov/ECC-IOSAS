@@ -89,7 +89,7 @@
               out in the
               <a :href="GOV_URL.establishingSchoolURL" target="_blank"
                 >procedures</a
-              >
+              >.
             </p>
           </div>
         </v-card>
@@ -136,9 +136,15 @@ export default {
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'isLoading']),
+    ...mapState(applicationsStore, [
+      'getEOIApplicationsFormatted',
+      'getAllEOI',
+    ]),
   },
   mounted() {},
-  created() {
+  async created() {
+    // await applicationsStore().getAllEOI();
+    // this.eoiApplications = applicationsStore().getEOIApplicationsFormatted;
     applicationsStore()
       .getApplicationData()
       .then(() => {
@@ -154,6 +160,7 @@ export default {
   },
   methods: {
     authStore,
+    applicationsStore,
     redirectToEOIForm() {
       this.$router.push({ path: AuthRoutes.NEW_EOI });
     },

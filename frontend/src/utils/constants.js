@@ -38,8 +38,24 @@ export const ApiRoutes = Object.freeze({
   // ** Dynamic **/
   dynamic: {
     BASE_URL: dynamicRoot,
-    HEALTH: dynamicRoot + '/Health'
+    HEALTH: dynamicRoot + '/Health',
   },
+  // All metadata API for EOI/Applications
+  meta: {
+    ACTIVE_SCHOOL_YEARS: dynamicRoot + '/SchoolYear/GetActiveYears',
+    PICK_LISTS: (tableName) =>
+      dynamicRoot + `/Metdata/GetPickListValues?tableName=${tableName}`,
+  },
+  documents: {
+    APPLICATION_DOC_TYPE_CODES:
+      dynamicRoot + '/Document/GetApplicationDocumentList',
+    EOI_DOC_TYPE_CODES: dynamicRoot + '/Document/GetEOIDocumentList',
+  },
+  eoi: {
+    EOI_APPLICATIONS: dynamicRoot + '/EOI/GetAllByUser',
+    EOI_APPLICATION: dynamicRoot + '/EOI/GetById',
+  },
+
   school: {
     BASE_URL: schoolRoot,
     SCHOOLS_LAST_UPDATED_DATE: schoolRoot + '/lastUpdated',

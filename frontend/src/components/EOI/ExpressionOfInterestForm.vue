@@ -16,7 +16,7 @@
       <ConfirmationDialog ref="confirmDelete">
         <template #message>
           <p>
-            The Expression of Interest application will be deleted from your
+            The Expression of Interest application will be removed from your
             records. A new EOI can be submitted in the future.
           </p>
         </template>
@@ -428,7 +428,9 @@
                     label="Select School Year"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
-                    :items="YEAR_OPTIONS"
+                    :items="schoolYearOptions"
+                    item-title="label"
+                    item-value="value"
                     :rules="[rules.requiredSelect()]"
                   >
                   </v-select>
@@ -515,7 +517,7 @@
               <v-divider></v-divider>
               <h4>Documents</h4>
               <v-row>
-                <v-col cols="12" sm="12" md="4" xs="12">
+                <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Incorporation Certificate</v-label>
                   <br />
                   <div
@@ -548,11 +550,11 @@
                     :click-action="toggleUpload"
                   />
                 </v-col>
-                <v-col cols="12" sm="12" md="8" xs="12">
+                <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate Issue Date</v-label>
                   <VueDatePicker
-                    ref="certificateIssueDate"
-                    v-model="certificateIssueDate"
+                    ref="iosas_incorporationcertificateissuedate"
+                    v-model="data.iosas_incorporationcertificateissuedate"
                     :rules="[rules.required()]"
                     :enable-time-picker="false"
                     format="yyyy-MM-dd"
@@ -561,8 +563,9 @@
               </v-row>
               <v-spacer />
               <v-row>
-                <v-col cols="12" sm="12" md="4" xs="12">
+                <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate of Good Standing (Optional)</v-label>
+                  <br />
                   <div
                     v-if="
                       documents.filter(
@@ -593,11 +596,11 @@
                     :click-action="toggleUpload"
                   />
                 </v-col>
-                <v-col cols="12" sm="12" md="8" xs="12">
+                <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate of Good Standing Issue Date</v-label>
                   <VueDatePicker
-                    ref="goodStandingIssueDate"
-                    v-model="goodStandingIssueDate"
+                    ref="iosas_certificateofgoodstandingissuedate"
+                    v-model="data.iosas_certificateofgoodstandingissuedate"
                     :rules="[rules.required()]"
                     :enable-time-picker="false"
                     format="yyyy-MM-dd"
@@ -687,7 +690,7 @@
                       @click="handleDelete"
                       class="link-button"
                     >
-                      Delete Draft
+                      Cancel Submission
                     </v-btn>
                   </v-row>
                 </v-container>
@@ -701,6 +704,7 @@
 </template>
 
 <script>
+import { metaDataStore } from '../../store/modules/metaData';
 import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
@@ -710,7 +714,7 @@ import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
-import { GRADE_OPTIONS, YEAR_OPTIONS, GOV_URL } from '../../utils/constants';
+import { GRADE_OPTIONS, GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
@@ -735,6 +739,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    schoolYearOptions: {
+      type: Array,
+      required: true,
+    },
   },
   watch: {
     isFormValid: {
@@ -749,13 +757,13 @@ export default {
   },
   data() {
     return {
-      from: "uuuu-MM-dd'T'HH:mm:ss",
-      pickerFormat: 'uuuu-MM-dd',
-      certificateIssueDate: null,
-      goodStandingIssueDate: null,
+      // from: "uuuu-MM-dd'T'HH:mm:ss",
+      // pickerFormat: 'uuuu-MM-dd',
+      // certificateIssueDate: null,
+      // goodStandingIssueDate: null,
       GRADE_OPTIONS,
       GOV_URL,
-      YEAR_OPTIONS,
+      // schoolYearOptions: [],
       isFormValid: false,
       isEditing: false,
       defaultStatus: 'Submitted',
@@ -807,6 +815,8 @@ export default {
         iosas_startgrade: null,
         iosas_endgrade: null,
         iosas_website: null,
+        iosas_incorporationcertificateissuedate: null,
+        iosas_certificateofgoodstandingissuedate: null,
       },
       documents: [],
       showActivationSnackBar: false,
@@ -816,48 +826,20 @@ export default {
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
+    ...mapState(metaDataStore, ['getActiveSchoolYearSelect']),
   },
   created() {
     this.data = this.isNew() ? this.data : this.eoi;
     this.isEditing = this.eoi?.iosas_reviewstatus === 'Draft';
+    // this.schoolYearOptions = this.getActiveSchoolYearSelect;
+    // console.log(this.schoolYearOptions);
   },
   methods: {
     authStore,
-    saveEditContactExpiryDate() {
-      this.certificateIssueDate = moment(this.editContact.expiryDate)
-        .format('YYYY-MM-DD')
-        .toString();
-      // this.validateForm();
-    },
     toggleUpload() {
       this.documentUpload = !this.documentUpload;
     },
-    async handleAddDocuments() {
-      const confirmation = await this.$refs.documentUpload.open(
-        'Delete Draft Expression of Interest?',
-        null,
-        {
-          color: '#fff',
-          width: 580,
-          closeIcon: false,
-          subtitle: false,
-          dark: false,
-          resolveText: 'Delete',
-          rejectText: 'Cancel',
-        }
-      );
-      if (!confirmation) {
-        return;
-      } else {
-        this.$emit('setIsLoading');
-        setTimeout(() => {
-          this.$router.push({
-            name: 'applicationConfirmation',
-            params: { type: 'Delete' },
-          });
-        }, 1000);
-      }
-    },
+
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
     },
@@ -866,7 +848,7 @@ export default {
     },
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
-        'Delete Draft Expression of Interest?',
+        'Cancel Submission - Expression of Interest?',
         null,
         {
           color: '#fff',
@@ -874,7 +856,7 @@ export default {
           closeIcon: false,
           subtitle: false,
           dark: false,
-          resolveText: 'Delete',
+          resolveText: 'Confirm',
           rejectText: 'Cancel',
         }
       );
