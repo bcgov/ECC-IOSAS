@@ -15,7 +15,7 @@ const allowedPulicPaths = [
   'EOI',
   'SchoolAuthority',
   'SchoolYear',
-  'MetaData',
+  'Metdata',
   'Health',
 ];
 const allowedProtectedPaths = [];
