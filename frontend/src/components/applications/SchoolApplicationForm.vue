@@ -244,7 +244,8 @@ export default {
         { tab: 'School Policies', component: 'SchoolPoliciesTab' },
         { tab: 'Educational Program', component: 'EducationalProgramTab' },
         { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
-        { tab: 'Submissions', component: 'SubmissionTab' },
+        { tab: 'Document', component: null },
+        { tab: 'Submission', component: 'SubmissionTab' },
       ],
       tab: 'General',
       items: [
@@ -258,7 +259,8 @@ export default {
         'School Policies',
         'Educational Program',
         'Teacher Certification',
-        'Submissions',
+        'Documents',
+        'Submission',
       ],
     };
   },
@@ -296,7 +298,7 @@ export default {
   },
   methods: {
     isLastPage() {
-      return this.tab === 'Submissions';
+      return this.tab === 'Submission';
     },
     isFirstPage() {
       return this.tab === 'General';

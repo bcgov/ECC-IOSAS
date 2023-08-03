@@ -47,20 +47,27 @@
             <br />
             <v-divider></v-divider>
             <div v-if="!isEditing && !isNew()">
-              <ExpressionOfInterestReadOnlyView :eoi="this.eoi" />
+              <ExpressionOfInterestReadOnlyView
+                :eoi="this.eoi"
+                @getCorrectDate="getCorrectDate"
+              />
             </div>
             <div v-else>
               <div v-if="!isNew()">
                 <h4>General</h4>
                 <br />
                 <v-row>
-                  <v-col cols="12" sm="12" md="6" xs="12">
+                  <v-col cols="12" sm="12" md="4" xs="12">
                     <v-label>EOI Number </v-label>
                     <p>{{ data.iosas_eionumber }}</p>
                   </v-col>
-                  <v-col cols="12" sm="12" md="6" xs="12">
+                  <v-col cols="12" sm="12" md="4" xs="12">
                     <v-label>Status </v-label>
                     <p>{{ data.iosas_reviewstatus }}</p>
+                  </v-col>
+                  <v-col cols="12" sm="12" md="4" xs="12">
+                    <v-label>{{ getCorrectDate().label }}</v-label>
+                    <p>{{ getCorrectDate().date }}</p>
                   </v-col>
                 </v-row>
                 <v-divider></v-divider>
@@ -714,6 +721,7 @@ import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
+import { formatDateTime } from '../../utils/format';
 import { GRADE_OPTIONS, GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
@@ -757,13 +765,8 @@ export default {
   },
   data() {
     return {
-      // from: "uuuu-MM-dd'T'HH:mm:ss",
-      // pickerFormat: 'uuuu-MM-dd',
-      // certificateIssueDate: null,
-      // goodStandingIssueDate: null,
       GRADE_OPTIONS,
       GOV_URL,
-      // schoolYearOptions: [],
       isFormValid: false,
       isEditing: false,
       defaultStatus: 'Submitted',
@@ -771,17 +774,6 @@ export default {
       applicationConfirmation: false,
       documentUpload: false,
       rules: Rules,
-      documents: [
-        {
-          type: 'Incorporation Certificate',
-          issue_date: null,
-        },
-        {
-          type: 'Certificate of Good standing',
-          issue_date: null,
-        },
-        { type: 'Other', issue_date: null },
-      ],
       data: {
         iosas_eionumber: null,
         iosas_reviewstatus: null,
@@ -836,10 +828,10 @@ export default {
   },
   methods: {
     authStore,
+    formatDateTime,
     toggleUpload() {
       this.documentUpload = !this.documentUpload;
     },
-
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
     },
@@ -918,6 +910,17 @@ export default {
       this.documents = [...this.documents, document];
 
       console.log(this.documents);
+    },
+    getCorrectDate() {
+      return this.data.iosas_reviewstatus === 'Draft'
+        ? {
+            label: 'Submission Date',
+            date: this.formatDateTime(this.data.iosas_submissiondate),
+          }
+        : {
+            label: 'Decision Date',
+            date: this.formatDateTime(this.data.iosas_approvaldate),
+          };
     },
     validateAndPopulate(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,

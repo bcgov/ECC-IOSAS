@@ -15,6 +15,8 @@ export const metaDataStore = defineStore('metaData', {
     endGradeOptions: null,
     statusOptions: null,
     groupClassification: null,
+    eoiDocumentTypeOptions: null,
+    applicationDocumentTypeOptions: null,
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
@@ -55,6 +57,22 @@ export const metaDataStore = defineStore('metaData', {
         const response = await ApiService.getPickLists(
           'iosas_expressionofinterest'
         );
+        await this.startGradeOptions(response.data.value);
+      }
+    },
+    async getApplicationPickLists() {
+      // TODO: check for picklists in localStorage
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
+        const response = await ApiService.getPickLists('iosas_application');
+        await this.startGradeOptions(response.data.value);
+      }
+    },
+    async getDocumentPickLists() {
+      // TODO: check for picklists in localStorage
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
+        const response = await ApiService.getPickLists('iosas_document');
         await this.startGradeOptions(response.data.value);
       }
     },
