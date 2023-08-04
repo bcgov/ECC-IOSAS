@@ -163,7 +163,7 @@
 
     <v-row>
       <v-col cols="12">
-        <v-label>Group Calassification</v-label>
+        <v-label>Group Classification</v-label>
         <p>{{ eoi.iosas_groupclassification || NULL_STRING }}</p>
       </v-col>
     </v-row>
@@ -192,7 +192,7 @@
 </template>
 
 <script>
-import { formatBooleanToYesNoString, formatDateTime } from '../../utils/format';
+import { formatBooleanToYesNoStringimport { formatBooleanToYesNoString, formatDateTime } from '../../utils/format'; } from '../../utils/format';
 import { NULL_STRING } from '../../utils/constants';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
@@ -214,20 +214,7 @@ export default {
     };
   },
   methods: {
-    formatDateTime,
-
     formatBooleanToYesNoString,
-    // getCorrectDate() {
-    //   return this.eoi.iosas_reviewstatus === 'Draft'
-    //     ? {
-    //         label: 'Submission Date',
-    //         date: this.formatDateTime(this.eoi.iosas_submissiondate),
-    //       }
-    //     : {
-    //         label: 'Decision Date',
-    //         date: this.formatDateTime(this.eoi.iosas_approvaldate),
-    //       };
-    // },
     getAuthorityHeadName() {
       return this.eoi.iosas_authorityheadfirstname
         ? this.eoi.iosas_authorityheadfirstname +

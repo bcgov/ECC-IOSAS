@@ -73,7 +73,6 @@
             :disabled="!isEditing"
             id="iosas_addressline1"
             v-model="formData.iosas_addressline1"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Address Line 1"
@@ -99,7 +98,6 @@
             id="iosas_city"
             v-model="formData.iosas_city"
             required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="City"
@@ -133,7 +131,6 @@
             :disabled="!isEditing"
             id="iosas_postalcode"
             v-model="formData.iosas_postalcode"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Postal Code"
@@ -148,7 +145,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddress1"
             v-model="formData.iosas_mailingaddress1"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Address Line 1"
@@ -173,7 +169,6 @@
             :disabled="!isEditing"
             id="iosas_mailingaddresscity"
             v-model="formData.iosas_mailingaddresscity"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="City"
@@ -198,7 +193,6 @@
             id="iosas_mailingaddresscountry"
             v-model="formData.iosas_mailingaddresscountry"
             disabled
-            :rules="[]"
             :maxlength="255"
             variant="outlined"
             label="Country"
@@ -209,7 +203,6 @@
           <v-text-field
             id="iosas_mailingaddresspostalcode"
             v-model="formData.iosas_mailingaddresspostalcode"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Postal Code"
@@ -303,7 +296,6 @@
             id="iosas_schoolaffiliation"
             v-model="formData.iosas_schoolaffiliation"
             required
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
             label="Affiliation/Association"

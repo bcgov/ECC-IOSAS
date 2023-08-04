@@ -184,7 +184,7 @@ export const GOV_URL = {
   bceidRegister: 'https://www.bceid.ca/register/',
   devBceidRegister: 'https://www.development.bceid.ca/register/',
   independentSchoolActUrl:
-    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96216_01',
+    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96216_01#Schedule',
   independentSchoolInfoUrl:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/independent-schools',
   interviewChecklistPDFUrl:
