@@ -55,6 +55,7 @@ export default {
       'getActiveSchoolYearSelect',
       'getActiveSchoolYear',
       'getEOIPickLists',
+      'getSchoolAuthority',
     ]),
     // ...mapState(documentStore, [
     //   'getEOIDocumentOptionsSelect',
@@ -64,6 +65,7 @@ export default {
   async created() {
     await metaDataStore().getActiveSchoolYear();
     await applicationsStore().getApplicationData();
+    // await metaDataStore().getSchoolAuthority();
     // await metaDataStore().getEOIPickLists();
     // await documentStore().getEOIDocumentTypeCodes();
 

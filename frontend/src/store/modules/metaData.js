@@ -17,6 +17,7 @@ export const metaDataStore = defineStore('metaData', {
     groupClassification: null,
     eoiDocumentTypeOptions: null,
     applicationDocumentTypeOptions: null,
+    schoolAuthority: null,
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
@@ -74,6 +75,14 @@ export const metaDataStore = defineStore('metaData', {
         // DONT Call api if there is not token.
         const response = await ApiService.getPickLists('iosas_document');
         await this.startGradeOptions(response.data.value);
+      }
+    },
+    async getSchoolAuthority() {
+      // TODO: check for picklists in localStorage
+      if (localStorage.getItem('jwtToken')) {
+        // DONT Call api if there is not token.
+        const response = await ApiService.getSchoolAuthority();
+        await this.schoolAuthority(response.data.value);
       }
     },
   },

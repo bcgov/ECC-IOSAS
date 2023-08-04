@@ -155,6 +155,15 @@ export default {
       throw e;
     }
   },
+
+  async getSchoolAuthority() {
+    try {
+      return await apiAxios.get(ApiRoutes.meta.SCHOOL_AUTHORITY);
+    } catch (e) {
+      console.log(`Failed to get getSchoolAuthority - ${e}`);
+      throw e;
+    }
+  },
   async getEOIDocumentTypeCodes() {
     try {
       return await apiAxios.get(ApiRoutes.documents.EOI_DOC_TYPE_CODES);
