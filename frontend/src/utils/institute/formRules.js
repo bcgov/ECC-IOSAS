@@ -106,16 +106,7 @@ const gradeRangeRule = (
   message = 'End grade cannot be before start grade'
 ) => {
   if (startGrade && endGrade) {
-    return (
-      (startGrade === 'Kindergarten' &&
-        startGrade.localeCompare(endGrade, undefined, { numeric: true }) ==
-          1) ||
-      (endGrade !== 'Kindergarten' &&
-        startGrade.localeCompare(endGrade, undefined, { numeric: true }) !=
-          1) ||
-      (startGrade === 'Kindergarten' && endGrade === 'Kindergarten') ||
-      message
-    );
+    return startGrade <= endGrade || message;
   }
 
   return true;

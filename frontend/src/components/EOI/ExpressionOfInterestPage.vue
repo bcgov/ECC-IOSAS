@@ -10,6 +10,8 @@
       :isLoading="isLoading"
       @setIsLoading="setIsLoading"
       :schoolYearOptions="schoolYearOptions"
+      :pickListOptions="pickListOptions"
+      :documentTypeOptions="documentTypeOptions"
     />
   </v-container>
 </template>
@@ -31,6 +33,7 @@ export default {
     isLoading: true,
     documentTypeOptions: [],
     schoolYearOptions: [],
+    pickListOptions: null,
     items: [
       {
         title: 'Dashboard',
@@ -55,6 +58,10 @@ export default {
       'getActiveSchoolYearSelect',
       'getActiveSchoolYear',
       'getEOIPickLists',
+      'getEOIPickListOptions',
+      'getSchoolAuthority',
+      'getDocumentPickLists',
+      'getDocumentPickListOptions',
       'getSchoolAuthority',
     ]),
     // ...mapState(documentStore, [
@@ -63,16 +70,24 @@ export default {
     // ]),
   },
   async created() {
-    await metaDataStore().getActiveSchoolYear();
-    await applicationsStore().getApplicationData();
+    // await metaDataStore().getActiveSchoolYear();
+    // await applicationsStore().getApplicationData();
     // await metaDataStore().getSchoolAuthority();
+
+    // Wrap in Promise.all - silently fail and try again
+    // ERROR after 3rd attempt?
     // await metaDataStore().getEOIPickLists();
+    // await metaDataStore().getDocumentPickLists();
+    // await metaDataStore().getSchoolAuthority();
     // await documentStore().getEOIDocumentTypeCodes();
 
     this.schoolYearOptions = this.getActiveSchoolYearSelect;
-    // this.documentTypeOptions = this.getEOIDocumentOptionsSelect;
+    this.documentTypeOptions =
+      this.getDocumentPickListOptions?.['iosas_eoidocumenttype'];
     // console.log(this.documentTypeOptions);
-    console.log(this.schoolYearOptions);
+    this.pickListOptions = this.getEOIPickListOptions;
+    console.log(this.documentTypeOptions);
+    // console.log(this.schoolYearOptions);
     this.isLoading = false;
   },
   methods: {

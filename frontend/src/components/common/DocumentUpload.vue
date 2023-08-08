@@ -8,17 +8,16 @@
         <v-row style="min-width: 50em">
           <v-col>
             <v-select
-              id="uploadDocumentTypeCodeSelect"
+              id="documentTypeCode"
               v-model="documentTypeCode"
-              color="#003366"
-              variant="outlined"
-              :rules="requiredRules"
-              outlined
-              item-title="text"
-              class="pb-0 mb-0"
-              :items="documentTypes"
               label="Document Type"
-            />
+              variant="outlined"
+              color="rgb(59, 153, 252)"
+              :items="options"
+              item-title="label"
+              item-value="value"
+              :rules="[rules.requiredSelect()]"
+            ></v-select>
             <v-file-input
               id="selectFileInput"
               v-model="uploadFileValue"
@@ -72,7 +71,7 @@
 import { getFileNameWithMaxNameLength, humanFileSize } from '../../utils/file';
 import { edxStore } from '../../store/modules/edx';
 import { mapState } from 'pinia';
-import { sortBy } from 'lodash';
+import * as Rules from './../../utils/institute/formRules';
 import PrimaryButton from '../util/PrimaryButton.vue';
 
 export default {
@@ -82,12 +81,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    options: {
+      type: Array,
+      required: true,
+    },
   },
   emits: ['close:form', 'upload'],
   data() {
     return {
       fileAccept: '.pdf,.png,.jpg',
-      requiredRules: [(v) => !!v || 'Required'],
+      rules: Rules,
       fileRules: [],
       filesAccept: '',
       validForm: false,
@@ -99,11 +102,6 @@ export default {
       alert: false,
       alertMessage: null,
       alertType: null,
-      documentTypes: [
-        { text: 'Incorporation Certificate', value: 'incorporation' },
-        { text: 'Certificate of Good Standing', value: 'goodStanding' },
-        { text: 'Other', value: 'other' },
-      ],
     };
   },
   computed: {
@@ -121,10 +119,10 @@ export default {
     // },
   },
   watch: {
-    dataReady() {
-      //force re-renders of the button to solve the color issue
-      this.buttonKey += 1;
-    },
+    // dataReady() {
+    //   //force re-renders of the button to solve the color issue
+    //   this.buttonKey += 1;
+    // },
   },
   async created() {
     // await edxStore().getSecureExchangeDocumentTypes();

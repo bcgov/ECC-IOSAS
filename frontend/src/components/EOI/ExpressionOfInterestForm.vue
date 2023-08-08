@@ -79,6 +79,15 @@
                     >Name of School Authority (as it appears on attached
                     incorporation documents)</v-label
                   >
+                  <!-- USE AUTOCOMPLETE UNTIL SEARCH IS IMPLEMENTED -->
+                  <v-autocomplete
+                    label="Autocomplete"
+                    :items="[]"
+                    variant="outlined"
+                    item-title="label"
+                    item-value="value"
+                    :rules="[rules.requiredSelect()]"
+                  ></v-autocomplete>
 
                   <v-text-field
                     id="iosas_schoolauthorityname"
@@ -460,10 +469,17 @@
                     inline
                     @change="validateAndPopulate"
                     :rules="[rules.requiredRadio()]"
+                    v-for="item in pickListOptions?.[
+                      'iosas_groupclassification'
+                    ]"
+                    :key="item.value"
                   >
-                    <v-radio label="Group 2" color="#003366" value="Group 2" />
-                    <v-radio label="Group 3" color="#003366" value="Group 3" />
-                    <v-radio label="Group 4" color="#003366" value="Group 4" />
+                    <v-radio
+                      inline
+                      :label="item.label"
+                      color="#003366"
+                      :value="item.value"
+                    />
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -497,7 +513,9 @@
                     label="Select Start Grade"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
-                    :items="GRADE_OPTIONS"
+                    :items="pickListOptions?.['iosas_startgrade']"
+                    item-title="label"
+                    item-value="value"
                     :rules="[rules.requiredSelect()]"
                   >
                   </v-select>
@@ -509,7 +527,9 @@
                     label="Select End Grade"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
-                    :items="GRADE_OPTIONS"
+                    :items="pickListOptions?.['iosas_endgrade']"
+                    item-title="label"
+                    item-value="value"
                     :rules="[
                       rules.requiredSelect(),
                       rules.gradeRangeRule(
@@ -649,6 +669,7 @@
                   ref="documentUpload"
                   @upload="upload"
                   @close="toggleUpload"
+                  :options="documentTypeOptions"
                 />
               </v-dialog>
 
@@ -711,7 +732,6 @@
 </template>
 
 <script>
-import { metaDataStore } from '../../store/modules/metaData';
 import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
@@ -722,7 +742,7 @@ import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
 import { formatDateTime } from '../../utils/format';
-import { GRADE_OPTIONS, GOV_URL } from '../../utils/constants';
+import { GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
@@ -751,6 +771,14 @@ export default {
       type: Array,
       required: true,
     },
+    pickListOptions: {
+      type: Object,
+      required: true,
+    },
+    documentTypeOptions: {
+      type: Array,
+      required: true,
+    },
   },
   watch: {
     isFormValid: {
@@ -765,7 +793,6 @@ export default {
   },
   data() {
     return {
-      GRADE_OPTIONS,
       GOV_URL,
       isFormValid: false,
       isEditing: false,
@@ -818,13 +845,10 @@ export default {
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
-    ...mapState(metaDataStore, ['getActiveSchoolYearSelect']),
   },
   created() {
     this.data = this.isNew() ? this.data : this.eoi;
     this.isEditing = this.eoi?.iosas_reviewstatus === 'Draft';
-    // this.schoolYearOptions = this.getActiveSchoolYearSelect;
-    // console.log(this.schoolYearOptions);
   },
   methods: {
     authStore,

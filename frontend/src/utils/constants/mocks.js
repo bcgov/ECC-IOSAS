@@ -44,8 +44,8 @@ export const EOI_MOCK = [
     iosas_schoolauthorityheadphone: '(250) 193-5596',
     iosas_schoolauthorityname: null,
     iosas_seekgrouponeclassification: true,
-    iosas_startgrade: 'Kindergarten',
-    iosas_endgrade: '5',
+    iosas_startgrade: 100000000,
+    iosas_endgrade: 100000005,
     iosas_website: 'www.victoria-south-elementary.ca',
   },
   {
@@ -372,8 +372,8 @@ export const SCHOOL_APPLICATION_MOCK = [
 
     // School Information - GET CONFIRMATION
     iosas_proposedschoolname: 'iosas_proposedschoolname',
-    iosas_startgrade: 'Kindergarten',
-    iosas_endgrade: '6',
+    iosas_startgrade: 100000000,
+    iosas_endgrade: 100000005,
     iosas_overview: 'iosas_overview', // brief overview?
     iosas_addressline1: 'iosas_addressline1',
     iosas_addressline2: 'iosas_addressline2',

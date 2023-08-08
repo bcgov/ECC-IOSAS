@@ -237,7 +237,7 @@
       <v-row>
         <v-col cols="12">
           <v-label
-            >Group Calassification applying for:
+            >Group Classification applying for:
             <a :href="GOV_URL.groupClassificationUrl" target="_blank"
               >(Group classification Information)</a
             ></v-label
@@ -250,7 +250,6 @@
             inline
             :disabled="!isEditing"
           >
-            <v-radio label="Group 1" color="#003366" value="Group 1" disabled />
             <v-radio label="Group 2" color="#003366" value="Group 2" />
             <v-radio label="Group 3" color="#003366" value="Group 3" />
             <v-radio label="Group 4" color="#003366" value="Group 4" />
@@ -419,7 +418,7 @@
       <v-row>
         <v-col cols="12">
           <v-label
-            >Group Calassification applying for:
+            >Group Classification applying for:
             <a :href="GOV_URL.groupClassificationUrl" target="_blank"
               >(Group classification Information)</a
             ></v-label

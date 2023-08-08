@@ -37,12 +37,12 @@ export default {
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
-    ...mapState(appStore, ['pageTitle']),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
     },
   },
   async created() {
+    // TODO: fetch all metadata here?
     await this.setLoading(true);
     this.getJwtToken()
       .then(() => Promise.all([this.getUserInfo()]))

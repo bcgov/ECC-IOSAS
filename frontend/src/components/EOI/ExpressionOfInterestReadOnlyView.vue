@@ -192,7 +192,7 @@
 </template>
 
 <script>
-import { formatBooleanToYesNoStringimport { formatBooleanToYesNoString, formatDateTime } from '../../utils/format'; } from '../../utils/format';
+import { formatBooleanToYesNoString } from '../../utils/format';
 import { NULL_STRING } from '../../utils/constants';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',

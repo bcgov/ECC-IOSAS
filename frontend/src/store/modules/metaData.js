@@ -1,23 +1,14 @@
 import ApiService from '../../common/apiService';
 import { defineStore } from 'pinia';
 
-const formatPickLists = (list) => {
-  console.log(list);
-
-  return list;
-};
-
 export const metaDataStore = defineStore('metaData', {
   namespaced: true,
   state: () => ({
     activeSchoolYears: new Map(),
-    startGradeOptions: null,
-    endGradeOptions: null,
-    statusOptions: null,
-    groupClassification: null,
-    eoiDocumentTypeOptions: null,
-    applicationDocumentTypeOptions: null,
-    schoolAuthority: null,
+    EOIPickListOptions: null,
+    documentPickListOptions: null,
+    schoolAuthorityOptions: null,
+    applicationPickListOptions: null,
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
@@ -31,19 +22,55 @@ export const metaDataStore = defineStore('metaData', {
     getSchoolYearHashMap: (state) => {
       console.log(state);
     },
+    getEOIPickListOptions: (state) => state.EOIPickListOptions,
+    getDocumentPickListOptions: (state) => state.documentPickListOptions,
+    getApplicationPickListOptions: (state) => state.applicationPickListOptions,
   },
   actions: {
+    // TODO: fix this logic
+    async formatPickLists(response) {
+      const list = response
+        .map((list) => {
+          const options = list?.GlobalOptionSet.Options.map((option) => {
+            return {
+              label: option.Label?.UserLocalizedLabel?.Label,
+              value: option.Value,
+            };
+          });
+          return { [list.LogicalName]: options };
+        })
+        .reduce((result, obj) => {
+          const key = Object.keys(obj)[0];
+          result[key] = obj[key];
+          return result;
+        });
+
+      return list;
+    },
     async setActiveSchoolYears(response) {
       this.activeSchoolYears = new Map();
       response.forEach((element) => {
         this.activeSchoolYears.set(element.edu_yearid, element);
       });
     },
-    async startGradeOptions(response) {
-      console.log(response);
+    async setEOIPickListOptions(response) {
+      this.EOIPickListOptions = await this.formatPickLists(response);
+
+      console.log(this.EOIPickListOptions);
+    },
+    async setDocumentPickListOptions(response) {
+      this.activeSchoolYears = new Map();
+      this.documentPickListOptions = await this.formatPickLists(response);
+      console.log(this.documentPickListOptions);
+    },
+    async setApplicationPickListOptions(response) {
+      this.applicationPickListOptions = await this.formatPickLists(response);
+    },
+    async setSchoolAuthorityOptions(response) {
+      this.schoolAuthorityOptions = response;
     },
     async getActiveSchoolYear() {
-      if (localStorage.getItem('jwtToken')) {
+      if (localStorage.getItem('activeSchoolYears')) {
         // DONT Call api if there is not token.
         if (this.setActiveSchoolYears.length === 0) {
           const response = await ApiService.getActiveSchoolYears();
@@ -58,7 +85,7 @@ export const metaDataStore = defineStore('metaData', {
         const response = await ApiService.getPickLists(
           'iosas_expressionofinterest'
         );
-        await this.startGradeOptions(response.data.value);
+        await this.setEOIPickListOptions(response.data.value);
       }
     },
     async getApplicationPickLists() {
@@ -66,7 +93,8 @@ export const metaDataStore = defineStore('metaData', {
       if (localStorage.getItem('jwtToken')) {
         // DONT Call api if there is not token.
         const response = await ApiService.getPickLists('iosas_application');
-        await this.startGradeOptions(response.data.value);
+
+        await this.setApplicationPickListOptions(response.data.value);
       }
     },
     async getDocumentPickLists() {
@@ -74,7 +102,7 @@ export const metaDataStore = defineStore('metaData', {
       if (localStorage.getItem('jwtToken')) {
         // DONT Call api if there is not token.
         const response = await ApiService.getPickLists('iosas_document');
-        await this.startGradeOptions(response.data.value);
+        await this.setDocumentPickListOptions(response.data.value);
       }
     },
     async getSchoolAuthority() {
@@ -82,7 +110,7 @@ export const metaDataStore = defineStore('metaData', {
       if (localStorage.getItem('jwtToken')) {
         // DONT Call api if there is not token.
         const response = await ApiService.getSchoolAuthority();
-        await this.schoolAuthority(response.data.value);
+        await this.setSchoolAuthorityOptions(response.data.value);
       }
     },
   },

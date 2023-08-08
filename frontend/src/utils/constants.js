@@ -1,13 +1,13 @@
 const baseRoot = '/api';
 const authRoot = baseRoot + '/auth';
-const edxRoot = baseRoot + '/edx';
-const schoolRoot = baseRoot + '/schools';
-const districtRoot = baseRoot + '/districts';
-const instituteRoot = baseRoot + '/institute';
-const studentRequestRoot = baseRoot + '/student';
-const districtRequestRoot = baseRoot + '/institute/districts';
-const schoolRequestRoot = baseRoot + '/institute/schools';
-const sldRoot = baseRoot + '/sld';
+// const edxRoot = baseRoot + '/edx';
+// const schoolRoot = baseRoot + '/schools';
+// const districtRoot = baseRoot + '/districts';
+// const instituteRoot = baseRoot + '/institute';
+// const studentRequestRoot = baseRoot + '/student';
+// const districtRequestRoot = baseRoot + '/institute/districts';
+// const schoolRequestRoot = baseRoot + '/institute/schools';
+// const sldRoot = baseRoot + '/sld';
 
 // Dynamic
 const dynamicRoot = baseRoot + '/dynamic';
