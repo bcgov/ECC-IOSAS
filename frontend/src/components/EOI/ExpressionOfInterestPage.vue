@@ -82,16 +82,10 @@ export default {
 
     await applicationsStore().getApplicationData();
     this.schoolAuthorityOptions = this.getSchoolAuthorityListOptions;
-
-    console.log(this.schoolAuthorityOptions);
-
     this.schoolYearOptions = this.getActiveSchoolYearSelect;
     this.documentTypeOptions =
       this.getDocumentPickListOptions?.['iosas_eoidocumenttype'];
-    // console.log(this.documentTypeOptions);
     this.pickListOptions = this.getEOIPickListOptions;
-    console.log(this.documentTypeOptions);
-    console.log(this.schoolYearOptions);
     this.isLoading = false;
   },
   methods: {
@@ -99,7 +93,7 @@ export default {
     metaDataStore,
     documentStore,
     setIsLoading() {
-      this.isLoading = true;
+      this.isLoading = !this.isLoading;
     },
   },
 };

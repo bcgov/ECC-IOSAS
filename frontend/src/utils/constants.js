@@ -57,9 +57,11 @@ export const ApiRoutes = Object.freeze({
   eoi: {
     EOI_APPLICATIONS: dynamicRoot + '/EOI/GetAllByUser',
     EOI_APPLICATION: dynamicRoot + '/EOI/GetById',
-    UPDATE_EOI: dynamicRoot + '/EOI/Update',
-    CREATE_EOI: dynamicRoot + 'EOI/Create',
-    ABANDON_EOI: dynamicRoot + 'EOI/Abandon',
+    UPDATE_EOI: (submitted) =>
+      dynamicRoot + `/EOI/Update?submitted=${submitted}`,
+    CREATE_EOI: (submitted) =>
+      dynamicRoot + `/EOI/Create?submitted=${submitted}`,
+    CANCEL_EOI: dynamicRoot + '/EOI/Cancel',
   },
   contacts: {
     CONTACT_BY_SCHOOL_AUTHORITY: dynamicRoot + '/Contact/GetBySchoolAuthority',

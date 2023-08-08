@@ -83,8 +83,8 @@
                   <v-autocomplete
                     label="Search for School Authority Name"
                     :items="schoolAuthorityOptions"
-                    id="iosas_schoolauthorityname"
-                    v-model="data.iosas_schoolauthorityname"
+                    id="_iosas_authorityhead_value"
+                    v-model="data._iosas_authorityhead_value"
                     variant="outlined"
                     item-title="label"
                     item-value="value"
@@ -467,10 +467,9 @@
                     id="iosas_groupclassification"
                     v-model="data.iosas_groupclassification"
                     color="#003366"
-                    class="mt-4"
+                    class="mt-4 inline-box"
                     inline
-                    @change="validateAndPopulate"
-                    :rules="[rules.requiredRadio()]"
+                    :rules="[rules.requiredSelect()]"
                     v-for="item in pickListOptions?.[
                       'iosas_groupclassification'
                     ]"
@@ -571,13 +570,14 @@
                       )[0].fileName
                     }}
                   </div>
-                  <PrimaryButton
-                    v-else
+                  <v-btn
+                    type="submit"
                     secondary
-                    text="Upload"
-                    class="mr-2"
-                    :click-action="toggleUpload(100000000)"
-                  />
+                    class="mt-2"
+                    variant="outlined"
+                    @click="toggleUpload(100000000)"
+                    >Upload</v-btn
+                  >
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate Issue Date</v-label>
@@ -617,13 +617,14 @@
                       )[0].fileName
                     }}
                   </div>
-                  <PrimaryButton
-                    v-else
+                  <v-btn
+                    type="submit"
                     secondary
-                    text="Upload"
-                    class="mr-2"
-                    :click-action="toggleUpload(100000001)"
-                  />
+                    class="mt-2"
+                    variant="outlined"
+                    @click="toggleUpload(100000001)"
+                    >Upload</v-btn
+                  >
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate of Good Standing Issue Date</v-label>
@@ -655,12 +656,14 @@
                     </v-icon>
                     {{ document.fileName }}
                   </div>
-                  <PrimaryButton
+                  <v-btn
+                    type="submit"
                     secondary
-                    text="Upload"
-                    class="mr-2"
-                    :click-action="toggleUpload(100000002)"
-                  />
+                    class="mt-2"
+                    variant="outlined"
+                    @click="toggleUpload(100000002)"
+                    >Upload</v-btn
+                  >
                 </v-col>
               </v-row>
 
@@ -735,6 +738,7 @@
 </template>
 
 <script>
+import ApiService from '../../common/apiService';
 import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
@@ -803,47 +807,46 @@ export default {
       GOV_URL,
       isFormValid: false,
       isEditing: false,
-      defaultStatus: 'Submitted',
       schoolAddressKnown: false,
       applicationConfirmation: false,
       documentUpload: false,
       selectedDocumentOption: null,
       rules: Rules,
       data: {
-        iosas_eionumber: null,
-        iosas_reviewstatus: null,
-        iosas_authorityaddressline1: null,
-        iosas_authorityaddressline2: null,
-        iosas_authoritycity: null,
+        // iosas_eionumber: null,
+        // iosas_reviewstatus: null,
+        // iosas_authorityaddressline1: null,
+        // iosas_authorityaddressline2: null,
+        // iosas_authoritycity: null,
         iosas_authoritycountry: 'Canada',
-        iosas_authorityheadfirstname: null,
-        iosas_authorityheadname: null,
-        iosas_authoritypostalcode: null,
+        // iosas_authorityheadfirstname: null,
+        // iosas_authorityheadname: null,
+        // iosas_authoritypostalcode: null,
         iosas_authorityprovince: 'British Columbia',
-        iosas_designatedcontactfirstname: null,
-        iosas_designatedcontactsameasauthorityhead: true,
-        _iosas_edu_year_value: null,
-        iosas_groupclassification: [],
-        iosas_proposedschoolname: null,
-        iosas_schooladdressline1: null,
-        iosas_schooladdressline2: null,
-        iosas_schoolcity: null,
+        // iosas_designatedcontactfirstname: null,
+        // iosas_designatedcontactsameasauthorityhead: true,
+        // _iosas_edu_year_value: null,
+        // iosas_groupclassification: null,
+        // iosas_proposedschoolname: null,
+        // iosas_schooladdressline1: null,
+        // iosas_schooladdressline2: null,
+        // iosas_schoolcity: null,
         iosas_schoolcountry: 'Canada',
-        iosas_schoolpostalcode: null,
+        // iosas_schoolpostalcode: null,
         iosas_schoolprovince: 'British Columbia',
-        iosas_schoolauthoritycontactemail: null,
-        iosas_schoolauthoritycontactname: null,
-        ioas_schoolauthoritycontactphone: null,
-        iosas_schoolauthorityheademail: null,
-        iosas_schoolauthorityheadname: null,
-        iosas_schoolauthorityheadphone: null,
-        iosas_schoolauthorityname: null,
-        iosas_seekgrouponeclassification: null,
-        iosas_startgrade: null,
-        iosas_endgrade: null,
-        iosas_website: null,
-        iosas_incorporationcertificateissuedate: null,
-        iosas_certificateofgoodstandingissuedate: null,
+        // iosas_schoolauthoritycontactemail: null,
+        // iosas_schoolauthoritycontactname: null,
+        // ioas_schoolauthoritycontactphone: null,
+        // iosas_schoolauthorityheademail: null,
+        // iosas_schoolauthorityheadname: null,
+        // iosas_schoolauthorityheadphone: null,
+        // iosas_schoolauthorityname: null,
+        // iosas_seekgrouponeclassification: null,
+        // iosas_startgrade: null,
+        // iosas_endgrade: null,
+        // iosas_website: null,
+        // iosas_incorporationcertificateissuedate: null,
+        // iosas_certificateofgoodstandingissuedate: null,
       },
       documents: [],
       showActivationSnackBar: false,
@@ -865,7 +868,6 @@ export default {
       this.documentUpload = false;
     },
     toggleUpload(documentCode = null) {
-      console.log('CALLED?!?!?!?');
       this.selectedDocumentOption = documentCode;
       this.documentUpload = true;
     },
@@ -900,13 +902,59 @@ export default {
             params: { type: 'Delete#EOI' },
           });
         }, 1000);
+
+        this.$emit('setIsLoading');
+        ApiService.createcancelEOIEOI({
+          iosas_expressionofinterestid: this.eoi.iosas_expressionofinterestid,
+        })
+          .then(() => {
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'Delete#EOI' },
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            this.setFailureAlert(
+              error?.response?.data?.message
+                ? error?.response?.data?.message
+                : 'An error occurred while cancelling the expression of Interest. Please try again later.'
+            );
+          })
+          .finally(() => {
+            this.$emit('setIsLoading');
+          });
       }
     },
     handleDraftSubmit() {
       // Don't check validations on Draft update
       // PATCH OR POST??
-      this.defaultStatus = 'Draft';
-      this.handleSubmit();
+      this.$emit('setIsLoading');
+      ApiService.createEOI(this.data, false)
+        .then(() => {
+          // Submit all documents
+          // What happens if document upload fails? Throw error, fail silently?
+          // The redirect
+          // this.$router.push({
+          //   name: 'applicationConfirmation',
+          //   params: { type: 'EOI' },
+          // });
+          this.setSuccessAlert(
+            'Success! The Expression of Interest has been saved.'
+          );
+          // then Fetch EOI by ID
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : 'An error occurred while saving the expression of Interest. Please try again later.'
+          );
+        })
+        .finally(() => {
+          this.$emit('setIsLoading');
+        });
     },
     async handleSubmit() {
       const valid = await this.$refs.expressionOfInterestForm.validate();
@@ -915,40 +963,34 @@ export default {
       this.showError = !this.isFormValid;
       if (this.isFormValid) {
         this.$emit('setIsLoading');
-        // mocking a loading state - will be replaced when API is connected.
-        setTimeout(() => {
-          // mocking eoiNumber - will be replaced when API is connected.
-          const number = Math.floor(Math.random() * (9000 - 2000 + 1) + 2000);
-          const eoiNumber = `EOI-0${number}`;
-          const payload = {
-            ...this.data,
-            iosas_eionumber: eoiNumber,
-            iosas_reviewstatus: this.defaultStatus,
-          };
-          // mocking database interactions  - will be replaced when API is connected.
-          const storedApplications = JSON.parse(
-            localStorage.getItem('applications')
-          );
-          let applications = [];
-          if (storedApplications) {
-            applications = [...storedApplications, payload];
-          } else {
-            applications = [payload];
-          }
-          localStorage.setItem('applications', JSON.stringify(applications));
-          this.$router.push({
-            name: 'applicationConfirmation',
-            params: { type: 'EOI' },
+        ApiService.createEOI(this.data, true)
+          .then(() => {
+            // Submit all documents
+            // What happens if document upload fails? Throw error, fail silently?
+            // The redirect
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'EOI' },
+            });
+            // this.setSuccessAlert(
+            //   'Success! Expression of Interest draft has been saved'
+            // );
+          })
+          .catch((error) => {
+            console.error(error);
+            this.setFailureAlert(
+              error?.response?.data?.message
+                ? error?.response?.data?.message
+                : 'An error occurred while saving the expression of Interest. Please try again later.'
+            );
+          })
+          .finally(() => {
+            this.$emit('setIsLoading');
           });
-          console.log(payload);
-        }, 1000);
       }
     },
     async upload(document) {
-      // this.data.documents.push(document);
-
       this.documents = [...this.documents, document];
-
       console.log(this.documents);
     },
     getCorrectDate() {
@@ -1015,5 +1057,9 @@ export default {
 }
 :deep(.dp__today) {
   border-color: #003366;
+}
+
+.inline-box {
+  display: -webkit-inline-box !important;
 }
 </style>

@@ -77,5 +77,15 @@ export const applicationsStore = defineStore('applications', {
       const response = await ApiService.getAllEOIByUser();
       await this.setEOIApplications(response.data);
     },
+    // async createEOI(payload) {
+    //   const response = await ApiService.createEOI(payload);
+    //   return response;
+    // },
   },
+
+  //   async getAllApplications() {
+  //     const response = await ApiService.getAllEOIByUser();
+  //     await this.setEOIApplications(response.data);
+  //   },
+  // },
 });

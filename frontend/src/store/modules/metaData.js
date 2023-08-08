@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 export const metaDataStore = defineStore('metaData', {
   namespaced: true,
   state: () => ({
-    activeSchoolYears: new Map(),
+    activeSchoolYears: null,
     EOIPickListOptions: null,
     documentPickListOptions: null,
     schoolAuthorityOptions: null,
@@ -12,12 +12,8 @@ export const metaDataStore = defineStore('metaData', {
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
-      return Object.values(Object.fromEntries(state.activeSchoolYears)).map(
-        (v) => ({
-          value: v.edu_yearid,
-          label: v.edu_name,
-        })
-      );
+      // FILTER BY STATUS CODE
+      return state.activeSchoolYears;
     },
     getSchoolYearHashMap: (state) => {
       console.log(state);
@@ -49,45 +45,38 @@ export const metaDataStore = defineStore('metaData', {
       return list;
     },
     async setActiveSchoolYears(response) {
-      this.activeSchoolYears = new Map();
-      response.forEach((element) => {
-        this.activeSchoolYears.set(element.edu_yearid, element);
-      });
+      this.activeSchoolYears = response.map((element) => ({
+        value: element.edu_yearid,
+        label: element.edu_name,
+      }));
     },
     async setEOIPickListOptions(response) {
       this.EOIPickListOptions = await this.formatPickLists(response);
-
-      console.log(this.EOIPickListOptions);
     },
     async setDocumentPickListOptions(response) {
-      this.activeSchoolYears = new Map();
       this.documentPickListOptions = await this.formatPickLists(response);
-      console.log(this.documentPickListOptions);
     },
     async setApplicationPickListOptions(response) {
       this.applicationPickListOptions = await this.formatPickLists(response);
     },
     async setSchoolAuthorityOptions(response) {
-      //   console.log('School Authority', response);
       const formattedResponse = response.map((authority) => {
-        // Update value when API returns authority.id
         return {
-          value: authority.edu_authority_no,
+          value: authority.edu_schoolauthorityid,
           label: authority.edu_name,
           authority,
         };
       });
-      console.log(formattedResponse);
       this.schoolAuthorityOptions = formattedResponse;
     },
     async getActiveSchoolYear() {
-      if (localStorage.getItem('activeSchoolYears')) {
-        // DONT Call api if there is not token.
-        if (this.setActiveSchoolYears.length === 0) {
-          const response = await ApiService.getActiveSchoolYears();
-          await this.setActiveSchoolYears(response.data.value);
-        }
-      }
+      //   if (localStorage.getItem('activeSchoolYears')) {
+      // DONT Call api if there is not token.
+      //   if (this.setActiveSchoolYears.length === 0) {
+      const response = await ApiService.getActiveSchoolYears();
+      await this.setActiveSchoolYears(response.data.value);
+      //   }
+      //   }
     },
     async getEOIPickLists() {
       // TODO: check for picklists in localStorage

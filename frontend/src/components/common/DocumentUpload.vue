@@ -112,6 +112,7 @@ export default {
   computed: {
     ...mapState(edxStore, ['secureExchangeDocumentTypes', 'fileRequirements']),
     dataReady() {
+      console.log(this.vaildForm);
       return this.validForm && this.uploadFileValue;
     },
     // documentTypes() {

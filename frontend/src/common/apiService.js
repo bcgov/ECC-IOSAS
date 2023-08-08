@@ -208,6 +208,23 @@ export default {
     }
   },
 
+  async createEOI(payload, submitted) {
+    try {
+      return await apiAxios.post(ApiRoutes.eoi.CREATE_EOI(submitted), payload);
+    } catch (e) {
+      console.log(`Failed to post to Nodejs createEOI API - ${e}`);
+      throw e;
+    }
+  },
+
+  async cancelEOI(payload) {
+    try {
+      return await apiAxios.patch(ApiRoutes.eoi.CANCEL_EOI, payload);
+    } catch (e) {
+      console.log(`Failed to post to Nodejs createEOI API - ${e}`);
+      throw e;
+    }
+  },
   //   getExchangeStatuses: getCodes(`${ApiRoutes.edx.STATUSES_URL}`),
   //   getMinistryTeamCodes: getCodes(`${ApiRoutes.edx.MINISTRY_TEAM_URL}`),
   //   getSchools: getCodes(`${ApiRoutes.SCHOOL_DATA_URL}`),

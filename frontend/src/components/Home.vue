@@ -143,16 +143,16 @@ export default {
   },
   mounted() {},
   async created() {
-    // await applicationsStore().getAllEOI();
-    // this.eoiApplications = applicationsStore().getEOIApplicationsFormatted;
+    await applicationsStore().getAllEOI();
+    this.eoiApplications = applicationsStore().getEOIApplicationsFormatted;
     applicationsStore()
       .getApplicationData()
       .then(() => {
         // mocking a loading state - will be replaced when API is connected.
         setTimeout(() => {
           this.isLoading = false;
-          this.eoiApplications =
-            applicationsStore().getEOIApplicationsFormatted;
+          // this.eoiApplications =
+          //   applicationsStore().getEOIApplicationsFormatted;
           this.schoolApplications =
             applicationsStore().getSchoolApplicationsFormatted;
         }, 1000);
