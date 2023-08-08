@@ -16,6 +16,7 @@
               :items="options"
               item-title="label"
               item-value="value"
+              disabled="selectedOption"
               :rules="[rules.requiredSelect()]"
             ></v-select>
             <v-file-input
@@ -85,6 +86,10 @@ export default {
       type: Array,
       required: true,
     },
+    selectedOption: {
+      type: String,
+      required: false,
+    },
   },
   emits: ['close:form', 'upload'],
   data() {
@@ -125,6 +130,9 @@ export default {
     // },
   },
   async created() {
+    if (this.selectedOption) {
+      this.documentTypeCode = this.selectedOption;
+    }
     // await edxStore().getSecureExchangeDocumentTypes();
     // await edxStore().getFileRequirements();
     // this.getFileRules();

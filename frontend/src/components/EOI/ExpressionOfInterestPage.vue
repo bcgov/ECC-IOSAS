@@ -12,6 +12,7 @@
       :schoolYearOptions="schoolYearOptions"
       :pickListOptions="pickListOptions"
       :documentTypeOptions="documentTypeOptions"
+      :schoolAuthorityOptions="schoolAuthorityOptions"
     />
   </v-container>
 </template>
@@ -34,6 +35,7 @@ export default {
     documentTypeOptions: [],
     schoolYearOptions: [],
     pickListOptions: null,
+    schoolAuthorityOptions: null,
     items: [
       {
         title: 'Dashboard',
@@ -62,7 +64,7 @@ export default {
       'getSchoolAuthority',
       'getDocumentPickLists',
       'getDocumentPickListOptions',
-      'getSchoolAuthority',
+      'getSchoolAuthorityListOptions',
     ]),
     // ...mapState(documentStore, [
     //   'getEOIDocumentOptionsSelect',
@@ -70,16 +72,18 @@ export default {
     // ]),
   },
   async created() {
-    // await metaDataStore().getActiveSchoolYear();
-    // await applicationsStore().getApplicationData();
-    // await metaDataStore().getSchoolAuthority();
-
+    // PickLists - move to App.vue?
     // Wrap in Promise.all - silently fail and try again
     // ERROR after 3rd attempt?
-    // await metaDataStore().getEOIPickLists();
-    // await metaDataStore().getDocumentPickLists();
-    // await metaDataStore().getSchoolAuthority();
-    // await documentStore().getEOIDocumentTypeCodes();
+    await metaDataStore().getActiveSchoolYear();
+    await metaDataStore().getEOIPickLists();
+    await metaDataStore().getDocumentPickLists();
+    await metaDataStore().getSchoolAuthority();
+
+    await applicationsStore().getApplicationData();
+    this.schoolAuthorityOptions = this.getSchoolAuthorityListOptions;
+
+    console.log(this.schoolAuthorityOptions);
 
     this.schoolYearOptions = this.getActiveSchoolYearSelect;
     this.documentTypeOptions =
@@ -87,7 +91,7 @@ export default {
     // console.log(this.documentTypeOptions);
     this.pickListOptions = this.getEOIPickListOptions;
     console.log(this.documentTypeOptions);
-    // console.log(this.schoolYearOptions);
+    console.log(this.schoolYearOptions);
     this.isLoading = false;
   },
   methods: {

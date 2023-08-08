@@ -25,6 +25,7 @@ export const metaDataStore = defineStore('metaData', {
     getEOIPickListOptions: (state) => state.EOIPickListOptions,
     getDocumentPickListOptions: (state) => state.documentPickListOptions,
     getApplicationPickListOptions: (state) => state.applicationPickListOptions,
+    getSchoolAuthorityListOptions: (state) => state.schoolAuthorityOptions,
   },
   actions: {
     // TODO: fix this logic
@@ -67,7 +68,17 @@ export const metaDataStore = defineStore('metaData', {
       this.applicationPickListOptions = await this.formatPickLists(response);
     },
     async setSchoolAuthorityOptions(response) {
-      this.schoolAuthorityOptions = response;
+      //   console.log('School Authority', response);
+      const formattedResponse = response.map((authority) => {
+        // Update value when API returns authority.id
+        return {
+          value: authority.edu_authority_no,
+          label: authority.edu_name,
+          authority,
+        };
+      });
+      console.log(formattedResponse);
+      this.schoolAuthorityOptions = formattedResponse;
     },
     async getActiveSchoolYear() {
       if (localStorage.getItem('activeSchoolYears')) {

@@ -74,22 +74,24 @@
               </div>
               <h4>School Authority Information</h4>
               <v-row>
-                <v-col cols="12" sm="12" md="6" xs="12">
+                <v-col cols="12" sm="12" md="12" xs="12">
                   <v-label
                     >Name of School Authority (as it appears on attached
                     incorporation documents)</v-label
                   >
                   <!-- USE AUTOCOMPLETE UNTIL SEARCH IS IMPLEMENTED -->
                   <v-autocomplete
-                    label="Autocomplete"
-                    :items="[]"
+                    label="Search for School Authority Name"
+                    :items="schoolAuthorityOptions"
+                    id="iosas_schoolauthorityname"
+                    v-model="data.iosas_schoolauthorityname"
                     variant="outlined"
                     item-title="label"
                     item-value="value"
                     :rules="[rules.requiredSelect()]"
                   ></v-autocomplete>
 
-                  <v-text-field
+                  <!-- <v-text-field
                     id="iosas_schoolauthorityname"
                     v-model="data.iosas_schoolauthorityname"
                     :rules="[rules.required()]"
@@ -97,7 +99,7 @@
                     variant="outlined"
                     label="Name"
                     color="rgb(59, 153, 252)"
-                  />
+                  /> -->
                 </v-col>
               </v-row>
               <br />
@@ -574,7 +576,7 @@
                     secondary
                     text="Upload"
                     class="mr-2"
-                    :click-action="toggleUpload"
+                    :click-action="toggleUpload(100000000)"
                   />
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
@@ -620,7 +622,7 @@
                     secondary
                     text="Upload"
                     class="mr-2"
-                    :click-action="toggleUpload"
+                    :click-action="toggleUpload(100000001)"
                   />
                 </v-col>
                 <v-col cols="12" sm="12" md="6" xs="12">
@@ -657,7 +659,7 @@
                     secondary
                     text="Upload"
                     class="mr-2"
-                    :click-action="toggleUpload"
+                    :click-action="toggleUpload(100000002)"
                   />
                 </v-col>
               </v-row>
@@ -668,8 +670,9 @@
                 <DocumentUpload
                   ref="documentUpload"
                   @upload="upload"
-                  @close="toggleUpload"
+                  @close="closeDocumentDialog"
                   :options="documentTypeOptions"
+                  :selectedOption="selectedDocumentOption"
                 />
               </v-dialog>
 
@@ -779,6 +782,10 @@ export default {
       type: Array,
       required: true,
     },
+    schoolAuthorityOptions: {
+      type: Array,
+      required: true,
+    },
   },
   watch: {
     isFormValid: {
@@ -800,6 +807,7 @@ export default {
       schoolAddressKnown: false,
       applicationConfirmation: false,
       documentUpload: false,
+      selectedDocumentOption: null,
       rules: Rules,
       data: {
         iosas_eionumber: null,
@@ -815,7 +823,7 @@ export default {
         iosas_designatedcontactfirstname: null,
         iosas_designatedcontactsameasauthorityhead: true,
         _iosas_edu_year_value: null,
-        iosas_groupclassification: null,
+        iosas_groupclassification: [],
         iosas_proposedschoolname: null,
         iosas_schooladdressline1: null,
         iosas_schooladdressline2: null,
@@ -853,8 +861,13 @@ export default {
   methods: {
     authStore,
     formatDateTime,
-    toggleUpload() {
-      this.documentUpload = !this.documentUpload;
+    closeDocumentDialog() {
+      this.documentUpload = false;
+    },
+    toggleUpload(documentCode = null) {
+      console.log('CALLED?!?!?!?');
+      this.selectedDocumentOption = documentCode;
+      this.documentUpload = true;
     },
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
@@ -862,6 +875,7 @@ export default {
     isReadOnly() {
       return this.eoi.iosas_reviewstatus !== 'Draft';
     },
+    handlePatch() {},
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
         'Cancel Submission - Expression of Interest?',
@@ -889,6 +903,8 @@ export default {
       }
     },
     handleDraftSubmit() {
+      // Don't check validations on Draft update
+      // PATCH OR POST??
       this.defaultStatus = 'Draft';
       this.handleSubmit();
     },

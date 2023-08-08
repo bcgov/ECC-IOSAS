@@ -164,15 +164,23 @@ export default {
       throw e;
     }
   },
-  async getEOIDocumentTypeCodes() {
+  async getApplicationDocuments() {
     try {
-      return await apiAxios.get(ApiRoutes.documents.EOI_DOC_TYPE_CODES);
+      return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
     } catch (e) {
       console.log(`Failed to get getEOIDocumentTypeCodes - ${e}`);
       throw e;
     }
   },
 
+  async getEOIDocuments() {
+    try {
+      return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS);
+    } catch (e) {
+      console.log(`Failed to get getEOIDocumentTypeCodes - ${e}`);
+      throw e;
+    }
+  },
   async getApplicationDocumentTypeCodes() {
     try {
       return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOC_TYPE_CODES);

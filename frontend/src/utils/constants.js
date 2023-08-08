@@ -49,13 +49,20 @@ export const ApiRoutes = Object.freeze({
       dynamicRoot + '/SchoolAuthority/GetActiveSchoolAuthorityList',
   },
   documents: {
-    APPLICATION_DOC_TYPE_CODES:
-      dynamicRoot + '/Document/GetApplicationDocumentList',
-    EOI_DOC_TYPE_CODES: dynamicRoot + '/Document/GetEOIDocumentList',
+    APPLICATION_DOCUMENTS: dynamicRoot + '/Document/GetApplicationDocumentList',
+    EOI_DOCUMENTS: dynamicRoot + '/Document/GetEOIDocumentList',
+    UPLOAD_DOCUMENT: dynamicRoot + '/Document/Upload',
+    DELETE_DOCUMENT: dynamicRoot + '/Document/Remove',
   },
   eoi: {
     EOI_APPLICATIONS: dynamicRoot + '/EOI/GetAllByUser',
     EOI_APPLICATION: dynamicRoot + '/EOI/GetById',
+    UPDATE_EOI: dynamicRoot + '/EOI/Update',
+    CREATE_EOI: dynamicRoot + 'EOI/Create',
+    ABANDON_EOI: dynamicRoot + 'EOI/Abandon',
+  },
+  contacts: {
+    CONTACT_BY_SCHOOL_AUTHORITY: dynamicRoot + '/Contact/GetBySchoolAuthority',
   },
 
   // school: {
