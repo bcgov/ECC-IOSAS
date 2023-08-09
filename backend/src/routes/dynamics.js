@@ -17,6 +17,7 @@ const allowedPulicPaths = [
   'SchoolYear',
   'Metdata',
   'Health',
+  'Contact/GetBySchoolAuthority'
 ];
 const allowedProtectedPaths = [];
 const allowedPaths = [...allowedPulicPaths, ...allowedProtectedPaths];
