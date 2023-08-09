@@ -103,57 +103,74 @@
                 </v-col>
               </v-row>
               <br />
-              <v-label>School Authority Head</v-label>
-              <v-row>
-                <v-col cols="12" sm="12" md="6" xs="12">
-                  <v-text-field
-                    id="iosas_authorityheadfirstname"
-                    v-model="data.iosas_authorityheadfirstname"
-                    :rules="[rules.required()]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="First Name"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="6" xs="12">
-                  <v-text-field
-                    id="iosas_schoolauthorityheadname"
-                    v-model="data.iosas_authorityheadname"
-                    :rules="[rules.required()]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Last Name"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="12" md="6" xs="12">
-                  <v-text-field
-                    id="iosas_schoolauthorityheademail"
-                    v-model="data.iosas_schoolauthorityheademail"
-                    :rules="[rules.required(), rules.email()]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="E-mail"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-                <v-col cols="12" sm="12" md="6" xs="12">
-                  <v-text-field
-                    id="iosas_schoolauthorityheadphone"
-                    v-model="data.iosas_schoolauthorityheadphone"
-                    :rules="[rules.required()]"
-                    :maxlength="255"
-                    variant="outlined"
-                    label="Phone"
-                    return-masked-value
-                    mask="(###) ###-####"
-                    color="rgb(59, 153, 252)"
-                  />
-                </v-col>
-              </v-row>
+              <div>
+                <v-label>School Authority Head</v-label>
+                <v-row v-if="fetchingAuthorityHead">
+                  <v-col class="d-flex justify-center">
+                    <v-progress-circular
+                      class="mt-15 mb-15"
+                      :size="70"
+                      :width="7"
+                      color="primary"
+                      indeterminate
+                      :active="isLoading"
+                    />
+                  </v-col>
+                </v-row>
+                <div v-else>
+                  <v-row>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_authorityheadfirstname"
+                        v-model="data.iosas_authorityheadfirstname"
+                        :rules="[rules.required()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="First Name"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_schoolauthorityheadname"
+                        v-model="data.iosas_authorityheadname"
+                        :rules="[rules.required()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="Last Name"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_schoolauthorityheademail"
+                        v-model="data.iosas_schoolauthorityheademail"
+                        :rules="[rules.required(), rules.email()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="E-mail"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_schoolauthorityheadphone"
+                        v-model="data.iosas_schoolauthorityheadphone"
+                        :rules="[rules.required()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="Phone"
+                        return-masked-value
+                        mask="(###) ###-####"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
+              </div>
+              <br />
               <v-row>
                 <v-label class="no-margin"
                   >Is the Designated Authority the same as Authority
@@ -575,7 +592,7 @@
                     secondary
                     class="mt-2"
                     variant="outlined"
-                    @click="toggleUpload(100000000)"
+                    @click.stop="toggleUpload(100000000)"
                     >Upload</v-btn
                   >
                 </v-col>
@@ -622,7 +639,7 @@
                     secondary
                     class="mt-2"
                     variant="outlined"
-                    @click="toggleUpload(100000001)"
+                    @click.stop="toggleUpload(100000001)"
                     >Upload</v-btn
                   >
                 </v-col>
@@ -661,7 +678,7 @@
                     secondary
                     class="mt-2"
                     variant="outlined"
-                    @click="toggleUpload(100000002)"
+                    @click.stop="toggleUpload(100000002)"
                     >Upload</v-btn
                   >
                 </v-col>
@@ -753,6 +770,7 @@ import { GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
+import { metaDataStore } from '../../store/modules/metaData';
 
 export default {
   name: 'ExpressionOfInterestForm',
@@ -792,6 +810,15 @@ export default {
     },
   },
   watch: {
+    'data._iosas_authorityhead_value': {
+      handler(val) {
+        if (val) {
+          this.fetchingAuthorityHead = true;
+          this.handleGetAuthorityHead(val);
+        }
+        console.log(val);
+      },
+    },
     isFormValid: {
       handler(val) {
         if (val) {
@@ -807,44 +834,46 @@ export default {
       GOV_URL,
       isFormValid: false,
       isEditing: false,
+      isSubmitted: false,
       schoolAddressKnown: false,
       applicationConfirmation: false,
+      fetchingAuthorityHead: false,
       documentUpload: false,
       selectedDocumentOption: null,
       rules: Rules,
       data: {
         // iosas_eionumber: null,
         // iosas_reviewstatus: null,
-        // iosas_authorityaddressline1: null,
-        // iosas_authorityaddressline2: null,
-        // iosas_authoritycity: null,
+        iosas_authorityaddressline1: 'test',
+        iosas_authorityaddressline2: 'test',
+        iosas_authoritycity: 'Victoria',
         iosas_authoritycountry: 'Canada',
-        // iosas_authorityheadfirstname: null,
-        // iosas_authorityheadname: null,
-        // iosas_authoritypostalcode: null,
+        iosas_authorityheadfirstname: 'Jack',
+        iosas_authorityheadname: 'Smmith',
+        iosas_authoritypostalcode: 'V8V8H3',
         iosas_authorityprovince: 'British Columbia',
-        // iosas_designatedcontactfirstname: null,
-        // iosas_designatedcontactsameasauthorityhead: true,
-        // _iosas_edu_year_value: null,
-        // iosas_groupclassification: null,
-        // iosas_proposedschoolname: null,
-        // iosas_schooladdressline1: null,
-        // iosas_schooladdressline2: null,
-        // iosas_schoolcity: null,
+        iosas_designatedcontactfirstname: 'Meredith',
+        iosas_designatedcontactsameasauthorityhead: true,
+        _iosas_edu_year_value: null,
+        iosas_groupclassification: 100000000,
+        iosas_proposedschoolname: 'proposing this school name',
+        iosas_schooladdressline1: 'line 1',
+        iosas_schooladdressline2: 'line 2',
+        iosas_schoolcity: 'Victoria',
         iosas_schoolcountry: 'Canada',
-        // iosas_schoolpostalcode: null,
+        iosas_schoolpostalcode: 'V8V8H3',
         iosas_schoolprovince: 'British Columbia',
-        // iosas_schoolauthoritycontactemail: null,
-        // iosas_schoolauthoritycontactname: null,
-        // ioas_schoolauthoritycontactphone: null,
-        // iosas_schoolauthorityheademail: null,
-        // iosas_schoolauthorityheadname: null,
-        // iosas_schoolauthorityheadphone: null,
-        // iosas_schoolauthorityname: null,
-        // iosas_seekgrouponeclassification: null,
-        // iosas_startgrade: null,
-        // iosas_endgrade: null,
-        // iosas_website: null,
+        iosas_schoolauthoritycontactemail: 'name@gmail.com',
+        iosas_schoolauthoritycontactname: 'school authority name',
+        ioas_schoolauthoritycontactphone: '888-333-4444',
+        iosas_schoolauthorityheademail: 'name@gmail.com',
+        iosas_schoolauthorityheadname: 'Johnny Smith',
+        iosas_schoolauthorityheadphone: '555-555-5555',
+        iosas_schoolauthorityname: 'School Authority Name',
+        iosas_seekgrouponeclassification: false,
+        iosas_startgrade: null,
+        iosas_endgrade: null,
+        iosas_website: 'www.google.com',
         // iosas_incorporationcertificateissuedate: null,
         // iosas_certificateofgoodstandingissuedate: null,
       },
@@ -877,7 +906,67 @@ export default {
     isReadOnly() {
       return this.eoi.iosas_reviewstatus !== 'Draft';
     },
-    handlePatch() {},
+    async handleGetAuthorityHead(schoolAuthorityId) {
+      try {
+        await metaDataStore().getAuthorityHead(schoolAuthorityId);
+        this.fetchingAuthorityHead = false;
+
+        // Replace with from API
+        const contact = {
+          iosas_authorityheadfirstname: 'Peter',
+          iosas_authorityheadname: 'mike',
+          iosas_schoolauthorityheademail: 'tim',
+          iosas_schoolauthorityheadphone: '555-555-555',
+        };
+        this.data = { ...this.data, ...contact };
+        // Set contact information here
+      } catch (e) {
+        this.fetchingAuthorityHead = false;
+        throw e;
+      }
+    },
+    async handleUpdate() {
+      console.log('PATCHING', this.data);
+
+      const valid = await this.$refs.expressionOfInterestForm.validate();
+
+      this.isFormValid = valid.valid;
+      this.showError = !this.isFormValid;
+      if (this.isFormValid) {
+        this.$emit('setIsLoading');
+        ApiService.updateEOI(
+          this.data.iosas_expressionofinterestid,
+          this.data,
+          this.isSubmitted
+        )
+          .then(() => {
+            // Submit all documents
+            // What happens if document upload fails? Throw error, fail silently?
+            // The redirect
+            if (this.isSubmitted) {
+              this.$router.push({
+                name: 'applicationConfirmation',
+                params: { type: 'EOI' },
+              });
+            } else {
+              this.setSuccessAlert(
+                'Success! Expression of Interest draft has been update'
+              );
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            this.setFailureAlert(
+              error?.response?.data?.message
+                ? error?.response?.data?.message
+                : 'An error occurred while saving the expression of Interest. Please try again later.'
+            );
+          })
+          .finally(() => {
+            this.$emit('setIsLoading');
+          });
+      }
+    },
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
         'Cancel Submission - Expression of Interest?',
@@ -896,15 +985,7 @@ export default {
         return;
       } else {
         this.$emit('setIsLoading');
-        setTimeout(() => {
-          this.$router.push({
-            name: 'applicationConfirmation',
-            params: { type: 'Delete#EOI' },
-          });
-        }, 1000);
-
-        this.$emit('setIsLoading');
-        ApiService.createcancelEOIEOI({
+        ApiService.cancelEOI({
           iosas_expressionofinterestid: this.eoi.iosas_expressionofinterestid,
         })
           .then(() => {
@@ -927,18 +1008,17 @@ export default {
       }
     },
     handleDraftSubmit() {
+      this.isSubmitted = false;
+      if (!this.isNew()) {
+        return this.handleUpdate();
+      }
       // Don't check validations on Draft update
       // PATCH OR POST??
       this.$emit('setIsLoading');
-      ApiService.createEOI(this.data, false)
+      ApiService.createEOI(this.data, this.isSubmitted)
         .then(() => {
           // Submit all documents
           // What happens if document upload fails? Throw error, fail silently?
-          // The redirect
-          // this.$router.push({
-          //   name: 'applicationConfirmation',
-          //   params: { type: 'EOI' },
-          // });
           this.setSuccessAlert(
             'Success! The Expression of Interest has been saved.'
           );
@@ -957,16 +1037,25 @@ export default {
         });
     },
     async handleSubmit() {
+      this.isSubmitted = true;
+      if (!this.isNew()) {
+        return this.handleUpdate();
+      }
       const valid = await this.$refs.expressionOfInterestForm.validate();
 
       this.isFormValid = valid.valid;
       this.showError = !this.isFormValid;
       if (this.isFormValid) {
         this.$emit('setIsLoading');
-        ApiService.createEOI(this.data, true)
-          .then(() => {
-            // Submit all documents
-            // What happens if document upload fails? Throw error, fail silently?
+        ApiService.createEOI(this.data, this.isSubmitted)
+          .then((response) => {
+            if (this.documents.length > 0) {
+              // const docRes = this.documents.map((document) => {
+              //   this.handleUploadDocuments(response.id, document);
+              // });
+              // Submit all documents
+              // What happens if document upload fails? Throw error, fail silently?
+            }
             // The redirect
             this.$router.push({
               name: 'applicationConfirmation',
@@ -992,6 +1081,29 @@ export default {
     async upload(document) {
       this.documents = [...this.documents, document];
       console.log(this.documents);
+    },
+    async handleUploadDocuments(eoiID) {
+      const payload = {
+        regardingId: eoiID,
+        documentName: 'test',
+        fileName: 'test.txt',
+        content:
+          'ew0KICAgICJpb3Nhc19hdXRob3JpdHlhZGRyZXNzbGluZTEiOiAiMTI5IG1haW4gc3RyZWV0IiwNCiAgICAiaW9zYXNfYXV0aG9yaXR5YWRkcmVzc2xpbmUyIjogImFwYXJ0bWVudCAyMSIsDQogICAgImlvc2FzX2F1dGhvcml0eWNpdHkiOiAiVmljdG9yaWEiLA0KICAgICJpb3Nhc19hdXRob3JpdHljb3VudHJ5IjogIkNhbmFkYSIsDQogICAgImlvc2FzX2F1dGhvcml0eWhlYWRmaXJzdG5hbWUiOiAiSmFjayIsDQogICAgImlvc2FzX2F1dGhvcml0eWhlYWRuYW1lIjogIlNtaXRoIiwNCiAgICAiaW9zYXNfYXV0aG9yaXR5cG9zdGFsY29kZSI6ICJWOFY4aDMiLA0KICAgICJpb3Nhc19hdXRob3JpdHlwcm92aW5jZSI6ICJCcml0aXNoIENvbHVtYmlhIiwNCiAgICAiaW9zYXNfZGVzaWduYXRlZGNvbnRhY3RmaXJzdG5hbWUiOiAiUGV0ZXIiLA0KICAgICJpb3Nhc19kZXNpZ25hdGVkY29udGFjdHNhbWVhc2F1dGhvcml0eWhlYWQiOiBmYWxzZSwNCiAgICAiaW9zYXNfc2Nob29sYXV0aG9yaXR5bmFtZSI6ICJTY2hvb2wgQXV0aG9yaXR5IE5hbWUiLA0KICAgICJpb3Nhc19ncm91cGNsYXNzaWZpY2F0aW9uIjogMTAwMDAwMDAwLA0KICAgICJpb3Nhc19wcm9wb3NlZHNjaG9vbG5hbWUiOiAiVmljdG9yaWEgSGlnaCBTY2hvb2wiLA0KICAgICJpb3Nhc19zY2hvb2xhZGRyZXNzbGluZTEiOiAiNDczODQgVmljdG9yaWEgbWFpbiByZCIsDQogICAgImlvc2FzX3NjaG9vbGFkZHJlc3NsaW5lMiI6ICJmbG9vciAyIiwNCiAgICAiaW9zYXNfc2Nob29sY2l0eSI6ICJWaWN0b3JpYSIsDQogICAgImlvc2FzX3NjaG9vbGNvdW50cnkiOiAiQ2FuYWRhIiwNCiAgICAiaW9zYXNfc2Nob29scG9zdGFsY29kZSI6ICJWOFYgOEgzIiwNCiAgICAiaW9zYXNfc2Nob29scHJvdmluY2UiOiAiQnJpdGlzaCBDb2x1bWJpYSIsDQogICAgImlvc2FzX3NjaG9vbGF1dGhvcml0eWNvbnRhY3RlbWFpbCI6ICJwZXRlckBnbWFpbC5jb20iLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHljb250YWN0bmFtZSI6ICJXaWxsb3ciLA0KICAgICJpb2FzX3NjaG9vbGF1dGhvcml0eWNvbnRhY3RwaG9uZSI6ICI3MzgtNDA5LTAyMDQiLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHloZWFkZW1haWwiOiAiamFja0BnbWFpbC5jb20iLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHloZWFkcGhvbmUiOiAiMjUwLTQzMC0zNDQzIiwNCiAgICAiaW9zYXNfc2Vla2dyb3Vwb25lY2xhc3NpZmljYXRpb24iOiB0cnVlLA0KICAgICJpb3Nhc19zdGFydGdyYWRlIjogMTAwMDAwMDAwLA0KICAgICJpb3Nhc19lbmRncmFkZSI6IDEwMDAwMDAxMiwNCiAgICAiaW9zYXNfd2Vic2l0ZSI6ICJ3d3cudmljdG9yaWEtaGlnaC1zY2hvb2wuY2EiLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHloZWFkbmFtZSI6IkNoYW4iLA0KICAgICJfaW9zYXNfZWR1X3llYXJfdmFsdWUiOiIxZjNkM2YzZS00N2IwLWVjMTEtOTgzZS0wMDIyNDg2ZTFiMzkiDQp9',
+        documentType: 100000000,
+        regardingType: 'iosas_expressionofinterest',
+      };
+
+      await ApiService.uploadFile(payload)
+        .then(() => {
+          return;
+        })
+        .catch((error) => {
+          this.setFailureAlert(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : 'An error occurred while saving the expression of Interest. Please try again later.'
+          );
+        });
     },
     getCorrectDate() {
       return this.data.iosas_reviewstatus === 'Draft'

@@ -17,6 +17,10 @@ export const metaDataStore = defineStore('metaData', {
     },
     getSchoolYearHashMap: (state) => {
       console.log(state);
+      return state.activeSchoolYears.reduce(function (map, obj) {
+        map[obj.value] = obj.label;
+        return map;
+      }, {});
     },
     getEOIPickListOptions: (state) => state.EOIPickListOptions,
     getDocumentPickListOptions: (state) => state.documentPickListOptions,
@@ -112,6 +116,14 @@ export const metaDataStore = defineStore('metaData', {
         const response = await ApiService.getSchoolAuthority();
         await this.setSchoolAuthorityOptions(response.data.value);
       }
+    },
+    async getAuthorityHead(schoolAuthorityId) {
+      const response = await ApiService.getSchoolAuthorityHead(
+        schoolAuthorityId
+      );
+
+      console.log('school authority head contact', response);
+      //   await this.setSchoolAuthorityOptions(response.data.value);
     },
   },
 });

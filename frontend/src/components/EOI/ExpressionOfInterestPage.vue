@@ -65,6 +65,7 @@ export default {
       'getDocumentPickLists',
       'getDocumentPickListOptions',
       'getSchoolAuthorityListOptions',
+      'getSchoolYearHashMap',
     ]),
     // ...mapState(documentStore, [
     //   'getEOIDocumentOptionsSelect',
@@ -87,6 +88,8 @@ export default {
       this.getDocumentPickListOptions?.['iosas_eoidocumenttype'];
     this.pickListOptions = this.getEOIPickListOptions;
     this.isLoading = false;
+
+    console.log(this.getSchoolYearHashMap);
   },
   methods: {
     authStore,

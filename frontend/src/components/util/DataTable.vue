@@ -49,9 +49,9 @@
                   :target="'_self'"
                   class="router-link-exact-active"
                 >
-                  {{ value }}
+                  {{ value || NULL_STRING }}
                 </router-link>
-                <span v-else>{{ value }}</span>
+                <span v-else>{{ value || NULL_STRING }}</span>
               </td>
             </tr>
           </tbody>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { NULL_STRING } from '../../utils/constants';
 import { formatSnakeCaseToString } from '../../utils/format';
 import TertiaryButton from '../util/TertiaryButton.vue';
 export default {

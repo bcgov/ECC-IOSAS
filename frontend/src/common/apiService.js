@@ -98,25 +98,19 @@ export default {
     }
   },
 
-  async uploadFile(secureExchangeID, fileData) {
+  async uploadFile(relatedId, fileData) {
     try {
-      return await apiAxios.post(
-        `${ApiRoutes.edx.EXCHANGE}/${secureExchangeID}/documents`,
-        fileData
-      );
+      return await apiAxios.post(ApiRoutes.documents.UPLOAD_DOCUMENT, fileData);
     } catch (e) {
       console.log(`Failed to post to Nodejs uploadFile API - ${e}`);
       throw e;
     }
   },
 
-  async deleteDocument(relatedID, documentID) {
+  async deleteDocument(documentID) {
     try {
       return await apiAxios.delete(
-        ApiRoutes.edx.EXCHANGE +
-          `/${relatedID}` +
-          '/documents' +
-          `/${documentID}`
+        ApiRoutes.documents.DELETE_DOCUMENT(documentID)
       );
     } catch (e) {
       console.log(`Failed to deleteDocument - ${e}`);
@@ -164,6 +158,16 @@ export default {
       throw e;
     }
   },
+
+  async getSchoolAuthorityHead(id) {
+    try {
+      return await apiAxios.get(ApiRoutes.meta.CONTACT_BY_SCHOOL_AUTHORITY(id));
+    } catch (e) {
+      console.log(`Failed to get getSchoolAuthority - ${e}`);
+      throw e;
+    }
+  },
+
   async getApplicationDocuments() {
     try {
       return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
@@ -211,6 +215,15 @@ export default {
   async createEOI(payload, submitted) {
     try {
       return await apiAxios.post(ApiRoutes.eoi.CREATE_EOI(submitted), payload);
+    } catch (e) {
+      console.log(`Failed to post to Nodejs createEOI API - ${e}`);
+      throw e;
+    }
+  },
+
+  async updateEOI(eoiId, payload, submitted) {
+    try {
+      return await apiAxios.patch(ApiRoutes.eoi.UPDATE_EOI(submitted), payload);
     } catch (e) {
       console.log(`Failed to post to Nodejs createEOI API - ${e}`);
       throw e;

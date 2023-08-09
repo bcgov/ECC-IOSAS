@@ -47,12 +47,15 @@ export const ApiRoutes = Object.freeze({
       dynamicRoot + `/Metdata/GetPickListValues?tableName=${tableName}`,
     SCHOOL_AUTHORITY:
       dynamicRoot + '/SchoolAuthority/GetActiveSchoolAuthorityList',
+    CONTACT_BY_SCHOOL_AUTHORITY: (id) =>
+      dynamicRoot + `/Contact/GetBySchoolAuthority?schoolAuthorityId=${id}`,
   },
   documents: {
     APPLICATION_DOCUMENTS: dynamicRoot + '/Document/GetApplicationDocumentList',
     EOI_DOCUMENTS: dynamicRoot + '/Document/GetEOIDocumentList',
     UPLOAD_DOCUMENT: dynamicRoot + '/Document/Upload',
-    DELETE_DOCUMENT: dynamicRoot + '/Document/Remove',
+    DELETE_DOCUMENT: (documentID) =>
+      dynamicRoot + `/Document/Remove?id=${documentID}`,
   },
   eoi: {
     EOI_APPLICATIONS: dynamicRoot + '/EOI/GetAllByUser',
@@ -62,9 +65,6 @@ export const ApiRoutes = Object.freeze({
     CREATE_EOI: (submitted) =>
       dynamicRoot + `/EOI/Create?submitted=${submitted}`,
     CANCEL_EOI: dynamicRoot + '/EOI/Cancel',
-  },
-  contacts: {
-    CONTACT_BY_SCHOOL_AUTHORITY: dynamicRoot + '/Contact/GetBySchoolAuthority',
   },
 
   // school: {
