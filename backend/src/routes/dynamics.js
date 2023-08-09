@@ -47,11 +47,11 @@ const proxyMiddleWare =
       const endpoint = host + '/api' + path;
       const headers = req.headers || { };
       const contentType = headers['Content-Type'];
-      const body = req.body
-      const { data, status } = await axios({
+      const data = req.body
+      const { data: responseData, status } = await axios({
         url: endpoint,
         method,
-        body,
+        data,
         params: {
           ...req.query,
           userId: dynamicConactId,
@@ -63,7 +63,7 @@ const proxyMiddleWare =
       log.info(
         `Dynamic | API | URL: ${endpoint} | Method: ${method}| Success: ${status}`
       );
-      return resp.status(status || HttpStatus.OK).json(data || {});
+      return resp.status(status || HttpStatus.OK).json(responseData || {});
     } catch (err) {
       log.error(`dynamic-middleware | path: ${path} | Error: ${err}`);
       if (err.response) {
