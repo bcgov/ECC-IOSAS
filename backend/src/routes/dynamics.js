@@ -47,9 +47,11 @@ const proxyMiddleWare =
       const endpoint = host + '/api' + path;
       const headers = req.headers || { };
       const contentType = headers['Content-Type'];
+      const body = req.body
       const { data, status } = await axios({
         url: endpoint,
         method,
+        body,
         params: {
           ...req.query,
           userId: dynamicConactId,
