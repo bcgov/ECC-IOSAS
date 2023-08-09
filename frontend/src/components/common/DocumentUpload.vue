@@ -59,11 +59,11 @@
         id="upload_form"
         :key="buttonKey"
         :loading="active"
-        :disabled="!dataReady"
         text="Upload"
         width="7rem"
         :click-action="submitRequest"
       />
+      <!-- :disabled="!dataReady" -->
     </v-card-actions>
   </v-card>
 </template>
@@ -115,20 +115,12 @@ export default {
       console.log(this.vaildForm);
       return this.validForm && this.uploadFileValue;
     },
-    // documentTypes() {
-    //   return sortBy(this.secureExchangeDocumentTypes, ['displayOrder']).map(
-    //     (code) => ({
-    //       text: code.label,
-    //       value: code.secureExchangeDocumentTypeCode,
-    //     })
-    //   );
-    // },
   },
   watch: {
-    // dataReady() {
-    //   //force re-renders of the button to solve the color issue
-    //   this.buttonKey += 1;
-    // },
+    dataReady() {
+      //force re-renders of the button to solve the color issue
+      this.buttonKey += 1;
+    },
   },
   async created() {
     if (this.selectedOption) {
@@ -174,31 +166,31 @@ export default {
       }
     },
     submitRequest() {
-      if (this.dataReady) {
-        try {
-          if (
-            this.uploadFileValue[0].name &&
-            this.uploadFileValue[0].name.match(
-              '^[\\u0080-\\uFFFF\\w,\\s-_]+\\.[A-Za-z]{3,4}$'
-            )
-          ) {
-            this.active = true;
-            const reader = new FileReader();
-            reader.onload = this.uploadFile;
-            reader.onabort = this.handleFileReadErr;
-            reader.onerror = this.handleFileReadErr;
-            reader.readAsBinaryString(this.uploadFileValue[0]);
-          } else {
-            this.active = false;
-            this.setErrorAlert(
-              'Please remove spaces and special characters from file name and try uploading again.'
-            );
-          }
-        } catch (e) {
-          this.handleFileReadErr();
-          throw e;
+      // if (this.dataReady) {
+      try {
+        if (
+          this.uploadFileValue[0].name &&
+          this.uploadFileValue[0].name.match(
+            '^[\\u0080-\\uFFFF\\w,\\s-_]+\\.[A-Za-z]{3,4}$'
+          )
+        ) {
+          this.active = true;
+          const reader = new FileReader();
+          reader.onload = this.uploadFile;
+          reader.onabort = this.handleFileReadErr;
+          reader.onerror = this.handleFileReadErr;
+          reader.readAsBinaryString(this.uploadFileValue[0]);
+        } else {
+          this.active = false;
+          this.setErrorAlert(
+            'Please remove spaces and special characters from file name and try uploading again.'
+          );
         }
+      } catch (e) {
+        this.handleFileReadErr();
+        throw e;
       }
+      // }
     },
     handleFileReadErr() {
       this.active = false;
@@ -211,12 +203,17 @@ export default {
       this.isFormValid = valid.valid;
     },
     async uploadFile(env) {
+      console.log(this.uploadFileValue[0]);
       let document = {
         fileName: getFileNameWithMaxNameLength(this.uploadFileValue[0].name),
-        fileExtension: this.uploadFileValue[0].type,
-        fileSize: this.uploadFileValue[0].size,
+        documentName: this.uploadFileValue[0].name
+          .split('.')
+          .slice(0, -1)
+          .join('.'),
+        // fileExtension: this.uploadFileValue[0].type,
+        // fileSize: this.uploadFileValue[0].size,
         documentTypeCode: this.documentTypeCode,
-        documentData: btoa(env.target.result),
+        content: btoa(env.target.result),
       };
       this.$emit('upload', document);
       this.resetForm();

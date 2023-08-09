@@ -11,10 +11,10 @@
         <v-label>Status</v-label>
         <p>{{ eoi.iosas_reviewstatus || NULL_STRING }}</p>
       </v-col>
-      <v-col cols="12" sm="12" md="4" xs="12">
+      <!-- <v-col cols="12" sm="12" md="4" xs="12">
         <v-label>{{ getCorrectDate().label }}</v-label>
         <p>{{ getCorrectDate().date || NULL_STRING }}</p>
-      </v-col>
+      </v-col> -->
     </v-row>
     <br />
     <v-divider></v-divider>

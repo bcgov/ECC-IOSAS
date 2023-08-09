@@ -177,11 +177,11 @@ export default {
     }
   },
 
-  async getEOIDocuments() {
+  async getEOIDocuments(id) {
     try {
-      return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS);
+      return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
     } catch (e) {
-      console.log(`Failed to get getEOIDocumentTypeCodes - ${e}`);
+      console.log(`Failed to get getEOIDocuments - ${e}`);
       throw e;
     }
   },
@@ -197,6 +197,15 @@ export default {
   async getAllEOIByUser() {
     try {
       return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATIONS);
+    } catch (e) {
+      console.log(`Failed to get getAllEOIByUser - ${e}`);
+      throw e;
+    }
+  },
+
+  async getEOIById(id) {
+    try {
+      return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATION(id));
     } catch (e) {
       console.log(`Failed to get getAllEOIByUser - ${e}`);
       throw e;
@@ -230,9 +239,9 @@ export default {
     }
   },
 
-  async cancelEOI(payload) {
+  async cancelEOI(id) {
     try {
-      return await apiAxios.patch(ApiRoutes.eoi.CANCEL_EOI, payload);
+      return await apiAxios.patch(ApiRoutes.eoi.CANCEL_EOI(id));
     } catch (e) {
       console.log(`Failed to post to Nodejs createEOI API - ${e}`);
       throw e;

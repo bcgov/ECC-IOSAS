@@ -6,7 +6,7 @@
       </template>
     </v-breadcrumbs>
     <ExpressionOfInterestForm
-      :eoi="getEOIApplicationById(this.$route.params.id)"
+      :eoi="eoi"
       :isLoading="isLoading"
       @setIsLoading="setIsLoading"
       :schoolYearOptions="schoolYearOptions"
@@ -32,6 +32,7 @@ export default {
   },
   data: () => ({
     isLoading: true,
+    eoi: null,
     documentTypeOptions: [],
     schoolYearOptions: [],
     pickListOptions: null,
@@ -49,12 +50,15 @@ export default {
       },
     ],
   }),
-  mounted() {},
+  mounted() {
+    console.log(this.getEOIApplicationById(this.$route.params.id));
+  },
   computed: {
     ...mapState(authStore, ['isAuthenticated']),
     ...mapState(applicationsStore, [
       'getApplicationData',
       'getEOIApplicationById',
+      'getEOI',
     ]),
     ...mapState(metaDataStore, [
       'getActiveSchoolYearSelect',
@@ -81,7 +85,14 @@ export default {
     await metaDataStore().getDocumentPickLists();
     await metaDataStore().getSchoolAuthority();
 
-    await applicationsStore().getApplicationData();
+    if (this.$route.params.id) {
+      console.log('There is no id??? why we here');
+      await applicationsStore().getEOIApplicationById(this.$route.params.id);
+
+      this.eoi = this.getEOI;
+      console.log('THIS EOI', this.eoi);
+    }
+
     this.schoolAuthorityOptions = this.getSchoolAuthorityListOptions;
     this.schoolYearOptions = this.getActiveSchoolYearSelect;
     this.documentTypeOptions =

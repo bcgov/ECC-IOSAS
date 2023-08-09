@@ -22,6 +22,7 @@ export const metaDataStore = defineStore('metaData', {
         return map;
       }, {});
     },
+    getEOIPicklistHashMap: (state) => {},
     getEOIPickListOptions: (state) => state.EOIPickListOptions,
     getDocumentPickListOptions: (state) => state.documentPickListOptions,
     getApplicationPickListOptions: (state) => state.applicationPickListOptions,

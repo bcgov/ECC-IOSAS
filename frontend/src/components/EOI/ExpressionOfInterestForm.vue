@@ -863,10 +863,10 @@ export default {
         iosas_schoolcountry: 'Canada',
         iosas_schoolpostalcode: 'V8V8H3',
         iosas_schoolprovince: 'British Columbia',
-        iosas_schoolauthoritycontactemail: 'name@gmail.com',
+        iosas_schoolauthoritycontactemail: 'meredith.mumby@gmail.com',
         iosas_schoolauthoritycontactname: 'school authority name',
         ioas_schoolauthoritycontactphone: '888-333-4444',
-        iosas_schoolauthorityheademail: 'name@gmail.com',
+        iosas_schoolauthorityheademail: 'meredith.mumby@gmail.com',
         iosas_schoolauthorityheadname: 'Johnny Smith',
         iosas_schoolauthorityheadphone: '555-555-5555',
         iosas_schoolauthorityname: 'School Authority Name',
@@ -888,7 +888,10 @@ export default {
   },
   created() {
     this.data = this.isNew() ? this.data : this.eoi;
-    this.isEditing = this.eoi?.iosas_reviewstatus === 'Draft';
+    this.isEditing =
+      this.eoi?.[
+        'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
+      ] === 'Draft';
   },
   methods: {
     authStore,
@@ -904,7 +907,11 @@ export default {
       return this.$route.name === 'newExpressionOfInterest';
     },
     isReadOnly() {
-      return this.eoi.iosas_reviewstatus !== 'Draft';
+      return (
+        this.eoi?.[
+          'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
+        ] !== 'Draft'
+      );
     },
     async handleGetAuthorityHead(schoolAuthorityId) {
       try {
@@ -985,9 +992,7 @@ export default {
         return;
       } else {
         this.$emit('setIsLoading');
-        ApiService.cancelEOI({
-          iosas_expressionofinterestid: this.eoi.iosas_expressionofinterestid,
-        })
+        ApiService.cancelEOI('4d187380-df36-ee11-bdf4-000d3af4f417')
           .then(() => {
             this.$router.push({
               name: 'applicationConfirmation',
@@ -1016,7 +1021,10 @@ export default {
       // PATCH OR POST??
       this.$emit('setIsLoading');
       ApiService.createEOI(this.data, this.isSubmitted)
-        .then(() => {
+        .then((response) => {
+          if (this.documents.length > 0) {
+            this.handleUploadDocuments(response.data);
+          }
           // Submit all documents
           // What happens if document upload fails? Throw error, fail silently?
           this.setSuccessAlert(
@@ -1083,37 +1091,39 @@ export default {
       console.log(this.documents);
     },
     async handleUploadDocuments(eoiID) {
-      const payload = {
-        regardingId: eoiID,
-        documentName: 'test',
-        fileName: 'test.txt',
-        content:
-          'ew0KICAgICJpb3Nhc19hdXRob3JpdHlhZGRyZXNzbGluZTEiOiAiMTI5IG1haW4gc3RyZWV0IiwNCiAgICAiaW9zYXNfYXV0aG9yaXR5YWRkcmVzc2xpbmUyIjogImFwYXJ0bWVudCAyMSIsDQogICAgImlvc2FzX2F1dGhvcml0eWNpdHkiOiAiVmljdG9yaWEiLA0KICAgICJpb3Nhc19hdXRob3JpdHljb3VudHJ5IjogIkNhbmFkYSIsDQogICAgImlvc2FzX2F1dGhvcml0eWhlYWRmaXJzdG5hbWUiOiAiSmFjayIsDQogICAgImlvc2FzX2F1dGhvcml0eWhlYWRuYW1lIjogIlNtaXRoIiwNCiAgICAiaW9zYXNfYXV0aG9yaXR5cG9zdGFsY29kZSI6ICJWOFY4aDMiLA0KICAgICJpb3Nhc19hdXRob3JpdHlwcm92aW5jZSI6ICJCcml0aXNoIENvbHVtYmlhIiwNCiAgICAiaW9zYXNfZGVzaWduYXRlZGNvbnRhY3RmaXJzdG5hbWUiOiAiUGV0ZXIiLA0KICAgICJpb3Nhc19kZXNpZ25hdGVkY29udGFjdHNhbWVhc2F1dGhvcml0eWhlYWQiOiBmYWxzZSwNCiAgICAiaW9zYXNfc2Nob29sYXV0aG9yaXR5bmFtZSI6ICJTY2hvb2wgQXV0aG9yaXR5IE5hbWUiLA0KICAgICJpb3Nhc19ncm91cGNsYXNzaWZpY2F0aW9uIjogMTAwMDAwMDAwLA0KICAgICJpb3Nhc19wcm9wb3NlZHNjaG9vbG5hbWUiOiAiVmljdG9yaWEgSGlnaCBTY2hvb2wiLA0KICAgICJpb3Nhc19zY2hvb2xhZGRyZXNzbGluZTEiOiAiNDczODQgVmljdG9yaWEgbWFpbiByZCIsDQogICAgImlvc2FzX3NjaG9vbGFkZHJlc3NsaW5lMiI6ICJmbG9vciAyIiwNCiAgICAiaW9zYXNfc2Nob29sY2l0eSI6ICJWaWN0b3JpYSIsDQogICAgImlvc2FzX3NjaG9vbGNvdW50cnkiOiAiQ2FuYWRhIiwNCiAgICAiaW9zYXNfc2Nob29scG9zdGFsY29kZSI6ICJWOFYgOEgzIiwNCiAgICAiaW9zYXNfc2Nob29scHJvdmluY2UiOiAiQnJpdGlzaCBDb2x1bWJpYSIsDQogICAgImlvc2FzX3NjaG9vbGF1dGhvcml0eWNvbnRhY3RlbWFpbCI6ICJwZXRlckBnbWFpbC5jb20iLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHljb250YWN0bmFtZSI6ICJXaWxsb3ciLA0KICAgICJpb2FzX3NjaG9vbGF1dGhvcml0eWNvbnRhY3RwaG9uZSI6ICI3MzgtNDA5LTAyMDQiLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHloZWFkZW1haWwiOiAiamFja0BnbWFpbC5jb20iLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHloZWFkcGhvbmUiOiAiMjUwLTQzMC0zNDQzIiwNCiAgICAiaW9zYXNfc2Vla2dyb3Vwb25lY2xhc3NpZmljYXRpb24iOiB0cnVlLA0KICAgICJpb3Nhc19zdGFydGdyYWRlIjogMTAwMDAwMDAwLA0KICAgICJpb3Nhc19lbmRncmFkZSI6IDEwMDAwMDAxMiwNCiAgICAiaW9zYXNfd2Vic2l0ZSI6ICJ3d3cudmljdG9yaWEtaGlnaC1zY2hvb2wuY2EiLA0KICAgICJpb3Nhc19zY2hvb2xhdXRob3JpdHloZWFkbmFtZSI6IkNoYW4iLA0KICAgICJfaW9zYXNfZWR1X3llYXJfdmFsdWUiOiIxZjNkM2YzZS00N2IwLWVjMTEtOTgzZS0wMDIyNDg2ZTFiMzkiDQp9',
-        documentType: 100000000,
-        regardingType: 'iosas_expressionofinterest',
-      };
-
-      await ApiService.uploadFile(payload)
-        .then(() => {
-          return;
+      Promise.all(
+        this.documents.map(async (document) => {
+          const payload = {
+            ...document,
+            regardingId: eoiID,
+            regardingType: 'iosas_expressionofinterest',
+          };
+          await ApiService.uploadFile(payload)
+            .then(() => {
+              return;
+            })
+            .catch((error) => {
+              this.setFailureAlert(
+                error?.response?.data?.message
+                  ? error?.response?.data?.message
+                  : 'An error occurred while saving the expression of Interest. Please try again later.'
+              );
+            });
         })
-        .catch((error) => {
-          this.setFailureAlert(
-            error?.response?.data?.message
-              ? error?.response?.data?.message
-              : 'An error occurred while saving the expression of Interest. Please try again later.'
-          );
-        });
+      );
     },
     getCorrectDate() {
       return this.data.iosas_reviewstatus === 'Draft'
         ? {
             label: 'Submission Date',
-            date: this.formatDateTime(this.data.iosas_submissiondate),
+            date:
+              this.formatDateTime(this.data.iosas_submissiondate) ||
+              NULL_STRING,
           }
         : {
             label: 'Decision Date',
-            date: this.formatDateTime(this.data.iosas_approvaldate),
+            date:
+              this.formatDateTime(this.data.iosas_approvaldate) || NULL_STRING,
           };
     },
     validateAndPopulate(e) {
