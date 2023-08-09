@@ -45,6 +45,8 @@ const proxyMiddleWare =
     try {
       const host = dynamicIntegrationService.host();
       const endpoint = host + '/api' + path;
+      const headers = req.headers || { };
+      const contentType = headers['Content-Type'];
       const { data, status } = await axios({
         url: endpoint,
         method,
@@ -52,6 +54,9 @@ const proxyMiddleWare =
           ...req.query,
           userId: dynamicConactId,
         },
+        headers: {
+          'Content-Type': contentType || 'application/json',
+        }
       });
       log.info(
         `Dynamic | API | URL: ${endpoint} | Method: ${method}| Success: ${status}`

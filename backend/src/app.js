@@ -155,8 +155,7 @@ apiRouter.use('/user', userRouter);
 apiRouter.use('/dynamic', dynamicRouter);
 
 
-console.log(`INFO: NODE ENV: ${process.env.NODE_ENV} | PORT: ${process.env.API_PORT}`);
-
+log.info(`NODE ENV: ${process.env.NODE_ENV} | PORT: ${process.env.API_PORT || 'default-port-8080'}`);
 //Handle 500 error
 app.use((err, _req, res, next) => {
   log.error(err?.stack);
