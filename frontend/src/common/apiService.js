@@ -98,7 +98,7 @@ export default {
     }
   },
 
-  async uploadFile(relatedId, fileData) {
+  async uploadFile(fileData) {
     try {
       return await apiAxios.post(ApiRoutes.documents.UPLOAD_DOCUMENT, fileData);
     } catch (e) {
