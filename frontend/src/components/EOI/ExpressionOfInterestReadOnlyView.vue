@@ -9,7 +9,13 @@
       </v-col>
       <v-col cols="12" sm="12" md="4" xs="12">
         <v-label>Status</v-label>
-        <p>{{ eoi.iosas_reviewstatus || NULL_STRING }}</p>
+        <p>
+          {{
+            eoi[
+              'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
+        </p>
       </v-col>
       <!-- <v-col cols="12" sm="12" md="4" xs="12">
         <v-label>{{ getCorrectDate().label }}</v-label>
@@ -157,14 +163,26 @@
       </v-col>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Year</v-label>
-        <p>{{ eoi._iosas_edu_year_value || NULL_STRING }}</p>
+        <p>
+          {{
+            eoi[
+              '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
+        </p>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12">
         <v-label>Group Classification</v-label>
-        <p>{{ eoi.iosas_groupclassification || NULL_STRING }}</p>
+        <p>
+          {{
+            eoi[
+              'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
+        </p>
       </v-col>
     </v-row>
     <v-row>
@@ -183,8 +201,11 @@
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>Proposed grade range in first year of operation</v-label>
         <p>
-          {{ eoi.iosas_startgrade }} -
-          {{ eoi.iosas_endgrade }}
+          {{
+            eoi['iosas_startgrade@OData.Community.Display.V1.FormattedValue']
+          }}
+          -
+          {{ eoi['iosas_endgrade@OData.Community.Display.V1.FormattedValue'] }}
         </p>
       </v-col>
     </v-row>

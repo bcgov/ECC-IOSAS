@@ -5,7 +5,7 @@ import { EOI_MOCK, SCHOOL_APPLICATION_MOCK } from '../../utils/constants/mocks';
 export const applicationsStore = defineStore('applications', {
   namespaced: true,
   state: () => ({
-    EOIApplicationsMap: new Map(),
+    EOIApplications: null,
     schoolApplicationsMap: new Map(),
     eoi: null,
   }),
@@ -15,21 +15,33 @@ export const applicationsStore = defineStore('applications', {
       Object.values(Object.fromEntries(state.schoolApplicationsMap)).map(
         (v) => ({
           application_number: v.iosas_applicationnumber,
-          status: v.statuscode,
+          status:
+            v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
           school_name: v.iosas_proposedschoolname,
-          school_year: v._iosas_edu_year_value,
-          group_classification: v.iosas_groupclassification,
+          school_year:
+            v[
+              '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
+            ],
+          group_classification:
+            v[
+              'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
+            ],
         })
       ),
     getEOIApplicationsFormatted: (state) =>
-      Object.values(Object.fromEntries(state.EOIApplicationsMap)).map((v) => ({
+      state.EOIApplications.map((v) => ({
         // EOI_number: '4d187380-df36-ee11-bdf4-000d3af4f417',
 
         EOI_number: '5880d5a4-e936-ee11-bdf4-000d3af4f58e',
-        status: v.iosas_reviewstatus,
+        status:
+          v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
         proposed_school_name: v.iosas_proposedschoolname,
-        school_year: v._iosas_edu_year_value,
-        group_classification: v.iosas_groupclassification,
+        school_year:
+          v['_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'],
+        group_classification:
+          v[
+            'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
+          ],
       })),
     getEOI: (state) => {
       console.log('state.eoi', state.eoi);
@@ -42,14 +54,7 @@ export const applicationsStore = defineStore('applications', {
   },
   actions: {
     async setEOIApplications(applicationsResponse) {
-      // if (!applicationsStore) return [];
-      this.EOIApplicationsMap = new Map();
-      applicationsResponse.forEach((element) => {
-        this.EOIApplicationsMap.set(
-          '5880d5a4-e936-ee11-bdf4-000d3af4f58e',
-          element
-        );
-      });
+      this.EOIApplications = applicationsResponse;
     },
     async setEOIApplication(response) {
       console.log('response,', response);
@@ -88,7 +93,6 @@ export const applicationsStore = defineStore('applications', {
       const response = await ApiService.getAllEOIByUser();
       await this.setEOIApplications(response.data.value);
     },
-
     async getEOIApplicationById(eoiId) {
       const response = await ApiService.getEOIById(eoiId);
 
@@ -99,15 +103,5 @@ export const applicationsStore = defineStore('applications', {
       };
       await this.setEOIApplication(eoi);
     },
-    // async createEOI(payload) {
-    //   const response = await ApiService.createEOI(payload);
-    //   return response;
-    // },
   },
-
-  //   async getAllApplications() {
-  //     const response = await ApiService.getAllEOIByUser();
-  //     await this.setEOIApplications(response.data);
-  //   },
-  // },
 });

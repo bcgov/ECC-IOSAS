@@ -565,34 +565,37 @@
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Incorporation Certificate</v-label>
                   <br />
-                  <div
-                    v-if="
-                      documents.filter(
-                        ({ documentTypeCode }) =>
-                          documentTypeCode === 'incorporation'
-                      )[0]
-                    "
-                  >
-                    <v-icon
-                      aria-hidden="false"
-                      color="rgb(0, 51, 102)"
-                      size="20"
+                  <div v-if="renderDocument(100000000)[0]" class="d-flex">
+                    <div>
+                      <v-icon
+                        aria-hidden="false"
+                        color="rgb(0, 51, 102)"
+                        size="20"
+                      >
+                        mdi-file-document-check-outline
+                      </v-icon>
+                      {{ renderDocument(100000000)[0].fileName }}
+                    </div>
+
+                    <v-btn
+                      secondary
+                      class="ml-15"
+                      variant="flat"
+                      size="sm"
+                      @click.stop="removeDocment(renderDocument(100000000)[0])"
+                      ><v-icon aria-hidden="false" color="red" size="20">
+                        mdi-delete-forever-outline
+                      </v-icon></v-btn
                     >
-                      mdi-file-document-check-outline
-                    </v-icon>
-                    {{
-                      documents.filter(
-                        ({ documentTypeCode }) =>
-                          documentTypeCode === 'incorporation'
-                      )[0].fileName
-                    }}
                   </div>
+
                   <v-btn
+                    v-else
                     type="submit"
                     secondary
                     class="mt-2"
                     variant="outlined"
-                    @click.stop="toggleUpload(100000000)"
+                    @click="toggleUpload(100000000)"
                     >Upload</v-btn
                   >
                 </v-col>
@@ -612,34 +615,34 @@
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate of Good Standing (Optional)</v-label>
                   <br />
-                  <div
-                    v-if="
-                      documents.filter(
-                        ({ documentTypeCode }) =>
-                          documentTypeCode === 'goodStanding'
-                      )[0]
-                    "
-                  >
-                    <v-icon
-                      aria-hidden="false"
-                      color="rgb(0, 51, 102)"
-                      size="20"
+                  <div v-if="renderDocument(100000001)[0]" class="d-flex">
+                    <div>
+                      <v-icon
+                        aria-hidden="false"
+                        color="rgb(0, 51, 102)"
+                        size="20"
+                      >
+                        mdi-file-document-check-outline
+                      </v-icon>
+                      {{ renderDocument(100000001)[0].fileName }}
+                    </div>
+                    <v-btn
+                      secondary
+                      class="ml-15"
+                      variant="flat"
+                      size="sm"
+                      @click.stop="removeDocment(renderDocument(100000001)[0])"
+                      ><v-icon aria-hidden="false" color="red" size="20">
+                        mdi-delete-forever-outline
+                      </v-icon></v-btn
                     >
-                      mdi-file-document-check-outline
-                    </v-icon>
-                    {{
-                      documents.filter(
-                        ({ documentTypeCode }) =>
-                          documentTypeCode === 'goodStanding'
-                      )[0].fileName
-                    }}
                   </div>
                   <v-btn
-                    type="submit"
+                    v-else
                     secondary
                     class="mt-2"
                     variant="outlined"
-                    @click.stop="toggleUpload(100000001)"
+                    @click="toggleUpload(100000001)"
                     >Upload</v-btn
                   >
                 </v-col>
@@ -659,26 +662,37 @@
               <v-row>
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <div
-                    v-for="document in documents.filter(
-                      ({ documentTypeCode }) => documentTypeCode === 'other'
-                    )"
-                    key="document.documentData"
+                    v-for="document in renderDocument(100000002)"
+                    key="document.content"
                   >
-                    <v-icon
-                      aria-hidden="false"
-                      color="rgb(0, 51, 102)"
-                      size="20"
-                    >
-                      mdi-file-document-check-outline
-                    </v-icon>
-                    {{ document.fileName }}
+                    <div class="d-flex">
+                      <div>
+                        <v-icon
+                          aria-hidden="false"
+                          color="rgb(0, 51, 102)"
+                          size="20"
+                        >
+                          mdi-file-document-check-outline
+                        </v-icon>
+                        {{ document.fileName }}
+                      </div>
+                      <v-btn
+                        secondary
+                        class="ml-15"
+                        variant="flat"
+                        size="sm"
+                        @click.stop="removeDocment(document)"
+                        ><v-icon aria-hidden="false" color="red" size="20">
+                          mdi-delete-forever-outline
+                        </v-icon></v-btn
+                      >
+                    </div>
                   </div>
                   <v-btn
-                    type="submit"
                     secondary
                     class="mt-2"
                     variant="outlined"
-                    @click.stop="toggleUpload(100000002)"
+                    @click="toggleUpload(100000002)"
                     >Upload</v-btn
                   >
                 </v-col>
@@ -889,6 +903,7 @@ export default {
   created() {
     this.data = this.isNew() ? this.data : this.eoi;
     this.isEditing =
+      this.isNew() ||
       this.eoi?.[
         'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
       ] === 'Draft';
@@ -908,7 +923,7 @@ export default {
     },
     isReadOnly() {
       return (
-        this.eoi?.[
+        this.eoi[
           'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
         ] !== 'Draft'
       );
@@ -992,7 +1007,7 @@ export default {
         return;
       } else {
         this.$emit('setIsLoading');
-        ApiService.cancelEOI('4d187380-df36-ee11-bdf4-000d3af4f417')
+        ApiService.cancelEOI(this.data.iosas_expressionofinterestid)
           .then(() => {
             this.$router.push({
               name: 'applicationConfirmation',
@@ -1112,6 +1127,20 @@ export default {
         })
       );
     },
+    renderDocument(documentCode) {
+      return this.documents.filter(
+        (document) => document.documentTypeCode === documentCode
+      );
+    },
+    removeDocment(document) {
+      if (document.id) {
+        // Delete with pop confirm
+      } else {
+        // First find index
+       const index = this.documents.findIndex(x => x.conent === document.content)
+        this.documents.slice(index);
+      }
+    }
     getCorrectDate() {
       return this.data.iosas_reviewstatus === 'Draft'
         ? {
