@@ -710,6 +710,20 @@
                   >
                 </v-col>
               </v-row>
+              <br />
+              <v-divider></v-divider>
+              <v-label>Additional Notes (Optional)</v-label>
+              <v-row>
+                <v-col cols="12" sm="12" md="12" xs="12">
+                  <v-textarea
+                    id="iosas_additionalnotes"
+                    v-model="data.iosas_additionalnotes"
+                    :maxlength="255"
+                    variant="outlined"
+                    color="rgb(59, 153, 252)"
+                  />
+                </v-col>
+              </v-row>
 
               <br />
               <br />
