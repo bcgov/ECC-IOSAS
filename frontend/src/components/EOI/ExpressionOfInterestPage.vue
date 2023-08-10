@@ -50,9 +50,7 @@ export default {
       },
     ],
   }),
-  mounted() {
-    console.log(this.getEOIApplicationById(this.$route.params.id));
-  },
+  mounted() {},
   computed: {
     ...mapState(authStore, ['isAuthenticated']),
     ...mapState(applicationsStore, [
@@ -69,12 +67,7 @@ export default {
       'getDocumentPickLists',
       'getDocumentPickListOptions',
       'getSchoolAuthorityListOptions',
-      'getSchoolYearHashMap',
     ]),
-    // ...mapState(documentStore, [
-    //   'getEOIDocumentOptionsSelect',
-    //   'getEOIDocumentTypeCodes',
-    // ]),
   },
   async created() {
     // PickLists - move to App.vue?
@@ -85,22 +78,18 @@ export default {
     await metaDataStore().getDocumentPickLists();
     await metaDataStore().getSchoolAuthority();
 
-    if (this.$route.params.id) {
-      console.log('There is no id??? why we here');
-      await applicationsStore().getEOIApplicationById(this.$route.params.id);
-
-      this.eoi = this.getEOI;
-      console.log('THIS EOI', this.eoi);
-    }
-
     this.schoolAuthorityOptions = this.getSchoolAuthorityListOptions;
     this.schoolYearOptions = this.getActiveSchoolYearSelect;
     this.documentTypeOptions =
       this.getDocumentPickListOptions?.['iosas_eoidocumenttype'];
     this.pickListOptions = this.getEOIPickListOptions;
-    this.isLoading = false;
+    if (this.$route.params.id) {
+      await applicationsStore().getEOIApplicationById(this.$route.params.id);
 
-    console.log(this.getSchoolYearHashMap);
+      this.eoi = this.getEOI;
+      console.log('THIS EOI on PAGE', this.eoi);
+    }
+    this.isLoading = false;
   },
   methods: {
     authStore,

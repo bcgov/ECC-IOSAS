@@ -79,16 +79,6 @@ export default {
       throw e;
     }
   },
-
-  // async getDocumentTypeCodes() {
-  //   try {
-  //     return await apiAxios.get(ApiRoutes.edx.DOCUMENT_TYPES_URL);
-  //   } catch (e) {
-  //     console.log(`Failed to get from Nodejs getDocumentTypeCodes API - ${e}`);
-  //     throw e;
-  //   }
-  // },
-
   async getFileRequirements() {
     try {
       return await apiAxios.get(ApiRoutes.edx.FILE_REQUIREMENTS_URL);
@@ -97,7 +87,6 @@ export default {
       throw e;
     }
   },
-
   async uploadFile(fileData) {
     try {
       return await apiAxios.post(ApiRoutes.documents.UPLOAD_DOCUMENT, fileData);
@@ -106,7 +95,6 @@ export default {
       throw e;
     }
   },
-
   async deleteDocument(documentID) {
     try {
       return await apiAxios.delete(
@@ -117,7 +105,6 @@ export default {
       throw e;
     }
   },
-
   async getUserInfo() {
     try {
       return await apiAxios.get(ApiRoutes.USER);
@@ -126,21 +113,6 @@ export default {
       throw e;
     }
   },
-
-  // async getConfig(configName) {
-  //   try {
-  //     const queryParams = {
-  //       params: {
-  //         configName: configName,
-  //       },
-  //     };
-  //     const response = await apiAxios.get(ApiRoutes.CONFIG, queryParams);
-  //     return response.data.configValue;
-  //   } catch (e) {
-  //     console.log(`Failed to do get from Nodejs getConfig API - ${e}`);
-  //     throw e;
-  //   }
-  // },
   async getActiveSchoolYears() {
     try {
       return await apiAxios.get(ApiRoutes.meta.ACTIVE_SCHOOL_YEARS);
@@ -149,7 +121,6 @@ export default {
       throw e;
     }
   },
-
   async getSchoolAuthority() {
     try {
       return await apiAxios.get(ApiRoutes.meta.SCHOOL_AUTHORITY);
@@ -158,7 +129,6 @@ export default {
       throw e;
     }
   },
-
   async getSchoolAuthorityHead(id) {
     try {
       return await apiAxios.get(ApiRoutes.meta.CONTACT_BY_SCHOOL_AUTHORITY(id));
@@ -167,7 +137,6 @@ export default {
       throw e;
     }
   },
-
   async getApplicationDocuments() {
     try {
       return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
@@ -176,7 +145,6 @@ export default {
       throw e;
     }
   },
-
   async getEOIDocuments(id) {
     try {
       return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
@@ -193,7 +161,6 @@ export default {
       throw e;
     }
   },
-
   async getAllEOIByUser() {
     try {
       return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATIONS);
@@ -202,7 +169,6 @@ export default {
       throw e;
     }
   },
-
   async getEOIById(id) {
     try {
       return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATION(id));
@@ -211,7 +177,6 @@ export default {
       throw e;
     }
   },
-
   async getPickLists(tableName) {
     try {
       return await apiAxios.get(ApiRoutes.meta.PICK_LISTS(tableName));
@@ -220,7 +185,6 @@ export default {
       throw e;
     }
   },
-
   async createEOI(payload, submitted) {
     try {
       return await apiAxios.post(ApiRoutes.eoi.CREATE_EOI(submitted), payload);
@@ -229,16 +193,17 @@ export default {
       throw e;
     }
   },
-
   async updateEOI(eoiId, payload, submitted) {
     try {
-      return await apiAxios.patch(ApiRoutes.eoi.UPDATE_EOI(submitted), payload);
+      return await apiAxios.patch(
+        ApiRoutes.eoi.UPDATE_EOI(submitted, eoiId),
+        payload
+      );
     } catch (e) {
       console.log(`Failed to post to Nodejs createEOI API - ${e}`);
       throw e;
     }
   },
-
   async cancelEOI(id) {
     try {
       return await apiAxios.patch(ApiRoutes.eoi.CANCEL_EOI(id));

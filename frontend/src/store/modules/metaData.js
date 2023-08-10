@@ -15,13 +15,6 @@ export const metaDataStore = defineStore('metaData', {
       // FILTER BY STATUS CODE
       return state.activeSchoolYears;
     },
-    getSchoolYearHashMap: (state) => {
-      console.log(state);
-      return state.activeSchoolYears.reduce(function (map, obj) {
-        map[obj.value] = obj.label;
-        return map;
-      }, {});
-    },
     getEOIPicklistHashMap: (state) => {},
     getEOIPickListOptions: (state) => state.EOIPickListOptions,
     getDocumentPickListOptions: (state) => state.documentPickListOptions,
@@ -50,10 +43,16 @@ export const metaDataStore = defineStore('metaData', {
       return list;
     },
     async setActiveSchoolYears(response) {
-      this.activeSchoolYears = response.map((element) => ({
-        value: element.edu_yearid,
-        label: element.edu_name,
-      }));
+      this.activeSchoolYears = response
+        .filter(
+          (code) =>
+            code['statuscode@OData.Community.Display.V1.FormattedValue'] ===
+            'Current'
+        )
+        .map((element) => ({
+          value: element.edu_yearid,
+          label: element.edu_name,
+        }));
     },
     async setEOIPickListOptions(response) {
       this.EOIPickListOptions = await this.formatPickLists(response);
@@ -123,7 +122,8 @@ export const metaDataStore = defineStore('metaData', {
         schoolAuthorityId
       );
 
-      console.log('school authority head contact', response);
+      console.log('school authority head contact', response.data);
+      return response.data;
       //   await this.setSchoolAuthorityOptions(response.data.value);
     },
   },

@@ -49,39 +49,44 @@
             <div v-if="!isEditing && !isNew()">
               <ExpressionOfInterestReadOnlyView
                 :eoi="this.eoi"
-                @getCorrectDate="getCorrectDate"
+                :draftStatusCode="draftStatusCode"
               />
             </div>
             <div v-else>
               <div v-if="!isNew()">
-                <h4>General</h4>
-                <br />
-                <v-row>
-                  <v-col cols="12" sm="12" md="4" xs="12">
-                    <v-label>EOI Number </v-label>
-                    <p>{{ data.iosas_eionumber }}</p>
-                  </v-col>
-                  <v-col cols="12" sm="12" md="4" xs="12">
-                    <v-label>Status </v-label>
-                    <p>{{ data.iosas_reviewstatus }}</p>
-                  </v-col>
-                  <v-col cols="12" sm="12" md="4" xs="12">
-                    <v-label>{{ getCorrectDate().label }}</v-label>
-                    <p>{{ getCorrectDate().date }}</p>
-                  </v-col>
-                </v-row>
+                <EOIFormHeader :eoi="data" :draftStatusCode="draftStatusCode" />
                 <v-divider></v-divider>
               </div>
               <h4>School Authority Information</h4>
+              <br />
               <v-row>
-                <v-col cols="12" sm="12" md="12" xs="12">
-                  <v-label
-                    >Name of School Authority (as it appears on attached
-                    incorporation documents)</v-label
+                <v-col cols="12">
+                  <v-label class="no-margin"
+                    >Does the School Authority Exist?</v-label
                   >
-                  <!-- USE AUTOCOMPLETE UNTIL SEARCH IS IMPLEMENTED -->
+                  <v-radio-group
+                    id="iosas_existingauthority"
+                    v-model="data.iosas_existingauthority"
+                    color="#003366"
+                    class="mt-4"
+                    inline
+                  >
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
+                  </v-radio-group>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="12"
+                  md="12"
+                  xs="12"
+                  v-if="data.iosas_existingauthority"
+                >
+                  <v-label>Search for School Authority By Name</v-label>
                   <v-autocomplete
-                    label="Search for School Authority Name"
+                    label="School Authority Name"
                     :items="schoolAuthorityOptions"
                     id="_iosas_authorityhead_value"
                     v-model="data._iosas_authorityhead_value"
@@ -90,8 +95,13 @@
                     item-value="value"
                     :rules="[rules.requiredSelect()]"
                   ></v-autocomplete>
-
-                  <!-- <v-text-field
+                </v-col>
+                <v-col cols="12" sm="12" md="12" xs="12" v-else>
+                  <v-label
+                    >School Authority Name (as it appears on attached
+                    incorporation documents)</v-label
+                  >
+                  <v-text-field
                     id="iosas_schoolauthorityname"
                     v-model="data.iosas_schoolauthorityname"
                     :rules="[rules.required()]"
@@ -99,7 +109,7 @@
                     variant="outlined"
                     label="Name"
                     color="rgb(59, 153, 252)"
-                  /> -->
+                  />
                 </v-col>
               </v-row>
               <br />
@@ -133,7 +143,7 @@
                     <v-col cols="12" sm="12" md="6" xs="12">
                       <v-text-field
                         id="iosas_schoolauthorityheadname"
-                        v-model="data.iosas_authorityheadname"
+                        v-model="data.iosas_schoolauthorityheadname"
                         :rules="[rules.required()]"
                         :maxlength="255"
                         variant="outlined"
@@ -263,6 +273,7 @@
                   <v-text-field
                     id="iosas_authorityaddressline1"
                     v-model="data.iosas_authorityaddressline1"
+                    :disabled="populateAndDisableAuthorityAddress"
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -276,6 +287,7 @@
                   <v-text-field
                     id="iosas_authorityaddressline2"
                     v-model="data.iosas_authorityaddressline2"
+                    :disabled="populateAndDisableAuthorityAddress"
                     :rules="[]"
                     :maxlength="255"
                     variant="outlined"
@@ -287,6 +299,7 @@
                   <v-text-field
                     id="iosas_authoritycity"
                     v-model="data.iosas_authoritycity"
+                    :disabled="populateAndDisableAuthorityAddress"
                     :rules="[rules.required()]"
                     :maxlength="255"
                     variant="outlined"
@@ -324,6 +337,7 @@
                   <v-text-field
                     id="iosas_authoritypostalcode"
                     v-model="data.iosas_authoritypostalcode"
+                    :disabled="populateAndDisableAuthorityAddress"
                     :rules="[rules.required(), rules.postalCode()]"
                     :maxlength="7"
                     variant="outlined"
@@ -591,7 +605,6 @@
 
                   <v-btn
                     v-else
-                    type="submit"
                     secondary
                     class="mt-2"
                     variant="outlined"
@@ -751,6 +764,7 @@
                   <v-row align="end">
                     <v-spacer />
                     <v-btn
+                      v-if="!isNew()"
                       variant="plain"
                       @click="handleDelete"
                       class="link-button"
@@ -774,16 +788,16 @@ import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import moment from 'moment';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
 import { formatDateTime } from '../../utils/format';
-import { GOV_URL } from '../../utils/constants';
+import { GOV_URL, NULL_STRING } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
+import EOIFormHeader from './EOIFormHeader.vue';
 import { metaDataStore } from '../../store/modules/metaData';
 
 export default {
@@ -794,6 +808,7 @@ export default {
     ExpressionOfInterestReadOnlyView,
     DocumentUpload,
     VueDatePicker,
+    EOIFormHeader,
   },
   emits: ['setIdLoading'],
   mixins: [alertMixin],
@@ -824,13 +839,42 @@ export default {
     },
   },
   watch: {
-    'data._iosas_authorityhead_value': {
+    eoi: {
       handler(val) {
         if (val) {
+          this.data = this.eoi;
+          if (val.iosas_reviewstatus === this.draftStatusCode) {
+            this.isEditing = true;
+          }
+        }
+      },
+    },
+    'data._iosas_authorityhead_value': {
+      handler(val) {
+        if (val && this.data.iosas_existingauthority) {
+          console.log(val);
+          this.populateAndDisableAuthorityAddress = true;
+          const matchedAuthority = this.schoolAuthorityOptions.find(
+            (authority) => authority.value === val
+          );
+
+          const authorityAddress = {
+            iosas_authorityaddressline1:
+              matchedAuthority.authority.edu_address_street1,
+            iosas_authorityaddressline2: null,
+            iosas_authorityprovince:
+              matchedAuthority.authority.edu_address_province,
+            iosas_authoritycity: matchedAuthority.authority.edu_address_city,
+            iosas_authoritypostalcode:
+              matchedAuthority.authority.edu_address_postalcode,
+            iosas_authoritycountry:
+              matchedAuthority.authority.edu_address_country,
+          };
+
           this.fetchingAuthorityHead = true;
           this.handleGetAuthorityHead(val);
+          return (this.data = { ...this.data, ...authorityAddress });
         }
-        console.log(val);
       },
     },
     isFormValid: {
@@ -846,50 +890,26 @@ export default {
   data() {
     return {
       GOV_URL,
+      draftStatusCode: 100000006,
       isFormValid: false,
       isEditing: false,
       isSubmitted: false,
       schoolAddressKnown: false,
       applicationConfirmation: false,
       fetchingAuthorityHead: false,
+      populateAndDisableAuthorityAddress: false,
       documentUpload: false,
       selectedDocumentOption: null,
       rules: Rules,
       data: {
-        // iosas_eionumber: null,
-        // iosas_reviewstatus: null,
-        iosas_authorityaddressline1: 'test',
-        iosas_authorityaddressline2: 'test',
-        iosas_authoritycity: 'Victoria',
         iosas_authoritycountry: 'Canada',
-        iosas_authorityheadfirstname: 'Jack',
-        iosas_authorityheadname: 'Smmith',
-        iosas_authoritypostalcode: 'V8V8H3',
         iosas_authorityprovince: 'British Columbia',
-        iosas_designatedcontactfirstname: 'Meredith',
+        iosas_existingauthority: false,
         iosas_designatedcontactsameasauthorityhead: true,
-        _iosas_edu_year_value: null,
-        iosas_groupclassification: 100000000,
-        iosas_proposedschoolname: 'proposing this school name',
-        iosas_schooladdressline1: 'line 1',
         iosas_schooladdressline2: 'line 2',
         iosas_schoolcity: 'Victoria',
         iosas_schoolcountry: 'Canada',
-        iosas_schoolpostalcode: 'V8V8H3',
         iosas_schoolprovince: 'British Columbia',
-        iosas_schoolauthoritycontactemail: 'meredith.mumby@gmail.com',
-        iosas_schoolauthoritycontactname: 'school authority name',
-        ioas_schoolauthoritycontactphone: '888-333-4444',
-        iosas_schoolauthorityheademail: 'meredith.mumby@gmail.com',
-        iosas_schoolauthorityheadname: 'Johnny Smith',
-        iosas_schoolauthorityheadphone: '555-555-5555',
-        iosas_schoolauthorityname: 'School Authority Name',
-        iosas_seekgrouponeclassification: false,
-        iosas_startgrade: null,
-        iosas_endgrade: null,
-        iosas_website: 'www.google.com',
-        // iosas_incorporationcertificateissuedate: null,
-        // iosas_certificateofgoodstandingissuedate: null,
       },
       documents: [],
       showActivationSnackBar: false,
@@ -901,12 +921,10 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
+    console.log(this.eoi);
     this.data = this.isNew() ? this.data : this.eoi;
     this.isEditing =
-      this.isNew() ||
-      this.eoi?.[
-        'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
-      ] === 'Draft';
+      this.isNew() || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
   },
   methods: {
     authStore,
@@ -922,25 +940,27 @@ export default {
       return this.$route.name === 'newExpressionOfInterest';
     },
     isReadOnly() {
-      return (
-        this.eoi[
-          'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
-        ] !== 'Draft'
-      );
+      return this.eoi.iosas_reviewstatus !== this.draftStatusCode;
     },
     async handleGetAuthorityHead(schoolAuthorityId) {
       try {
-        await metaDataStore().getAuthorityHead(schoolAuthorityId);
+        const response = await metaDataStore().getAuthorityHead(
+          schoolAuthorityId
+        );
         this.fetchingAuthorityHead = false;
 
         // Replace with from API
-        const contact = {
-          iosas_authorityheadfirstname: 'Peter',
-          iosas_authorityheadname: 'mike',
-          iosas_schoolauthorityheademail: 'tim',
-          iosas_schoolauthorityheadphone: '555-555-555',
-        };
-        this.data = { ...this.data, ...contact };
+        if (response?.length > 0) {
+          console.log(response);
+          // populate with actual data from response
+          const contact = {
+            iosas_authorityheadfirstname: null,
+            iosas_schoolauthorityheadname: null,
+            iosas_schoolauthorityheademail: null,
+            iosas_schoolauthorityheadphone: null,
+          };
+          this.data = { ...this.data, ...contact };
+        }
         // Set contact information here
       } catch (e) {
         this.fetchingAuthorityHead = false;
@@ -950,11 +970,13 @@ export default {
     async handleUpdate() {
       console.log('PATCHING', this.data);
 
-      const valid = await this.$refs.expressionOfInterestForm.validate();
+      if (this.isSubmitted) {
+        const valid = await this.$refs.expressionOfInterestForm.validate();
+        this.isFormValid = valid.valid;
+      }
 
-      this.isFormValid = valid.valid;
-      this.showError = !this.isFormValid;
-      if (this.isFormValid) {
+      this.showError = this.isSubmitted ?? !this.isFormValid;
+      if (this.isFormValid || !this.isSubmitted) {
         this.$emit('setIsLoading');
         ApiService.updateEOI(
           this.data.iosas_expressionofinterestid,
@@ -962,9 +984,9 @@ export default {
           this.isSubmitted
         )
           .then(() => {
-            // Submit all documents
-            // What happens if document upload fails? Throw error, fail silently?
-            // The redirect
+            if (this.documents.length > 0) {
+              this.handleUploadDocuments(response.data);
+            }
             if (this.isSubmitted) {
               this.$router.push({
                 name: 'applicationConfirmation',
@@ -1032,20 +1054,16 @@ export default {
       if (!this.isNew()) {
         return this.handleUpdate();
       }
-      // Don't check validations on Draft update
-      // PATCH OR POST??
       this.$emit('setIsLoading');
       ApiService.createEOI(this.data, this.isSubmitted)
         .then((response) => {
           if (this.documents.length > 0) {
             this.handleUploadDocuments(response.data);
           }
-          // Submit all documents
           // What happens if document upload fails? Throw error, fail silently?
           this.setSuccessAlert(
             'Success! The Expression of Interest has been saved.'
           );
-          // then Fetch EOI by ID
         })
         .catch((error) => {
           console.error(error);
@@ -1073,20 +1091,13 @@ export default {
         ApiService.createEOI(this.data, this.isSubmitted)
           .then((response) => {
             if (this.documents.length > 0) {
-              // const docRes = this.documents.map((document) => {
-              //   this.handleUploadDocuments(response.id, document);
-              // });
-              // Submit all documents
-              // What happens if document upload fails? Throw error, fail silently?
+              this.handleUploadDocuments(response.data);
             }
-            // The redirect
+            // Redirect to Confirmation Page - pass Id to fetch data?
             this.$router.push({
               name: 'applicationConfirmation',
               params: { type: 'EOI' },
             });
-            // this.setSuccessAlert(
-            //   'Success! Expression of Interest draft has been saved'
-            // );
           })
           .catch((error) => {
             console.error(error);
@@ -1128,32 +1139,31 @@ export default {
       );
     },
     renderDocument(documentCode) {
+      // LOGIC HERE TO DISPLAY CORRECT DOCUMENT (SAVED VS UPLOADED)
+      if (this.data.documents?.length > 0) {
+        // iosas_file_name
+        console.log(this.data.documents);
+      } else if (this.documents.length > 0) {
+      }
       return this.documents.filter(
         (document) => document.documentTypeCode === documentCode
       );
     },
     removeDocment(document) {
+      console.log('DOCUMENT PASSED IN', document);
+      console.log('documents', this.documents);
       if (document.id) {
         // Delete with pop confirm
       } else {
+        console.log('HEEEEERE');
         // First find index
-       const index = this.documents.findIndex(x => x.conent === document.content)
-        this.documents.slice(index);
+        const index = this.documents.findIndex(
+          (x) => x.conent === document.content
+        );
+        console.log(item);
+        this.documents.slice(index, 1);
+        return this.documents;
       }
-    }
-    getCorrectDate() {
-      return this.data.iosas_reviewstatus === 'Draft'
-        ? {
-            label: 'Submission Date',
-            date:
-              this.formatDateTime(this.data.iosas_submissiondate) ||
-              NULL_STRING,
-          }
-        : {
-            label: 'Decision Date',
-            date:
-              this.formatDateTime(this.data.iosas_approvaldate) || NULL_STRING,
-          };
     },
     validateAndPopulate(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,

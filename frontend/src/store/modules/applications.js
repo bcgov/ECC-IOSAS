@@ -14,7 +14,8 @@ export const applicationsStore = defineStore('applications', {
       // format the data for table view - keys are turned into table headers
       Object.values(Object.fromEntries(state.schoolApplicationsMap)).map(
         (v) => ({
-          application_number: v.iosas_applicationnumber,
+          application_number:
+            v.iosas_applicationnumber + ' ' + v.iosas_applicationnumber,
           status:
             v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
           school_name: v.iosas_proposedschoolname,
@@ -30,9 +31,7 @@ export const applicationsStore = defineStore('applications', {
       ),
     getEOIApplicationsFormatted: (state) =>
       state.EOIApplications.map((v) => ({
-        // EOI_number: '4d187380-df36-ee11-bdf4-000d3af4f417',
-
-        EOI_number: '5880d5a4-e936-ee11-bdf4-000d3af4f58e',
+        EOI_number: v.iosas_eoinumber + ' ' + v.iosas_expressionofinterestid,
         status:
           v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
         proposed_school_name: v.iosas_proposedschoolname,
@@ -44,8 +43,6 @@ export const applicationsStore = defineStore('applications', {
           ],
       })),
     getEOI: (state) => {
-      console.log('state.eoi', state.eoi);
-
       return state.eoi;
     },
     getSchoolApplicationById: (state) => {
@@ -57,7 +54,6 @@ export const applicationsStore = defineStore('applications', {
       this.EOIApplications = applicationsResponse;
     },
     async setEOIApplication(response) {
-      console.log('response,', response);
       this.eoi = response;
     },
     async setSchoolApplications(applicationsResponse) {
@@ -71,17 +67,6 @@ export const applicationsStore = defineStore('applications', {
     },
     async getApplicationData() {
       if (localStorage.getItem('jwtToken')) {
-        // DONT Call api if there is no token.
-        if (this.EOIApplicationsMap.size === 0) {
-          // API doesn't exist yet, using mock data for now, saving form data to localStorage to mock db interations
-          // const response = await ApiService.getEOIApplications()
-          const applications = JSON.parse(localStorage.getItem('applications'));
-          if (applications) {
-            await this.setEOIApplications([...EOI_MOCK, ...applications]);
-          } else {
-            await this.setEOIApplications(EOI_MOCK);
-          }
-        }
         if (this.schoolApplicationsMap.size === 0) {
           // API doesn't exist yet, using mock data for now
           // const response = await ApiService.getSchoolApplications();

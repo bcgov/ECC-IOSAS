@@ -1,28 +1,6 @@
 <template>
   <div>
-    <h4>General</h4>
-    <br />
-    <v-row>
-      <v-col cols="12" sm="12" md="4" xs="12">
-        <v-label>EOI Number</v-label>
-        <p>{{ eoi.iosas_eionumber || NULL_STRING }}</p>
-      </v-col>
-      <v-col cols="12" sm="12" md="4" xs="12">
-        <v-label>Status</v-label>
-        <p>
-          {{
-            eoi[
-              'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
-            ] || NULL_STRING
-          }}
-        </p>
-      </v-col>
-      <!-- <v-col cols="12" sm="12" md="4" xs="12">
-        <v-label>{{ getCorrectDate().label }}</v-label>
-        <p>{{ getCorrectDate().date || NULL_STRING }}</p>
-      </v-col> -->
-    </v-row>
-    <br />
+    <EOIFormHeader :eoi="eoi" :draftStatusCode="draftStatusCode" />
     <v-divider></v-divider>
     <h4>School Authority Information</h4>
     <br />
@@ -38,11 +16,13 @@
         <v-label>School Authority Head</v-label>
         <p>{{ getAuthorityHeadName() || NULL_STRING }}</p>
       </v-col>
-      <v-col cols="12" sm="12" md="3" xs="12">
+    </v-row>
+    <v-row>
+      <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>E-Mail</v-label>
         <p>{{ eoi.iosas_schoolauthorityheademail || NULL_STRING }}</p>
       </v-col>
-      <v-col cols="12" sm="12" md="3" xs="12">
+      <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>Phone</v-label>
         <p>{{ eoi.iosas_schoolauthorityheadphone || NULL_STRING }}</p>
       </v-col>
@@ -67,11 +47,13 @@
           <v-label>Designated Authority Contact</v-label>
           <p>{{ getDesignatedHeadName() || NULL_STRING }}</p>
         </v-col>
-        <v-col cols="12" sm="12" md="3" xs="12">
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>E-mail</v-label>
           <p>{{ eoi.iosas_schoolauthoritycontactemail || NULL_STRING }}</p>
         </v-col>
-        <v-col cols="12" sm="12" md="3" xs="12">
+        <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Phone</v-label>
           <p>{{ eoi.ioas_schoolauthoritycontactphone || NULL_STRING }}</p>
         </v-col>
@@ -111,6 +93,7 @@
         </v-col>
       </v-row>
     </div>
+    <br />
 
     <v-divider></v-divider>
     <h4>School Information</h4>
@@ -209,26 +192,79 @@
         </p>
       </v-col>
     </v-row>
+    <br />
+    <v-divider></v-divider>
+    <h4>Documents</h4>
+    <div>
+      <v-row>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Incorporation Certificate</v-label>
+          <div>
+            <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
+              mdi-file-document-check-outline
+            </v-icon>
+          </div>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Certificate Issue Date</v-label>
+          <p>
+            {{ eoi.iosas_incorporationcertificateissuedate || NULL_STRING }}
+          </p>
+        </v-col>
+      </v-row>
+      <v-spacer />
+      <v-row>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Certificate of Good Standing</v-label>
+          <div>
+            <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
+              mdi-file-document-check-outline
+            </v-icon>
+          </div>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Certificate of Good Standing Issue Date</v-label>
+          <p>
+            {{ eoi.iosas_certificateofgoodstandingissuedate || NULL_STRING }}
+          </p>
+        </v-col>
+      </v-row>
+    </div>
+    <v-label>Other</v-label>
+    <v-row>
+      <v-col cols="12" sm="12" md="4" xs="12">
+        <div v-for="document in eoi.documents">
+          <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
+            mdi-file-document-check-outline
+          </v-icon>
+        </div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
+import EOIFormHeader from './EOIFormHeader.vue';
 import { formatBooleanToYesNoString } from '../../utils/format';
 import { NULL_STRING } from '../../utils/constants';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
-  components: {},
+  components: {
+    EOIFormHeader,
+  },
   props: {
     eoi: {
       type: Object,
       required: true,
     },
-    getCorrectDate: {
-      type: Function,
+    draftStatusCode: {
+      type: Number,
       required: true,
     },
   },
-  mounted() {},
+  mounted() {
+    console.log(this.eoi.documents);
+  },
   data() {
     return {
       NULL_STRING,

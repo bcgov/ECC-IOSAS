@@ -94,7 +94,7 @@ export default {
   emits: ['close:form', 'upload'],
   data() {
     return {
-      fileAccept: '.pdf,.png,.jpg',
+      fileAccept: '.pdf,.png,.jpg,.docx',
       rules: Rules,
       fileRules: [],
       filesAccept: '',
@@ -112,7 +112,6 @@ export default {
   computed: {
     ...mapState(edxStore, ['secureExchangeDocumentTypes', 'fileRequirements']),
     dataReady() {
-      console.log(this.vaildForm);
       return this.validForm && this.uploadFileValue;
     },
   },
@@ -203,16 +202,13 @@ export default {
       this.isFormValid = valid.valid;
     },
     async uploadFile(env) {
-      console.log(this.uploadFileValue[0]);
       let document = {
         fileName: getFileNameWithMaxNameLength(this.uploadFileValue[0].name),
         documentName: this.uploadFileValue[0].name
           .split('.')
           .slice(0, -1)
           .join('.'),
-        // fileExtension: this.uploadFileValue[0].type,
-        // fileSize: this.uploadFileValue[0].size,
-        documentTypeCode: this.documentTypeCode,
+        documentType: this.documentTypeCode,
         content: btoa(env.target.result),
       };
       this.$emit('upload', document);
