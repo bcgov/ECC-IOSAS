@@ -13,26 +13,33 @@ async function getEdxUserByDigitalId(accessToken, digitalID, correlationID) {
     const params = {
       params: {
         digitalId: digitalID,
-      }
+      },
     };
-    return await getDataWithParams(accessToken, config.get('edx:edxUsersURL'), params, correlationID);
+    return await getDataWithParams(
+      accessToken,
+      config.get('edx:edxUsersURL'),
+      params,
+      correlationID
+    );
   } catch (e) {
     throw new ServiceError('getEdxUserByDigitalId error', e);
   }
 }
-
 
 async function getUserInfo(req, res) {
   const userInfo = getSessionUser(req);
   const correlationID = req.session?.correlationID;
   if (!userInfo || !userInfo.jwt) {
     return res.status(HttpStatus.UNAUTHORIZED).json({
-      message: 'No session data'
+      message: 'No session data',
     });
   }
 
-
+  console.log(userInfo);
   let resData = {
+    firstName: userInfo.name.givenName,
+    lastName: userInfo.name.familyName,
+    email: userInfo._json.email,
     //edx user name may not exist yet in case of relink or activation. If so, fallback to BCeid displayName
     displayName: userInfo.displayName ?? 'Unknown',
     accountType: userInfo._json.azp,

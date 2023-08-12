@@ -72,6 +72,7 @@ export default {
   },
   data() {
     return {
+      NULL_STRING,
       tableHeaders: [],
     };
   },

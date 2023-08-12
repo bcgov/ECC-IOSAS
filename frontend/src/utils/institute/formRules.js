@@ -132,7 +132,9 @@ const website = (message = 'Website must be valid') => {
  * @returns Function
  */
 const requiredSelect = (message = 'Required') => {
-  return (v) => !!v || message;
+  return (v) => {
+    return !!v || message;
+  };
 };
 
 /**

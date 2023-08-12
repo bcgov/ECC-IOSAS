@@ -13,6 +13,7 @@
       :pickListOptions="pickListOptions"
       :documentTypeOptions="documentTypeOptions"
       :schoolAuthorityOptions="schoolAuthorityOptions"
+      @fetchEOIData="fetchEOIData"
     />
   </v-container>
 </template>
@@ -60,24 +61,12 @@ export default {
     ]),
     ...mapState(metaDataStore, [
       'getActiveSchoolYearSelect',
-      'getActiveSchoolYear',
-      'getEOIPickLists',
       'getEOIPickListOptions',
-      'getSchoolAuthority',
-      'getDocumentPickLists',
       'getDocumentPickListOptions',
       'getSchoolAuthorityListOptions',
     ]),
   },
   async created() {
-    // PickLists - move to App.vue?
-    // Wrap in Promise.all - silently fail and try again
-    // ERROR after 3rd attempt?
-    await metaDataStore().getActiveSchoolYear();
-    await metaDataStore().getEOIPickLists();
-    await metaDataStore().getDocumentPickLists();
-    await metaDataStore().getSchoolAuthority();
-
     this.schoolAuthorityOptions = this.getSchoolAuthorityListOptions;
     this.schoolYearOptions = this.getActiveSchoolYearSelect;
     this.documentTypeOptions =
@@ -97,6 +86,12 @@ export default {
     documentStore,
     setIsLoading() {
       this.isLoading = !this.isLoading;
+    },
+    async fetchEOIData() {
+      this.isLoading = true;
+      await applicationsStore().getEOIApplicationById(this.$route.params.id);
+      this.eoi = this.getEOI;
+      this.isLoading = false;
     },
   },
 };

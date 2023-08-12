@@ -7,7 +7,7 @@
     <v-row>
       <v-col cols="12" sm="12" md="6" xs="12">
         <v-label>School Authority</v-label>
-        <p>{{ eoi.iosas_schoolauthorityname || NULL_STRING }}</p>
+        <p>{{ getSchoolAuthorityName() || NULL_STRING }}</p>
       </v-col>
     </v-row>
     <br />
@@ -195,7 +195,7 @@
     <br />
     <v-divider></v-divider>
     <h4>Documents</h4>
-    <div>
+    <div v-if="eoi.documents">
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Incorporation Certificate</v-label>
@@ -203,12 +203,17 @@
             <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
               mdi-file-document-check-outline
             </v-icon>
+            {{ renderDocuments(100000000)[0].iosas_file_name }}
           </div>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Certificate Issue Date</v-label>
           <p>
-            {{ eoi.iosas_incorporationcertificateissuedate || NULL_STRING }}
+            {{
+              eoi[
+                'iosas_incorporationcertificateissuedate@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
+            }}
           </p>
         </v-col>
       </v-row>
@@ -220,24 +225,43 @@
             <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
               mdi-file-document-check-outline
             </v-icon>
+            {{ renderDocuments(100000001)[0].iosas_file_name }}
           </div>
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Certificate of Good Standing Issue Date</v-label>
           <p>
-            {{ eoi.iosas_certificateofgoodstandingissuedate || NULL_STRING }}
+            {{
+              eoi[
+                'iosas_certificateofgoodstandingissuedate@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
+            }}
           </p>
         </v-col>
       </v-row>
+      <v-label>Other</v-label>
+      <v-row>
+        <v-col cols="12" sm="12" md="4" xs="12">
+          <div
+            v-for="document in renderDocuments(100000002)"
+            key="document.documentid"
+          >
+            <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
+              mdi-file-document-check-outline
+            </v-icon>
+            {{ document.iosas_file_name }}
+          </div>
+        </v-col>
+      </v-row>
     </div>
-    <v-label>Other</v-label>
+    <div v-else>{{ NULL_STRING }}</div>
+
+    <br />
+    <v-divider></v-divider>
     <v-row>
-      <v-col cols="12" sm="12" md="4" xs="12">
-        <div v-for="document in eoi.documents">
-          <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
-            mdi-file-document-check-outline
-          </v-icon>
-        </div>
+      <v-col cols="12" sm="12" md="12" xs="12">
+        <v-label>Additional Notes</v-label>
+        <p>{{ eoi.iosas_notes || NULL_STRING }}</p>
       </v-col>
     </v-row>
   </div>
@@ -262,9 +286,7 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    console.log(this.eoi.documents);
-  },
+  mounted() {},
   data() {
     return {
       NULL_STRING,
@@ -272,15 +294,28 @@ export default {
   },
   methods: {
     formatBooleanToYesNoString,
+    renderDocuments(code) {
+      return (
+        this.eoi.documents &&
+        this.eoi?.documents?.filter(
+          ({ iosas_eoidocumenttype }) => code === iosas_eoidocumenttype
+        )
+      );
+    },
+    getSchoolAuthorityName() {
+      return this.eoi?.iosas_existingauthority
+        ? this.eoi._iosas_edu_schoolauthority_value
+        : this.eoi.iosas_schoolauthorityname;
+    },
     getAuthorityHeadName() {
-      return this.eoi.iosas_authorityheadfirstname
+      return this.eoi?.iosas_authorityheadfirstname
         ? this.eoi.iosas_authorityheadfirstname +
             ' ' +
             this.eoi.iosas_authorityheadname
         : null;
     },
     getDesignatedHeadName() {
-      return this.eoi.iosas_designatedcontactfirstname
+      return this.eoi?.iosas_designatedcontactfirstname
         ? this.eoi.iosas_designatedcontactfirstname +
             ' ' +
             this.eoi.iosas_schoolauthoritycontactname

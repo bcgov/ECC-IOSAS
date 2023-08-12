@@ -84,7 +84,9 @@ export const applicationsStore = defineStore('applications', {
       const documentResponse = await ApiService.getEOIDocuments(eoiId);
       const eoi = {
         ...response.data.value[0],
-        documents: documentResponse.data.value,
+        documents: documentResponse.data.value
+          ? documentResponse.data.value
+          : [],
       };
       await this.setEOIApplication(eoi);
     },

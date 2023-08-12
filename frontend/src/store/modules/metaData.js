@@ -1,6 +1,13 @@
 import ApiService from '../../common/apiService';
 import { defineStore } from 'pinia';
 
+const setLocalStorage = (name, data) => {
+  localStorage.setItem(name, JSON.stringify(data));
+};
+const getLocalStorage = (name) => {
+  return JSON.parse(localStorage.getItem(name));
+};
+
 export const metaDataStore = defineStore('metaData', {
   namespaced: true,
   state: () => ({
@@ -12,7 +19,6 @@ export const metaDataStore = defineStore('metaData', {
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
-      // FILTER BY STATUS CODE
       return state.activeSchoolYears;
     },
     getEOIPicklistHashMap: (state) => {},
@@ -22,7 +28,6 @@ export const metaDataStore = defineStore('metaData', {
     getSchoolAuthorityListOptions: (state) => state.schoolAuthorityOptions,
   },
   actions: {
-    // TODO: fix this logic
     async formatPickLists(response) {
       const list = response
         .map((list) => {
@@ -74,57 +79,63 @@ export const metaDataStore = defineStore('metaData', {
       this.schoolAuthorityOptions = formattedResponse;
     },
     async getActiveSchoolYear() {
-      //   if (localStorage.getItem('activeSchoolYears')) {
-      // DONT Call api if there is not token.
-      //   if (this.setActiveSchoolYears.length === 0) {
-      const response = await ApiService.getActiveSchoolYears();
-      await this.setActiveSchoolYears(response.data.value);
-      //   }
-      //   }
+      if (!localStorage.getItem('activeSchoolYears')) {
+        const response = await ApiService.getActiveSchoolYears();
+        setLocalStorage('activeSchoolYears', response.data.value);
+        await this.setActiveSchoolYears(response.data.value);
+      } else {
+        await this.setActiveSchoolYears(getLocalStorage('activeSchoolYears'));
+      }
     },
     async getEOIPickLists() {
-      // TODO: check for picklists in localStorage
-      if (localStorage.getItem('jwtToken')) {
-        // DONT Call api if there is not token.
+      if (!localStorage.getItem('EOIPickLists')) {
         const response = await ApiService.getPickLists(
           'iosas_expressionofinterest'
         );
+        setLocalStorage('EOIPickLists', response.data.value);
         await this.setEOIPickListOptions(response.data.value);
+      } else {
+        await this.setEOIPickListOptions(getLocalStorage('EOIPickLists'));
       }
     },
     async getApplicationPickLists() {
-      // TODO: check for picklists in localStorage
-      if (localStorage.getItem('jwtToken')) {
-        // DONT Call api if there is not token.
+      if (!localStorage.getItem('applicationPickLists')) {
         const response = await ApiService.getPickLists('iosas_application');
-
+        setLocalStorage('applicationPickLists', response.data.value);
         await this.setApplicationPickListOptions(response.data.value);
+      } else {
+        await this.setApplicationPickListOptions(
+          getLocalStorage('applicationPickLists')
+        );
       }
     },
     async getDocumentPickLists() {
-      // TODO: check for picklists in localStorage
-      if (localStorage.getItem('jwtToken')) {
-        // DONT Call api if there is not token.
+      if (!localStorage.getItem('documentPickLists')) {
         const response = await ApiService.getPickLists('iosas_document');
+        setLocalStorage('documentPickLists', response.data.value);
         await this.setDocumentPickListOptions(response.data.value);
+      } else {
+        await this.setDocumentPickListOptions(
+          getLocalStorage('documentPickLists')
+        );
       }
     },
     async getSchoolAuthority() {
-      // TODO: check for picklists in localStorage
-      if (localStorage.getItem('jwtToken')) {
-        // DONT Call api if there is not token.
+      if (!localStorage.getItem('schoolAuthority')) {
         const response = await ApiService.getSchoolAuthority();
+        setLocalStorage('schoolAuthority', response.data.value);
         await this.setSchoolAuthorityOptions(response.data.value);
+      } else {
+        await this.setSchoolAuthorityOptions(
+          getLocalStorage('schoolAuthority')
+        );
       }
     },
     async getAuthorityHead(schoolAuthorityId) {
       const response = await ApiService.getSchoolAuthorityHead(
         schoolAuthorityId
       );
-
-      console.log('school authority head contact', response.data);
       return response.data;
-      //   await this.setSchoolAuthorityOptions(response.data.value);
     },
   },
 });

@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    v-if="!authStore().isAuthenticated && !authStore().isLoading"
-    fluid
-  >
+  <v-container v-if="!authStore().isAuthenticated" fluid>
     <article name="login-banner">
       <v-row
         align="center"
@@ -135,7 +132,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
+    ...mapState(authStore, ['isAuthenticated']),
     ...mapState(applicationsStore, [
       'getEOIApplicationsFormatted',
       'getAllEOI',

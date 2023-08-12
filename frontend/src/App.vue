@@ -13,7 +13,7 @@
 
 <script>
 import { authStore } from './store/modules/auth';
-import { appStore } from './store/modules/app';
+import { metaDataStore } from './store/modules/metaData';
 import { mapState, mapActions } from 'pinia';
 import HttpStatus from 'http-status-codes';
 import Header from './components/Header.vue';
@@ -42,9 +42,13 @@ export default {
     },
   },
   async created() {
-    // TODO: fetch all metadata here?
-    await this.setLoading(true);
-    this.getJwtToken()
+    await metaDataStore().getActiveSchoolYear();
+    await metaDataStore().getEOIPickLists();
+    await metaDataStore().getDocumentPickLists();
+    await metaDataStore().getSchoolAuthority();
+
+    this.setLoading(true);
+    await this.getJwtToken()
       .then(() => Promise.all([this.getUserInfo()]))
       .catch((e) => {
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
@@ -66,6 +70,12 @@ export default {
       'getJwtToken',
       'getUserInfo',
       'logout',
+    ]),
+    ...mapState(metaDataStore, [
+      'getActiveSchoolYear',
+      'getEOIPickLists',
+      'getSchoolAuthority',
+      'getDocumentPickLists',
     ]),
   },
 };

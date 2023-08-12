@@ -141,7 +141,7 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
     } catch (e) {
-      console.log(`Failed to get getEOIDocumentTypeCodes - ${e}`);
+      console.log(`Failed to get getApplicationDocuments - ${e}`);
       throw e;
     }
   },
@@ -150,14 +150,6 @@ export default {
       return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
     } catch (e) {
       console.log(`Failed to get getEOIDocuments - ${e}`);
-      throw e;
-    }
-  },
-  async getApplicationDocumentTypeCodes() {
-    try {
-      return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOC_TYPE_CODES);
-    } catch (e) {
-      console.log(`Failed to get getApplicationDocumentTypeCodes - ${e}`);
       throw e;
     }
   },

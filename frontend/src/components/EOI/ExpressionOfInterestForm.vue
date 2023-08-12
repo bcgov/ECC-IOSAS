@@ -48,7 +48,7 @@
             <v-divider></v-divider>
             <div v-if="!isEditing && !isNew()">
               <ExpressionOfInterestReadOnlyView
-                :eoi="this.eoi"
+                :eoi="data"
                 :draftStatusCode="draftStatusCode"
               />
             </div>
@@ -88,8 +88,8 @@
                   <v-autocomplete
                     label="School Authority Name"
                     :items="schoolAuthorityOptions"
-                    id="_iosas_authorityhead_value"
-                    v-model="data._iosas_authorityhead_value"
+                    id="_iosas_edu_schoolauthority_value"
+                    v-model="data._iosas_edu_schoolauthority_value"
                     variant="outlined"
                     item-title="label"
                     item-value="value"
@@ -113,160 +113,6 @@
                 </v-col>
               </v-row>
               <br />
-              <div>
-                <v-label>School Authority Head</v-label>
-                <v-row v-if="fetchingAuthorityHead">
-                  <v-col class="d-flex justify-center">
-                    <v-progress-circular
-                      class="mt-15 mb-15"
-                      :size="70"
-                      :width="7"
-                      color="primary"
-                      indeterminate
-                      :active="isLoading"
-                    />
-                  </v-col>
-                </v-row>
-                <div v-else>
-                  <v-row>
-                    <v-col cols="12" sm="12" md="6" xs="12">
-                      <v-text-field
-                        id="iosas_authorityheadfirstname"
-                        v-model="data.iosas_authorityheadfirstname"
-                        :rules="[rules.required()]"
-                        :maxlength="255"
-                        variant="outlined"
-                        label="First Name"
-                        color="rgb(59, 153, 252)"
-                      />
-                    </v-col>
-                    <v-col cols="12" sm="12" md="6" xs="12">
-                      <v-text-field
-                        id="iosas_schoolauthorityheadname"
-                        v-model="data.iosas_schoolauthorityheadname"
-                        :rules="[rules.required()]"
-                        :maxlength="255"
-                        variant="outlined"
-                        label="Last Name"
-                        color="rgb(59, 153, 252)"
-                      />
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" sm="12" md="6" xs="12">
-                      <v-text-field
-                        id="iosas_schoolauthorityheademail"
-                        v-model="data.iosas_schoolauthorityheademail"
-                        :rules="[rules.required(), rules.email()]"
-                        :maxlength="255"
-                        variant="outlined"
-                        label="E-mail"
-                        color="rgb(59, 153, 252)"
-                      />
-                    </v-col>
-                    <v-col cols="12" sm="12" md="6" xs="12">
-                      <v-text-field
-                        id="iosas_schoolauthorityheadphone"
-                        v-model="data.iosas_schoolauthorityheadphone"
-                        :rules="[rules.required()]"
-                        :maxlength="255"
-                        variant="outlined"
-                        label="Phone"
-                        return-masked-value
-                        mask="(###) ###-####"
-                        color="rgb(59, 153, 252)"
-                      />
-                    </v-col>
-                  </v-row>
-                </div>
-              </div>
-              <br />
-              <v-row>
-                <v-label class="no-margin"
-                  >Is the Designated Authority the same as Authority
-                  Head?</v-label
-                >
-                <v-col cols="12">
-                  <v-radio-group
-                    v-model="data.iosas_designatedcontactsameasauthorityhead"
-                    color="#003366"
-                    class="mt-4"
-                    inline
-                  >
-                    <v-radio label="Yes" color="#003366" :value="true" />
-                    <v-radio label="No" color="#003366" :value="false" />
-                  </v-radio-group>
-                </v-col>
-              </v-row>
-              <div v-if="!data.iosas_designatedcontactsameasauthorityhead">
-                <v-label>Designated Authority Contact</v-label>
-                <v-row>
-                  <v-col cols="12" sm="12" md="6" xs="12">
-                    <v-text-field
-                      id="iosas_designatedcontactfirstname"
-                      v-model="data.iosas_designatedcontactfirstname"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
-                      :maxlength="255"
-                      variant="outlined"
-                      label="First Name"
-                      color="rgb(59, 153, 252)"
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="12" md="6" xs="12">
-                    <v-text-field
-                      id="iosas_schoolauthoritycontactname"
-                      v-model="data.iosas_schoolauthoritycontactname"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
-                      :maxlength="255"
-                      variant="outlined"
-                      label="Last Name"
-                      color="rgb(59, 153, 252)"
-                    />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" sm="12" md="6" xs="12">
-                    <v-text-field
-                      id="iosas_schoolauthoritycontactemail"
-                      v-model="data.iosas_schoolauthoritycontactemail"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
-                      :maxlength="255"
-                      variant="outlined"
-                      label="E-mail"
-                      color="rgb(59, 153, 252)"
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="12" md="6" xs="12">
-                    <v-text-field
-                      id="ioas_schoolauthoritycontactphone"
-                      v-model="data.ioas_schoolauthoritycontactphone"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
-                      :maxlength="255"
-                      variant="outlined"
-                      label="Phone"
-                      return-masked-value
-                      mask="(###) ###-####"
-                      color="rgb(59, 153, 252)"
-                    />
-                  </v-col>
-                </v-row>
-              </div>
               <v-label><strong>Authority Mailing Address</strong></v-label>
               <v-row>
                 <v-col cols="12" sm="12" md="8" xs="12">
@@ -346,6 +192,165 @@
                   />
                 </v-col>
               </v-row>
+
+              <v-divider></v-divider>
+              <h4>School Authority Contacts</h4>
+              <br />
+
+              <div>
+                <v-label
+                  >Designated Authority Contact (The designated authority
+                  contact should be the person submitting this
+                  application)</v-label
+                >
+                <v-row>
+                  <v-col cols="12" sm="12" md="6" xs="12">
+                    <v-text-field
+                      id="iosas_designatedcontactfirstname"
+                      v-model="data.iosas_designatedcontactfirstname"
+                      :disabled="populatedAndDisableDesignatedContact"
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
+                      :maxlength="255"
+                      variant="outlined"
+                      label="First Name"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="6" xs="12">
+                    <v-text-field
+                      id="iosas_schoolauthoritycontactname"
+                      v-model="data.iosas_schoolauthoritycontactname"
+                      :disabled="populatedAndDisableDesignatedContact"
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Last Name"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="6" xs="12">
+                    <v-text-field
+                      id="iosas_schoolauthoritycontactemail"
+                      v-model="data.iosas_schoolauthoritycontactemail"
+                      :disabled="populatedAndDisableDesignatedContact"
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
+                      :maxlength="255"
+                      variant="outlined"
+                      label="E-mail"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="6" xs="12">
+                    <v-text-field
+                      id="ioas_schoolauthoritycontactphone"
+                      v-model="data.ioas_schoolauthoritycontactphone"
+                      :rules="
+                        data.iosas_designatedcontactsameasauthorityhead
+                          ? [rules.required()]
+                          : []
+                      "
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Phone"
+                      return-masked-value
+                      mask="(###) ###-####"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+              <v-row>
+                <v-label class="no-margin"
+                  >Is the Authority Head same as the Designated
+                  Contact?</v-label
+                >
+                <v-col cols="12">
+                  <v-radio-group
+                    id="iosas_designatedcontactsameasauthorityhead"
+                    v-model="data.iosas_designatedcontactsameasauthorityhead"
+                    color="#003366"
+                    class="mt-4"
+                    :rules="[rules.requiredRadio()]"
+                    inline
+                  >
+                    <v-radio label="Yes" color="#003366" :value="true" />
+                    <v-radio label="No" color="#003366" :value="false" />
+                  </v-radio-group>
+                </v-col>
+              </v-row>
+              <div>
+                <v-label>School Authority Head</v-label>
+                <div>
+                  <v-row>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_authorityheadfirstname"
+                        v-model="data.iosas_authorityheadfirstname"
+                        :disabled="populatedAndDisableAuthorityHead"
+                        :rules="[rules.required()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="First Name"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_authorityheadname"
+                        v-model="data.iosas_authorityheadname"
+                        :disabled="populatedAndDisableAuthorityHead"
+                        :rules="[rules.required()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="Last Name"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_schoolauthorityheademail"
+                        v-model="data.iosas_schoolauthorityheademail"
+                        :disabled="populatedAndDisableAuthorityHead"
+                        :rules="[rules.required(), rules.email()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="E-mail"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                    <v-col cols="12" sm="12" md="6" xs="12">
+                      <v-text-field
+                        id="iosas_schoolauthorityheadphone"
+                        v-model="data.iosas_schoolauthorityheadphone"
+                        :rules="[rules.required()]"
+                        :maxlength="255"
+                        variant="outlined"
+                        label="Phone"
+                        return-masked-value
+                        mask="(###) ###-####"
+                        color="rgb(59, 153, 252)"
+                      />
+                    </v-col>
+                  </v-row>
+                </div>
+              </div>
+              <br />
 
               <v-divider></v-divider>
               <h4>School Information</h4>
@@ -500,17 +505,18 @@
                     color="#003366"
                     class="mt-4 inline-box"
                     inline
+                    @change="validateAndPopulate"
                     :rules="[rules.requiredSelect()]"
-                    v-for="item in pickListOptions?.[
-                      'iosas_groupclassification'
-                    ]"
-                    :key="item.value"
                   >
                     <v-radio
+                      v-for="item in pickListOptions?.[
+                        'iosas_groupclassification'
+                      ]"
+                      :key="item.value"
                       inline
                       :label="item.label"
                       color="#003366"
-                      :value="item.value"
+                      v-bind:value="item.value"
                     />
                   </v-radio-group>
                 </v-col>
@@ -579,8 +585,14 @@
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Incorporation Certificate</v-label>
                   <br />
-                  <div v-if="renderDocument(100000000)[0]" class="d-flex">
-                    <div>
+                  <div
+                    v-if="renderDocument(100000000).length === 1"
+                    class="d-flex"
+                  >
+                    <div
+                      v-for="document in renderDocument(100000000)"
+                      :key="document.documentType"
+                    >
                       <v-icon
                         aria-hidden="false"
                         color="rgb(0, 51, 102)"
@@ -588,7 +600,7 @@
                       >
                         mdi-file-document-check-outline
                       </v-icon>
-                      {{ renderDocument(100000000)[0].fileName }}
+                      {{ document.fileName }}
                     </div>
 
                     <v-btn
@@ -716,9 +728,8 @@
               <v-row>
                 <v-col cols="12" sm="12" md="12" xs="12">
                   <v-textarea
-                    id="iosas_additionalnotes"
-                    v-model="data.iosas_additionalnotes"
-                    :maxlength="255"
+                    id="iosas_notes"
+                    v-model="data.iosas_notes"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
                   />
@@ -807,12 +818,11 @@ import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
 import { formatDateTime } from '../../utils/format';
-import { GOV_URL, NULL_STRING } from '../../utils/constants';
+import { GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
-import { metaDataStore } from '../../store/modules/metaData';
 
 export default {
   name: 'ExpressionOfInterestForm',
@@ -824,7 +834,7 @@ export default {
     VueDatePicker,
     EOIFormHeader,
   },
-  emits: ['setIdLoading'],
+  emits: ['setIdLoading', 'fetchEOIData'],
   mixins: [alertMixin],
   props: {
     eoi: {
@@ -863,19 +873,63 @@ export default {
         }
       },
     },
-    'data._iosas_authorityhead_value': {
+    schoolAddressKnown: {
+      handler(val) {
+        if (val) {
+          // Populate Province and Country
+          return (this.data = {
+            ...this.data,
+            iosas_schoolcountry: 'Canada',
+            iosas_schoolprovince: 'British Columbia',
+          });
+        } else {
+          return (this.data = {
+            ...this.data,
+            iosas_schoolcountry: null,
+            iosas_schoolprovince: null,
+          });
+        }
+      },
+    },
+
+    'data.iosas_designatedcontactsameasauthorityhead': {
+      handler(val) {
+        let contact;
+        if (val) {
+          this.populatedAndDisableAuthorityHead = true;
+          contact = {
+            iosas_authorityheadfirstname:
+              this.data.iosas_designatedcontactfirstname,
+            iosas_authorityheadname: this.data.iosas_schoolauthoritycontactname,
+            iosas_schoolauthorityheademail:
+              this.data.iosas_schoolauthoritycontactemail,
+            iosas_schoolauthorityheadphone:
+              this.data.ioas_schoolauthoritycontactphone,
+          };
+        } else {
+          this.populatedAndDisableAuthorityHead = false;
+          contact = {
+            iosas_authorityheadfirstname: null,
+            iosas_authorityheadname: null,
+            iosas_schoolauthorityheademail: null,
+            iosas_schoolauthorityheadphone: null,
+          };
+        }
+        return (this.data = { ...this.data, ...contact });
+      },
+    },
+    'data._iosas_edu_schoolauthority_value': {
       handler(val) {
         if (val && this.data.iosas_existingauthority) {
-          console.log(val);
           this.populateAndDisableAuthorityAddress = true;
           const matchedAuthority = this.schoolAuthorityOptions.find(
             (authority) => authority.value === val
           );
-
           const authorityAddress = {
             iosas_authorityaddressline1:
               matchedAuthority.authority.edu_address_street1,
-            iosas_authorityaddressline2: null,
+            iosas_authorityaddressline2:
+              matchedAuthority.authority.edu_address_street2,
             iosas_authorityprovince:
               matchedAuthority.authority.edu_address_province,
             iosas_authoritycity: matchedAuthority.authority.edu_address_city,
@@ -884,10 +938,12 @@ export default {
             iosas_authoritycountry:
               matchedAuthority.authority.edu_address_country,
           };
-
-          this.fetchingAuthorityHead = true;
-          this.handleGetAuthorityHead(val);
-          return (this.data = { ...this.data, ...authorityAddress });
+          return (this.data = {
+            ...this.data,
+            ...authorityAddress,
+            iosas_authoritycountry: 'Canada',
+            iosas_authorityprovince: 'British Columbia',
+          });
         }
       },
     },
@@ -912,19 +968,12 @@ export default {
       applicationConfirmation: false,
       fetchingAuthorityHead: false,
       populateAndDisableAuthorityAddress: false,
+      populatedAndDisableDesignatedContact: false,
+      populatedAndDisableAuthorityHead: false,
       documentUpload: false,
       selectedDocumentOption: null,
       rules: Rules,
-      data: {
-        iosas_authoritycountry: 'Canada',
-        iosas_authorityprovince: 'British Columbia',
-        iosas_existingauthority: false,
-        iosas_designatedcontactsameasauthorityhead: true,
-        iosas_schooladdressline2: 'line 2',
-        iosas_schoolcity: 'Victoria',
-        iosas_schoolcountry: 'Canada',
-        iosas_schoolprovince: 'British Columbia',
-      },
+      data: {},
       documents: [],
       showActivationSnackBar: false,
       activationErrorMessage: null,
@@ -935,10 +984,21 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    console.log(this.eoi);
     this.data = this.isNew() ? this.data : this.eoi;
     this.isEditing =
       this.isNew() || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
+
+    if (this.isAuthenticated) {
+      this.populatedAndDisableDesignatedContact = true;
+      const designatedContact = {
+        // iosas_existingauthority: true,
+        iosas_designatedcontactfirstname: this.userInfo.firstName,
+        iosas_schoolauthoritycontactname: this.userInfo.lastName,
+        iosas_schoolauthoritycontactemail: this.userInfo.email,
+        ioas_schoolauthoritycontactphone: null,
+      };
+      return (this.data = { ...this.data, ...designatedContact });
+    }
   },
   methods: {
     authStore,
@@ -956,40 +1016,13 @@ export default {
     isReadOnly() {
       return this.eoi.iosas_reviewstatus !== this.draftStatusCode;
     },
-    async handleGetAuthorityHead(schoolAuthorityId) {
-      try {
-        const response = await metaDataStore().getAuthorityHead(
-          schoolAuthorityId
-        );
-        this.fetchingAuthorityHead = false;
-
-        // Replace with from API
-        if (response?.length > 0) {
-          console.log(response);
-          // populate with actual data from response
-          const contact = {
-            iosas_authorityheadfirstname: null,
-            iosas_schoolauthorityheadname: null,
-            iosas_schoolauthorityheademail: null,
-            iosas_schoolauthorityheadphone: null,
-          };
-          this.data = { ...this.data, ...contact };
-        }
-        // Set contact information here
-      } catch (e) {
-        this.fetchingAuthorityHead = false;
-        throw e;
-      }
-    },
     async handleUpdate() {
-      console.log('PATCHING', this.data);
-
       if (this.isSubmitted) {
         const valid = await this.$refs.expressionOfInterestForm.validate();
         this.isFormValid = valid.valid;
+        this.showError = !this.isFormValid;
       }
 
-      this.showError = this.isSubmitted ?? !this.isFormValid;
       if (this.isFormValid || !this.isSubmitted) {
         this.$emit('setIsLoading');
         ApiService.updateEOI(
@@ -997,7 +1030,7 @@ export default {
           this.data,
           this.isSubmitted
         )
-          .then(() => {
+          .then((response) => {
             if (this.documents.length > 0) {
               this.handleUploadDocuments(response.data);
             }
@@ -1007,6 +1040,7 @@ export default {
                 params: { type: 'EOI' },
               });
             } else {
+              this.$emit('fetchEOIData');
               this.setSuccessAlert(
                 'Success! Expression of Interest draft has been update'
               );
@@ -1074,7 +1108,12 @@ export default {
           if (this.documents.length > 0) {
             this.handleUploadDocuments(response.data);
           }
-          // What happens if document upload fails? Throw error, fail silently?
+          this.$emit('fetchEOIData');
+          // TEST THIS
+          this.$router.push({
+            name: 'expressionOfInterest',
+            params: { id: response.data.value },
+          });
           this.setSuccessAlert(
             'Success! The Expression of Interest has been saved.'
           );
@@ -1114,7 +1153,6 @@ export default {
             });
           })
           .catch((error) => {
-            console.error(error);
             this.setFailureAlert(
               error?.response?.data?.message
                 ? error?.response?.data?.message
@@ -1139,8 +1177,8 @@ export default {
             regardingType: 'iosas_expressionofinterest',
           };
           await ApiService.uploadFile(payload)
-            .then(() => {
-              return;
+            .then((response) => {
+              return response;
             })
             .catch((error) => {
               this.setFailureAlert(
@@ -1153,28 +1191,52 @@ export default {
       );
     },
     renderDocument(documentCode) {
-      // LOGIC HERE TO DISPLAY CORRECT DOCUMENT (SAVED VS UPLOADED)
-      if (this.data.documents?.length > 0) {
-        // iosas_file_name
-        console.log(this.data.documents);
-      } else if (this.documents.length > 0) {
-      }
-      return this.documents.filter(
-        (document) => document.documentTypeCode === documentCode
-      );
+      // const combinedDocuments = [...this.documents, ...this.data?.documents];
+      // if (combinedDocuments.length > 0) {
+      //   return combinedDocuments
+      //     .filter((document) => {
+      //       if (document.documentid) {
+      //         return document.iosas_eoidocumenttype === documentCode;
+      //       } else {
+      //         return document.documentType === documentCode;
+      //       }
+      //     })
+      //     .map((document) => {
+      //       if (document.documentid) {
+      //         return {
+      //           fileName: document.iosas_file_name,
+      //           ...document,
+      //         };
+      //       }
+      //     });
+      // }
+      // console.log(combinedDocuments);
+      // return combinedDocuments;
+      return [];
     },
-    removeDocment(document) {
+    async removeDocment(document) {
       console.log('DOCUMENT PASSED IN', document);
-      console.log('documents', this.documents);
-      if (document.id) {
-        // Delete with pop confirm
-      } else {
-        console.log('HEEEEERE');
-        // First find index
+      if (document.iosas_documentid) {
+        await ApiService.deleteDocument(document.iosas_documentid)
+          .then(() => {
+            this.$emit('fetchEOIData');
+            this.setSuccessAlert(
+              `Success! The Document ${document.iosas_file_name} has been removed from your records`
+            );
+          })
+          .catch((error) => {
+            console.error(error);
+            this.setFailureAlert(
+              error?.response?.data?.message
+                ? error?.response?.data?.message
+                : 'An error occurred while saving the expression of Interest. Please try again later.'
+            );
+          });
+      } else if (document.content) {
         const index = this.documents.findIndex(
           (x) => x.conent === document.content
         );
-        console.log(item);
+        console.log(index);
         this.documents.slice(index, 1);
         return this.documents;
       }
@@ -1183,11 +1245,15 @@ export default {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
       // must attach a change event, and set the field programatically.
       // RadioGroup appears to work following the happy path, This is only needed for RadioGroups with 'Required' validation
-      const isBoolean = ['true', 'false'].includes(e.target.value);
-      const defaultValue = isBoolean
-        ? JSON.parse(e.target.value)
-        : e.target.value;
-      this.data[e.target.attributes?.name?.value] = defaultValue;
+      if (e.target.attributes?.name?.value === 'iosas_groupclassification') {
+        this.data[e.target.attributes?.name?.value] = Number(e.target.value);
+      } else {
+        const isBoolean = ['true', 'false'].includes(e.target.value);
+        const defaultValue = isBoolean
+          ? JSON.parse(e.target.value)
+          : e.target.value;
+        this.data[e.target.attributes?.name?.value] = defaultValue;
+      }
 
       // if the form is already !valid, trigger the validation to clear the error on the updated radioGroup
       if (this.isFormValid === false) {
