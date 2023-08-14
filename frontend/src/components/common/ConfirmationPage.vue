@@ -17,10 +17,11 @@
 <script>
 import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
+import { applicationsStore } from '../../store/modules/applications';
 export default {
   name: 'ConfirmationPage',
-  components: {},
   computed: {
+    ...mapState(applicationsStore, ['getConfirmationMessage']),
     ...mapState(authStore, ['isAuthenticated']),
   },
   data: () => ({
@@ -48,7 +49,9 @@ export default {
   methods: {
     authStore,
     getMessage() {
-      return this.messages[this.$route.params.type];
+      return this.getConfirmationMessage
+        ? this.getConfirmationMessage
+        : this.messages[this.$route.params.type];
     },
   },
 };

@@ -35,7 +35,6 @@ async function getUserInfo(req, res) {
     });
   }
 
-  console.log(userInfo);
   let resData = {
     firstName: userInfo.name.givenName,
     lastName: userInfo.name.familyName,
@@ -43,6 +42,7 @@ async function getUserInfo(req, res) {
     //edx user name may not exist yet in case of relink or activation. If so, fallback to BCeid displayName
     displayName: userInfo.displayName ?? 'Unknown',
     accountType: userInfo._json.azp,
+    userId: userInfo.upn,
   };
   return res.status(HttpStatus.OK).json(resData);
 }

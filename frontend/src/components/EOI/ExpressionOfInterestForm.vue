@@ -46,13 +46,7 @@
             </div>
             <br />
             <v-divider></v-divider>
-            <div v-if="!isEditing && !isNew()">
-              <ExpressionOfInterestReadOnlyView
-                :eoi="data"
-                :draftStatusCode="draftStatusCode"
-              />
-            </div>
-            <div v-else>
+            <div>
               <div v-if="!isNew()">
                 <EOIFormHeader :eoi="data" :draftStatusCode="draftStatusCode" />
                 <v-divider></v-divider>
@@ -87,7 +81,7 @@
                   <v-label>Search for School Authority By Name</v-label>
                   <v-autocomplete
                     label="School Authority Name"
-                    :items="schoolAuthorityOptions"
+                    :items="getSchoolAuthorityListOptions"
                     id="_iosas_edu_schoolauthority_value"
                     v-model="data._iosas_edu_schoolauthority_value"
                     variant="outlined"
@@ -258,6 +252,7 @@
                     <v-text-field
                       id="ioas_schoolauthoritycontactphone"
                       v-model="data.ioas_schoolauthoritycontactphone"
+                      :disabled="populatedAndDisableDesignatedContact"
                       :rules="
                         data.iosas_designatedcontactsameasauthorityhead
                           ? [rules.required()]
@@ -266,8 +261,6 @@
                       :maxlength="255"
                       variant="outlined"
                       label="Phone"
-                      return-masked-value
-                      mask="(###) ###-####"
                       color="rgb(59, 153, 252)"
                     />
                   </v-col>
@@ -310,8 +303,8 @@
                     </v-col>
                     <v-col cols="12" sm="12" md="6" xs="12">
                       <v-text-field
-                        id="iosas_authorityheadname"
-                        v-model="data.iosas_authorityheadname"
+                        id="iosas_schoolauthorityheadname"
+                        v-model="data.iosas_schoolauthorityheadname"
                         :disabled="populatedAndDisableAuthorityHead"
                         :rules="[rules.required()]"
                         :maxlength="255"
@@ -338,12 +331,11 @@
                       <v-text-field
                         id="iosas_schoolauthorityheadphone"
                         v-model="data.iosas_schoolauthorityheadphone"
+                        :disabled="populatedAndDisableAuthorityHead"
                         :rules="[rules.required()]"
                         :maxlength="255"
                         variant="outlined"
                         label="Phone"
-                        return-masked-value
-                        mask="(###) ###-####"
                         color="rgb(59, 153, 252)"
                       />
                     </v-col>
@@ -482,7 +474,7 @@
                     label="Select School Year"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
-                    :items="schoolYearOptions"
+                    :items="getActiveSchoolYearSelect"
                     item-title="label"
                     item-value="value"
                     :rules="[rules.requiredSelect()]"
@@ -509,7 +501,7 @@
                     :rules="[rules.requiredSelect()]"
                   >
                     <v-radio
-                      v-for="item in pickListOptions?.[
+                      v-for="item in getEOIPickListOptions?.[
                         'iosas_groupclassification'
                       ]"
                       :key="item.value"
@@ -551,7 +543,7 @@
                     label="Select Start Grade"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
-                    :items="pickListOptions?.['iosas_startgrade']"
+                    :items="getEOIPickListOptions?.['iosas_startgrade']"
                     item-title="label"
                     item-value="value"
                     :rules="[rules.requiredSelect()]"
@@ -565,7 +557,7 @@
                     label="Select End Grade"
                     variant="outlined"
                     color="rgb(59, 153, 252)"
-                    :items="pickListOptions?.['iosas_endgrade']"
+                    :items="getEOIPickListOptions?.['iosas_endgrade']"
                     item-title="label"
                     item-value="value"
                     :rules="[
@@ -578,21 +570,15 @@
                   ></v-select>
                 </v-col>
               </v-row>
-
+              <!-- TODO: Enable ability to add documents to EOI -->
               <v-divider></v-divider>
               <h4>Documents</h4>
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Incorporation Certificate</v-label>
                   <br />
-                  <div
-                    v-if="renderDocument(100000000).length === 1"
-                    class="d-flex"
-                  >
-                    <div
-                      v-for="document in renderDocument(100000000)"
-                      :key="document.documentType"
-                    >
+                  <div v-if="incorporationDocument" class="d-flex">
+                    <div>
                       <v-icon
                         aria-hidden="false"
                         color="rgb(0, 51, 102)"
@@ -600,7 +586,7 @@
                       >
                         mdi-file-document-check-outline
                       </v-icon>
-                      {{ document.fileName }}
+                      <p>{{ incorporationDocument.fileName }}</p>
                     </div>
 
                     <v-btn
@@ -608,7 +594,7 @@
                       class="ml-15"
                       variant="flat"
                       size="sm"
-                      @click.stop="removeDocment(renderDocument(100000000)[0])"
+                      @click.stop="removeDocment(incorporationDocument)"
                       ><v-icon aria-hidden="false" color="red" size="20">
                         mdi-delete-forever-outline
                       </v-icon></v-btn
@@ -640,7 +626,7 @@
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate of Good Standing (Optional)</v-label>
                   <br />
-                  <div v-if="renderDocument(100000001)[0]" class="d-flex">
+                  <div v-if="certificateOfGoodStandingDocument" class="d-flex">
                     <div>
                       <v-icon
                         aria-hidden="false"
@@ -649,14 +635,16 @@
                       >
                         mdi-file-document-check-outline
                       </v-icon>
-                      {{ renderDocument(100000001)[0].fileName }}
+                      {{ certificateOfGoodStandingDocument.fileName }}
                     </div>
                     <v-btn
                       secondary
                       class="ml-15"
                       variant="flat"
                       size="sm"
-                      @click.stop="removeDocment(renderDocument(100000001)[0])"
+                      @click.stop="
+                        removeDocment(certificateOfGoodStandingDocument)
+                      "
                       ><v-icon aria-hidden="false" color="red" size="20">
                         mdi-delete-forever-outline
                       </v-icon></v-btn
@@ -687,7 +675,7 @@
               <v-row>
                 <v-col cols="12" sm="12" md="4" xs="12">
                   <div
-                    v-for="document in renderDocument(100000002)"
+                    v-for="document in otherDocuments"
                     key="document.content"
                   >
                     <div class="d-flex">
@@ -743,7 +731,9 @@
                   ref="documentUpload"
                   @upload="upload"
                   @close="closeDocumentDialog"
-                  :options="documentTypeOptions"
+                  :options="
+                    getDocumentPickListOptions?.['iosas_eoidocumenttype']
+                  "
                   :selectedOption="selectedDocumentOption"
                 />
               </v-dialog>
@@ -810,6 +800,8 @@
 <script>
 import ApiService from '../../common/apiService';
 import { authStore } from './../../store/modules/auth';
+import { metaDataStore } from './../../store/modules/metaData';
+import { applicationsStore } from './../../store/modules/applications';
 import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -821,7 +813,6 @@ import { formatDateTime } from '../../utils/format';
 import { GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
-import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
 
 export default {
@@ -829,7 +820,6 @@ export default {
   components: {
     PrimaryButton,
     ConfirmationDialog,
-    ExpressionOfInterestReadOnlyView,
     DocumentUpload,
     VueDatePicker,
     EOIFormHeader,
@@ -845,24 +835,28 @@ export default {
       type: Boolean,
       required: true,
     },
-    schoolYearOptions: {
-      type: Array,
-      required: true,
-    },
-    pickListOptions: {
-      type: Object,
-      required: true,
-    },
-    documentTypeOptions: {
-      type: Array,
-      required: true,
-    },
-    schoolAuthorityOptions: {
-      type: Array,
+    draftStatusCode: {
+      type: Number,
       required: true,
     },
   },
   watch: {
+    documents: {
+      handler(val) {
+        this.incorporationDocument = val.find(
+          ({ documentType }) => documentType === 100000000
+        );
+
+        this.certificateOfGoodStandingDocument = val.find(
+          ({ documentType }) => documentType === 100000001
+        );
+
+        this.otherDocuments = val.filter(
+          ({ documentType }) => documentType === 100000002
+        );
+        return;
+      },
+    },
     eoi: {
       handler(val) {
         if (val) {
@@ -876,7 +870,6 @@ export default {
     schoolAddressKnown: {
       handler(val) {
         if (val) {
-          // Populate Province and Country
           return (this.data = {
             ...this.data,
             iosas_schoolcountry: 'Canada',
@@ -891,7 +884,15 @@ export default {
         }
       },
     },
-
+    'data._iosas_edu_year_value': {
+      handler(val) {
+        const matchedSchoolYear = this.getActiveSchoolYearSelect.find(
+          ({ value }) => value === val
+        );
+        this.schoolYearLabel = matchedSchoolYear.year.iosas_label;
+        return;
+      },
+    },
     'data.iosas_designatedcontactsameasauthorityhead': {
       handler(val) {
         let contact;
@@ -900,7 +901,8 @@ export default {
           contact = {
             iosas_authorityheadfirstname:
               this.data.iosas_designatedcontactfirstname,
-            iosas_authorityheadname: this.data.iosas_schoolauthoritycontactname,
+            iosas_schoolauthorityheadname:
+              this.data.iosas_schoolauthoritycontactname,
             iosas_schoolauthorityheademail:
               this.data.iosas_schoolauthoritycontactemail,
             iosas_schoolauthorityheadphone:
@@ -908,23 +910,25 @@ export default {
           };
         } else {
           this.populatedAndDisableAuthorityHead = false;
-          contact = {
-            iosas_authorityheadfirstname: null,
-            iosas_authorityheadname: null,
-            iosas_schoolauthorityheademail: null,
-            iosas_schoolauthorityheadphone: null,
-          };
+          contact;
         }
         return (this.data = { ...this.data, ...contact });
       },
     },
     'data._iosas_edu_schoolauthority_value': {
-      handler(val) {
+      handler(val, oldVal) {
+        if (oldVal === undefined) {
+          return;
+        }
+        console.log(this.data._iosas_edu_schoolauthority_value);
+        console.log(val);
         if (val && this.data.iosas_existingauthority) {
           this.populateAndDisableAuthorityAddress = true;
-          const matchedAuthority = this.schoolAuthorityOptions.find(
+          const matchedAuthority = this.getSchoolAuthorityListOptions.find(
             (authority) => authority.value === val
           );
+          this.authorityName = matchedAuthority.authority.edu_name;
+          console.log(matchedAuthority);
           const authorityAddress = {
             iosas_authorityaddressline1:
               matchedAuthority.authority.edu_address_street1,
@@ -938,13 +942,43 @@ export default {
             iosas_authoritycountry:
               matchedAuthority.authority.edu_address_country,
           };
+
+          console.log(this.authorityName);
           return (this.data = {
             ...this.data,
+            iosas_schoolauthorityname: null,
             ...authorityAddress,
-            iosas_authoritycountry: 'Canada',
-            iosas_authorityprovince: 'British Columbia',
           });
         }
+      },
+    },
+    'data.iosas_schoolauthorityname': {
+      handler(val) {
+        if (val) {
+          this.authorityName = val;
+        }
+        console.log(this.authorityName);
+      },
+    },
+    'data.iosas_existingauthority': {
+      handler(val, oldVal) {
+        if (oldVal === undefined) {
+          return;
+        }
+        this.populateAndDisableAuthorityAddress = false;
+        console.log(this.authorityName);
+        console.log('Why set to null if true');
+        return (this.data = {
+          ...this.data,
+          iosas_authorityaddressline1: null,
+          iosas_authorityaddressline2: null,
+          iosas_authorityprovince: null,
+          iosas_authoritycity: null,
+          iosas_authoritypostalcode: null,
+          _iosas_edu_schoolauthority_value: null,
+          iosas_authoritycountry: 'Canada',
+          iosas_authorityprovince: 'British Columbia',
+        });
       },
     },
     isFormValid: {
@@ -960,7 +994,11 @@ export default {
   data() {
     return {
       GOV_URL,
-      draftStatusCode: 100000006,
+      authorityName: null,
+      schoolYearLabel: null,
+      incorporationDocument: null,
+      certificateOfGoodStandingDocument: null,
+      otherDocuments: null,
       isFormValid: false,
       isEditing: false,
       isSubmitted: false,
@@ -981,6 +1019,13 @@ export default {
     };
   },
   computed: {
+    ...mapState(metaDataStore, [
+      'getActiveSchoolYearSelect',
+      'getEOIPickListOptions',
+      'getDocumentPickListOptions',
+      'getSchoolAuthorityListOptions',
+    ]),
+    ...mapState(applicationsStore, ['setConfirmationMessage']),
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
@@ -988,20 +1033,32 @@ export default {
     this.isEditing =
       this.isNew() || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
 
+    // if (this.isNew()) {
+    //   applicationsStore().setConfirmationMessage('THIS IS THIS MESSAGE');
+    //   this.$router.push({
+    //     name: 'applicationConfirmation',
+    //     params: { type: 'EOI' },
+    //   });
+    // }
+
+    if (this.data?.documents?.length > 0) {
+      this.displayDocuments();
+    }
     if (this.isAuthenticated) {
       this.populatedAndDisableDesignatedContact = true;
       const designatedContact = {
-        // iosas_existingauthority: true,
+        iosas_existingauthority: true,
         iosas_designatedcontactfirstname: this.userInfo.firstName,
         iosas_schoolauthoritycontactname: this.userInfo.lastName,
         iosas_schoolauthoritycontactemail: this.userInfo.email,
-        ioas_schoolauthoritycontactphone: null,
+        ioas_schoolauthoritycontactphone: this.userInfo?.phone || null,
       };
       return (this.data = { ...this.data, ...designatedContact });
     }
   },
   methods: {
     authStore,
+    applicationsStore,
     formatDateTime,
     closeDocumentDialog() {
       this.documentUpload = false;
@@ -1012,9 +1069,6 @@ export default {
     },
     isNew() {
       return this.$route.name === 'newExpressionOfInterest';
-    },
-    isReadOnly() {
-      return this.eoi.iosas_reviewstatus !== this.draftStatusCode;
     },
     async handleUpdate() {
       if (this.isSubmitted) {
@@ -1030,24 +1084,29 @@ export default {
           this.data,
           this.isSubmitted
         )
-          .then((response) => {
+          .then(async (response) => {
             if (this.documents.length > 0) {
               this.handleUploadDocuments(response.data);
             }
             if (this.isSubmitted) {
+              await applicationsStore().setConfirmationMessage(
+                `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
+              );
               this.$router.push({
                 name: 'applicationConfirmation',
                 params: { type: 'EOI' },
               });
             } else {
               this.$emit('fetchEOIData');
+
               this.setSuccessAlert(
-                'Success! Expression of Interest draft has been update'
+                'Success! Expression of Interest draft has been updated'
               );
             }
+            // Where does the infinate load come from??
+            this.$emit('setIsLoading');
           })
           .catch((error) => {
-            console.error(error);
             this.setFailureAlert(
               error?.response?.data?.message
                 ? error?.response?.data?.message
@@ -1078,10 +1137,13 @@ export default {
       } else {
         this.$emit('setIsLoading');
         ApiService.cancelEOI(this.data.iosas_expressionofinterestid)
-          .then(() => {
+          .then(async () => {
+            await applicationsStore().setConfirmationMessage(
+              `Expression of Interest ${this.data.iosas_eoinumber} has been successfully removed from your records.`
+            );
             this.$router.push({
               name: 'applicationConfirmation',
-              params: { type: 'Delete#EOI' },
+              params: { type: 'EOI' },
             });
           })
           .catch((error) => {
@@ -1108,15 +1170,14 @@ export default {
           if (this.documents.length > 0) {
             this.handleUploadDocuments(response.data);
           }
-          this.$emit('fetchEOIData');
-          // TEST THIS
+
+          this.setSuccessAlert(
+            'Success! The Expression of Interest has been updated.'
+          );
           this.$router.push({
             name: 'expressionOfInterest',
             params: { id: response.data.value },
           });
-          this.setSuccessAlert(
-            'Success! The Expression of Interest has been saved.'
-          );
         })
         .catch((error) => {
           console.error(error);
@@ -1142,11 +1203,14 @@ export default {
       if (this.isFormValid) {
         this.$emit('setIsLoading');
         ApiService.createEOI(this.data, this.isSubmitted)
-          .then((response) => {
+          .then(async (response) => {
             if (this.documents.length > 0) {
               this.handleUploadDocuments(response.data);
             }
-            // Redirect to Confirmation Page - pass Id to fetch data?
+
+            await applicationsStore().setConfirmationMessage(
+              `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
+            );
             this.$router.push({
               name: 'applicationConfirmation',
               params: { type: 'EOI' },
@@ -1190,36 +1254,22 @@ export default {
         })
       );
     },
-    renderDocument(documentCode) {
-      // const combinedDocuments = [...this.documents, ...this.data?.documents];
-      // if (combinedDocuments.length > 0) {
-      //   return combinedDocuments
-      //     .filter((document) => {
-      //       if (document.documentid) {
-      //         return document.iosas_eoidocumenttype === documentCode;
-      //       } else {
-      //         return document.documentType === documentCode;
-      //       }
-      //     })
-      //     .map((document) => {
-      //       if (document.documentid) {
-      //         return {
-      //           fileName: document.iosas_file_name,
-      //           ...document,
-      //         };
-      //       }
-      //     });
-      // }
-      // console.log(combinedDocuments);
-      // return combinedDocuments;
-      return [];
+    displayDocuments() {
+      this.incorporationDocument = this.data?.documents.find(
+        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
+      );
+      this.certificateOfGoodStandingDocument = this.data?.documents.find(
+        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000001
+      );
+      this.otherDocuments = this.data?.documents.filter(
+        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000002
+      );
     },
     async removeDocment(document) {
-      console.log('DOCUMENT PASSED IN', document);
       if (document.iosas_documentid) {
         await ApiService.deleteDocument(document.iosas_documentid)
           .then(() => {
-            this.$emit('fetchEOIData');
+            // REFETCH DOCUMENTS NOTHING ELSE
             this.setSuccessAlert(
               `Success! The Document ${document.iosas_file_name} has been removed from your records`
             );
@@ -1232,12 +1282,13 @@ export default {
                 : 'An error occurred while saving the expression of Interest. Please try again later.'
             );
           });
-      } else if (document.content) {
-        const index = this.documents.findIndex(
-          (x) => x.conent === document.content
-        );
-        console.log(index);
-        this.documents.slice(index, 1);
+      } else {
+        // TODO: add temporary id to differentiate between staged documents
+        const filteredDocuments = this.documents.filter(({ content }) => {
+          return content !== document.content;
+        });
+
+        this.documents = filteredDocuments;
         return this.documents;
       }
     },

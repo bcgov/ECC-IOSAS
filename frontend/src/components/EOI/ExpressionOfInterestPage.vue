@@ -5,21 +5,41 @@
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-    <ExpressionOfInterestForm
-      :eoi="eoi"
-      :isLoading="isLoading"
-      @setIsLoading="setIsLoading"
-      :schoolYearOptions="schoolYearOptions"
-      :pickListOptions="pickListOptions"
-      :documentTypeOptions="documentTypeOptions"
-      :schoolAuthorityOptions="schoolAuthorityOptions"
-      @fetchEOIData="fetchEOIData"
-    />
+    <v-row v-if="isLoading">
+      <v-col class="d-flex justify-center">
+        <v-progress-circular
+          class="mt-16"
+          :size="70"
+          :width="7"
+          color="primary"
+          indeterminate
+          :active="isLoading"
+        />
+      </v-col>
+    </v-row>
+    <div v-else>
+      <div v-if="isViewOnly">
+        <ExpressionOfInterestReadOnlyView
+          :eoi="eoi"
+          :draftStatusCode="draftStatusCode"
+        />
+      </div>
+      <div v-else>
+        <ExpressionOfInterestForm
+          :eoi="eoi"
+          :isLoading="isLoading"
+          :draftStatusCode="draftStatusCode"
+          @setIsLoading="setIsLoading"
+          @fetchEOIData="fetchEOIData"
+        />
+      </div>
+    </div>
   </v-container>
 </template>
 
 <script>
 import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
+import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
 import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 import { documentStore } from '../../store/modules/document';
@@ -30,14 +50,13 @@ export default {
   name: 'ExpressionOfInterestPage',
   components: {
     ExpressionOfInterestForm,
+    ExpressionOfInterestReadOnlyView,
   },
   data: () => ({
+    isViewOnly: false,
     isLoading: true,
+    draftStatusCode: 100000006,
     eoi: null,
-    documentTypeOptions: [],
-    schoolYearOptions: [],
-    pickListOptions: null,
-    schoolAuthorityOptions: null,
     items: [
       {
         title: 'Dashboard',
@@ -54,29 +73,14 @@ export default {
   mounted() {},
   computed: {
     ...mapState(authStore, ['isAuthenticated']),
-    ...mapState(applicationsStore, [
-      'getApplicationData',
-      'getEOIApplicationById',
-      'getEOI',
-    ]),
-    ...mapState(metaDataStore, [
-      'getActiveSchoolYearSelect',
-      'getEOIPickListOptions',
-      'getDocumentPickListOptions',
-      'getSchoolAuthorityListOptions',
-    ]),
+    ...mapState(applicationsStore, ['getEOIApplicationById', 'getEOI']),
   },
   async created() {
-    this.schoolAuthorityOptions = this.getSchoolAuthorityListOptions;
-    this.schoolYearOptions = this.getActiveSchoolYearSelect;
-    this.documentTypeOptions =
-      this.getDocumentPickListOptions?.['iosas_eoidocumenttype'];
-    this.pickListOptions = this.getEOIPickListOptions;
     if (this.$route.params.id) {
       await applicationsStore().getEOIApplicationById(this.$route.params.id);
-
       this.eoi = this.getEOI;
-      console.log('THIS EOI on PAGE', this.eoi);
+
+      this.isViewOnly = this.eoi.iosas_reviewstatus !== this.draftStatusCode;
     }
     this.isLoading = false;
   },
@@ -89,8 +93,10 @@ export default {
     },
     async fetchEOIData() {
       this.isLoading = true;
-      await applicationsStore().getEOIApplicationById(this.$route.params.id);
-      this.eoi = this.getEOI;
+      if (this.$route.params.id) {
+        await applicationsStore().getEOIApplicationById(this.$route.params.id);
+        this.eoi = this.getEOI;
+      }
       this.isLoading = false;
     },
   },

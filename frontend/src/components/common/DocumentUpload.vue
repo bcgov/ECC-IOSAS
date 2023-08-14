@@ -16,7 +16,7 @@
               :items="options"
               item-title="label"
               item-value="value"
-              disabled="selectedOption"
+              :disabled="!!selectedOption"
               :rules="[rules.requiredSelect()]"
             ></v-select>
             <v-file-input
@@ -70,8 +70,6 @@
 
 <script>
 import { getFileNameWithMaxNameLength, humanFileSize } from '../../utils/file';
-import { edxStore } from '../../store/modules/edx';
-import { mapState } from 'pinia';
 import * as Rules from './../../utils/institute/formRules';
 import PrimaryButton from '../util/PrimaryButton.vue';
 
@@ -87,16 +85,28 @@ export default {
       required: true,
     },
     selectedOption: {
-      type: String,
+      type: Number,
       required: false,
     },
   },
-  emits: ['close:form', 'upload'],
+  emits: ['close', 'upload'],
   data() {
     return {
       fileAccept: '.pdf,.png,.jpg,.docx',
       rules: Rules,
-      fileRules: [],
+      fileRules: [
+        (value) => {
+          let ret =
+            !value ||
+            !value.length ||
+            value[0].size < 32000000 ||
+            `File size should not be larger than ${humanFileSize(32000000)}!`;
+          if (ret !== true) {
+            this.setFailureAlert(ret);
+          }
+          return ret;
+        },
+      ],
       filesAccept: '',
       validForm: false,
       fileInputError: [],
@@ -110,7 +120,6 @@ export default {
     };
   },
   computed: {
-    ...mapState(edxStore, ['secureExchangeDocumentTypes', 'fileRequirements']),
     dataReady() {
       return this.validForm && this.uploadFileValue;
     },
@@ -125,10 +134,6 @@ export default {
     if (this.selectedOption) {
       this.documentTypeCode = this.selectedOption;
     }
-    // await edxStore().getSecureExchangeDocumentTypes();
-    // await edxStore().getFileRequirements();
-    // this.getFileRules();
-    // await this.validateForm();
   },
   methods: {
     closeForm() {
@@ -165,7 +170,6 @@ export default {
       }
     },
     submitRequest() {
-      // if (this.dataReady) {
       try {
         if (
           this.uploadFileValue[0].name &&
@@ -189,7 +193,6 @@ export default {
         this.handleFileReadErr();
         throw e;
       }
-      // }
     },
     handleFileReadErr() {
       this.active = false;

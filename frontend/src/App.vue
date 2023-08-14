@@ -42,6 +42,7 @@ export default {
     },
   },
   async created() {
+    // TODO: try 3X, Unhandled rejection
     await metaDataStore().getActiveSchoolYear();
     await metaDataStore().getEOIPickLists();
     await metaDataStore().getDocumentPickLists();

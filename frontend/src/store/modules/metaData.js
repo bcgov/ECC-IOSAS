@@ -32,6 +32,11 @@ export const metaDataStore = defineStore('metaData', {
       const list = response
         .map((list) => {
           const options = list?.GlobalOptionSet.Options.map((option) => {
+            // console.log(typeof option.Value);
+            // const isValueString = typeof option.Value;
+            // const defaultValue = isValueString
+            //   ? Number(option.Value)
+            //   : option.Value;
             return {
               label: option.Label?.UserLocalizedLabel?.Label,
               value: option.Value,
@@ -57,6 +62,7 @@ export const metaDataStore = defineStore('metaData', {
         .map((element) => ({
           value: element.edu_yearid,
           label: element.edu_name,
+          year: element,
         }));
     },
     async setEOIPickListOptions(response) {

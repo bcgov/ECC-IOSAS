@@ -1,6 +1,6 @@
 import ApiService from '../../common/apiService';
 import { defineStore } from 'pinia';
-import { EOI_MOCK, SCHOOL_APPLICATION_MOCK } from '../../utils/constants/mocks';
+import { SCHOOL_APPLICATION_MOCK } from '../../utils/constants/mocks';
 
 export const applicationsStore = defineStore('applications', {
   namespaced: true,
@@ -8,12 +8,15 @@ export const applicationsStore = defineStore('applications', {
     EOIApplications: null,
     schoolApplicationsMap: new Map(),
     eoi: null,
+    confirmationMessage: null,
   }),
   getters: {
+    getConfirmationMessage: (state) => state.confirmationMessage,
     getSchoolApplicationsFormatted: (state) =>
       // format the data for table view - keys are turned into table headers
       Object.values(Object.fromEntries(state.schoolApplicationsMap)).map(
         (v) => ({
+          // TODO: update with id when connected to API
           application_number:
             v.iosas_applicationnumber + ' ' + v.iosas_applicationnumber,
           status:
@@ -30,7 +33,9 @@ export const applicationsStore = defineStore('applications', {
         })
       ),
     getEOIApplicationsFormatted: (state) =>
-      state.EOIApplications.map((v) => ({
+      state.EOIApplications?.sort(
+        (a, b) => a.iosas_eoinumber - b.iosas_eoinumber
+      ).map((v) => ({
         EOI_number: v.iosas_eoinumber + ' ' + v.iosas_expressionofinterestid,
         status:
           v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
@@ -50,6 +55,9 @@ export const applicationsStore = defineStore('applications', {
     },
   },
   actions: {
+    async setConfirmationMessage(message) {
+      this.confirmationMessage = message;
+    },
     async setEOIApplications(applicationsResponse) {
       this.EOIApplications = applicationsResponse;
     },
