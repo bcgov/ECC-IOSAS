@@ -41,6 +41,7 @@
           </v-tab>
         </v-tabs>
       </div>
+
       <div class="flex-4">
         <v-form
           ref="schoolApplicationForm"

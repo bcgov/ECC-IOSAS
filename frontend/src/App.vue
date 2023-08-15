@@ -243,7 +243,7 @@ h1 {
 
 .v-label {
   white-space: break-spaces !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 10px;
 }
 .v-selection-control--inline .v-label {
   margin-bottom: 0 !important;
@@ -308,5 +308,9 @@ h1 {
 // using for field name confirmations - Will be removed
 .orange {
   color: orangered !important;
+}
+
+.no-mb {
+  margin-bottom: 0px !important;
 }
 </style>

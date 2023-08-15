@@ -21,6 +21,11 @@
           </p>
         </template>
       </ConfirmationDialog>
+      <ConfirmationDialog ref="confirmDeleteDocument">
+        <template #message>
+          <p>This document will be removed from your records.</p>
+        </template>
+      </ConfirmationDialog>
       <v-snackbar
         id="activationSnackBar"
         v-model="showActivationSnackBar"
@@ -39,11 +44,12 @@
         validate-on="blur"
         v-model="isFormValid"
       >
-        <v-container fluid class="content-container">
-          <div class="form-container">
+        <v-container fluid>
+          <div>
             <div class="d-flex justify-space-between">
               <h1>Expression of Interest</h1>
             </div>
+            <IndependentSchoolDisclaimer />
             <br />
             <v-divider></v-divider>
             <div>
@@ -55,8 +61,9 @@
               <br />
               <v-row>
                 <v-col cols="12">
-                  <v-label class="no-margin"
-                    >Does the School Authority Exist?</v-label
+                  <v-label class="no-mb"
+                    >Is this Expression of Interest for an existing School
+                    Authority?</v-label
                   >
                   <v-radio-group
                     id="iosas_existingauthority"
@@ -192,10 +199,11 @@
               <br />
 
               <div>
+                <v-label>Designated Authority Contact</v-label>
                 <v-label
-                  >Designated Authority Contact (The designated authority
-                  contact should be the person submitting this
-                  application)</v-label
+                  >The designated contact is the person submitting the
+                  application, and the person who will receive follow-up emails
+                  and contact by the ministry.</v-label
                 >
                 <v-row>
                   <v-col cols="12" sm="12" md="6" xs="12">
@@ -267,11 +275,11 @@
                 </v-row>
               </div>
               <v-row>
-                <v-label class="no-margin"
-                  >Is the Authority Head same as the Designated
-                  Contact?</v-label
-                >
                 <v-col cols="12">
+                  <v-label class="no-mb"
+                    >Is the School Authority Head the same person as the
+                    Designated Authority Contact?</v-label
+                  >
                   <v-radio-group
                     id="iosas_designatedcontactsameasauthorityhead"
                     v-model="data.iosas_designatedcontactsameasauthorityhead"
@@ -365,7 +373,7 @@
                   <v-radio-group
                     v-model="schoolAddressKnown"
                     color="#003366"
-                    label="Is the School Address Known?"
+                    label="Is the School Address known?"
                     class="mt-4"
                     inline
                   >
@@ -484,18 +492,18 @@
               </v-row>
 
               <v-row>
-                <v-label>
-                  Group Classification applying for:
-                  <a :href="GOV_URL.groupClassificationUrl" target="_blank"
-                    >(Group classification Information)</a
-                  >
-                </v-label>
                 <v-col cols="12">
+                  <v-label class="no-mb">
+                    Group Classification applying for:
+                    <a :href="GOV_URL.groupClassificationUrl" target="_blank"
+                      >(Group classification Information)</a
+                    >
+                  </v-label>
                   <v-radio-group
                     id="iosas_groupclassification"
                     v-model="data.iosas_groupclassification"
                     color="#003366"
-                    class="mt-4 inline-box"
+                    class="mt-4"
                     inline
                     @change="validateAndPopulate"
                     :rules="[rules.requiredSelect()]"
@@ -515,7 +523,7 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-label
+                  <v-label class="no-mb"
                     >For authorities applying for Group 2 classification, are
                     there current plans to seek Group 1 classification in the
                     second or subsequest year of operation?
@@ -527,7 +535,11 @@
                     class="mt-4"
                     inline
                     @change="validateAndPopulate"
-                    :rules="[rules.requiredRadio()]"
+                    :rules="
+                      data.iosas_groupclassification === groupTwoCode
+                        ? [rules.requiredRadio()]
+                        : []
+                    "
                   >
                     <v-radio label="Yes" color="#003366" :value="true" />
                     <v-radio label="No" color="#003366" :value="false" />
@@ -582,14 +594,15 @@
                       <v-icon
                         aria-hidden="false"
                         color="rgb(0, 51, 102)"
-                        size="20"
+                        size="17"
                       >
                         mdi-file-document-check-outline
                       </v-icon>
                       <p>{{ incorporationDocument.fileName }}</p>
                     </div>
 
-                    <v-btn
+                    <!-- TODO: Add ability to delete documents -->
+                    <!-- <v-btn
                       secondary
                       class="ml-15"
                       variant="flat"
@@ -598,7 +611,7 @@
                       ><v-icon aria-hidden="false" color="red" size="20">
                         mdi-delete-forever-outline
                       </v-icon></v-btn
-                    >
+                    > -->
                   </div>
 
                   <v-btn
@@ -631,13 +644,14 @@
                       <v-icon
                         aria-hidden="false"
                         color="rgb(0, 51, 102)"
-                        size="20"
+                        size="17"
                       >
                         mdi-file-document-check-outline
                       </v-icon>
                       {{ certificateOfGoodStandingDocument.fileName }}
                     </div>
-                    <v-btn
+                    <!-- TODO: Add ability to delete documents -->
+                    <!-- <v-btn
                       secondary
                       class="ml-15"
                       variant="flat"
@@ -648,7 +662,7 @@
                       ><v-icon aria-hidden="false" color="red" size="20">
                         mdi-delete-forever-outline
                       </v-icon></v-btn
-                    >
+                    > -->
                   </div>
                   <v-btn
                     v-else
@@ -670,10 +684,9 @@
                   />
                 </v-col>
               </v-row>
-              <v-spacer />
-              <v-label>Other (Optional)</v-label>
               <v-row>
-                <v-col cols="12" sm="12" md="4" xs="12">
+                <v-col cols="12" sm="12" md="6" xs="12">
+                  <v-label>Other (Optional)</v-label>
                   <div
                     v-for="document in otherDocuments"
                     key="document.content"
@@ -683,13 +696,14 @@
                         <v-icon
                           aria-hidden="false"
                           color="rgb(0, 51, 102)"
-                          size="20"
+                          size="17"
                         >
                           mdi-file-document-check-outline
                         </v-icon>
                         {{ document.fileName }}
                       </div>
-                      <v-btn
+                      <!-- TODO: Add ability to delete documents -->
+                      <!-- <v-btn
                         secondary
                         class="ml-15"
                         variant="flat"
@@ -698,7 +712,7 @@
                         ><v-icon aria-hidden="false" color="red" size="20">
                           mdi-delete-forever-outline
                         </v-icon></v-btn
-                      >
+                      > -->
                     </div>
                   </div>
                   <v-btn
@@ -793,6 +807,10 @@
           </div>
         </v-container>
       </v-form>
+      <!-- <v-col cols="12" sm="12" md="4" xs="12">
+        <RelatedLinksCard />
+        <ContactCard />
+      </v-col> -->
     </template>
   </div>
 </template>
@@ -802,6 +820,7 @@ import ApiService from '../../common/apiService';
 import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
+import IndependentSchoolDisclaimer from '../IndependentSchoolDisclaimer.vue';
 import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -809,7 +828,6 @@ import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
-import { formatDateTime } from '../../utils/format';
 import { GOV_URL } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
@@ -818,6 +836,7 @@ import EOIFormHeader from './EOIFormHeader.vue';
 export default {
   name: 'ExpressionOfInterestForm',
   components: {
+    IndependentSchoolDisclaimer,
     PrimaryButton,
     ConfirmationDialog,
     DocumentUpload,
@@ -841,16 +860,17 @@ export default {
     },
   },
   watch: {
+    'data.certificateissuedate': {
+      handler(val) {},
+    },
     documents: {
       handler(val) {
         this.incorporationDocument = val.find(
           ({ documentType }) => documentType === 100000000
         );
-
         this.certificateOfGoodStandingDocument = val.find(
           ({ documentType }) => documentType === 100000001
         );
-
         this.otherDocuments = val.filter(
           ({ documentType }) => documentType === 100000002
         );
@@ -890,11 +910,16 @@ export default {
           ({ value }) => value === val
         );
         this.schoolYearLabel = matchedSchoolYear.year.iosas_label;
+        console.log(this.schoolYearLabel);
         return;
       },
     },
     'data.iosas_designatedcontactsameasauthorityhead': {
-      handler(val) {
+      handler(val, oldVal) {
+        // Dont trigger watch on initial load of draft
+        if (oldVal === undefined && !this.isNew()) {
+          return;
+        }
         let contact;
         if (val) {
           this.populatedAndDisableAuthorityHead = true;
@@ -917,7 +942,8 @@ export default {
     },
     'data._iosas_edu_schoolauthority_value': {
       handler(val, oldVal) {
-        if (oldVal === undefined) {
+        // Dont trigger watch on initial load of draft
+        if (oldVal === undefined && !this.isNew()) {
           return;
         }
         console.log(this.data._iosas_edu_schoolauthority_value);
@@ -962,7 +988,8 @@ export default {
     },
     'data.iosas_existingauthority': {
       handler(val, oldVal) {
-        if (oldVal === undefined) {
+        // Dont trigger watch on initial load of draft
+        if (oldVal === undefined && !this.isNew()) {
           return;
         }
         this.populateAndDisableAuthorityAddress = false;
@@ -994,6 +1021,7 @@ export default {
   data() {
     return {
       GOV_URL,
+      groupTwoCode: 100000000,
       authorityName: null,
       schoolYearLabel: null,
       incorporationDocument: null,
@@ -1002,12 +1030,12 @@ export default {
       isFormValid: false,
       isEditing: false,
       isSubmitted: false,
-      schoolAddressKnown: false,
+      schoolAddressKnown: null,
       applicationConfirmation: false,
-      fetchingAuthorityHead: false,
       populateAndDisableAuthorityAddress: false,
       populatedAndDisableDesignatedContact: false,
       populatedAndDisableAuthorityHead: false,
+      populateAndDisableContactPhone: false,
       documentUpload: false,
       selectedDocumentOption: null,
       rules: Rules,
@@ -1033,21 +1061,31 @@ export default {
     this.isEditing =
       this.isNew() || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
 
-    // if (this.isNew()) {
-    //   applicationsStore().setConfirmationMessage('THIS IS THIS MESSAGE');
-    //   this.$router.push({
-    //     name: 'applicationConfirmation',
-    //     params: { type: 'EOI' },
-    //   });
-    // }
-
+    console.log(this.data);
     if (this.data?.documents?.length > 0) {
       this.displayDocuments();
     }
-    if (this.isAuthenticated) {
+
+    // Disable autopopulated fields on draft applications
+    if (!this.isNew()) {
+      if (this.data.iosas_designatedcontactsameasauthorityhead) {
+        this.populatedAndDisableAuthorityHead = true;
+      }
+      if (this.data.iosas_existingauthority) {
+        this.populateAndDisableAuthorityAddress = true;
+      }
+      if (this.data.iosas_schooladdressline1) {
+        this.schoolAddressKnown = true;
+      } else {
+        this.schoolAddressKnown = false;
+      }
+    }
+
+    // populate DAC if authenticated and new EOI
+    if (this.isAuthenticated && this.isNew()) {
       this.populatedAndDisableDesignatedContact = true;
       const designatedContact = {
-        iosas_existingauthority: true,
+        iosas_existingcontact: true,
         iosas_designatedcontactfirstname: this.userInfo.firstName,
         iosas_schoolauthoritycontactname: this.userInfo.lastName,
         iosas_schoolauthoritycontactemail: this.userInfo.email,
@@ -1059,7 +1097,6 @@ export default {
   methods: {
     authStore,
     applicationsStore,
-    formatDateTime,
     closeDocumentDialog() {
       this.documentUpload = false;
     },
@@ -1071,6 +1108,7 @@ export default {
       return this.$route.name === 'newExpressionOfInterest';
     },
     async handleUpdate() {
+      console.log('updating');
       if (this.isSubmitted) {
         const valid = await this.$refs.expressionOfInterestForm.validate();
         this.isFormValid = valid.valid;
@@ -1086,7 +1124,9 @@ export default {
         )
           .then(async (response) => {
             if (this.documents.length > 0) {
-              this.handleUploadDocuments(response.data);
+              this.handleUploadDocuments(
+                this.data.iosas_expressionofinterestid
+              );
             }
             if (this.isSubmitted) {
               await applicationsStore().setConfirmationMessage(
@@ -1103,8 +1143,6 @@ export default {
                 'Success! Expression of Interest draft has been updated'
               );
             }
-            // Where does the infinate load come from??
-            this.$emit('setIsLoading');
           })
           .catch((error) => {
             this.setFailureAlert(
@@ -1112,9 +1150,6 @@ export default {
                 ? error?.response?.data?.message
                 : 'An error occurred while saving the expression of Interest. Please try again later.'
             );
-          })
-          .finally(() => {
-            this.$emit('setIsLoading');
           });
       }
     },
@@ -1162,6 +1197,7 @@ export default {
     handleDraftSubmit() {
       this.isSubmitted = false;
       if (!this.isNew()) {
+        console.log('going to handleUpdate if im not new');
         return this.handleUpdate();
       }
       this.$emit('setIsLoading');
@@ -1170,25 +1206,20 @@ export default {
           if (this.documents.length > 0) {
             this.handleUploadDocuments(response.data);
           }
-
           this.setSuccessAlert(
             'Success! The Expression of Interest has been updated.'
           );
           this.$router.push({
             name: 'expressionOfInterest',
-            params: { id: response.data.value },
+            params: { id: response.data },
           });
         })
         .catch((error) => {
-          console.error(error);
           this.setFailureAlert(
             error?.response?.data?.message
               ? error?.response?.data?.message
               : 'An error occurred while saving the expression of Interest. Please try again later.'
           );
-        })
-        .finally(() => {
-          this.$emit('setIsLoading');
         });
     },
     async handleSubmit() {
@@ -1255,41 +1286,85 @@ export default {
       );
     },
     displayDocuments() {
-      this.incorporationDocument = this.data?.documents.find(
-        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
-      );
-      this.certificateOfGoodStandingDocument = this.data?.documents.find(
-        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000001
-      );
-      this.otherDocuments = this.data?.documents.filter(
-        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000002
-      );
+      this.incorporationDocument = this.data?.documents
+        .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
+        .find(
+          ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
+        );
+
+      // Set boolean
+
+      this.certificateOfGoodStandingDocument = this.data?.documents
+        .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
+        .find(
+          ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000001
+        );
+
+      // Set boolean
+      this.otherDocuments = this.data?.documents
+        .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
+        .filter(
+          ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000002
+        );
     },
     async removeDocment(document) {
-      if (document.iosas_documentid) {
-        await ApiService.deleteDocument(document.iosas_documentid)
-          .then(() => {
-            // REFETCH DOCUMENTS NOTHING ELSE
-            this.setSuccessAlert(
-              `Success! The Document ${document.iosas_file_name} has been removed from your records`
-            );
-          })
-          .catch((error) => {
-            console.error(error);
-            this.setFailureAlert(
-              error?.response?.data?.message
-                ? error?.response?.data?.message
-                : 'An error occurred while saving the expression of Interest. Please try again later.'
-            );
-          });
+      const documentName = document.iosas_documentid
+        ? document.iosas_file_name
+        : document.fileName;
+      const confirmation = await this.$refs.confirmDeleteDocument.open(
+        `Remove Document - ${documentName}?`,
+        null,
+        {
+          color: '#fff',
+          width: 580,
+          closeIcon: false,
+          subtitle: false,
+          dark: false,
+          resolveText: 'Confirm',
+          rejectText: 'Cancel',
+        }
+      );
+      if (!confirmation) {
+        return;
       } else {
-        // TODO: add temporary id to differentiate between staged documents
-        const filteredDocuments = this.documents.filter(({ content }) => {
-          return content !== document.content;
-        });
+        if (document.iosas_documentid) {
+          this.$emit('setIsLoading');
+          await ApiService.deleteDocument(document.iosas_documentid)
+            .then(async () => {
+              const documentResponse = await ApiService.getEOIDocuments(
+                this.data.iosas_expressionofinterestid
+              );
+              if (documentResponse) {
+                this.data.documents = documentResponse.data.value;
+                this.displayDocuments();
+              }
+              this.setSuccessAlert(
+                `Success! The Document ${document.iosas_file_name} has been removed from your records`
+              );
+            })
+            .catch((error) => {
+              console.error(error);
+              this.setFailureAlert(
+                error?.response?.data?.message
+                  ? error?.response?.data?.message
+                  : 'An error occurred while saving the expression of Interest. Please try again later.'
+              );
+            })
+            .finally(this.$emit('setIsLoading'));
+        } else {
+          // TODO: add temporary id to differentiate between staged documents
+          const filteredDocuments = this.documents.filter(({ content }) => {
+            return content !== document.content;
+          });
 
-        this.documents = filteredDocuments;
-        return this.documents;
+          this.documents = filteredDocuments;
+          return this.documents;
+        }
+      }
+    },
+    shouldWatchDataChange(oldValue) {
+      if (oldValue === undefined && !this.isNew()) {
+        return;
       }
     },
     validateAndPopulate(e) {

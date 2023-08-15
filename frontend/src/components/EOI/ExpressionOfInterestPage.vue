@@ -17,22 +17,32 @@
         />
       </v-col>
     </v-row>
-    <div v-else>
-      <div v-if="isViewOnly">
-        <ExpressionOfInterestReadOnlyView
-          :eoi="eoi"
-          :draftStatusCode="draftStatusCode"
-        />
-      </div>
-      <div v-else>
-        <ExpressionOfInterestForm
-          :eoi="eoi"
-          :isLoading="isLoading"
-          :draftStatusCode="draftStatusCode"
-          @setIsLoading="setIsLoading"
-          @fetchEOIData="fetchEOIData"
-        />
-      </div>
+
+    <div v-else class="d-flex justify-space-between">
+      <v-container fluid class="content-container flex-4">
+        <div class="form-container">
+          <div v-if="isViewOnly">
+            <ExpressionOfInterestReadOnlyView
+              :eoi="eoi"
+              :draftStatusCode="draftStatusCode"
+            />
+          </div>
+          <div v-else>
+            <ExpressionOfInterestForm
+              :eoi="eoi"
+              :isLoading="isLoading"
+              :draftStatusCode="draftStatusCode"
+              @setIsLoading="setIsLoading"
+              @fetchEOIData="fetchEOIData"
+            />
+          </div>
+        </div>
+      </v-container>
+
+      <!-- <v-col cols="12" sm="12" md="4" xs="12" class="flex-1">
+        <RelatedLinksCard />
+        <ContactCard />
+      </v-col> -->
     </div>
   </v-container>
 </template>
@@ -40,6 +50,8 @@
 <script>
 import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
+import ContactCard from '../common/ContactCard.vue';
+import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 import { documentStore } from '../../store/modules/document';
@@ -49,6 +61,8 @@ import { metaDataStore } from '../../store/modules/metaData';
 export default {
   name: 'ExpressionOfInterestPage',
   components: {
+    ContactCard,
+    RelatedLinksCard,
     ExpressionOfInterestForm,
     ExpressionOfInterestReadOnlyView,
   },
@@ -106,5 +120,13 @@ export default {
 <style scoped>
 .full-height {
   height: 100%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-4 {
+  flex: 4;
 }
 </style>

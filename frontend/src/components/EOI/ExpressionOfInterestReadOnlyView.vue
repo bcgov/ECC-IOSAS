@@ -1,6 +1,8 @@
 <template>
-  <v-container fluid class="content-container">
-    <div class="form-container">
+  <v-container fluid>
+    <!-- <v-container fluid class="content-container"> -->
+    <div>
+      <!-- <div class="form-container"> -->
       <div class="d-flex justify-space-between">
         <h1>Expression of Interest</h1>
       </div>
@@ -320,7 +322,6 @@ export default {
     };
   },
   created() {
-    console.log(this.eoi);
     if (this.eoi?.documents?.length > 0) {
       this.incorporationDocument = this.eoi.documents.find(
         ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
