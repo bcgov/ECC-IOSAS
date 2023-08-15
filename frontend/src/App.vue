@@ -199,15 +199,16 @@ h1 {
 
 .form-container {
   border-radius: 5px;
-  padding: 50px;
+  padding: 20px;
   box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
   -webkit-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
   -moz-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
 }
 
+// School application and EOI containers
 .content-container {
-  padding-right: 25em !important;
-  padding-left: 25em !important;
+  padding-right: 15em !important;
+  padding-left: 15em !important;
 }
 
 @media screen and (max-width: 1900px) {

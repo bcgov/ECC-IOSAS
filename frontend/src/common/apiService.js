@@ -79,14 +79,8 @@ export default {
       throw e;
     }
   },
-  async getFileRequirements() {
-    try {
-      return await apiAxios.get(ApiRoutes.edx.FILE_REQUIREMENTS_URL);
-    } catch (e) {
-      console.log(`Failed to get from Nodejs getFileRequirements API - ${e}`);
-      throw e;
-    }
-  },
+
+  // Documents
   async uploadFile(fileData) {
     try {
       return await apiAxios.post(ApiRoutes.documents.UPLOAD_DOCUMENT, fileData);
@@ -105,6 +99,8 @@ export default {
       throw e;
     }
   },
+
+  // Contact
   async getUserInfo() {
     try {
       return await apiAxios.get(ApiRoutes.USER);
@@ -113,6 +109,8 @@ export default {
       throw e;
     }
   },
+
+  // MetaData
   async getActiveSchoolYears() {
     try {
       return await apiAxios.get(ApiRoutes.meta.ACTIVE_SCHOOL_YEARS);
@@ -137,6 +135,16 @@ export default {
       throw e;
     }
   },
+  async getPickLists(tableName) {
+    try {
+      return await apiAxios.get(ApiRoutes.meta.PICK_LISTS(tableName));
+    } catch (e) {
+      console.log(`Failed to get getPickLists - ${e}`);
+      throw e;
+    }
+  },
+
+  // School Applications
   async getApplicationDocuments() {
     try {
       return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
@@ -145,6 +153,8 @@ export default {
       throw e;
     }
   },
+
+  // Expression of Interest
   async getEOIDocuments(id) {
     try {
       return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
@@ -166,14 +176,6 @@ export default {
       return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATION(id));
     } catch (e) {
       console.log(`Failed to get getAllEOIByUser - ${e}`);
-      throw e;
-    }
-  },
-  async getPickLists(tableName) {
-    try {
-      return await apiAxios.get(ApiRoutes.meta.PICK_LISTS(tableName));
-    } catch (e) {
-      console.log(`Failed to get getPickLists - ${e}`);
       throw e;
     }
   },
@@ -204,67 +206,4 @@ export default {
       throw e;
     }
   },
-  //   getExchangeStatuses: getCodes(`${ApiRoutes.edx.STATUSES_URL}`),
-  //   getMinistryTeamCodes: getCodes(`${ApiRoutes.edx.MINISTRY_TEAM_URL}`),
-  //   getSchools: getCodes(`${ApiRoutes.SCHOOL_DATA_URL}`),
-  //   getEdxExchangeSchoolIds: getCodes(`${ApiRoutes.edx.USERS_URL}/user-schools`),
-  //   getEdxRoles: getCodes(`${ApiRoutes.edx.USERS_URL}/roles`),
-  //   getSecureExchangeDocumentTypes: getCodes(
-  //     `${ApiRoutes.edx.DOCUMENT_TYPES_URL}`
-  //   ),
-  //   getDistricts: getCodes(`${ApiRoutes.DISTRICT_DATA_URL}`),
-  //   getActiveSchools: getCodes(`${ApiRoutes.SCHOOL_DATA_URL}?active=true`),
-  //   getActiveDistricts: getCodes(`${ApiRoutes.DISTRICT_DATA_URL}?active=true`),
-  //   getFacilityTypeCodes: getCodes(`${ApiRoutes.institute.FACILITY_TYPES_URL}`),
-  //   getSchoolCategoryTypeCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_CATEGORY_TYPES_URL}`
-  //   ),
-  //   getSchoolOrganizationTypeCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_ORGANIZATION_TYPES_URL}`
-  //   ),
-  //   getSchoolReportingRequirementTypeCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_REPORTING_REQUIREMENT_TYPES_URL}`
-  //   ),
-  //   getSchoolNeighborhoodLearningCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_NEIGHBORHOOD_LEARNING_TYPES_URL}`
-  //   ),
-  //   getGradeCodes: getCodes(`${ApiRoutes.institute.SCHOOL_GRADE_TYPES_URL}`),
-  //   getProvinceCodes: getCodes(`${ApiRoutes.institute.PROVINCE_CODES_URL}`),
-  //   getCountryCodes: getCodes(`${ApiRoutes.institute.COUNTRY_CODES_URL}`),
-  //   getAllActiveFacilityTypeCodes: getCodes(
-  //     `${ApiRoutes.institute.FACILITY_TYPES_URL}?active=true`
-  //   ),
-  //   getAllActiveSchoolCategoryTypeCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_CATEGORY_TYPES_URL}?active=true`
-  //   ),
-  //   getAllActiveSchoolOrganizationTypeCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_ORGANIZATION_TYPES_URL}?active=true`
-  //   ),
-  //   getAllActiveSchoolNeighborhoodLearningCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_NEIGHBORHOOD_LEARNING_TYPES_URL}?active=true`
-  //   ),
-  //   getAllActiveSchoolGradeCodes: getCodes(
-  //     `${ApiRoutes.institute.SCHOOL_GRADE_TYPES_URL}?active=true`
-  //   ),
-  //   getAllActiveInstituteProvinceCodes: getCodes(
-  //     `${ApiRoutes.institute.PROVINCE_CODES_URL}?active=true`
-  //   ),
-  //   getAllActiveInstituteCountryCodes: getCodes(
-  //     `${ApiRoutes.institute.COUNTRY_CODES_URL}?active=true`
-  //   ),
-  //   getAuthorities: getCodes(`${ApiRoutes.institute.AUTHORITY_DATA_URL}`),
-  //   getActiveAuthorities: getCodes(
-  //     `${ApiRoutes.institute.AUTHORITY_DATA_URL}?active=true`
-  //   ),
-  // };
-  // function getCodes(url) {
-  //   return async function getCodesHandler(query) {
-  //     try {
-  //       return await apiAxios.get(url, query);
-  //     } catch (e) {
-  //       console.log(`Failed to get from Nodejs API - ${e}`);
-  //       throw e;
-  //     }
-  //   };
-  // }
 };

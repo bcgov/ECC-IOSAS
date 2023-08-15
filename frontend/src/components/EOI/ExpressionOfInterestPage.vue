@@ -19,30 +19,33 @@
     </v-row>
 
     <div v-else class="d-flex justify-space-between">
-      <v-container fluid class="content-container flex-4">
-        <div class="form-container">
-          <div v-if="isViewOnly">
-            <ExpressionOfInterestReadOnlyView
-              :eoi="eoi"
-              :draftStatusCode="draftStatusCode"
-            />
-          </div>
-          <div v-else>
-            <ExpressionOfInterestForm
-              :eoi="eoi"
-              :isLoading="isLoading"
-              :draftStatusCode="draftStatusCode"
-              @setIsLoading="setIsLoading"
-              @fetchEOIData="fetchEOIData"
-            />
-          </div>
-        </div>
+      <v-container fluid class="content-container d-flex">
+        <v-row no-gutter>
+          <v-col cols="12" sm="12" md="12" lg="9" xs="12">
+            <div class="form-container">
+              <div v-if="isViewOnly">
+                <ExpressionOfInterestReadOnlyView
+                  :eoi="eoi"
+                  :draftStatusCode="draftStatusCode"
+                />
+              </div>
+              <div v-else>
+                <ExpressionOfInterestForm
+                  :eoi="eoi"
+                  :isLoading="isLoading"
+                  :draftStatusCode="draftStatusCode"
+                  @setIsLoading="setIsLoading"
+                  @fetchEOIData="fetchEOIData"
+                />
+              </div>
+            </div>
+          </v-col>
+          <v-col cols="12" sm="12" md="12" lg="3" xs="12">
+            <RelatedLinksCard :showExtraEOILink="!this.isViewOnly" />
+            <ContactCard />
+          </v-col>
+        </v-row>
       </v-container>
-
-      <!-- <v-col cols="12" sm="12" md="4" xs="12" class="flex-1">
-        <RelatedLinksCard />
-        <ContactCard />
-      </v-col> -->
     </div>
   </v-container>
 </template>
@@ -120,13 +123,5 @@ export default {
 <style scoped>
 .full-height {
   height: 100%;
-}
-
-.flex-1 {
-  flex: 1;
-}
-
-.flex-4 {
-  flex: 4;
 }
 </style>

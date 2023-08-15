@@ -88,9 +88,9 @@
                   <v-label>Search for School Authority By Name</v-label>
                   <v-autocomplete
                     label="School Authority Name"
-                    :items="getSchoolAuthorityListOptions"
                     id="_iosas_edu_schoolauthority_value"
                     v-model="data._iosas_edu_schoolauthority_value"
+                    :items="getSchoolAuthorityListOptions"
                     variant="outlined"
                     item-title="label"
                     item-value="value"
@@ -106,6 +106,10 @@
                     id="iosas_schoolauthorityname"
                     v-model="data.iosas_schoolauthorityname"
                     :rules="[rules.required()]"
+                    :disabled="
+                      data.iosas_existingauthority === null ||
+                      data.iosas_existingauthority === undefined
+                    "
                     :maxlength="255"
                     variant="outlined"
                     label="Name"
@@ -588,18 +592,11 @@
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Incorporation Certificate</v-label>
-                  <br />
                   <div v-if="incorporationDocument" class="d-flex">
-                    <div>
-                      <v-icon
-                        aria-hidden="false"
-                        color="rgb(0, 51, 102)"
-                        size="17"
-                      >
-                        mdi-file-document-check-outline
-                      </v-icon>
-                      <p>{{ incorporationDocument.fileName }}</p>
-                    </div>
+                    <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    <p>{{ incorporationDocument.fileName }}</p>
 
                     <!-- TODO: Add ability to delete documents -->
                     <!-- <v-btn
@@ -613,11 +610,10 @@
                       </v-icon></v-btn
                     > -->
                   </div>
-
                   <v-btn
                     v-else
                     secondary
-                    class="mt-2"
+                    class="mt-2 block"
                     variant="outlined"
                     @click="toggleUpload(100000000)"
                     >Upload</v-btn
@@ -634,22 +630,14 @@
                   />
                 </v-col>
               </v-row>
-              <v-spacer />
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
                   <v-label>Certificate of Good Standing (Optional)</v-label>
-                  <br />
                   <div v-if="certificateOfGoodStandingDocument" class="d-flex">
-                    <div>
-                      <v-icon
-                        aria-hidden="false"
-                        color="rgb(0, 51, 102)"
-                        size="17"
-                      >
-                        mdi-file-document-check-outline
-                      </v-icon>
-                      {{ certificateOfGoodStandingDocument.fileName }}
-                    </div>
+                    <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    {{ certificateOfGoodStandingDocument.fileName }}
                     <!-- TODO: Add ability to delete documents -->
                     <!-- <v-btn
                       secondary
@@ -667,7 +655,7 @@
                   <v-btn
                     v-else
                     secondary
-                    class="mt-2"
+                    class="mt-2 block"
                     variant="outlined"
                     @click="toggleUpload(100000001)"
                     >Upload</v-btn
@@ -692,16 +680,11 @@
                     key="document.content"
                   >
                     <div class="d-flex">
-                      <div>
-                        <v-icon
-                          aria-hidden="false"
-                          color="rgb(0, 51, 102)"
-                          size="17"
-                        >
-                          mdi-file-document-check-outline
-                        </v-icon>
-                        {{ document.fileName }}
-                      </div>
+                      <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                        mdi-file-document-check-outline
+                      </v-icon>
+                      {{ document.fileName }}
+
                       <!-- TODO: Add ability to delete documents -->
                       <!-- <v-btn
                         secondary
@@ -717,7 +700,7 @@
                   </div>
                   <v-btn
                     secondary
-                    class="mt-2"
+                    class="mt-2 block"
                     variant="outlined"
                     @click="toggleUpload(100000002)"
                     >Upload</v-btn
@@ -860,11 +843,20 @@ export default {
     },
   },
   watch: {
+    'data.iosas_existingcontact': {
+      handler(val, oldVal) {
+        if (oldVal === undefined && val && !this.isNew()) {
+          this.populatedAndDisableDesignatedContact = true;
+          console.log(val);
+        }
+      },
+    },
     'data.certificateissuedate': {
       handler(val) {},
     },
     documents: {
       handler(val) {
+        // HANDLE EXISTING AND NEW DOCUMENTS
         this.incorporationDocument = val.find(
           ({ documentType }) => documentType === 100000000
         );
@@ -880,6 +872,7 @@ export default {
     eoi: {
       handler(val) {
         if (val) {
+          // NECESSARY??
           this.data = this.eoi;
           if (val.iosas_reviewstatus === this.draftStatusCode) {
             this.isEditing = true;
@@ -888,6 +881,7 @@ export default {
       },
     },
     schoolAddressKnown: {
+      // WORKS??
       handler(val) {
         if (val) {
           return (this.data = {
@@ -905,12 +899,20 @@ export default {
       },
     },
     'data._iosas_edu_year_value': {
-      handler(val) {
+      handler(val, oldVal) {
+        // POPULATE ON INITIAL LOAD
+        if (!val && this.isNew()) {
+          console.log('did this get called?');
+          this.data._iosas_edu_year_value =
+            this.getActiveSchoolYearSelect[0].value;
+          this.schoolYearLabel =
+            this.getActiveSchoolYearSelect[0].year.iosas_label;
+          return;
+        }
         const matchedSchoolYear = this.getActiveSchoolYearSelect.find(
           ({ value }) => value === val
         );
         this.schoolYearLabel = matchedSchoolYear.year.iosas_label;
-        console.log(this.schoolYearLabel);
         return;
       },
     },
@@ -942,19 +944,16 @@ export default {
     },
     'data._iosas_edu_schoolauthority_value': {
       handler(val, oldVal) {
-        // Dont trigger watch on initial load of draft
         if (oldVal === undefined && !this.isNew()) {
+          // Dont trigger on initial lod of draft
           return;
         }
-        console.log(this.data._iosas_edu_schoolauthority_value);
-        console.log(val);
         if (val && this.data.iosas_existingauthority) {
           this.populateAndDisableAuthorityAddress = true;
           const matchedAuthority = this.getSchoolAuthorityListOptions.find(
             (authority) => authority.value === val
           );
           this.authorityName = matchedAuthority.authority.edu_name;
-          console.log(matchedAuthority);
           const authorityAddress = {
             iosas_authorityaddressline1:
               matchedAuthority.authority.edu_address_street1,
@@ -969,7 +968,6 @@ export default {
               matchedAuthority.authority.edu_address_country,
           };
 
-          console.log(this.authorityName);
           return (this.data = {
             ...this.data,
             iosas_schoolauthorityname: null,
@@ -983,7 +981,6 @@ export default {
         if (val) {
           this.authorityName = val;
         }
-        console.log(this.authorityName);
       },
     },
     'data.iosas_existingauthority': {
@@ -993,8 +990,6 @@ export default {
           return;
         }
         this.populateAndDisableAuthorityAddress = false;
-        console.log(this.authorityName);
-        console.log('Why set to null if true');
         return (this.data = {
           ...this.data,
           iosas_authorityaddressline1: null,
@@ -1083,6 +1078,14 @@ export default {
 
     // populate DAC if authenticated and new EOI
     if (this.isAuthenticated && this.isNew()) {
+      this.handleNewAuthenticatedState();
+    }
+  },
+  methods: {
+    authStore,
+    applicationsStore,
+    handleNewAuthenticatedState() {
+      // Set the Designated Contact to authenticated user data
       this.populatedAndDisableDesignatedContact = true;
       const designatedContact = {
         iosas_existingcontact: true,
@@ -1092,11 +1095,13 @@ export default {
         ioas_schoolauthoritycontactphone: this.userInfo?.phone || null,
       };
       return (this.data = { ...this.data, ...designatedContact });
-    }
-  },
-  methods: {
-    authStore,
-    applicationsStore,
+    },
+    handleNewUnaunthenticatedState() {
+      // DO ALL DISABLE LOGIC HERE
+    },
+    handleDraftDisabledState() {
+      // HANDLE ALL DRAFT STATE HERE
+    },
     closeDocumentDialog() {
       this.documentUpload = false;
     },
@@ -1362,11 +1367,6 @@ export default {
         }
       }
     },
-    shouldWatchDataChange(oldValue) {
-      if (oldValue === undefined && !this.isNew()) {
-        return;
-      }
-    },
     validateAndPopulate(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
       // must attach a change event, and set the field programatically.
@@ -1428,5 +1428,9 @@ export default {
 
 .inline-box {
   display: -webkit-inline-box !important;
+}
+
+.block {
+  display: block;
 }
 </style>

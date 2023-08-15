@@ -1,8 +1,6 @@
 <template>
   <v-container fluid>
-    <!-- <v-container fluid class="content-container"> -->
     <div>
-      <!-- <div class="form-container"> -->
       <div class="d-flex justify-space-between">
         <h1>Expression of Interest</h1>
       </div>

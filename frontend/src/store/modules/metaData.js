@@ -21,7 +21,6 @@ export const metaDataStore = defineStore('metaData', {
     getActiveSchoolYearSelect: (state) => {
       return state.activeSchoolYears;
     },
-    getEOIPicklistHashMap: (state) => {},
     getEOIPickListOptions: (state) => state.EOIPickListOptions,
     getDocumentPickListOptions: (state) => state.documentPickListOptions,
     getApplicationPickListOptions: (state) => state.applicationPickListOptions,
@@ -32,11 +31,6 @@ export const metaDataStore = defineStore('metaData', {
       const list = response
         .map((list) => {
           const options = list?.GlobalOptionSet.Options.map((option) => {
-            // console.log(typeof option.Value);
-            // const isValueString = typeof option.Value;
-            // const defaultValue = isValueString
-            //   ? Number(option.Value)
-            //   : option.Value;
             return {
               label: option.Label?.UserLocalizedLabel?.Label,
               value: option.Value,

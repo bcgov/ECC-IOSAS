@@ -1,13 +1,5 @@
 const baseRoot = '/api';
 const authRoot = baseRoot + '/auth';
-// const edxRoot = baseRoot + '/edx';
-// const schoolRoot = baseRoot + '/schools';
-// const districtRoot = baseRoot + '/districts';
-// const instituteRoot = baseRoot + '/institute';
-// const studentRequestRoot = baseRoot + '/student';
-// const districtRequestRoot = baseRoot + '/institute/districts';
-// const schoolRequestRoot = baseRoot + '/institute/schools';
-// const sldRoot = baseRoot + '/sld';
 
 // Dynamic
 const dynamicRoot = baseRoot + '/dynamic';
@@ -173,6 +165,13 @@ export const GOV_URL = {
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/teach',
   criminalRecordCheckUrl:
     'https://www2.gov.bc.ca/gov/content/safety/crime-prevention/criminal-record-check',
+  independentSchoolContractsUrl:
+    'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/IndSchool.do?school_category=Independent%20School',
+  schoolInfoUpdateUrl:
+    'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/SchoolUpdateForm.do',
+  teacherCertificationUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/public-schools/teacher-certification?keyword=teacher&keyword=certification',
+  FISAUrl: 'https://fisabc.ca/',
 };
 
 export const NULL_STRING = '-';

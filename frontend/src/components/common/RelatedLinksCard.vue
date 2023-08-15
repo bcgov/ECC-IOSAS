@@ -2,7 +2,11 @@
   <v-card title="Related Links" variant="tonal" class="reference-cards">
     <div class="content">
       <ul class="pl-5">
-        <li class="pt-2" v-for="link in links" :key="link.title">
+        <li
+          class="pt-2"
+          v-for="link in links.filter((link) => link.title !== undefined)"
+          :key="link.title"
+        >
           <a :href="link.href" target="_blank">
             {{ link.title }}
           </a>
@@ -13,30 +17,45 @@
 </template>
 
 <script>
+import { GOV_URL } from '../../utils/constants';
 export default {
   name: 'RelatedLinksCard',
+  props: {
+    showExtraEOILink: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+  },
   data() {
     return {
+      GOV_URL,
       links: [
         {
-          title: 'Independent School Information for Administrators',
-          href: 'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/independent-schools',
+          ...(this.showExtraEOILink && {
+            title: 'Requirements for submitting Expression of Interest',
+            href: GOV_URL.establishingSchoolURL,
+          }),
         },
         {
-          title: ' Independent School Contacts',
-          href: 'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/IndSchool.do?school_category=Independent%20School',
+          title: 'Independent School Information for Administrators',
+          href: GOV_URL.independentSchoolInfoUrl,
+        },
+        {
+          title: 'Independent School Contacts',
+          href: GOV_URL.independentSchoolContractsUrl,
         },
         {
           title: 'Update your school information',
-          href: 'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/SchoolUpdateForm.do',
+          href: GOV_URL.schoolInfoUpdateUrl,
         },
         {
           title: 'Teacher certification',
-          href: 'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/public-schools/teacher-certification?keyword=teacher&keyword=certification',
+          href: GOV_URL.teacherCertificationUrl,
         },
         {
           title: 'Federation of Independent School Associations (FISA)',
-          href: 'https://fisabc.ca/',
+          href: GOV_URL.FISAUrl,
         },
       ],
     };
