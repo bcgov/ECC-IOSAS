@@ -94,19 +94,21 @@ export default {
   },
   async created() {
     if (this.$route.params.id) {
+      console.log('CREATED??');
       await applicationsStore().getEOIApplicationById(this.$route.params.id);
       this.eoi = this.getEOI;
 
       this.isViewOnly = this.eoi.iosas_reviewstatus !== this.draftStatusCode;
     }
     this.isLoading = false;
+    console.log(this.isLoading);
   },
   methods: {
     authStore,
     metaDataStore,
     documentStore,
     setIsLoading() {
-      this.isLoading = !this.isLoading;
+      this.isLoading = true;
     },
     async fetchEOIData() {
       this.isLoading = true;
@@ -114,6 +116,7 @@ export default {
         await applicationsStore().getEOIApplicationById(this.$route.params.id);
         this.eoi = this.getEOI;
       }
+      this.isLoading = false;
       this.isLoading = false;
     },
   },

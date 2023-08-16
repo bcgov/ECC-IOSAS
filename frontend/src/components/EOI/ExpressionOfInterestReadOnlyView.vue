@@ -77,8 +77,8 @@
         <v-row>
           <v-col cols="12">
             <v-label
-              >Is the Authority Head the same as the Designated Authority
-              Contact?</v-label
+              >Is the School Authority Head the same person as the Designated
+              Authority Contact?</v-label
             >
             <p>
               {{

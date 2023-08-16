@@ -94,7 +94,7 @@ const endDateRule = (
 };
 
 /**
- * Custom gradeRange Rule! Checks that we have an end grade
+ * Custom gradeRange Rule! Checks that the end grade
  * happens after start grade.
  * @param {String} startGrade
  * @param {String} endGrade
@@ -120,7 +120,7 @@ const gradeRangeRule = (
 const website = (message = 'Website must be valid') => {
   return (v) =>
     !v ||
-    /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9\-]+(\.[a-z\-]{2,}){1,3}(#?\/?[a-zA-Z0-9\-#]+)*\/?(\?[a-zA-Z0-9-_\-]+=[a-zA-Z0-9-%\-]+&?)?$/.test(
+    /^((https?|ftp|smtp):\/\/)?(www.)?[a-zA-Z0-9\-]+(\.[a-z\-]{2,}){1,3}(#?\/?[a-zA-Z0-9\-#]+)*\/?(\?[a-zA-Z0-9-_\-]+=[a-zA-Z0-9-%\-]+&?)?$/.test(
       v
     ) ||
     message;
@@ -146,6 +146,23 @@ const requiredRadio = (message = 'Required') => {
   return (v) => !isNil(v) || message;
 };
 
+/**
+ * Custom confirmation email Rule! Forces user to confirm the email address being saved with the record
+ * @param {String} contactEmail
+ * @param {String} confirmationEmail
+ * @returns {String|Boolean}
+ */
+const emailConfirmation = (
+  contactEmail,
+  confirmationEmail,
+  message = 'The email must match the designated contacts email'
+) => {
+  if (contactEmail && confirmationEmail) {
+    return contactEmail === confirmationEmail || message;
+  }
+  return true;
+};
+
 export {
   email,
   endDateRule,
@@ -156,5 +173,6 @@ export {
   website,
   requiredSelect,
   requiredRadio,
+  emailConfirmation,
   gradeRangeRule,
 };

@@ -70,7 +70,9 @@
                     v-model="data.iosas_existingauthority"
                     color="#003366"
                     class="mt-4"
+                    :rules="[rules.requiredRadio()]"
                     inline
+                    @change="validateAndPopulate"
                   >
                     <v-radio label="Yes" color="#003366" :value="true" />
                     <v-radio label="No" color="#003366" :value="false" />
@@ -215,11 +217,7 @@
                       id="iosas_designatedcontactfirstname"
                       v-model="data.iosas_designatedcontactfirstname"
                       :disabled="populatedAndDisableDesignatedContact"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
+                      :rules="[rules.required()]"
                       :maxlength="255"
                       variant="outlined"
                       label="First Name"
@@ -231,11 +229,7 @@
                       id="iosas_schoolauthoritycontactname"
                       v-model="data.iosas_schoolauthoritycontactname"
                       :disabled="populatedAndDisableDesignatedContact"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
+                      :rules="[rules.required()]"
                       :maxlength="255"
                       variant="outlined"
                       label="Last Name"
@@ -249,11 +243,7 @@
                       id="iosas_schoolauthoritycontactemail"
                       v-model="data.iosas_schoolauthoritycontactemail"
                       :disabled="populatedAndDisableDesignatedContact"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
+                      :rules="[rules.required()]"
                       :maxlength="255"
                       variant="outlined"
                       label="E-mail"
@@ -262,14 +252,29 @@
                   </v-col>
                   <v-col cols="12" sm="12" md="6" xs="12">
                     <v-text-field
+                      id="designatedContactEmailConfirmation"
+                      v-model="designatedContactEmailConfirmation"
+                      :rules="[
+                        rules.required(),
+                        rules.emailConfirmation(
+                          data.iosas_schoolauthoritycontactemail,
+                          designatedContactEmailConfirmation
+                        ),
+                      ]"
+                      :maxlength="255"
+                      variant="outlined"
+                      label="Confirm E-mail"
+                      color="rgb(59, 153, 252)"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="6" xs="12">
+                    <v-text-field
                       id="ioas_schoolauthoritycontactphone"
                       v-model="data.ioas_schoolauthoritycontactphone"
-                      :disabled="populatedAndDisableDesignatedContact"
-                      :rules="
-                        data.iosas_designatedcontactsameasauthorityhead
-                          ? [rules.required()]
-                          : []
-                      "
+                      :disabled="populateAndDisableContactPhone"
+                      :rules="[rules.required()]"
                       :maxlength="255"
                       variant="outlined"
                       label="Phone"
@@ -666,7 +671,11 @@
                   <VueDatePicker
                     ref="iosas_certificateofgoodstandingissuedate"
                     v-model="data.iosas_certificateofgoodstandingissuedate"
-                    :rules="[rules.required()]"
+                    :rules="
+                      certificateOfGoodStandingDocument
+                        ? [rules.required()]
+                        : []
+                    "
                     :enable-time-picker="false"
                     format="yyyy-MM-dd"
                   />
@@ -899,20 +908,13 @@ export default {
       },
     },
     'data._iosas_edu_year_value': {
-      handler(val, oldVal) {
-        // POPULATE ON INITIAL LOAD
-        if (!val && this.isNew()) {
-          console.log('did this get called?');
-          this.data._iosas_edu_year_value =
-            this.getActiveSchoolYearSelect[0].value;
-          this.schoolYearLabel =
-            this.getActiveSchoolYearSelect[0].year.iosas_label;
-          return;
+      handler(val) {
+        if (!this.schoolYearLabel) {
+          const matchedSchoolYear = this.getActiveSchoolYearSelect.find(
+            ({ value }) => value === val
+          );
+          this.schoolYearLabel = matchedSchoolYear.year?.iosas_label;
         }
-        const matchedSchoolYear = this.getActiveSchoolYearSelect.find(
-          ({ value }) => value === val
-        );
-        this.schoolYearLabel = matchedSchoolYear.year.iosas_label;
         return;
       },
     },
@@ -968,11 +970,28 @@ export default {
               matchedAuthority.authority.edu_address_country,
           };
 
+          if (this.isFormValid === false) {
+            // If the form is invalid, force validation to remove error message on disabled input
+            this.$refs.expressionOfInterestForm.validate();
+          }
+
           return (this.data = {
             ...this.data,
             iosas_schoolauthorityname: null,
             ...authorityAddress,
           });
+        }
+      },
+    },
+    'data.ioas_schoolauthoritycontactphone': {
+      handler(val, oldVal) {
+        if (oldVal === undefined && !this.isNew()) {
+          // Dont trigger on initial lod of draft
+          return;
+        }
+        if (val && this.data.iosas_designatedcontactsameasauthorityhead) {
+          return (this.data.iosas_schoolauthorityheadphone =
+            this.data.ioas_schoolauthoritycontactphone);
         }
       },
     },
@@ -998,6 +1017,7 @@ export default {
           iosas_authoritycity: null,
           iosas_authoritypostalcode: null,
           _iosas_edu_schoolauthority_value: null,
+          _iosas_edu_year_value: null,
           iosas_authoritycountry: 'Canada',
           iosas_authorityprovince: 'British Columbia',
         });
@@ -1006,6 +1026,7 @@ export default {
     isFormValid: {
       handler(val) {
         if (val) {
+          console.log('???', val);
           this.showError = false;
         } else if (val === false) {
           this.showError = true;
@@ -1017,6 +1038,7 @@ export default {
     return {
       GOV_URL,
       groupTwoCode: 100000000,
+      designatedContactEmailConfirmation: null,
       authorityName: null,
       schoolYearLabel: null,
       incorporationDocument: null,
@@ -1079,6 +1101,8 @@ export default {
     // populate DAC if authenticated and new EOI
     if (this.isAuthenticated && this.isNew()) {
       this.handleNewAuthenticatedState();
+    } else if (this.isNew()) {
+      this.handleNewUnaunthenticatedState();
     }
   },
   methods: {
@@ -1094,12 +1118,23 @@ export default {
         iosas_schoolauthoritycontactemail: this.userInfo.email,
         ioas_schoolauthoritycontactphone: this.userInfo?.phone || null,
       };
-      return (this.data = { ...this.data, ...designatedContact });
+      if (this.userInfo?.phone) {
+        this.populateAndDisableContactPhone = true;
+      }
+      this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
+      this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
+      this.data = { ...this.data, ...designatedContact };
+      return;
     },
     handleNewUnaunthenticatedState() {
+      this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
+      this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
       // DO ALL DISABLE LOGIC HERE
     },
     handleDraftDisabledState() {
+      if (this.data.ioas_schoolauthoritycontactphone) {
+        this.populateAndDisableContactPhone = true;
+      }
       // HANDLE ALL DRAFT STATE HERE
     },
     closeDocumentDialog() {
@@ -1297,15 +1332,11 @@ export default {
           ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
         );
 
-      // Set boolean
-
       this.certificateOfGoodStandingDocument = this.data?.documents
         .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
         .find(
           ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000001
         );
-
-      // Set boolean
       this.otherDocuments = this.data?.documents
         .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
         .filter(
