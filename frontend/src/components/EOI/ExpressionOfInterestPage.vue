@@ -1,10 +1,11 @@
 <template>
   <v-container fluid class="full-height">
-    <v-breadcrumbs :items="items" v-if="authStore().isAuthenticated"
+    <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
+
     <v-row v-if="isLoading">
       <v-col class="d-flex justify-center">
         <v-progress-circular
@@ -31,6 +32,7 @@
               </div>
               <div v-else>
                 <ExpressionOfInterestForm
+                  :new="false"
                   :eoi="eoi"
                   :isLoading="isLoading"
                   :draftStatusCode="draftStatusCode"
@@ -69,6 +71,28 @@ export default {
     ExpressionOfInterestForm,
     ExpressionOfInterestReadOnlyView,
   },
+  watch: {
+    eoi: {
+      handler(val, oldVal) {
+        console.log('oldVal', oldVal);
+        console.log('eoi val', val);
+        if (val) {
+          // NECESSARY??
+          console.log('EOI, ', val);
+          this.eoi = val;
+          if (val.iosas_reviewstatus === this.draftStatusCode) {
+            this.isViewOnly = false;
+          }
+        }
+      },
+    },
+    isLoading: {
+      handler(val, oldVAl) {
+        console.log('ISLOADING OLD VAL', oldVAl);
+        console.log('ISLOADING VAL', val);
+      },
+    },
+  },
   data: () => ({
     isViewOnly: false,
     isLoading: true,
@@ -93,31 +117,35 @@ export default {
     ...mapState(applicationsStore, ['getEOIApplicationById', 'getEOI']),
   },
   async created() {
-    if (this.$route.params.id) {
-      console.log('CREATED??');
-      await applicationsStore().getEOIApplicationById(this.$route.params.id);
-      this.eoi = this.getEOI;
-
-      this.isViewOnly = this.eoi.iosas_reviewstatus !== this.draftStatusCode;
-    }
+    await applicationsStore().getEOIApplicationById(this.$route.params.id);
+    this.eoi = this.getEOI;
+    this.isViewOnly = this.eoi.iosas_reviewstatus !== this.draftStatusCode;
     this.isLoading = false;
-    console.log(this.isLoading);
   },
   methods: {
     authStore,
     metaDataStore,
     documentStore,
-    setIsLoading() {
-      this.isLoading = true;
+    setIsLoading(value) {
+      console.log('SET IS LOADING');
+      console.log('VALUE', value);
+      return (this.isLoading = value);
     },
-    async fetchEOIData() {
+    fetchEOIData() {
+      console.log('FETCHING DATA???');
+      console.log('REFETCH????');
       this.isLoading = true;
-      if (this.$route.params.id) {
-        await applicationsStore().getEOIApplicationById(this.$route.params.id);
-        this.eoi = this.getEOI;
-      }
-      this.isLoading = false;
-      this.isLoading = false;
+      return applicationsStore()
+        .getEOIApplicationById(this.$route.params.id)
+        .then((res) => {
+          console.log(res);
+          this.eoi = this.getEOI;
+
+          console.log(this.eoi);
+          this.isViewOnly =
+            this.eoi.iosas_reviewstatus !== this.draftStatusCode;
+        })
+        .finally((this.isLoading = false));
     },
   },
 };

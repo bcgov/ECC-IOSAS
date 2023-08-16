@@ -126,7 +126,7 @@ export default {
       schoolApplications: [],
       eioApplications: [],
       routes: {
-        EOI: 'expressionOfInterest',
+        EOI: 'expressionOfInterestPage',
         APP: 'schoolApplicationPage',
       },
     };
