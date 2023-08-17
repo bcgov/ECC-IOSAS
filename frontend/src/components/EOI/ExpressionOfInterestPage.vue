@@ -5,19 +5,6 @@
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-
-    <!-- <v-snackbar
-      id="activationSnackBar"
-      v-model="showActivationSnackBar"
-      elevation="24"
-      location="top"
-      centered
-      color="error"
-      transition="slide-y-transition"
-    >
-      {{ activationErrorMessage }}
-    </v-snackbar> -->
-
     <v-row v-if="isLoading">
       <v-col class="d-flex justify-center">
         <v-progress-circular
