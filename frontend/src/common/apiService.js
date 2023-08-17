@@ -75,7 +75,7 @@ export default {
     try {
       return apiAxios.get(ApiRoutes.dynamic.HEALTH);
     } catch (err) {
-      console.log(`Failed to get from Nodejs dynamic health API - ${e}`);
+      console.log(`Failed to get from Nodejs dynamicHealthCheck API - ${e}`);
       throw e;
     }
   },
@@ -95,7 +95,7 @@ export default {
         ApiRoutes.documents.DELETE_DOCUMENT(documentID)
       );
     } catch (e) {
-      console.log(`Failed to deleteDocument - ${e}`);
+      console.log(`Failed to delete to Nodejs deleteDocument API -- ${e}`);
       throw e;
     }
   },
@@ -115,7 +115,7 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.meta.ACTIVE_SCHOOL_YEARS);
     } catch (e) {
-      console.log(`Failed to get activeSchoolYears - ${e}`);
+      console.log(`Failed to get from Nodejs getActiveSchoolYears API - ${e}`);
       throw e;
     }
   },
@@ -123,7 +123,7 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.meta.SCHOOL_AUTHORITY);
     } catch (e) {
-      console.log(`Failed to get getSchoolAuthority - ${e}`);
+      console.log(`Failed to get from Nodejs getSchoolAuthority API -${e}`);
       throw e;
     }
   },
@@ -131,7 +131,9 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.meta.CONTACT_BY_SCHOOL_AUTHORITY(id));
     } catch (e) {
-      console.log(`Failed to get getSchoolAuthority - ${e}`);
+      console.log(
+        `Failed to get from Nodejs getSchoolAuthorityHead API - ${e}`
+      );
       throw e;
     }
   },
@@ -139,7 +141,7 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.meta.PICK_LISTS(tableName));
     } catch (e) {
-      console.log(`Failed to get getPickLists - ${e}`);
+      console.log(`Failed to get from Nodejs getPickLists API - ${e}`);
       throw e;
     }
   },
@@ -149,7 +151,9 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
     } catch (e) {
-      console.log(`Failed to get getApplicationDocuments - ${e}`);
+      console.log(
+        `Failed to get from Nodejs getApplicationDocuments API - ${e}`
+      );
       throw e;
     }
   },
@@ -159,7 +163,7 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
     } catch (e) {
-      console.log(`Failed to get getEOIDocuments - ${e}`);
+      console.log(`Failed to get from Nodejs getEOIDocuments API -${e}`);
       throw e;
     }
   },
@@ -167,7 +171,7 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATIONS);
     } catch (e) {
-      console.log(`Failed to get getAllEOIByUser - ${e}`);
+      console.log(`Failed to get from Nodejs getAllEOIByUser API - ${e}`);
       throw e;
     }
   },
@@ -175,7 +179,7 @@ export default {
     try {
       return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATION(id));
     } catch (e) {
-      console.log(`Failed to get getAllEOIByUser - ${e}`);
+      console.log(`Failed to get from Nodejs getEOIById API - ${e}`);
       throw e;
     }
   },
@@ -194,7 +198,7 @@ export default {
         payload
       );
     } catch (e) {
-      console.log(`Failed to post to Nodejs createEOI API - ${e}`);
+      console.log(`Failed to patch to Nodejs updateEOI API - ${e}`);
       throw e;
     }
   },
@@ -202,7 +206,7 @@ export default {
     try {
       return await apiAxios.patch(ApiRoutes.eoi.CANCEL_EOI(id));
     } catch (e) {
-      console.log(`Failed to post to Nodejs createEOI API - ${e}`);
+      console.log(`Failed to patch to Nodejs cancelEOI API - ${e}`);
       throw e;
     }
   },
