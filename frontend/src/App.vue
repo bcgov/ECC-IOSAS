@@ -47,6 +47,7 @@ export default {
     await metaDataStore().getEOIPickLists();
     await metaDataStore().getDocumentPickLists();
     await metaDataStore().getSchoolAuthority();
+    await metaDataStore().getApplicationPickLists();
 
     this.setLoading(true);
     await this.getJwtToken()
@@ -77,6 +78,7 @@ export default {
       'getEOIPickLists',
       'getSchoolAuthority',
       'getDocumentPickLists',
+      'getApplicationPickLists',
     ]),
   },
 };

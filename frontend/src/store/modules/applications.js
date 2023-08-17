@@ -1,37 +1,31 @@
 import ApiService from '../../common/apiService';
 import { defineStore } from 'pinia';
-import { SCHOOL_APPLICATION_MOCK } from '../../utils/constants/mocks';
 
 export const applicationsStore = defineStore('applications', {
   namespaced: true,
   state: () => ({
     EOIApplications: null,
-    schoolApplicationsMap: new Map(),
+    schoolApplications: null,
     eoi: null,
     confirmationMessage: null,
   }),
   getters: {
     getConfirmationMessage: (state) => state.confirmationMessage,
     getSchoolApplicationsFormatted: (state) =>
-      // format the data for table view - keys are turned into table headers
-      Object.values(Object.fromEntries(state.schoolApplicationsMap)).map(
-        (v) => ({
-          // TODO: update with id when connected to API
-          application_number:
-            v.iosas_applicationnumber + ' ' + v.iosas_applicationnumber,
-          status:
-            v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
-          school_name: v.iosas_proposedschoolname,
-          school_year:
-            v[
-              '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
-            ],
-          group_classification:
-            v[
-              'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
-            ],
-        })
-      ),
+      state.schoolApplications.map((v) => ({
+        // TODO: update with id when connected to API
+        application_number:
+          v.iosas_applicationnumber + ' ' + v.iosas_applicationnumber,
+        status:
+          v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
+        school_name: v.iosas_proposedschoolname,
+        school_year:
+          v['_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'],
+        group_classification:
+          v[
+            'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
+          ],
+      })),
     getEOIApplicationsFormatted: (state) =>
       // Sort EOIs by last 4 digits of the eoinumber
       state.EOIApplications?.sort(
@@ -68,22 +62,11 @@ export const applicationsStore = defineStore('applications', {
       this.eoi = response;
     },
     async setSchoolApplications(applicationsResponse) {
-      this.schoolApplicationsMap = new Map();
-      applicationsResponse.forEach((element) => {
-        this.schoolApplicationsMap.set(
-          element.iosas_applicationnumber,
-          element
-        );
-      });
+      console.log('applicationsResponse', applicationsResponse);
+      this.schoolApplicationsMap = applicationsResponse;
     },
-    async getApplicationData() {
-      if (localStorage.getItem('jwtToken')) {
-        if (this.schoolApplicationsMap.size === 0) {
-          // API doesn't exist yet, using mock data for now
-          // const response = await ApiService.getSchoolApplications();
-          await this.setSchoolApplications(SCHOOL_APPLICATION_MOCK);
-        }
-      }
+    async setSchoolApplication(applicationResponse) {
+      this.schoolApplications = applicationResponse;
     },
     async getAllEOI() {
       const response = await ApiService.getAllEOIByUser();
@@ -100,6 +83,22 @@ export const applicationsStore = defineStore('applications', {
           : [],
       };
       await this.setEOIApplication(eoi);
+    },
+    async getApplicationData() {
+      const response = await ApiService.getAllApplicationsByUser();
+      await this.setSchoolApplications(response.data.value);
+    },
+    async getApplicationById(appId) {
+      const response = await ApiService.getApplicationById(appId);
+
+      const documentResponse = await ApiService.getAppDocuments(appId);
+      const app = {
+        ...response.data.value[0],
+        documents: documentResponse.data.value
+          ? documentResponse.data.value
+          : [],
+      };
+      await this.setEOIApplication(app);
     },
   },
 });

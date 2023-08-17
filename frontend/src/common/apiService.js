@@ -157,6 +157,32 @@ export default {
       throw e;
     }
   },
+  async getAllApplicationsByUser() {
+    try {
+      return await apiAxios.get(ApiRoutes.app.APPLICATIONS);
+    } catch (e) {
+      console.log(
+        `Failed to get from Nodejs getAllApplicationsByUser API - ${e}`
+      );
+      throw e;
+    }
+  },
+  async getApplicationById(id) {
+    try {
+      return await apiAxios.get(ApiRoutes.app.APPLICATION(id));
+    } catch (e) {
+      console.log(`Failed to get from Nodejs getApplicationById API - ${e}`);
+      throw e;
+    }
+  },
+  async getAppDocuments(id) {
+    try {
+      return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
+    } catch (e) {
+      console.log(`Failed to get from Nodejs getEOIDocuments API -${e}`);
+      throw e;
+    }
+  },
 
   // Expression of Interest
   async getEOIDocuments(id) {
