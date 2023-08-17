@@ -617,7 +617,7 @@
                 secondary
                 class="mt-2 block"
                 variant="outlined"
-                @click="toggleUpload(100000000)"
+                @click="toggleUpload(this.incorporationDocCode)"
                 >Upload</v-btn
               >
             </v-col>
@@ -667,7 +667,7 @@
                 secondary
                 class="mt-2 block"
                 variant="outlined"
-                @click="toggleUpload(100000001)"
+                @click="toggleUpload(this.certificateOfGoodStandingDocCode)"
                 >Upload</v-btn
               >
             </v-col>
@@ -711,7 +711,7 @@
                 secondary
                 class="mt-2 block"
                 variant="outlined"
-                @click="toggleUpload(100000002)"
+                @click="toggleUpload(this.otherDocCode)"
                 >Upload</v-btn
               >
             </v-col>
@@ -861,35 +861,37 @@ export default {
         if (this.isNew) {
           // New EOI's will onyl have documents saved in state
           this.incorporationDocument = val.find(
-            ({ documentType }) => documentType === 100000000
+            ({ documentType }) => documentType === this.incorporationDocCode
           );
           this.certificateOfGoodStandingDocument = val.find(
-            ({ documentType }) => documentType === 100000001
+            ({ documentType }) =>
+              documentType === this.certificateOfGoodStandingDocCode
           );
           this.otherDocuments = val.filter(
-            ({ documentType }) => documentType === 100000002
+            ({ documentType }) => documentType === this.otherDocCode
           );
         } else {
           if (!this.incorporationDocument) {
             this.incorporationDocument = val.find(
-              ({ documentType }) => documentType === 100000000
+              ({ documentType }) => documentType === this.incorporationDocCode
             );
           } else if (!this.certificateOfGoodStandingDocument) {
             this.certificateOfGoodStandingDocument = val.find(
-              ({ documentType }) => documentType === 100000001
+              ({ documentType }) =>
+                documentType === this.certificateOfGoodStandingDocCode
             );
           }
 
           // Add state documents to pre-existing documents
           const additionalDocuments = val.filter(
-            ({ documentType }) => documentType === 100000002
+            ({ documentType }) => documentType === this.otherDocCode
           );
           if (this.data?.documents?.length) {
             const savedDocuments = this.data?.documents
               .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
               .filter(
                 ({ iosas_eoidocumenttype }) =>
-                  iosas_eoidocumenttype === 100000002
+                  iosas_eoidocumenttype === this.otherDocCode
               );
 
             this.otherDocuments = savedDocuments.concat(additionalDocuments);
@@ -1054,6 +1056,9 @@ export default {
     return {
       GOV_URL,
       groupTwoCode: 100000000,
+      incorporationDocCode: 100000000,
+      certificateOfGoodStandingDocCode: 100000001,
+      otherDocCode: 100000002,
       designatedContactEmailConfirmation: null,
       authorityName: null,
       schoolYearLabel: null,
@@ -1301,18 +1306,21 @@ export default {
       this.incorporationDocument = this.data?.documents
         .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
         .find(
-          ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
+          ({ iosas_eoidocumenttype }) =>
+            iosas_eoidocumenttype === this.incorporationDocCode
         );
 
       this.certificateOfGoodStandingDocument = this.data?.documents
         .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
         .find(
-          ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000001
+          ({ iosas_eoidocumenttype }) =>
+            iosas_eoidocumenttype === this.certificateOfGoodStandingDocCode
         );
       this.otherDocuments = this.data?.documents
         .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
         .filter(
-          ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000002
+          ({ iosas_eoidocumenttype }) =>
+            iosas_eoidocumenttype === this.otherDocCode
         );
     },
     async removeDocment(document) {
