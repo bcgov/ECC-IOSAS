@@ -33,8 +33,11 @@ export const applicationsStore = defineStore('applications', {
         })
       ),
     getEOIApplicationsFormatted: (state) =>
+      // Sort EOIs by last 4 digits of the eoinumber
       state.EOIApplications?.sort(
-        (a, b) => a.iosas_eoinumber - b.iosas_eoinumber
+        (a, b) =>
+          a.iosas_eoinumber.split('-').pop() -
+          b.iosas_eoinumber.split('-').pop()
       ).map((v) => ({
         EOI_number: v.iosas_eoinumber + ' ' + v.iosas_expressionofinterestid,
         status:
