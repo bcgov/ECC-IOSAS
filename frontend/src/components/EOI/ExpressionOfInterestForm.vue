@@ -932,10 +932,6 @@ export default {
     },
     'data.iosas_designatedcontactsameasauthorityhead': {
       handler(val, oldVal) {
-        // Dont trigger watch on initial load of draft
-        if (oldVal === undefined && !this.isNew && !val) {
-          return;
-        }
         let contact;
         if (val) {
           this.populatedAndDisableAuthorityHead = true;
@@ -951,23 +947,13 @@ export default {
           };
         } else {
           this.populatedAndDisableAuthorityHead = false;
-          contact;
         }
 
-        if (this.isFormValid === false) {
-          // If the form is invalid, force validation to remove error message on disabled input
-          this.$refs.expressionOfInterestForm.validate();
-        }
         return (this.data = { ...this.data, ...contact });
       },
     },
     'data._iosas_edu_schoolauthority_value': {
-      handler(val, oldVal) {
-        // if (oldVal === undefined && !this.isNew && !val) {
-        //   // Dont trigger on initial load of draft
-        //   return;
-        // }
-        console.log(val);
+      handler(val) {
         if (val && this.data.iosas_existingauthority) {
           this.populateAndDisableAuthorityAddress = true;
           const matchedAuthority = this.getSchoolAuthorityListOptions.find(
@@ -988,11 +974,6 @@ export default {
               matchedAuthority.authority.edu_address_country,
           };
 
-          if (this.isFormValid === false) {
-            // If the form is invalid, force validation to remove error message on disabled input
-            this.$refs.expressionOfInterestForm.validate();
-          }
-
           return (this.data = {
             ...this.data,
             iosas_schoolauthorityname: null,
@@ -1004,7 +985,7 @@ export default {
     'data.iosas_schoolauthoritycontactphone': {
       handler(val, oldVal) {
         if (oldVal === undefined && !this.isNew && !val) {
-          // Dont trigger on initial lod of draft
+          // Dont trigger on initial load of draft
           return;
         }
         if (val && this.data.iosas_designatedcontactsameasauthorityhead) {
