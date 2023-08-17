@@ -961,10 +961,11 @@ export default {
     },
     'data._iosas_edu_schoolauthority_value': {
       handler(val, oldVal) {
-        if (oldVal === undefined && !this.isNew) {
-          // Dont trigger on initial load of draft
-          return;
-        }
+        // if (oldVal === undefined && !this.isNew && !val) {
+        //   // Dont trigger on initial load of draft
+        //   return;
+        // }
+        console.log(val);
         if (val && this.data.iosas_existingauthority) {
           this.populateAndDisableAuthorityAddress = true;
           const matchedAuthority = this.getSchoolAuthorityListOptions.find(
@@ -1019,22 +1020,24 @@ export default {
     },
     'data.iosas_existingauthority': {
       handler(val, oldVal) {
-        // Dont trigger watch on initial load of draft
-        if (oldVal === undefined && !this.isNew && !val) {
-          return;
+        if (
+          !val &&
+          this.data._iosas_edu_schoolauthority_value &&
+          this.populateAndDisableAuthorityAddress
+        ) {
+          this.populateAndDisableAuthorityAddress = false;
+          return (this.data = {
+            ...this.data,
+            iosas_authorityaddressline1: null,
+            iosas_authorityaddressline2: null,
+            iosas_authorityprovince: null,
+            iosas_authoritycity: null,
+            iosas_authoritypostalcode: null,
+            _iosas_edu_schoolauthority_value: null,
+            iosas_authoritycountry: 'Canada',
+            iosas_authorityprovince: 'British Columbia',
+          });
         }
-        this.populateAndDisableAuthorityAddress = false;
-        return (this.data = {
-          ...this.data,
-          iosas_authorityaddressline1: null,
-          iosas_authorityaddressline2: null,
-          iosas_authorityprovince: null,
-          iosas_authoritycity: null,
-          iosas_authoritypostalcode: null,
-          _iosas_edu_schoolauthority_value: null,
-          iosas_authoritycountry: 'Canada',
-          iosas_authorityprovince: 'British Columbia',
-        });
       },
     },
     isFormValid: {
