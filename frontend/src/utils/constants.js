@@ -172,6 +172,8 @@ export const GOV_URL = {
   teacherCertificationUrl:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/public-schools/teacher-certification?keyword=teacher&keyword=certification',
   FISAUrl: 'https://fisabc.ca/',
+  certificateOfGoodStandingUrl:
+    'https://www.corporateonline.gov.bc.ca/WebHelp/overview_cogs.htm',
 };
 
 export const NULL_STRING = '-';

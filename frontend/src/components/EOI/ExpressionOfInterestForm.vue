@@ -601,7 +601,17 @@
           <h4>Documents</h4>
           <v-row>
             <v-col cols="12" sm="12" md="6" xs="12">
-              <v-label>Incorporation Certificate</v-label>
+              <v-label class="no-mb">Incorporation Certificate </v-label>
+              <v-label class="sm"
+                >Issued under the
+                <a :href="GOV_URL.societiesActUrl" target="_blank"
+                  >Societies Act</a
+                >
+                or the
+                <a :href="GOV_URL.businessCorporationActUrl" target="_blank"
+                  >Business Corporations Act.</a
+                ></v-label
+              >
               <div v-if="incorporationDocument" class="d-flex">
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
@@ -642,7 +652,15 @@
           </v-row>
           <v-row>
             <v-col cols="12" sm="12" md="6" xs="12">
-              <v-label>Certificate of Good Standing (Optional)</v-label>
+              <v-label class="no-mb">Certificate of Good Standing</v-label>
+              <v-label class="sm"
+                >Required if original incorporation documents are more than 6
+                months old. For information please see
+                <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank"
+                  >Certificates of Good Standing.
+                </a>
+              </v-label>
+
               <div v-if="certificateOfGoodStandingDocument" class="d-flex">
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
@@ -1481,6 +1499,9 @@ export default {
   display: -webkit-inline-box !important;
 }
 
+.sm {
+  font-size: 14px;
+}
 .block {
   display: block;
 }
