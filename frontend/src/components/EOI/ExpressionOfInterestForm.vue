@@ -604,11 +604,9 @@
               <v-label class="no-mb">Incorporation Certificate </v-label>
               <v-label class="sm"
                 >Issued under the
-                <a :href="GOV_URL.societiesActUrl" target="_blank"
-                  >Societies Act</a
-                >
+                <a :href="GOV_URL.BClawsUrl" target="_blank">Societies Act</a>
                 or the
-                <a :href="GOV_URL.businessCorporationActUrl" target="_blank"
+                <a :href="GOV_URL.BCLawBusinessActUrl" target="_blank"
                   >Business Corporations Act.</a
                 ></v-label
               >

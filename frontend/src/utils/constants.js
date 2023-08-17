@@ -174,6 +174,10 @@ export const GOV_URL = {
   FISAUrl: 'https://fisabc.ca/',
   certificateOfGoodStandingUrl:
     'https://www.corporateonline.gov.bc.ca/WebHelp/overview_cogs.htm',
+  BClawsUrl:
+    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/15018_01#section1',
+  BCLawBusinessActUrl:
+    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/02057_00',
 };
 
 export const NULL_STRING = '-';
