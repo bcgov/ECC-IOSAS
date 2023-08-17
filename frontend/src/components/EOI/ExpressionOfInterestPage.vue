@@ -6,6 +6,18 @@
       </template>
     </v-breadcrumbs>
 
+    <!-- <v-snackbar
+      id="activationSnackBar"
+      v-model="showActivationSnackBar"
+      elevation="24"
+      location="top"
+      centered
+      color="error"
+      transition="slide-y-transition"
+    >
+      {{ activationErrorMessage }}
+    </v-snackbar> -->
+
     <v-row v-if="isLoading">
       <v-col class="d-flex justify-center">
         <v-progress-circular
@@ -32,8 +44,9 @@
               </div>
               <div v-else>
                 <ExpressionOfInterestForm
-                  :new="false"
+                  :isNew="false"
                   :eoi="eoi"
+                  @updateEOIData="updateEOIData"
                   :isLoading="isLoading"
                   :draftStatusCode="draftStatusCode"
                   @setIsLoading="setIsLoading"
@@ -57,6 +70,8 @@ import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
 import ContactCard from '../common/ContactCard.vue';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
+import ApiService from '../../common/apiService';
+import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 import { documentStore } from '../../store/modules/document';
@@ -71,25 +86,16 @@ export default {
     ExpressionOfInterestForm,
     ExpressionOfInterestReadOnlyView,
   },
+  mixins: [alertMixin],
   watch: {
     eoi: {
       handler(val, oldVal) {
-        console.log('oldVal', oldVal);
-        console.log('eoi val', val);
         if (val) {
-          // NECESSARY??
-          console.log('EOI, ', val);
           this.eoi = val;
           if (val.iosas_reviewstatus === this.draftStatusCode) {
             this.isViewOnly = false;
           }
         }
-      },
-    },
-    isLoading: {
-      handler(val, oldVAl) {
-        console.log('ISLOADING OLD VAL', oldVAl);
-        console.log('ISLOADING VAL', val);
       },
     },
   },
@@ -131,21 +137,69 @@ export default {
       console.log('VALUE', value);
       return (this.isLoading = value);
     },
-    fetchEOIData() {
-      console.log('FETCHING DATA???');
-      console.log('REFETCH????');
+    async fetchEOIData() {
       this.isLoading = true;
       return applicationsStore()
         .getEOIApplicationById(this.$route.params.id)
         .then((res) => {
-          console.log(res);
           this.eoi = this.getEOI;
-
-          console.log(this.eoi);
           this.isViewOnly =
             this.eoi.iosas_reviewstatus !== this.draftStatusCode;
+
+          return this.eoi;
         })
         .finally((this.isLoading = false));
+    },
+    async handleUpladDocuments(eoiID, documents) {
+      Promise.all(
+        documents.map(async (document) => {
+          const payload = {
+            ...document,
+            regardingId: eoiID,
+            regardingType: 'iosas_expressionofinterest',
+          };
+          await ApiService.uploadFile(payload)
+            .then((response) => {
+              return response;
+            })
+            .catch((error) => {
+              this.setFailureAlert(
+                error?.response?.data?.message
+                  ? error?.response?.data?.message
+                  : 'An error occurred while saving the expression of Interest. Please try again later.'
+              );
+            });
+        })
+      );
+    },
+    async updateEOIData(id, payload, isSubmitted, documents) {
+      try {
+        this.isLoading = true;
+        const updateResponse = await ApiService.updateEOI(
+          id,
+          payload,
+          isSubmitted
+        );
+        if (updateResponse.data) {
+          if (documents.length > 0) {
+            this.handleUpladDocuments(id, documents);
+          }
+          if (isSubmitted) {
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'EOI' },
+            });
+          } else {
+            console.log('SUCCESSSSS');
+            this.setSuccessAlert(
+              `Success! Expression of Interest ${payload.iosas_eoinumber} has been updated.`
+            );
+            return await this.fetchEOIData();
+          }
+        }
+      } catch (error) {
+        throw error;
+      }
     },
   },
 };

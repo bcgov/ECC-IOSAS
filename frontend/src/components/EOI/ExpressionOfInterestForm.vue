@@ -12,17 +12,6 @@
       <p>This document will be removed from your records.</p>
     </template>
   </ConfirmationDialog>
-  <v-snackbar
-    id="activationSnackBar"
-    v-model="showActivationSnackBar"
-    elevation="24"
-    location="top"
-    centered
-    color="error"
-    transition="slide-y-transition"
-  >
-    {{ activationErrorMessage }}
-  </v-snackbar>
 
   <v-row v-if="isLoading">
     <v-col class="d-flex justify-center">
@@ -54,7 +43,7 @@
         <br />
         <v-divider></v-divider>
         <div>
-          <div v-if="!isNew() && data">
+          <div v-if="!isNew && data">
             <EOIFormHeader :eoi="data" :draftStatusCode="draftStatusCode" />
             <v-divider></v-divider>
           </div>
@@ -254,7 +243,7 @@
               <v-col cols="12" sm="12" md="6" xs="12">
                 <!-- Force email confirmation for new unauthenticated EOI/replace with phone field for drafts -->
                 <v-text-field
-                  v-if="this.isNew() && !this.isAuthenticated"
+                  v-if="this.isNew && !this.isAuthenticated"
                   id="designatedContactEmailConfirmation"
                   v-model="designatedContactEmailConfirmation"
                   :rules="[
@@ -285,7 +274,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
-                  v-if="this.isNew() && !this.isAuthenticated"
+                  v-if="this.isNew && !this.isAuthenticated"
                   id="ioas_schoolauthoritycontactphone"
                   v-model="data.ioas_schoolauthoritycontactphone"
                   :disabled="populateAndDisableContactPhone"
@@ -620,7 +609,7 @@
                 <p>{{ incorporationDocument.fileName }}</p>
 
                 <!-- TODO: Add ability to delete documents -->
-                <v-btn
+                <!-- <v-btn
                   secondary
                   class="ml-15"
                   variant="flat"
@@ -629,7 +618,7 @@
                   ><v-icon aria-hidden="false" color="red" size="20">
                     mdi-delete-forever-outline
                   </v-icon></v-btn
-                >
+                > -->
               </div>
               <v-btn
                 v-else
@@ -772,7 +761,7 @@
 
           <br />
           <v-row>
-            <v-container v-if="isEditing || isNew()">
+            <v-container v-if="isEditing || isNew">
               <v-row align="end">
                 <v-spacer />
                 <PrimaryButton
@@ -794,7 +783,7 @@
               <v-row align="end">
                 <v-spacer />
                 <v-btn
-                  v-if="!isNew()"
+                  v-if="!isNew"
                   variant="plain"
                   @click="handleDelete"
                   class="link-button"
@@ -838,7 +827,7 @@ export default {
     VueDatePicker,
     EOIFormHeader,
   },
-  emits: ['setIsLoading', 'fetchEOIData'],
+  emits: ['setIsLoading', 'fetchEOIData', 'updateEOIData'],
   mixins: [alertMixin],
   props: {
     eoi: {
@@ -853,7 +842,7 @@ export default {
       type: Number,
       required: true,
     },
-    new: {
+    isNew: {
       type: Boolean,
       required: true,
     },
@@ -861,7 +850,7 @@ export default {
   watch: {
     'data.iosas_existingcontact': {
       handler(val, oldVal) {
-        if (oldVal === undefined && val && !this.isNew()) {
+        if (oldVal === undefined && val && !this.isNew) {
           this.populatedAndDisableDesignatedContact = true;
           console.log('val ofiosas_existingcontact', val);
         }
@@ -872,7 +861,7 @@ export default {
     },
     documents: {
       handler(val) {
-        if (this.isNew()) {
+        if (this.isNew) {
           // New EOI's will onyl have documents saved in state
           this.incorporationDocument = val.find(
             ({ documentType }) => documentType === 100000000
@@ -914,11 +903,10 @@ export default {
     },
     eoi: {
       handler(val, oldVal) {
-        console.log('oldVal', oldVal);
-        console.log('eoi val', val);
         if (val) {
-          // NECESSARY??
-          console.log('EOI, ', val);
+          if (val !== oldVal) {
+            console.log('they are not the same');
+          }
           this.data = val;
           if (val.iosas_reviewstatus === this.draftStatusCode) {
             this.isEditing = true;
@@ -927,7 +915,6 @@ export default {
       },
     },
     schoolAddressKnown: {
-      // WORKS??
       handler(val) {
         if (val) {
           return (this.data = {
@@ -958,7 +945,7 @@ export default {
     'data.iosas_designatedcontactsameasauthorityhead': {
       handler(val, oldVal) {
         // Dont trigger watch on initial load of draft
-        if (oldVal === undefined && !this.isNew() && !val) {
+        if (oldVal === undefined && !this.isNew && !val) {
           return;
         }
         let contact;
@@ -988,8 +975,8 @@ export default {
     },
     'data._iosas_edu_schoolauthority_value': {
       handler(val, oldVal) {
-        if (oldVal === undefined && !this.isNew()) {
-          // Dont trigger on initial lod of draft
+        if (oldVal === undefined && !this.isNew) {
+          // Dont trigger on initial load of draft
           return;
         }
         if (val && this.data.iosas_existingauthority) {
@@ -1027,7 +1014,7 @@ export default {
     },
     'data.ioas_schoolauthoritycontactphone': {
       handler(val, oldVal) {
-        if (oldVal === undefined && !this.isNew() && !val) {
+        if (oldVal === undefined && !this.isNew && !val) {
           // Dont trigger on initial lod of draft
           return;
         }
@@ -1035,11 +1022,6 @@ export default {
           return (this.data.iosas_schoolauthorityheadphone =
             this.data.ioas_schoolauthoritycontactphone);
         }
-      },
-    },
-    isLoading: {
-      handler(val) {
-        console.log('CHILD IS LOADING', val);
       },
     },
     'data.iosas_schoolauthorityname': {
@@ -1052,7 +1034,7 @@ export default {
     'data.iosas_existingauthority': {
       handler(val, oldVal) {
         // Dont trigger watch on initial load of draft
-        if (oldVal === undefined && !this.isNew()) {
+        if (oldVal === undefined && !this.isNew) {
           return;
         }
         this.populateAndDisableAuthorityAddress = false;
@@ -1121,10 +1103,10 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    console.log('this.isNew()', this.isNew());
-    this.data = this.isNew() ? this.data : this.eoi;
+    console.log('this.isNew', this.isNew);
+    this.data = this.isNew ? this.data : this.eoi;
     this.isEditing =
-      this.isNew() || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
+      this.isNew || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
 
     console.log(this.data);
     if (this.data?.documents?.length > 0) {
@@ -1132,7 +1114,7 @@ export default {
     }
 
     // Disable autopopulated fields on draft applications
-    if (!this.isNew()) {
+    if (!this.isNew) {
       if (this.data?.iosas_designatedcontactsameasauthorityhead) {
         this.populatedAndDisableAuthorityHead = true;
       }
@@ -1147,11 +1129,11 @@ export default {
     }
 
     // populate DAC if authenticated and new EOI
-    if (this.isAuthenticated && this.isNew()) {
+    if (this.isAuthenticated && this.isNew) {
       this.handleNewAuthenticatedState();
-    } else if (!this.isAuthenticated && this.isNew()) {
+    } else if (!this.isAuthenticated && this.isNew) {
       this.handleNewUnaunthenticatedState();
-    } else if (this.isAuthenticated && !this.isNew()) {
+    } else if (this.isAuthenticated && !this.isNew) {
       this.handleDraftDisabledState();
     }
   },
@@ -1206,96 +1188,24 @@ export default {
       this.selectedDocumentOption = documentCode;
       this.documentUpload = true;
     },
-    isNew() {
-      return this.$route.name === 'newExpressionOfInterest';
-    },
-    handleLoading(value) {
-      console.log('CALLED');
-      return this.$emit('setIsLoading', value);
-    },
     async handleUpdate() {
-      const context = this;
       if (this.isSubmitted) {
         const valid = await this.$refs.expressionOfInterestForm.validate();
         this.isFormValid = valid.valid;
         this.showError = !this.isFormValid;
+        await applicationsStore().setConfirmationMessage(
+          `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
+        );
       }
 
       if (this.isFormValid || !this.isSubmitted) {
-        this.$emit('setIsLoading', true);
-        // await this.$emit('setIsLoading', false);
-        const updateResponse = await ApiService.updateEOI(
+        await this.$emit(
+          'updateEOIData',
           this.data.iosas_expressionofinterestid,
           this.data,
-          this.isSubmitted
+          this.isSubmitted,
+          this.documents
         );
-        if (updateResponse) {
-          if (this.documents.length > 0) {
-            this.handleUploadDocuments(this.data.iosas_expressionofinterestid);
-          }
-
-          if (this.isSubmitted) {
-            await applicationsStore().setConfirmationMessage(
-              `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
-            );
-            this.$router.push({
-              name: 'applicationConfirmation',
-              params: { type: 'EOI' },
-            });
-          } else {
-            this.setSuccessAlert(
-              `Success! Expression of Interest ${this.data?.iosas_eoinumber} has been updated.`
-            );
-
-            return context.$emit('fetchEOIData');
-
-            // // Re-fetch data
-            // const eoiResponse = await ApiService.getEOIById(
-            //   this.data?.iosas_expressionofinterestid
-            // );
-
-            // if (eoiResponse) {
-            //   this.data = eoiResponse.data.value[0];
-            //   const documentResponse = await ApiService.getEOIDocuments(
-            //     eoiResponse.data.value[0].iosas_expressionofinterestid
-            //   );
-            //   // console.log(documentResponse);
-            //   if (documentResponse.data?.value?.length > 0) {
-            //     this.data.documents = documentResponse.data.value;
-
-            //     console.log('we jereee??');
-            //     // this.displayDocuments();
-            //     // this.handleLoading(true);
-            //   }
-            //   // context.$emit('setIsLoading', false);
-            // }
-
-            // this.handleLoading(true);
-            // this.$emit('setIsLoading', false);
-            // })
-            // .catch((error) => {
-            //   console.log(error);
-            //   this.setFailureAlert(
-            //     error?.response?.data?.message
-            //       ? error?.response?.data?.message
-            //       : 'An error occurred whilte fetching EOI. Please try again later.'
-            //   );
-            // })
-            // .finally(this.$emit('setIsLoading', false));
-          }
-        }
-        // .catch((error) => {
-        //   console.log(error);
-        //   this.setFailureAlert(
-        //     error?.response?.data?.message
-        //       ? error?.response?.data?.message
-        //       : 'An error occurred while saving the expression of Interest. Please try again later.'
-        //   );
-        // });
-        // .finally(this.$emit('setIsLoading', false));
-        // .finally(() => {
-        //   return this.$emit('setIsLoading', false);
-        // });
       }
     },
     async handleDelete() {
@@ -1341,7 +1251,7 @@ export default {
     },
     async handleDraftSubmit() {
       this.isSubmitted = false;
-      if (!this.isNew()) {
+      if (!this.isNew) {
         console.log('going to handleUpdate if im not new');
         this.$emit('setIsLoading', true);
 
@@ -1374,7 +1284,7 @@ export default {
     },
     async handleSubmit() {
       this.isSubmitted = true;
-      if (!this.isNew()) {
+      if (!this.isNew) {
         return this.handleUpdate();
       }
       const valid = await this.$refs.expressionOfInterestForm.validate();
@@ -1498,9 +1408,8 @@ export default {
             })
             .finally(this.$emit('setIsLoading', false));
         } else {
-          // TODO: add temporary id to differentiate between staged documents
-          const filteredDocuments = this.documents.filter(({ content }) => {
-            return content !== document.content;
+          const filteredDocuments = this.documents.filter(({ id }) => {
+            return id !== document.id;
           });
 
           this.documents = filteredDocuments;

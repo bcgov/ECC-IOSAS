@@ -26,7 +26,7 @@
             <div class="form-container">
               <div>
                 <ExpressionOfInterestForm
-                  :new="true"
+                  :isNew="true"
                   :isLoading="isLoading"
                   :draftStatusCode="draftStatusCode"
                   @setIsLoading="setIsLoading"
