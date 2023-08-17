@@ -12,22 +12,7 @@
       <p>This document will be removed from your records.</p>
     </template>
   </ConfirmationDialog>
-
-  <v-row v-if="isLoading">
-    <v-col class="d-flex justify-center">
-      <v-progress-circular
-        class="mt-16"
-        :size="70"
-        :width="7"
-        color="primary"
-        indeterminate
-        :active="isLoading"
-      />
-    </v-col>
-  </v-row>
-
   <v-form
-    v-else
     @submit.prevent="handleSubmit"
     id="expressionOfInterestForm"
     ref="expressionOfInterestForm"
@@ -596,7 +581,6 @@
               ></v-select>
             </v-col>
           </v-row>
-          <!-- TODO: Enable ability to add documents to EOI -->
           <v-divider></v-divider>
           <h4>Documents</h4>
           <v-row>
@@ -869,12 +853,8 @@ export default {
       handler(val, oldVal) {
         if (oldVal === undefined && val && !this.isNew) {
           this.populatedAndDisableDesignatedContact = true;
-          console.log('val ofiosas_existingcontact', val);
         }
       },
-    },
-    'data.certificateissuedate': {
-      handler(val) {},
     },
     documents: {
       handler(val) {
@@ -913,22 +893,11 @@ export default {
               );
 
             this.otherDocuments = savedDocuments.concat(additionalDocuments);
+          } else {
+            this.otherDocuments = additionalDocuments;
           }
         }
         return;
-      },
-    },
-    eoi: {
-      handler(val, oldVal) {
-        if (val) {
-          if (val !== oldVal) {
-            console.log('they are not the same');
-          }
-          this.data = val;
-          if (val.iosas_reviewstatus === this.draftStatusCode) {
-            this.isEditing = true;
-          }
-        }
       },
     },
     schoolAddressKnown: {
@@ -950,7 +919,7 @@ export default {
     },
     'data._iosas_edu_year_value': {
       handler(val) {
-        if (!this.schoolYearLabel) {
+        if (!this.schoolYearLabel && val) {
           const matchedSchoolYear = this.getActiveSchoolYearSelect.find(
             ({ value }) => value === val
           );
@@ -1051,7 +1020,7 @@ export default {
     'data.iosas_existingauthority': {
       handler(val, oldVal) {
         // Dont trigger watch on initial load of draft
-        if (oldVal === undefined && !this.isNew) {
+        if (oldVal === undefined && !this.isNew && !val) {
           return;
         }
         this.populateAndDisableAuthorityAddress = false;
@@ -1063,7 +1032,6 @@ export default {
           iosas_authoritycity: null,
           iosas_authoritypostalcode: null,
           _iosas_edu_schoolauthority_value: null,
-          _iosas_edu_year_value: null,
           iosas_authoritycountry: 'Canada',
           iosas_authorityprovince: 'British Columbia',
         });
@@ -1072,7 +1040,6 @@ export default {
     isFormValid: {
       handler(val) {
         if (val) {
-          console.log('???', val);
           this.showError = false;
         } else if (val === false) {
           this.showError = true;
@@ -1120,18 +1087,45 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    console.log('this.isNew', this.isNew);
     this.data = this.isNew ? this.data : this.eoi;
     this.isEditing =
       this.isNew || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
 
-    console.log(this.data);
     if (this.data?.documents?.length > 0) {
       this.displayDocuments();
     }
 
     // Disable autopopulated fields on draft applications
     if (!this.isNew) {
+      this.handlePopulateExistingForm();
+    } else {
+      this.handlePopulateNewForm();
+    }
+  },
+  methods: {
+    authStore,
+    applicationsStore,
+    handlePopulateNewForm() {
+      this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
+      this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
+      if (this.isAuthenticated) {
+        // Set the Designated Contact to authenticated user data
+        this.populatedAndDisableDesignatedContact = true;
+        const designatedContact = {
+          iosas_existingcontact: true,
+          iosas_designatedcontactfirstname: this.userInfo.firstName,
+          iosas_schoolauthoritycontactname: this.userInfo.lastName,
+          iosas_schoolauthoritycontactemail: this.userInfo.email,
+          iosas_schoolauthoritycontactphone: this.userInfo?.phone || null,
+        };
+        if (this.userInfo?.phone) {
+          this.populateAndDisableContactPhone = true;
+        }
+
+        this.data = { ...this.data, ...designatedContact };
+      }
+    },
+    handlePopulateExistingForm() {
       if (this.data?.iosas_designatedcontactsameasauthorityhead) {
         this.populatedAndDisableAuthorityHead = true;
       }
@@ -1143,60 +1137,12 @@ export default {
       } else {
         this.schoolAddressKnown = false;
       }
-    }
-
-    // populate DAC if authenticated and new EOI
-    if (this.isAuthenticated && this.isNew) {
-      this.handleNewAuthenticatedState();
-    } else if (!this.isAuthenticated && this.isNew) {
-      this.handleNewUnaunthenticatedState();
-    } else if (this.isAuthenticated && !this.isNew) {
-      this.handleDraftDisabledState();
-    }
-  },
-  methods: {
-    authStore,
-    applicationsStore,
-    handleNewAuthenticatedState() {
-      console.log('why did this not get called??');
-      // Set the Designated Contact to authenticated user data
-      this.populatedAndDisableDesignatedContact = true;
-      const designatedContact = {
-        iosas_existingcontact: true,
-        iosas_designatedcontactfirstname: this.userInfo.firstName,
-        iosas_schoolauthoritycontactname: this.userInfo.lastName,
-        iosas_schoolauthoritycontactemail: this.userInfo.email,
-        iosas_schoolauthoritycontactphone: this.userInfo?.phone || null,
-      };
-      if (this.userInfo?.phone) {
-        this.populateAndDisableContactPhone = true;
-      }
-      this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
-      this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
-      this.data = { ...this.data, ...designatedContact };
-      return;
-    },
-    handleNewUnaunthenticatedState() {
-      this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
-      this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
-      // DO ALL DISABLE LOGIC HERE
-    },
-    handleDraftDisabledState() {
       if (this.data?.iosas_schoolauthoritycontactphone) {
         this.populateAndDisableContactPhone = true;
       }
       if (this.data?.iosas_existingcontact) {
         this.populatedAndDisableDesignatedContact = true;
       }
-
-      if (!this.data?._iosas_edu_year_value) {
-        // THIS CASE SHOULDN"T HAPPEN
-        this.data._iosas_edu_year_value =
-          this.getActiveSchoolYearSelect[0].value;
-        this.schoolYearLabel =
-          this.getActiveSchoolYearSelect[0].year.iosas_label;
-      }
-      // HANDLE ALL DRAFT STATE HERE
     },
     closeDocumentDialog() {
       this.documentUpload = false;
@@ -1214,7 +1160,6 @@ export default {
           `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
         );
       }
-
       if (this.isFormValid || !this.isSubmitted) {
         await this.$emit(
           'updateEOIData',
@@ -1260,22 +1205,13 @@ export default {
                 ? error?.response?.data?.message
                 : 'An error occurred while cancelling the expression of Interest. Please try again later.'
             );
-          })
-          .finally(() => {
-            this.$emit('setIsLoading', false);
           });
       }
     },
     async handleDraftSubmit() {
       this.isSubmitted = false;
       if (!this.isNew) {
-        console.log('going to handleUpdate if im not new');
-        this.$emit('setIsLoading', true);
-
-        setTimeout(() => {
-          this.$emit('setIsLoading', false);
-        }, 1000);
-        return await this.handleUpdate();
+        return this.handleUpdate();
       }
       this.$emit('setIsLoading', true);
       ApiService.createEOI(this.data, this.isSubmitted)
@@ -1330,15 +1266,11 @@ export default {
                 ? error?.response?.data?.message
                 : 'An error occurred while saving the expression of Interest. Please try again later.'
             );
-          })
-          .finally(() => {
-            this.$emit('setIsLoading', false);
           });
       }
     },
     async upload(document) {
       this.documents = [...this.documents, document];
-      console.log(this.documents);
     },
     async handleUploadDocuments(eoiID) {
       Promise.all(
@@ -1401,7 +1333,7 @@ export default {
         return;
       } else {
         if (document.iosas_documentid) {
-          this.handleLoading(true);
+          this.$emit('setIsLoading', true);
           await ApiService.deleteDocument(document.iosas_documentid)
             .then(async () => {
               const documentResponse = await ApiService.getEOIDocuments(
@@ -1422,13 +1354,11 @@ export default {
                   ? error?.response?.data?.message
                   : 'An error occurred while saving the expression of Interest. Please try again later.'
               );
-            })
-            .finally(this.$emit('setIsLoading', false));
+            });
         } else {
           const filteredDocuments = this.documents.filter(({ id }) => {
             return id !== document.id;
           });
-
           this.documents = filteredDocuments;
           return this.documents;
         }
@@ -1462,11 +1392,6 @@ export default {
   background-color: #003366 !important;
   color: white !important;
 }
-
-.no-margin {
-  margin-bottom: none !important;
-}
-
 .v-label {
   display: inline-block;
 }
@@ -1492,11 +1417,9 @@ export default {
 :deep(.dp__today) {
   border-color: #003366;
 }
-
 .inline-box {
   display: -webkit-inline-box !important;
 }
-
 .sm {
   font-size: 14px;
 }
