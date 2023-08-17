@@ -260,8 +260,8 @@
                 />
                 <v-text-field
                   v-else
-                  id="ioas_schoolauthoritycontactphone"
-                  v-model="data.ioas_schoolauthoritycontactphone"
+                  id="iosas_schoolauthoritycontactphone"
+                  v-model="data.iosas_schoolauthoritycontactphone"
                   :disabled="populateAndDisableContactPhone"
                   :rules="[rules.required()]"
                   :maxlength="255"
@@ -275,8 +275,8 @@
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
                   v-if="this.isNew && !this.isAuthenticated"
-                  id="ioas_schoolauthoritycontactphone"
-                  v-model="data.ioas_schoolauthoritycontactphone"
+                  id="iosas_schoolauthoritycontactphone"
+                  v-model="data.iosas_schoolauthoritycontactphone"
                   :disabled="populateAndDisableContactPhone"
                   :rules="[rules.required()]"
                   :maxlength="255"
@@ -724,6 +724,7 @@
               <v-textarea
                 id="iosas_notes"
                 v-model="data.iosas_notes"
+                :maxlength="2000"
                 variant="outlined"
                 color="rgb(59, 153, 252)"
               />
@@ -959,7 +960,7 @@ export default {
             iosas_schoolauthorityheademail:
               this.data.iosas_schoolauthoritycontactemail,
             iosas_schoolauthorityheadphone:
-              this.data.ioas_schoolauthoritycontactphone,
+              this.data.iosas_schoolauthoritycontactphone,
           };
         } else {
           this.populatedAndDisableAuthorityHead = false;
@@ -1012,7 +1013,7 @@ export default {
         }
       },
     },
-    'data.ioas_schoolauthoritycontactphone': {
+    'data.iosas_schoolauthoritycontactphone': {
       handler(val, oldVal) {
         if (oldVal === undefined && !this.isNew && !val) {
           // Dont trigger on initial lod of draft
@@ -1020,7 +1021,7 @@ export default {
         }
         if (val && this.data.iosas_designatedcontactsameasauthorityhead) {
           return (this.data.iosas_schoolauthorityheadphone =
-            this.data.ioas_schoolauthoritycontactphone);
+            this.data.iosas_schoolauthoritycontactphone);
         }
       },
     },
@@ -1149,7 +1150,7 @@ export default {
         iosas_designatedcontactfirstname: this.userInfo.firstName,
         iosas_schoolauthoritycontactname: this.userInfo.lastName,
         iosas_schoolauthoritycontactemail: this.userInfo.email,
-        ioas_schoolauthoritycontactphone: this.userInfo?.phone || null,
+        iosas_schoolauthoritycontactphone: this.userInfo?.phone || null,
       };
       if (this.userInfo?.phone) {
         this.populateAndDisableContactPhone = true;
@@ -1165,7 +1166,7 @@ export default {
       // DO ALL DISABLE LOGIC HERE
     },
     handleDraftDisabledState() {
-      if (this.data?.ioas_schoolauthoritycontactphone) {
+      if (this.data?.iosas_schoolauthoritycontactphone) {
         this.populateAndDisableContactPhone = true;
       }
       if (this.data?.iosas_existingcontact) {

@@ -69,7 +69,7 @@
             </v-col>
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-label>Phone</v-label>
-              <p>{{ eoi.ioas_schoolauthoritycontactphone || NULL_STRING }}</p>
+              <p>{{ eoi.iosas_schoolauthoritycontactphone || NULL_STRING }}</p>
             </v-col>
           </v-row>
         </div>

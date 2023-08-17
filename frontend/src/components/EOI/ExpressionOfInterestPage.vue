@@ -134,8 +134,7 @@ export default {
             this.eoi.iosas_reviewstatus !== this.draftStatusCode;
 
           return this.eoi;
-        })
-        .finally((this.isLoading = false));
+        });
     },
     async handleUpladDocuments(eoiID, documents) {
       Promise.all(
@@ -168,20 +167,25 @@ export default {
           isSubmitted
         );
         if (updateResponse.data) {
+          let eoi;
           if (documents.length > 0) {
-            this.handleUpladDocuments(id, documents);
+            await this.handleUpladDocuments(id, documents);
+            eoi = await this.fetchEOIData();
+          } else {
+            eoi = await this.fetchEOIData();
           }
-          if (isSubmitted) {
+
+          if (isSubmitted && eoi) {
             this.$router.push({
               name: 'applicationConfirmation',
               params: { type: 'EOI' },
             });
           } else {
             console.log('SUCCESSSSS');
+            this.isLoading = false;
             this.setSuccessAlert(
               `Success! Expression of Interest ${payload.iosas_eoinumber} has been updated.`
             );
-            return await this.fetchEOIData();
           }
         }
       } catch (error) {

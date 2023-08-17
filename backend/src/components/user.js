@@ -39,6 +39,7 @@ async function getUserInfo(req, res) {
     firstName: userInfo.name.givenName,
     lastName: userInfo.name.familyName,
     email: userInfo._json.email,
+    phone: null, // replace with phone key from userInfo
     //edx user name may not exist yet in case of relink or activation. If so, fallback to BCeid displayName
     displayName: userInfo.displayName ?? 'Unknown',
     accountType: userInfo._json.azp,
