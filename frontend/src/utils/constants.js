@@ -1,13 +1,5 @@
 const baseRoot = '/api';
 const authRoot = baseRoot + '/auth';
-const edxRoot = baseRoot + '/edx';
-const schoolRoot = baseRoot + '/schools';
-const districtRoot = baseRoot + '/districts';
-const instituteRoot = baseRoot + '/institute';
-const studentRequestRoot = baseRoot + '/student';
-const districtRequestRoot = baseRoot + '/institute/districts';
-const schoolRequestRoot = baseRoot + '/institute/schools';
-const sldRoot = baseRoot + '/sld';
 
 // Dynamic
 const dynamicRoot = baseRoot + '/dynamic';
@@ -38,67 +30,34 @@ export const ApiRoutes = Object.freeze({
   // ** Dynamic **/
   dynamic: {
     BASE_URL: dynamicRoot,
-    HEALTH: dynamicRoot + '/Health'
+    HEALTH: dynamicRoot + '/Health',
   },
-  school: {
-    BASE_URL: schoolRoot,
-    SCHOOLS_LAST_UPDATED_DATE: schoolRoot + '/lastUpdated',
-    ALL_SCHOOLS_BY_CRIT: schoolRoot + '/allSchools',
-    SCHOOL_DETAILS_BY_ID: schoolRoot + '/schoolDetailsById',
-    UPDATE_SCHOOL_CONTACT_URL: schoolRoot + '/update-contact',
+  // All metadata API for EOI/Applications
+  meta: {
+    ACTIVE_SCHOOL_YEARS: dynamicRoot + '/SchoolYear/GetActiveYears',
+    PICK_LISTS: (tableName) =>
+      dynamicRoot + `/Metdata/GetPickListValues?tableName=${tableName}`,
+    SCHOOL_AUTHORITY:
+      dynamicRoot + '/SchoolAuthority/GetActiveSchoolAuthorityList',
+    CONTACT_BY_SCHOOL_AUTHORITY: (id) =>
+      dynamicRoot + `/Contact/GetBySchoolAuthority?schoolAuthorityId=${id}`,
   },
-  sld: {
-    BASE_URL: sldRoot,
-    SLD_COLLECTION_BY_SCHOOL_ID: sldRoot + '/getCollectionBySchoolId',
+  documents: {
+    APPLICATION_DOCUMENTS: dynamicRoot + '/Document/GetApplicationDocumentList',
+    EOI_DOCUMENTS: (id) =>
+      dynamicRoot + `/Document/GetEOIDocumentList?id=${id}`,
+    UPLOAD_DOCUMENT: dynamicRoot + '/Document/Upload',
+    DELETE_DOCUMENT: (documentID) =>
+      dynamicRoot + `/Document/Remove?id=${documentID}`,
   },
-  district: {
-    BASE_URL: districtRoot,
-    CREATE_DISTRICT_CONTACT_URL: `${districtRoot}/createContact`,
-    UPDATE_DISTRICT_CONTACT_URL: districtRoot + '/update-contact',
-  },
-  institute: {
-    BASE_URL: instituteRoot,
-    DISTRICT: instituteRoot + '/districts',
-    PROVINCE_CODES_URL: instituteRoot + '/province-codes',
-    COUNTRY_CODES_URL: instituteRoot + '/country-codes',
-    FACILITY_TYPES_URL: instituteRoot + '/facility-types',
-    SCHOOL_CATEGORY_TYPES_URL: instituteRoot + '/school-category-types',
-    SCHOOL_CONTACT_TYPE_CODES: instituteRoot + '/school-contact-types',
-    SCHOOL_ORGANIZATION_TYPES_URL: instituteRoot + '/school-organization-types',
-    SCHOOL_REPORTING_REQUIREMENT_TYPES_URL:
-      instituteRoot + '/reporting-requirement-codes',
-    SCHOOL_NEIGHBORHOOD_LEARNING_TYPES_URL:
-      instituteRoot + '/school-neighborhood-learning-types',
-    SCHOOL_GRADE_TYPES_URL: instituteRoot + '/school-grade-types',
-    DISTRICT_CONTACT_TYPE_CODES: instituteRoot + '/district-contact-types',
-    AUTHORITY_DATA_URL: instituteRoot + '/authority',
-  },
-  DISTRICT_DATA_URL: districtRequestRoot,
-  SCHOOL_DATA_URL: schoolRequestRoot,
-  edx: {
-    EXCHANGE: edxRoot + '/exchanges',
-    EXCHANGE_URL: edxRoot + '/exchange',
-    EXCHANGE_COUNT_URL: edxRoot + '/exchange/count',
-    DOCUMENT_TYPES_URL: edxRoot + '/document-types',
-    FILE_REQUIREMENTS_URL: edxRoot + '/file-requirements',
-    STATUSES_URL: edxRoot + '/exchange/statuses',
-    MINISTRY_TEAM_URL: edxRoot + '/users/ministry-teams',
-    USERS_URL: edxRoot + '/users',
-    EXCHANGE_ACCESS_ROLES_URL: edxRoot + '/users/roles',
-    EXCHANGE_REMOVE_USER: edxRoot + '/users/remove',
-    EXCHANGE_RELINK_USER: edxRoot + '/users/relink',
-    INSTITUTE_SELECTION_URL: edxRoot + '/institute-selection',
-    USER_ACTIVATION: edxRoot + '/user-activation',
-    UPDATE_ACTIVATION_URL: edxRoot + '/activation-code/url',
-    NEW_SCHOOL_USER_ACTIVATION_INVITE:
-      edxRoot + '/school-user-activation-invite',
-    NEW_DISTRICT_USER_ACTIVATION_INVITE:
-      edxRoot + '/district-user-activation-invite',
-    PRIMARY_ACTIVATION_CODE_URL: edxRoot + '/users/activation-code/primary',
-  },
-  studentRequest: {
-    ROOT_ENDPOINT: studentRequestRoot,
-    SEARCH_URL: studentRequestRoot + '/',
+  eoi: {
+    EOI_APPLICATIONS: dynamicRoot + '/EOI/GetAllByUser',
+    EOI_APPLICATION: (id) => dynamicRoot + `/EOI/GetById?id=${id}`,
+    UPDATE_EOI: (submitted, id) =>
+      dynamicRoot + `/EOI/Update?submitted=${submitted}&id=${id}`,
+    CREATE_EOI: (submitted) =>
+      dynamicRoot + `/EOI/Create?submitted=${submitted}`,
+    CANCEL_EOI: (id) => dynamicRoot + `/EOI/Cancel?id=${id}`,
   },
 });
 
@@ -166,7 +125,7 @@ export const GOV_URL = {
   bceidRegister: 'https://www.bceid.ca/register/',
   devBceidRegister: 'https://www.development.bceid.ca/register/',
   independentSchoolActUrl:
-    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96216_01',
+    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96216_01#Schedule',
   independentSchoolInfoUrl:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/program-management/independent-schools',
   interviewChecklistPDFUrl:
@@ -206,6 +165,19 @@ export const GOV_URL = {
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/teach',
   criminalRecordCheckUrl:
     'https://www2.gov.bc.ca/gov/content/safety/crime-prevention/criminal-record-check',
+  independentSchoolContractsUrl:
+    'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/IndSchool.do?school_category=Independent%20School',
+  schoolInfoUpdateUrl:
+    'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/SchoolUpdateForm.do',
+  teacherCertificationUrl:
+    'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/public-schools/teacher-certification?keyword=teacher&keyword=certification',
+  FISAUrl: 'https://fisabc.ca/',
+  certificateOfGoodStandingUrl:
+    'https://www.corporateonline.gov.bc.ca/WebHelp/overview_cogs.htm',
+  BClawsUrl:
+    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/15018_01#section1',
+  BCLawBusinessActUrl:
+    'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/02057_00',
 };
 
 export const NULL_STRING = '-';
@@ -221,7 +193,8 @@ export const DISABLED_TABS = [
   'School Policies',
   'Educational Program',
   'Teacher Certification',
-  'Submissions',
+  'Documents',
+  'Submission',
 ];
 
 // Getting replaced with PickLists

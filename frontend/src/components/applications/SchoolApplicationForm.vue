@@ -3,7 +3,7 @@
     <ConfirmationDialog ref="confirmDelete">
       <template #message>
         <p>
-          The Application for Independent School Certification will be deleted
+          The Application for Independent School Certification will be removed
           from your records. A new EOI can be submitted in the future to restart
           the school application process.
         </p>
@@ -41,6 +41,7 @@
           </v-tab>
         </v-tabs>
       </div>
+
       <div class="flex-4">
         <v-form
           ref="schoolApplicationForm"
@@ -118,7 +119,7 @@
                     @click="handleDelete"
                     class="link-button"
                   >
-                    Delete Draft
+                    Cancel Application
                   </v-btn>
                 </v-row>
               </v-container>
@@ -244,7 +245,8 @@ export default {
         { tab: 'School Policies', component: 'SchoolPoliciesTab' },
         { tab: 'Educational Program', component: 'EducationalProgramTab' },
         { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
-        { tab: 'Submissions', component: 'SubmissionTab' },
+        { tab: 'Document', component: null },
+        { tab: 'Submission', component: 'SubmissionTab' },
       ],
       tab: 'General',
       items: [
@@ -258,7 +260,8 @@ export default {
         'School Policies',
         'Educational Program',
         'Teacher Certification',
-        'Submissions',
+        'Documents',
+        'Submission',
       ],
     };
   },
@@ -296,7 +299,7 @@ export default {
   },
   methods: {
     isLastPage() {
-      return this.tab === 'Submissions';
+      return this.tab === 'Submission';
     },
     isFirstPage() {
       return this.tab === 'General';
@@ -304,7 +307,7 @@ export default {
     validatePage() {},
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
-        'Delete Draft of Independent School Certification?',
+        'Cancel Application - Independent School Certification?',
         null,
         {
           color: '#fff',
@@ -312,7 +315,7 @@ export default {
           closeIcon: false,
           subtitle: false,
           dark: false,
-          resolveText: 'Delete',
+          resolveText: 'Confirm',
           rejectText: 'Cancel',
         }
       );

@@ -17,7 +17,7 @@ const allowedPulicPaths = [
   'SchoolYear',
   'Metdata',
   'Health',
-  'Contact/GetBySchoolAuthority'
+  'Contact/GetBySchoolAuthority',
 ];
 const allowedProtectedPaths = [];
 const allowedPaths = [...allowedPulicPaths, ...allowedProtectedPaths];
@@ -46,9 +46,9 @@ const proxyMiddleWare =
     try {
       const host = dynamicIntegrationService.host();
       const endpoint = host + '/api' + path;
-      const headers = req.headers || { };
+      const headers = req.headers || {};
       const contentType = headers['Content-Type'];
-      const data = req.body
+      const data = req.body;
       const { data: responseData, status } = await axios({
         url: endpoint,
         method,
@@ -59,7 +59,7 @@ const proxyMiddleWare =
         },
         headers: {
           'Content-Type': contentType || 'application/json',
-        }
+        },
       });
       log.info(
         `Dynamic | API | URL: ${endpoint} | Method: ${method}| Success: ${status}`

@@ -12,6 +12,7 @@ import Login from './components/Login.vue';
 import BackendSessionExpired from './components/BackendSessionExpired.vue';
 import { PAGE_TITLES } from './utils/constants';
 import ExpressionOfInterestPage from './components/EOI/ExpressionOfInterestPage.vue';
+import NewExpressionOfInterestPage from './components/EOI/NewExpressionOfInterestPage.vue';
 import ConfirmationPage from './components/common/ConfirmationPage.vue';
 import SchoolApplicationPage from './components/applications/SchoolApplicationPage.vue';
 import ProfilePage from './components/profile/ProfilePage.vue';
@@ -68,9 +69,9 @@ const router = createRouter({
     },
     {
       path: '/expression-of-interest/:id',
-      name: 'expressionOfInterest',
+      name: 'expressionOfInterestPage',
       component: ExpressionOfInterestPage,
-      props: {},
+      props: true,
       meta: {
         pageTitle: 'Expression of Interest',
         requiresAuth: true,
@@ -79,7 +80,7 @@ const router = createRouter({
     {
       path: '/expression-of-interest/new',
       name: 'newExpressionOfInterest',
-      component: ExpressionOfInterestPage,
+      component: NewExpressionOfInterestPage,
       props: {},
       meta: {
         pageTitle: 'New Expression of Interest',

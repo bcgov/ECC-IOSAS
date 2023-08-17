@@ -43,8 +43,11 @@ export const authStore = defineStore('auth', {
       } else {
         this.isAuthenticated = false;
         this.jwtToken = null;
-        // Re-set mock applications - REMOVE after API connection
-        localStorage.removeItem('applications');
+        localStorage.removeItem('activeSchoolYears');
+        localStorage.removeItem('EOIPickLists');
+        localStorage.removeItem('documentPickLists');
+        localStorage.removeItem('applicationPickLists');
+        localStorage.removeItem('schoolAuthority');
         localStorage.removeItem('jwtToken');
       }
     },

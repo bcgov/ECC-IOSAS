@@ -13,7 +13,7 @@
 
 <script>
 import { authStore } from './store/modules/auth';
-import { appStore } from './store/modules/app';
+import { metaDataStore } from './store/modules/metaData';
 import { mapState, mapActions } from 'pinia';
 import HttpStatus from 'http-status-codes';
 import Header from './components/Header.vue';
@@ -37,14 +37,19 @@ export default {
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
-    ...mapState(appStore, ['pageTitle']),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
     },
   },
   async created() {
-    await this.setLoading(true);
-    this.getJwtToken()
+    // TODO: try 3X, Unhandled rejection
+    await metaDataStore().getActiveSchoolYear();
+    await metaDataStore().getEOIPickLists();
+    await metaDataStore().getDocumentPickLists();
+    await metaDataStore().getSchoolAuthority();
+
+    this.setLoading(true);
+    await this.getJwtToken()
       .then(() => Promise.all([this.getUserInfo()]))
       .catch((e) => {
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
@@ -66,6 +71,12 @@ export default {
       'getJwtToken',
       'getUserInfo',
       'logout',
+    ]),
+    ...mapState(metaDataStore, [
+      'getActiveSchoolYear',
+      'getEOIPickLists',
+      'getSchoolAuthority',
+      'getDocumentPickLists',
     ]),
   },
 };
@@ -188,15 +199,16 @@ h1 {
 
 .form-container {
   border-radius: 5px;
-  padding: 50px;
+  padding: 20px;
   box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
   -webkit-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
   -moz-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
 }
 
+// School application and EOI containers
 .content-container {
-  padding-right: 25em !important;
-  padding-left: 25em !important;
+  padding-right: 15em !important;
+  padding-left: 15em !important;
 }
 
 @media screen and (max-width: 1900px) {
@@ -232,7 +244,7 @@ h1 {
 
 .v-label {
   white-space: break-spaces !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 10px;
 }
 .v-selection-control--inline .v-label {
   margin-bottom: 0 !important;
@@ -297,5 +309,9 @@ h1 {
 // using for field name confirmations - Will be removed
 .orange {
   color: orangered !important;
+}
+
+.no-mb {
+  margin-bottom: 0px !important;
 }
 </style>

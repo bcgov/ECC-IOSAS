@@ -94,7 +94,7 @@ const endDateRule = (
 };
 
 /**
- * Custom gradeRange Rule! Checks that we have an end grade
+ * Custom gradeRange Rule! Checks that the end grade
  * happens after start grade.
  * @param {String} startGrade
  * @param {String} endGrade
@@ -106,16 +106,7 @@ const gradeRangeRule = (
   message = 'End grade cannot be before start grade'
 ) => {
   if (startGrade && endGrade) {
-    return (
-      (startGrade === 'Kindergarten' &&
-        startGrade.localeCompare(endGrade, undefined, { numeric: true }) ==
-          1) ||
-      (endGrade !== 'Kindergarten' &&
-        startGrade.localeCompare(endGrade, undefined, { numeric: true }) !=
-          1) ||
-      (startGrade === 'Kindergarten' && endGrade === 'Kindergarten') ||
-      message
-    );
+    return startGrade <= endGrade || message;
   }
 
   return true;
@@ -129,7 +120,7 @@ const gradeRangeRule = (
 const website = (message = 'Website must be valid') => {
   return (v) =>
     !v ||
-    /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9\-]+(\.[a-z\-]{2,}){1,3}(#?\/?[a-zA-Z0-9\-#]+)*\/?(\?[a-zA-Z0-9-_\-]+=[a-zA-Z0-9-%\-]+&?)?$/.test(
+    /^((https?|ftp|smtp):\/\/)?(www.)?[a-zA-Z0-9\-]+(\.[a-z\-]{2,}){1,3}(#?\/?[a-zA-Z0-9\-#]+)*\/?(\?[a-zA-Z0-9-_\-]+=[a-zA-Z0-9-%\-]+&?)?$/.test(
       v
     ) ||
     message;
@@ -141,7 +132,9 @@ const website = (message = 'Website must be valid') => {
  * @returns Function
  */
 const requiredSelect = (message = 'Required') => {
-  return (v) => !!v || message;
+  return (v) => {
+    return !!v || message;
+  };
 };
 
 /**
@@ -151,6 +144,23 @@ const requiredSelect = (message = 'Required') => {
  */
 const requiredRadio = (message = 'Required') => {
   return (v) => !isNil(v) || message;
+};
+
+/**
+ * Custom confirmation email Rule! Forces user to confirm the email address being saved with the record
+ * @param {String} contactEmail
+ * @param {String} confirmationEmail
+ * @returns {String|Boolean}
+ */
+const emailConfirmation = (
+  contactEmail,
+  confirmationEmail,
+  message = 'The email must match the designated contacts email'
+) => {
+  if (contactEmail && confirmationEmail) {
+    return contactEmail === confirmationEmail || message;
+  }
+  return true;
 };
 
 export {
@@ -163,5 +173,6 @@ export {
   website,
   requiredSelect,
   requiredRadio,
+  emailConfirmation,
   gradeRangeRule,
 };

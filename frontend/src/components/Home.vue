@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    v-if="!authStore().isAuthenticated && !authStore().isLoading"
-    fluid
-  >
+  <v-container v-if="!authStore().isAuthenticated" fluid>
     <article name="login-banner">
       <v-row
         align="center"
@@ -89,7 +86,7 @@
               out in the
               <a :href="GOV_URL.establishingSchoolURL" target="_blank"
                 >procedures</a
-              >
+              >.
             </p>
           </div>
         </v-card>
@@ -129,24 +126,30 @@ export default {
       schoolApplications: [],
       eioApplications: [],
       routes: {
-        EOI: 'expressionOfInterest',
+        EOI: 'expressionOfInterestPage',
         APP: 'schoolApplicationPage',
       },
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
+    ...mapState(authStore, ['isAuthenticated']),
+    ...mapState(applicationsStore, [
+      'getEOIApplicationsFormatted',
+      'getAllEOI',
+    ]),
   },
   mounted() {},
-  created() {
+  async created() {
+    await applicationsStore().getAllEOI();
+    this.eoiApplications = this.getEOIApplicationsFormatted
+      ? this.getEOIApplicationsFormatted
+      : [];
     applicationsStore()
       .getApplicationData()
       .then(() => {
         // mocking a loading state - will be replaced when API is connected.
         setTimeout(() => {
           this.isLoading = false;
-          this.eoiApplications =
-            applicationsStore().getEOIApplicationsFormatted;
           this.schoolApplications =
             applicationsStore().getSchoolApplicationsFormatted;
         }, 1000);
@@ -154,6 +157,7 @@ export default {
   },
   methods: {
     authStore,
+    applicationsStore,
     redirectToEOIForm() {
       this.$router.push({ path: AuthRoutes.NEW_EOI });
     },

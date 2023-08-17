@@ -45,13 +45,13 @@
                 <!-- Table assumes the first value is an ID, uses ID to link to url/:id -->
                 <router-link
                   v-if="routeName && value === Object.values(item)[0]"
-                  :to="{ name: routeName, params: { id: value } }"
+                  :to="{ name: routeName, params: { id: value.split(' ')[1] } }"
                   :target="'_self'"
                   class="router-link-exact-active"
                 >
-                  {{ value }}
+                  {{ value.split(' ')[0] || NULL_STRING }}
                 </router-link>
-                <span v-else>{{ value }}</span>
+                <span v-else>{{ value || NULL_STRING }}</span>
               </td>
             </tr>
           </tbody>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { NULL_STRING } from '../../utils/constants';
 import { formatSnakeCaseToString } from '../../utils/format';
 import TertiaryButton from '../util/TertiaryButton.vue';
 export default {
@@ -71,6 +72,7 @@ export default {
   },
   data() {
     return {
+      NULL_STRING,
       tableHeaders: [],
     };
   },
@@ -146,7 +148,14 @@ export default {
 }
 
 .table-column {
-  width: 25vw;
+  width: 15vw;
+
+  &:nth-child(3) {
+    width: 27.5vw;
+  }
+  &:nth-child(5) {
+    width: 27.5vw;
+  }
 }
 
 .null-content {
