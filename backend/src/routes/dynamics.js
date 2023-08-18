@@ -17,9 +17,8 @@ const allowedPulicPaths = [
   'SchoolYear',
   'Metdata',
   'Health',
-  'Contact/GetBySchoolAuthority',
 ];
-const allowedProtectedPaths = [];
+const allowedProtectedPaths = ['Application', 'Contact/GetbyExternalId'];
 const allowedPaths = [...allowedPulicPaths, ...allowedProtectedPaths];
 
 const proxyMiddleWare =
