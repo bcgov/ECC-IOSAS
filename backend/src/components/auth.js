@@ -33,13 +33,14 @@ const auth = {
   isRenewable(token, context = 'NA') {
     const now = Date.now().valueOf() / 1000;
     const payload = jsonwebtoken.decode(token);
-
-    if (!payload.exp || typeof payload.exp === 'undefined') {
-      return true;
+    if (!payload.iat || typeof payload.iat === 'undefined') {
+      log.warn('isRenewable', '| The token has no IAT possibly wrong token', payload);
+      return new Error('Unable to process refresh token associated with user, contact key cloak admin');
     }
-
+    const exp = payload.exp || (payload.iat + ((process.env.DEFAULT_SESSION_TIME || 30.0) * 60));
+    // log.info('isRenewable', ` | exp: ${exp} | now: ${now} | payload.exp: ${payload.exp} | iat: ${payload.iat}`);
     // Check if expiration exists, or lacks expiration
-    return payload.exp > now;
+    return exp > now;
   },
 
   // Get new JWT and Refresh tokens
@@ -90,16 +91,16 @@ const auth = {
   async refreshJWT(req, _res, next) {
     try {
       if (!!req && !!req.user && !!req.user.jwt) {
-        log.verbose('refreshJWT', 'User & JWT exists');
+        log.log('refreshJWT', 'User & JWT exists');
 
         if (auth.isTokenExpired(req.user.jwt, 'access-token')) {
-          log.verbose('refreshJWT', 'JWT has expired');
+          log.log('refreshJWT', 'JWT has expired');
 
           if (
             !!req.user.refreshToken &&
             auth.isRenewable(req.user.refreshToken, 'refresh-token')
           ) {
-            log.verbose('refreshJWT', 'Can refresh JWT token');
+            log.log('refreshJWT', 'Can refresh JWT token');
 
             // Get new JWT and Refresh Tokens and update the request
             const result = await auth.renew(req.user.refreshToken);
@@ -116,7 +117,7 @@ const auth = {
           }
         }
       } else {
-        log.verbose('refreshJWT', 'No existing User or JWT');
+        log.log('refreshJWT', 'No existing User or JWT');
         delete req.user;
       }
     } catch (error) {
@@ -139,7 +140,7 @@ const auth = {
 
     const privateKey = config.get('tokenGenerate:privateKey');
     const uiToken = jsonwebtoken.sign({}, privateKey, signOptions);
-    log.info('Generated JWT', uiToken);
+    // log.info('Generated JWT', uiToken);
     return uiToken;
   },
 

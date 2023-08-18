@@ -124,8 +124,8 @@ router.post('/refresh', [
     if (auth.isTokenExpired(req.user.jwt, 'access-token')) {
       log.info('Refresh | Token Expired');
       const refreshToken = req?.user?.refreshToken;
-      log.info('Refresh | Refresh Token: ', refreshToken);
       if (refreshToken && auth.isRenewable(refreshToken, 'refresh-token')) {
+        log.info('Refresh | Will try to refresh token');
         return generateTokens(req, res);
       } else {
         log.info('Refresh | Token & refresh token both expired');
