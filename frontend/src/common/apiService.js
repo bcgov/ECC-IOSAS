@@ -177,7 +177,7 @@ export default {
   },
   async getAppDocuments(id) {
     try {
-      return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
+      return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS(id));
     } catch (e) {
       console.log(`Failed to get from Nodejs getEOIDocuments API -${e}`);
       throw e;
