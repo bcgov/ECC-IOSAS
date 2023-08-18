@@ -55,23 +55,25 @@ export default {
     ],
   }),
   computed: {
-    ...mapState(applicationsStore, ['getSchoolApplicationById']),
+    ...mapState(applicationsStore, ['getSchoolApplication']),
   },
   created() {
-    applicationsStore()
-      .getApplicationData()
-      .then(() => {
-        setTimeout(() => {
-          this.isLoading = false;
-          this.applicationData = this.getSchoolApplicationById(
-            this.$route.params.id
-          );
-        }, 500);
-      });
+    this.fetchAppData();
   },
   methods: {
     setIsLoading() {
       this.isLoading = true;
+    },
+    async fetchAppData() {
+      this.isLoading = true;
+      return applicationsStore()
+        .getApplicationById(this.$route.params.id)
+        .then(() => {
+          this.applicationData = this.getSchoolApplication;
+
+          this.isLoading = false;
+          return this.applicationData;
+        });
     },
   },
 };

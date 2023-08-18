@@ -6,26 +6,34 @@ export const applicationsStore = defineStore('applications', {
   state: () => ({
     EOIApplications: null,
     schoolApplications: null,
+    application: null,
     eoi: null,
     confirmationMessage: null,
   }),
   getters: {
     getConfirmationMessage: (state) => state.confirmationMessage,
     getSchoolApplicationsFormatted: (state) =>
-      state.schoolApplications.map((v) => ({
-        // TODO: update with id when connected to API
-        application_number:
-          v.iosas_applicationnumber + ' ' + v.iosas_applicationnumber,
-        status:
-          v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
-        school_name: v.iosas_proposedschoolname,
-        school_year:
-          v['_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'],
-        group_classification:
-          v[
-            'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
-          ],
-      })),
+      state.schoolApplications
+        .sort(
+          (a, b) =>
+            a.iosas_applicationnumber.split('-').pop() -
+            b.iosas_applicationnumber.split('-').pop()
+        )
+        .map((v) => ({
+          // TODO: update with id when connected to API
+          application_number:
+            v.iosas_applicationnumber + ' ' + v.iosas_applicationid,
+          status: v['statuscode@OData.Community.Display.V1.FormattedValue'],
+          school_name: v.iosas_proposedschoolname,
+          school_year:
+            v[
+              '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
+            ],
+          group_classification:
+            v[
+              'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
+            ],
+        })),
     getEOIApplicationsFormatted: (state) =>
       // Sort EOIs by last 4 digits of the eoinumber
       state.EOIApplications?.sort(
@@ -47,8 +55,8 @@ export const applicationsStore = defineStore('applications', {
     getEOI: (state) => {
       return state.eoi;
     },
-    getSchoolApplicationById: (state) => {
-      return (appId) => state.schoolApplicationsMap.get(appId);
+    getSchoolApplication: (state) => {
+      return state.application;
     },
   },
   actions: {
@@ -62,11 +70,10 @@ export const applicationsStore = defineStore('applications', {
       this.eoi = response;
     },
     async setSchoolApplications(applicationsResponse) {
-      console.log('applicationsResponse', applicationsResponse);
-      this.schoolApplicationsMap = applicationsResponse;
+      this.schoolApplications = applicationsResponse;
     },
     async setSchoolApplication(applicationResponse) {
-      this.schoolApplications = applicationResponse;
+      this.application = applicationResponse;
     },
     async getAllEOI() {
       const response = await ApiService.getAllEOIByUser();
@@ -84,7 +91,7 @@ export const applicationsStore = defineStore('applications', {
       };
       await this.setEOIApplication(eoi);
     },
-    async getApplicationData() {
+    async getAllSchoolApplications() {
       const response = await ApiService.getAllApplicationsByUser();
       await this.setSchoolApplications(response.data.value);
     },
@@ -98,7 +105,7 @@ export const applicationsStore = defineStore('applications', {
           ? documentResponse.data.value
           : [],
       };
-      await this.setEOIApplication(app);
+      await this.setSchoolApplication(app);
     },
   },
 });

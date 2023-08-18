@@ -62,7 +62,7 @@ export const ApiRoutes = Object.freeze({
   },
   app: {
     APPLICATIONS: dynamicRoot + '/Application/GetAllByUser',
-    APPLICATION: dynamicRoot + '/Application/GetById',
+    APPLICATION: (id) => dynamicRoot + `/Application/GetById?id=${id}`,
     CANCEL_APPLICATION: (id) =>
       dynamicRoot + `/api/Application/Cancel?id=${id}`,
     UPDATE_APPLICATION: (id) =>
