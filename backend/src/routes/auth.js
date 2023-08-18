@@ -117,13 +117,18 @@ router.post('/refresh', [
       errors: errors.array()
     });
   }
-  if (!req['user'] || !req['user'].refreshToken || !req?.user?.jwt) {
+  if (!req.user || !req.user?.refreshToken || !req?.user?.jwt) {
+    log.info('Refresh | No user connected');
     res.status(401).json(UnauthorizedRsp);
   } else {
-    if (auth.isTokenExpired(req.user.jwt)) {
-      if (req?.user?.refreshToken && auth.isRenewable(req.user.refreshToken)) {
+    if (auth.isTokenExpired(req.user.jwt, 'access-token')) {
+      log.info('Refresh | Token Expired');
+      const refreshToken = req?.user?.refreshToken;
+      log.info('Refresh | Refresh Token: ', refreshToken);
+      if (refreshToken && auth.isRenewable(refreshToken, 'refresh-token')) {
         return generateTokens(req, res);
       } else {
+        log.info('Refresh | Token & refresh token both expired');
         res.status(401).json(UnauthorizedRsp);
       }
     } else {
