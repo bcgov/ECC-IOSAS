@@ -203,6 +203,7 @@ export default {
   },
   data() {
     return {
+      draftCode: 100000001,
       DISABLED_TABS,
       drawer: false,
       disabledTabs: [],
@@ -287,8 +288,9 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
   },
   created() {
-    const isDraft = this.formData && this.formData?.statuscode === 'Draft';
-    this.isFormValid = true;
+    console.log('school application', this.formData);
+    const isDraft =
+      this.formData && this.formData?.statuscode === this.draftCode;
     this.isEditing = isDraft;
     // TODO: Do not disable tab if application has been updated/submitted but still in progress
     this.disabledTabs = isDraft ? DISABLED_TABS : [];
@@ -337,7 +339,6 @@ export default {
     },
     handleDraftSubmit() {
       this.handleSubmit();
-      console.log('Saving draft');
     },
     async handleSubmit() {
       this.$refs.schoolApplicationForm.validate().then(() => {

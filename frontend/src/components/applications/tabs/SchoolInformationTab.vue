@@ -247,16 +247,24 @@
             ></v-label
           >
           <v-radio-group
+            id="iosas_groupclassification"
             v-model="formData.iosas_groupclassification"
             color="#003366"
             class="mt-4"
-            direction="horizontal"
             inline
-            :disabled="!isEditing"
+            @change="validateAndPopulate"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Group 2" color="#003366" value="Group 2" />
-            <v-radio label="Group 3" color="#003366" value="Group 3" />
-            <v-radio label="Group 4" color="#003366" value="Group 4" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_groupclassification'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -273,6 +281,11 @@
             class="mt-4"
             direction="horizontal"
             inline
+            :rules="
+              formData.iosas_groupclassification === groupTwoCode
+                ? [rules.requiredRadio()]
+                : []
+            "
             :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
@@ -294,16 +307,24 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
-          <v-text-field
-            :disabled="!isEditing"
-            id="iosas_schoolaffiliation"
-            v-model="formData.iosas_schoolaffiliation"
-            required
-            :maxlength="255"
-            variant="outlined"
-            label="Affiliation/Association"
-            color="rgb(59, 153, 252)"
-          />
+          <div
+            v-for="item in getApplicationMultiPickListOptions[
+              'iosas_schoolaffiliation'
+            ]"
+            :key="item.value"
+          >
+            <v-checkbox
+              v-model="formData.iosas_schoolaffiliation"
+              :value="item.value"
+            >
+              <template v-slot:label>
+                <a target="_blank" :href="item.url" v-if="item.url">
+                  {{ item.label }}
+                </a>
+                <p v-else>{{ item.label }}</p>
+              </template>
+            </v-checkbox>
+          </div>
         </v-col>
       </v-row>
     </div>
@@ -427,7 +448,13 @@
               >(Group classification Information)</a
             ></v-label
           >
-          <p>{{ formData.iosas_groupclassification || NULL_STRING }}</p>
+          <p>
+            {{
+              eoi[
+                'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -491,16 +518,13 @@ export default {
     NULL_STRING,
     GOV_URL,
     rules: Rules,
+    groupTwoCode: 100000000,
   }),
-  mounted() {
-    console.log(this.getApplicationPickListOptions);
-  },
+  mounted() {},
   computed: {
     ...mapState(metaDataStore, [
-      'getActiveSchoolYearSelect',
-      'getEOIPickListOptions',
       'getApplicationPickListOptions',
-      'getSchoolAuthorityListOptions',
+      'getApplicationMultiPickListOptions',
     ]),
   },
   methods: {

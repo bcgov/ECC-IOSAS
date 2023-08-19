@@ -48,6 +48,7 @@ export default {
     await metaDataStore().getDocumentPickLists();
     await metaDataStore().getSchoolAuthority();
     await metaDataStore().getApplicationPickLists();
+    await metaDataStore().getApplicationMultiPickLists();
 
     this.setLoading(true);
     await this.getJwtToken()
@@ -241,6 +242,10 @@ h1 {
   white-space: break-spaces !important;
   margin-bottom: 10px;
 }
+
+.v-input--disabled {
+  color: black !important;
+}
 .v-selection-control--inline .v-label {
   margin-bottom: 0 !important;
 }
@@ -299,11 +304,6 @@ h1 {
 
 .v-checkbox {
   height: 30px !important;
-}
-
-// using for field name confirmations - Will be removed
-.orange {
-  color: orangered !important;
 }
 
 .no-mb {

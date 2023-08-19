@@ -145,6 +145,14 @@ export default {
       throw e;
     }
   },
+  async getMultiPickLists(tableName) {
+    try {
+      return await apiAxios.get(ApiRoutes.meta.MULTI_PICK_LISTS(tableName));
+    } catch (e) {
+      console.log(`Failed to get from Nodejs getPickLists API - ${e}`);
+      throw e;
+    }
+  },
 
   // School Applications
   async getApplicationDocuments() {

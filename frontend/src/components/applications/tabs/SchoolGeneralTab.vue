@@ -10,7 +10,11 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Status </v-label>
-          <p>{{ formData.statuscode }}</p>
+          <p>
+            {{
+              formData['statuscode@OData.Community.Display.V1.FormattedValue']
+            }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>{{ getCorrectDate().label }}</v-label>
@@ -232,10 +236,12 @@ export default {
     formatBooleanToYesNoString,
     formatDateTime,
     getCorrectDate() {
-      return this.formData.iosas_reviewstatus === 'Draft'
+      return this.formData.iosas_reviewstatus === this.draftCode
         ? {
             label: 'Submission Date',
-            date: this.formatDateTime(this.formData.iosas_submissiondate),
+            date: this.formData[
+              'createdon@OData.Community.Display.V1.FormattedValue'
+            ],
           }
         : {
             label: 'Decision Date',

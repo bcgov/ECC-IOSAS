@@ -120,8 +120,6 @@ export default {
     metaDataStore,
     documentStore,
     setIsLoading(value) {
-      console.log('SET IS LOADING');
-      console.log('VALUE', value);
       return (this.isLoading = value);
     },
     async fetchEOIData() {
@@ -181,7 +179,6 @@ export default {
               params: { type: 'EOI' },
             });
           } else {
-            console.log('SUCCESSSSS');
             this.isLoading = false;
             this.setSuccessAlert(
               `Success! Expression of Interest ${payload.iosas_eoinumber} has been updated.`

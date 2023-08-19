@@ -59,14 +59,32 @@
             color="rgb(59, 153, 252)"
           />
         </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-text-field
+            :disabled="!isEditing"
+            id="iosas_authorityheadphone"
+            v-model="formData.iosas_authorityheadphone"
+            :rules="[rules.required()]"
+            :maxlength="255"
+            variant="outlined"
+            label="E-mail"
+            color="rgb(59, 153, 252)"
+          />
+        </v-col>
       </v-row>
       <v-label
         >Please indicate under which legislation your School Authority is
         incorporated:</v-label
       >
       <v-row>
+        <!-- TODO: ADD URLS BACK society and provincial incorporation act -->
         <v-col cols="12" sm="12" md="6" xs="12">
-          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
+          <div
+            v-for="item in getApplicationPickListOptions[
+              'iosas_incorporationtype'
+            ]"
+            :key="item.value"
+          >
             <v-checkbox
               v-model="formData.iosas_incorporationtype"
               :value="item.value"
@@ -97,14 +115,12 @@
           />
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-text-field
-            :disabled="!isEditing"
-            id="iosas_dateoflastannualreport"
+          <VueDatePicker
+            ref="iosas_dateoflastannualreport"
             v-model="formData.iosas_dateoflastannualreport"
-            :maxlength="255"
-            variant="outlined"
-            label="Date of last Annual Report (optional)"
-            color="rgb(59, 153, 252)"
+            :rules="[rules.required()]"
+            :enable-time-picker="false"
+            format="yyyy-MM-dd"
           />
         </v-col>
       </v-row>
@@ -178,9 +194,15 @@
           <v-label>School Authority Head</v-label>
           <p>{{ getAuthorityHeadName() || NULL_STRING }}</p>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>E-mail</v-label>
           <p>{{ formData.iosas_authorityheademail || NULL_STRING }}</p>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Phone</v-label>
+          <p>{{ formData.iosas_authorityheadphone || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <br />
@@ -192,7 +214,16 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
             <v-checkbox
-              v-model="formData.iosas_incorporationtype"
+              :id="
+                iosas_preexistingauthority
+                  ? edu_incorporationtype
+                  : iosas_incorporationtype
+              "
+              :v-model="
+                iosas_preexistingauthority
+                  ? formData.edu_incorporationtype
+                  : formData.iosas_incorporationtype
+              "
               :value="item.value"
               disabled
             >
@@ -260,7 +291,10 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
+import VueDatePicker from '@vuepic/vue-datepicker';
 import {
   NULL_STRING,
   GOV_URL,
@@ -268,6 +302,9 @@ import {
 } from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
+  components: {
+    VueDatePicker,
+  },
   emits: ['validateAndPopulate'],
   props: {
     formData: {
@@ -289,6 +326,10 @@ export default {
     INCORPORATION_TYPE_OPTIONS,
     rules: Rules,
   }),
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+  },
+  mounted() {},
   methods: {
     formatBooleanToYesNoString,
     getAuthorityHeadName() {
@@ -301,3 +342,22 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+:deep(.dp__input) {
+  height: 55px;
+}
+:deep(.mdi-information) {
+  color: #003366;
+}
+:deep(.dp__active_date) {
+  background-color: #003366;
+  color: white;
+}
+:deep(.dp__select) {
+  color: #003366;
+}
+:deep(.dp__today) {
+  border-color: #003366;
+}
+</style>

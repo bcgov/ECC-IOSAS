@@ -7,7 +7,12 @@
     >
     <v-row>
       <v-col cols="6" sm="6" md="6" xs="6">
-        <div v-for="item in SEMESTER_TYPE_OPTIONS" :key="item.value">
+        <div
+          v-for="item in getApplicationMultiPickListOptions[
+            'iosas_semestertype'
+          ]"
+          :key="item.value"
+        >
           <v-checkbox
             v-model="formData.iosas_semestertype"
             :label="item.label"
@@ -66,8 +71,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_fulldaykindergartenproposedhoursperyear"
-            v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
+            id="iosas_fulldaykindergartenproposedhoursperday"
+            v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -88,8 +93,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_fulldaykindergartenproposedhoursperday"
-            v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
+            id="iosas_fulldaykindergartenproposedhoursperyear"
+            v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -104,8 +109,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_grades112proposedhoursperyear"
-            v-model="formData.iosas_grades112proposedhoursperyear"
+            id="iosas_grades112proposedhoursperday"
+            v-model="formData.iosas_grades112proposedhoursperday"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -126,8 +131,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_grades112proposedhoursperday"
-            v-model="formData.iosas_grades112proposedhoursperday"
+            id="iosas_grades112proposedhoursperyear"
+            v-model="formData.iosas_grades112proposedhoursperyear"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -232,6 +237,8 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, SEMESTER_TYPE_OPTIONS } from '../../../utils/constants';
@@ -254,7 +261,9 @@ export default {
     rules: Rules,
   }),
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationMultiPickListOptions']),
+  },
   methods: { formatBooleanToYesNoString },
 };
 </script>

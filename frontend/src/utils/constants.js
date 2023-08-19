@@ -37,6 +37,9 @@ export const ApiRoutes = Object.freeze({
     ACTIVE_SCHOOL_YEARS: dynamicRoot + '/SchoolYear/GetActiveYears',
     PICK_LISTS: (tableName) =>
       dynamicRoot + `/Metdata/GetPickListValues?tableName=${tableName}`,
+    MULTI_PICK_LISTS: (tableName) =>
+      dynamicRoot +
+      `/Metdata/GetMultiSelectPicklistValues?tableName=${tableName}`,
     SCHOOL_AUTHORITY:
       dynamicRoot + '/SchoolAuthority/GetActiveSchoolAuthorityList',
     CONTACT_BY_SCHOOL_AUTHORITY: (id) =>

@@ -40,7 +40,9 @@ export default {
   },
   data: () => ({
     isLoading: true,
-    applicationData: null,
+    applicationData: {
+      iosas_semestertype: [],
+    },
     breadcrumbs: [
       {
         title: 'Dashboard',

@@ -16,6 +16,7 @@ export const metaDataStore = defineStore('metaData', {
     documentPickListOptions: null,
     schoolAuthorityOptions: null,
     applicationPickListOptions: null,
+    applicationMultiPickListOptions: null,
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
@@ -24,6 +25,8 @@ export const metaDataStore = defineStore('metaData', {
     getEOIPickListOptions: (state) => state.EOIPickListOptions,
     getDocumentPickListOptions: (state) => state.documentPickListOptions,
     getApplicationPickListOptions: (state) => state.applicationPickListOptions,
+    getApplicationMultiPickListOptions: (state) =>
+      state.applicationMultiPickListOptions,
     getSchoolAuthorityListOptions: (state) => state.schoolAuthorityOptions,
   },
   actions: {
@@ -68,6 +71,12 @@ export const metaDataStore = defineStore('metaData', {
     async setApplicationPickListOptions(response) {
       this.applicationPickListOptions = await this.formatPickLists(response);
     },
+    async setApplicationMultiPickListOptions(response) {
+      console.log(response);
+      this.applicationMultiPickListOptions = await this.formatPickLists(
+        response
+      );
+    },
     async setSchoolAuthorityOptions(response) {
       const formattedResponse = response.map((authority) => {
         return {
@@ -106,6 +115,19 @@ export const metaDataStore = defineStore('metaData', {
       } else {
         await this.setApplicationPickListOptions(
           getLocalStorage('applicationPickLists')
+        );
+      }
+    },
+    async getApplicationMultiPickLists() {
+      if (!localStorage.getItem('applicationMultiPickLists')) {
+        const response = await ApiService.getMultiPickLists(
+          'iosas_application'
+        );
+        setLocalStorage('applicationMultiPickLists', response.data.value);
+        await this.setApplicationMultiPickListOptions(response.data.value);
+      } else {
+        await this.setApplicationMultiPickListOptions(
+          getLocalStorage('applicationMultiPickLists')
         );
       }
     },

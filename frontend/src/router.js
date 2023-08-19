@@ -115,19 +115,20 @@ const router = createRouter({
       props: {},
       meta: {
         pageTitle: 'Application',
-        // requiresAuth: true,
-      },
-    },
-    {
-      path: '/user-profile',
-      name: 'User Profile',
-      component: ProfilePage,
-      props: {},
-      meta: {
-        pageTitle: 'User Profile',
         requiresAuth: true,
       },
     },
+    // TODO: Add back when a profile is needed
+    // {
+    //   path: '/user-profile',
+    //   name: 'User Profile',
+    //   component: ProfilePage,
+    //   props: {},
+    //   meta: {
+    //     pageTitle: 'User Profile',
+    //     requiresAuth: true,
+    //   },
+    // },
     {
       path: '/:catchAll(.*)',
       name: 'notfound',

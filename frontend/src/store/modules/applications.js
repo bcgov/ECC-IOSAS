@@ -1,4 +1,5 @@
 import ApiService from '../../common/apiService';
+import { formatStringToNumericArray } from '../../utils/format';
 import { defineStore } from 'pinia';
 
 export const applicationsStore = defineStore('applications', {
@@ -98,9 +99,15 @@ export const applicationsStore = defineStore('applications', {
     async getApplicationById(appId) {
       const response = await ApiService.getApplicationById(appId);
 
-      const documentResponse = await ApiService.getAppDocuments(appId);
+      const documentResponse = await ApiService.getApplicationDocuments(appId);
+      const data = response.data.value[0];
       const app = {
-        ...response.data.value[0],
+        ...data,
+        // format comma seperated lists into arrays and convert values to numbers
+        iosas_additionalprograms: formatStringToNumericArray(
+          data.iosas_additionalprograms
+        ),
+        iosas_semestertype: formatStringToNumericArray(data.iosas_semestertype),
         documents: documentResponse.data.value
           ? documentResponse.data.value
           : [],
