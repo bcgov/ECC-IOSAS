@@ -88,7 +88,7 @@ const handlePath = (path, isSecure) => {
     ];
   }
   log.info(
-    `Dynamic : Managing ${path} with number of middleware: ${middleware.length}`
+    `Dynamic : Managing ${path} with count of middlewares: ${middleware.length}`
   );
   router.all(`/${path}/*`, middleware, (req, resp) => {
     log.warn('Dynamic | should be handled by middlewre | path:', req.path);

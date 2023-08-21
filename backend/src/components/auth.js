@@ -8,26 +8,35 @@ const qs = require('querystring');
 const utils = require('./utils');
 const HttpStatus = require('http-status-codes');
 const safeStringify = require('fast-safe-stringify');
-const {ApiError} = require('./error');
-const {pick} = require('lodash');
+const { ApiError } = require('./error');
+const { pick } = require('lodash');
 
 const auth = {
   // Check if JWT Access Token has expired
-  isTokenExpired(token) {
+  isTokenExpired(token, context = 'NA') {
     const now = Date.now().valueOf() / 1000;
     const payload = jsonwebtoken.decode(token);
+    log.info('isTokenExpired: context: ', context);
+    if (payload['exp']) {
+      const expDate = new Date((payload['exp'] * 1000));
+      log.info(`isTokenExpired: exp: ${expDate}, now: ${new Date()}`);
+    }
 
-    return (!!payload['exp'] && payload['exp'] < (now + 30)); // Add 30 seconds to make sure , edge case is avoided and token is refreshed.
+    return !!payload['exp'] && payload['exp'] < now + 30; // Add 30 seconds to make sure , edge case is avoided and token is refreshed.
   },
 
   // Check if JWT Refresh Token has expired
-  isRenewable(token) {
+  isRenewable(token, context = 'NA') {
     const now = Date.now().valueOf() / 1000;
     const payload = jsonwebtoken.decode(token);
-
+    if (!payload.iat || typeof payload.iat === 'undefined') {
+      log.warn('isRenewable', '| The token has no IAT possibly wrong token', payload);
+      return new Error('Unable to process refresh token associated with user, contact key cloak admin');
+    }
+    const exp = payload.exp || (payload.iat + ((process.env.DEFAULT_SESSION_TIME || 30.0) * 60));
+    // log.info('isRenewable', ` | exp: ${exp} | now: ${now} | payload.exp: ${payload.exp} | iat: ${payload.iat}`);
     // Check if expiration exists, or lacks expiration
-    return (typeof (payload.exp) !== 'undefined' && payload.exp !== null &&
-      payload.exp === 0 || payload.exp > now);
+    return exp > now;
   },
 
   // Get new JWT and Refresh tokens
@@ -36,24 +45,31 @@ const auth = {
 
     try {
       const discovery = await utils.getOidcDiscovery();
-      const response = await axios.post(discovery.token_endpoint,
+      const response = await axios.post(
+        discovery.token_endpoint,
         qs.stringify({
           client_id: config.get('oidc:clientId'),
           client_secret: config.get('oidc:clientSecret'),
           grant_type: 'refresh_token',
           refresh_token: refreshToken,
-          scope: discovery.scopes_supported
-        }), {
+          scope: discovery.scopes_supported,
+        }),
+        {
           headers: {
             Accept: 'application/json',
             'Cache-Control': 'no-cache',
             'Content-Type': 'application/x-www-form-urlencoded',
-          }
+          },
         }
       );
 
       log.verbose('renew', utils.prettyStringify(response.data));
-      if (response && response.data && response.data.access_token && response.data.refresh_token) {
+      if (
+        response &&
+        response.data &&
+        response.data.access_token &&
+        response.data.refresh_token
+      ) {
         result.jwt = response.data.access_token;
         result.refreshToken = response.data.refresh_token;
       } else {
@@ -71,25 +87,33 @@ const auth = {
   async refreshJWT(req, _res, next) {
     try {
       if (!!req && !!req.user && !!req.user.jwt) {
-        log.verbose('refreshJWT', 'User & JWT exists');
+        log.log('refreshJWT', 'User & JWT exists');
 
-        if (auth.isTokenExpired(req.user.jwt)) {
-          log.verbose('refreshJWT', 'JWT has expired');
+        if (auth.isTokenExpired(req.user.jwt, 'access-token')) {
+          log.log('refreshJWT', 'JWT has expired');
 
-          if (!!req.user.refreshToken && auth.isRenewable(req.user.refreshToken)) {
-            log.verbose('refreshJWT', 'Can refresh JWT token');
+          if (
+            !!req.user.refreshToken &&
+            auth.isRenewable(req.user.refreshToken, 'refresh-token')
+          ) {
+            log.log('refreshJWT', 'Can refresh JWT token');
 
             // Get new JWT and Refresh Tokens and update the request
             const result = await auth.renew(req.user.refreshToken);
-            req.user.jwt = result.jwt; // eslint-disable-line require-atomic-updates
-            req.user.refreshToken = result.refreshToken; // eslint-disable-line require-atomic-updates
+            if (result.jwt && result.refreshToken) {
+              req.user.jwt = result.jwt; // eslint-disable-line require-atomic-updates
+              req.user.refreshToken = result.refreshToken; // eslint-disable-line require-atomic-updates
+            } else {
+              log.error('refreshJWT: Unable to refres token with error: ', result)
+              delete req.user;
+            }
           } else {
             log.verbose('refreshJWT', 'Cannot refresh JWT token');
             delete req.user;
           }
         }
       } else {
-        log.verbose('refreshJWT', 'No existing User or JWT');
+        log.log('refreshJWT', 'No existing User or JWT');
         delete req.user;
       }
     } catch (error) {
@@ -107,30 +131,32 @@ const auth = {
       subject: s,
       audience: a,
       expiresIn: '30m',
-      algorithm: 'RS256'
+      algorithm: 'RS256',
     };
 
     const privateKey = config.get('tokenGenerate:privateKey');
     const uiToken = jsonwebtoken.sign({}, privateKey, signOptions);
-    log.verbose('Generated JWT', uiToken);
+    // log.info('Generated JWT', uiToken);
     return uiToken;
   },
 
   async getApiCredentials() {
     try {
       const discovery = await utils.getOidcDiscovery();
-      const response = await axios.post(discovery.token_endpoint,
+      const response = await axios.post(
+        discovery.token_endpoint,
         qs.stringify({
           client_id: config.get('oidc:clientId'),
           client_secret: config.get('oidc:clientSecret'),
           grant_type: 'client_credentials',
-          scope: discovery.scopes_supported
-        }), {
+          scope: discovery.scopes_supported,
+        }),
+        {
           headers: {
             Accept: 'application/json',
             'Cache-Control': 'no-cache',
             'Content-Type': 'application/x-www-form-urlencoded',
-          }
+          },
         }
       );
 
@@ -141,32 +167,49 @@ const auth = {
       result.refreshToken = response.data.refresh_token;
       return result;
     } catch (error) {
-      log.error('getApiCredentials Error', error.response ? pick(error.response, ['status', 'statusText', 'data']) : error.message);
-      const status = error.response ? error.response.status : HttpStatus.INTERNAL_SERVER_ERROR;
-      throw new ApiError(status, {message: 'Get getApiCredentials error'}, error);
+      log.error(
+        'getApiCredentials Error',
+        error.response
+          ? pick(error.response, ['status', 'statusText', 'data'])
+          : error.message
+      );
+      const status = error.response
+        ? error.response.status
+        : HttpStatus.INTERNAL_SERVER_ERROR;
+      throw new ApiError(
+        status,
+        { message: 'Get getApiCredentials error' },
+        error
+      );
     }
   },
   isValidBackendToken() {
     return function (req, res, next) {
       if (req?.session?.passport?.user?.jwt) {
         try {
-          utils.getOidcDiscovery()
-            .then(discovery => {
+          utils
+            .getOidcDiscovery()
+            .then((discovery) => {
               try {
                 const publicKey = discovery.realamInfo.public_key;
                 const formattedPubKey = `-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
                 // log.info(`Public key: ${publicKey}`);
                 // log.info(`Formatted key: ${formattedPubKey}`);
-                jsonwebtoken.verify(req.session.passport.user.jwt, formattedPubKey);
+                jsonwebtoken.verify(
+                  req.session.passport.user.jwt,
+                  formattedPubKey
+                );
               } catch (e) {
-                log.info('The kc token verification fail with underlying error');
+                log.info(
+                  'The kc token verification fail with underlying error'
+                );
                 log.error('error is from verify', e);
                 return res.status(HttpStatus.UNAUTHORIZED).json();
               }
               log.info('Backend token is valid moving to next');
               return next();
             })
-            .catch(error => {
+            .catch((error) => {
               log.error('Unable to get discovery with error: ', error);
               res.status(HttpStatus.INTERNAL_SERVER_ERROR).json();
             });
@@ -180,7 +223,7 @@ const auth = {
         return res.status(HttpStatus.UNAUTHORIZED).json();
       }
     };
-  }
+  },
 };
 
 module.exports = auth;
