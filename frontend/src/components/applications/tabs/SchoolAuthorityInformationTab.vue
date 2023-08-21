@@ -217,7 +217,12 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
+          <div
+            v-for="item in getApplicationPickListOptions[
+              'iosas_incorporationtype'
+            ]"
+            :key="item.value"
+          >
             <v-checkbox
               :id="
                 iosas_preexistingauthority
@@ -300,11 +305,7 @@ import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import VueDatePicker from '@vuepic/vue-datepicker';
-import {
-  NULL_STRING,
-  GOV_URL,
-  INCORPORATION_TYPE_OPTIONS,
-} from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
   components: {
@@ -328,7 +329,6 @@ export default {
   data: () => ({
     GOV_URL,
     NULL_STRING,
-    INCORPORATION_TYPE_OPTIONS,
     rules: Rules,
   }),
   computed: {

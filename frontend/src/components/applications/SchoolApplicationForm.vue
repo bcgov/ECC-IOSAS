@@ -63,6 +63,7 @@
                     <component
                       :is="t.component"
                       :formData="formData"
+                      :draftCode="draftCode"
                       :isEditing="isEditing"
                       @validateAndPopulate="validateAndPopulateRadioButtons"
                     />
@@ -191,7 +192,7 @@ export default {
     TeacherCertificationTab,
     SubmissionTab,
   },
-  emits: ['setIsLoading'],
+  emits: ['setIsLoading', 'updateData'],
   mixins: [alertMixin],
   props: {
     formData: {
@@ -202,6 +203,14 @@ export default {
       type: Boolean,
       required: true,
     },
+    // setIsLoading: {
+    //   type: Function,
+    //   required: true,
+    // },
+    // updateData: {
+    //   type: Function,
+    //   required: true,
+    // },
   },
   data() {
     return {
@@ -306,7 +315,6 @@ export default {
     isFirstPage() {
       return this.tab === 'General';
     },
-    validatePage() {},
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
         'Cancel Application - Independent School Certification?',
@@ -328,7 +336,7 @@ export default {
         ApiService.cancelSchoolApplication(this.formData.iosas_applicationid)
           .then(async () => {
             await applicationsStore().setConfirmationMessage(
-              `School application ${this.data.iosas_applicationnumber} has been successfully removed from your records.`
+              `School application ${this.formData.iosas_applicationnumber} has been successfully removed from your records.`
             );
             this.$router.push({
               name: 'applicationConfirmation',
@@ -346,20 +354,28 @@ export default {
       }
     },
     handleDraftSubmit() {
-      this.handleSubmit();
+      this.$emit(
+        'updateData',
+        this.formData.iosas_applicationid,
+        this.formData,
+        false
+      );
     },
     async handleSubmit() {
-      this.$refs.schoolApplicationForm.validate().then(() => {
-        this.$emit('setIsLoading', true);
-        // mocking a loading state - will be replaced when API is connected.
-        setTimeout(() => {
-          this.$router.push({
-            name: 'applicationConfirmation',
-            params: { type: 'APP' },
-          });
-          console.log(this.formData);
-        }, 1000);
-      });
+      const valid = await this.$refs.schoolApplicationForm.validate();
+
+      this.isFormValid = valid.valid;
+      if (this.isFormValid) {
+        await applicationsStore().setConfirmationMessage(
+          `School application ${this.formData.iosas_applicationnumber} has been successfully submitted.`
+        );
+        this.$emit(
+          'updateData',
+          this.formData.iosas_applicationid,
+          this.formData,
+          true
+        );
+      }
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);

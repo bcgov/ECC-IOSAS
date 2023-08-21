@@ -186,7 +186,7 @@ export default {
   async updateSchoolApplication(appId, payload, submitted) {
     try {
       return await apiAxios.patch(
-        ApiRoutes.app.UPDATE_APPLICATION(submitted, appId),
+        ApiRoutes.app.UPDATE_APPLICATION(appId, submitted),
         payload
       );
     } catch (e) {

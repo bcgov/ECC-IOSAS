@@ -71,6 +71,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_confirmationofleadtestingfordrinkingwater"
             v-model="formData.iosas_confirmationofleadtestingfordrinkingwater"
             color="#003366"
             class="mt-4"
@@ -92,6 +93,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_studentshousedinahomesetting"
             v-model="formData.iosas_studentshousedinahomesetting"
             color="#003366"
             class="mt-4"
@@ -110,6 +112,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_studentshousedinadormitorysetting"
             v-model="formData.iosas_studentshousedinadormitorysetting"
             color="#003366"
             class="mt-4"

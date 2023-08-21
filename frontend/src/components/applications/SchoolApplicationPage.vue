@@ -23,6 +23,7 @@
         :formData="applicationData"
         :isLoading="isLoading"
         @setIsLoading="setIsLoading"
+        @updateData="updateData"
       />
     </div>
   </v-container>
@@ -30,11 +31,14 @@
 
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
+import ApiService from '../../common/apiService';
+import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
 
 export default {
   name: 'SchoolApplicationPage',
+  mixins: [alertMixin],
   components: {
     SchoolApplicationForm,
   },
@@ -64,6 +68,22 @@ export default {
     setIsLoading(value) {
       this.isLoading = value;
     },
+    convertToString(data) {
+      return data.length > 0 ? data.toString() : null;
+    },
+    formatPayload(payload) {
+      // Convert array to comma seperated string
+      return {
+        ...payload,
+        iosas_schoolaffiliation: this.convertToString(
+          payload.iosas_schoolaffiliation
+        ),
+        iosas_semestertype: this.convertToString(payload.iosas_semestertype),
+        iosas_additionalprograms: this.convertToString(
+          payload.iosas_additionalprograms
+        ),
+      };
+    },
     async fetchAppData() {
       this.isLoading = true;
       return applicationsStore()
@@ -74,6 +94,39 @@ export default {
           this.isLoading = false;
           return this.applicationData;
         });
+    },
+    async updateData(id, payload, isSubmitted) {
+      console.log('PAYLOAD', this.formatPayload(payload));
+
+      try {
+        this.isLoading = true;
+        const updateResponse = await ApiService.updateSchoolApplication(
+          id,
+          this.formatPayload(payload),
+          isSubmitted
+        );
+        if (updateResponse.data) {
+          if (isSubmitted) {
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'APP' },
+            });
+          } else {
+            this.isLoading = false;
+            await this.fetchAppData();
+
+            this.setSuccessAlert(
+              `Success! School Application ${payload.iosas_applicationnumber} has been updated.`
+            );
+          }
+        }
+      } catch (error) {
+        this.isLoading = false;
+        this.setFailureAlert(
+          `An error occurred while trying to update the school ppplication ${payload.iosas_applicationnumber}. Please try again later.`
+        );
+        throw error;
+      }
     },
   },
 };

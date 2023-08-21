@@ -358,8 +358,17 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Proposed grade range in first year of operation</v-label>
           <p>
-            {{ formData.iosas_startgrade }} -
-            {{ formData.iosas_endgrade }}
+            {{
+              formData[
+                'iosas_startgrade@OData.Community.Display.V1.FormattedValue'
+              ]
+            }}
+            -
+            {{
+              formData[
+                'iosas_endgrade@OData.Community.Display.V1.FormattedValue'
+              ]
+            }}
           </p>
         </v-col>
       </v-row>
@@ -469,7 +478,7 @@
           >
           <p>
             {{
-              eoi[
+              formData[
                 'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
               ] || NULL_STRING
             }}
@@ -506,7 +515,19 @@
             <a :href="GOV_URL.SDA" target="_blank">SDA,</a> or other if
             applicable)</v-label
           >
-          <p>{{ formData.iosas_schoolaffiliation || NULL_STRING }}</p>
+          <p>
+            {{
+              formData[
+                'iosas_schoolaffiliation@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
+            }}
+          </p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="12" md="12" xs="12">
+          <v-label>Other</v-label>
+          <p>{{ formData.iosas_schoolaffiliationother || NULL_STRING }}</p>
         </v-col>
       </v-row>
     </div>

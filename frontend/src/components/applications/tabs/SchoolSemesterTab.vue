@@ -241,7 +241,7 @@ import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING, SEMESTER_TYPE_OPTIONS } from '../../../utils/constants';
+import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'SchoolSemesterTab',
   components: {},
@@ -256,7 +256,6 @@ export default {
     },
   },
   data: () => ({
-    SEMESTER_TYPE_OPTIONS,
     NULL_STRING,
     rules: Rules,
   }),
