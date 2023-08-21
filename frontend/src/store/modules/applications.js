@@ -2,6 +2,14 @@ import ApiService from '../../common/apiService';
 import { formatStringToNumericArray } from '../../utils/format';
 import { defineStore } from 'pinia';
 
+const updateStatusName = (status) => {
+  const newStatus = {
+    'New (Submitted)': 'New',
+    'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
+  };
+  return newStatus[status] ? newStatus[status] : status;
+};
+
 export const applicationsStore = defineStore('applications', {
   namespaced: true,
   state: () => ({
@@ -43,8 +51,9 @@ export const applicationsStore = defineStore('applications', {
           b.iosas_eoinumber.split('-').pop()
       ).map((v) => ({
         EOI_number: v.iosas_eoinumber + ' ' + v.iosas_expressionofinterestid,
-        status:
-          v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
+        status: updateStatusName(
+          v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue']
+        ),
         proposed_school_name: v.iosas_proposedschoolname,
         school_year:
           v['_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'],
@@ -104,6 +113,9 @@ export const applicationsStore = defineStore('applications', {
       const app = {
         ...data,
         // format comma seperated lists into arrays and convert values to numbers
+        iosas_schoolaffiliation: formatStringToNumericArray(
+          data.iosas_schoolaffiliation
+        ),
         iosas_additionalprograms: formatStringToNumericArray(
           data.iosas_additionalprograms
         ),

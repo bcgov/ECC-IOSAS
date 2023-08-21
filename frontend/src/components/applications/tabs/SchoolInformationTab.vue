@@ -70,7 +70,7 @@
         </v-col>
       </v-row>
 
-      <v-label>School Address (If Known)</v-label>
+      <v-label>School Address (Optional)</v-label>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-text-field
@@ -142,7 +142,7 @@
           />
         </v-col>
       </v-row>
-      <v-label>School Mailing Address</v-label>
+      <v-label>School Mailing Address (Optional)</v-label>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-text-field

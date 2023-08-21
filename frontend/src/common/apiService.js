@@ -155,9 +155,9 @@ export default {
   },
 
   // School Applications
-  async getApplicationDocuments() {
+  async getApplicationDocuments(id) {
     try {
-      return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
+      return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS(id));
     } catch (e) {
       console.log(
         `Failed to get from Nodejs getApplicationDocuments API - ${e}`
@@ -183,11 +183,24 @@ export default {
       throw e;
     }
   },
-  async getAppDocuments(id) {
+  async updateSchoolApplication(appId, payload, submitted) {
     try {
-      return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS(id));
+      return await apiAxios.patch(
+        ApiRoutes.app.UPDATE_APPLICATION(submitted, appId),
+        payload
+      );
     } catch (e) {
-      console.log(`Failed to get from Nodejs getEOIDocuments API -${e}`);
+      console.log(
+        `Failed to patch to Nodejs updateSchoolApplication API - ${e}`
+      );
+      throw e;
+    }
+  },
+  async cancelSchoolApplication(id) {
+    try {
+      return await apiAxios.patch(ApiRoutes.app.CANCEL_APPLICATION(id));
+    } catch (e) {
+      console.log(`Failed to patch to Nodejs cancelEOI API - ${e}`);
       throw e;
     }
   },

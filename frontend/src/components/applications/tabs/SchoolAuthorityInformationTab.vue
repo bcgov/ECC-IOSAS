@@ -175,6 +175,11 @@
           <v-textarea
             id="iosas_detailsofinvolvement"
             v-model="formData.iosas_detailsofinvolvement"
+            :rules="
+              formData.iosas_proponentspreviouslyinvolvedinisbc
+                ? [rules.required()]
+                : []
+            "
             :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"

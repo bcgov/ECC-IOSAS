@@ -65,10 +65,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_boardingsafetyandsupervisionpolicy'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -219,10 +228,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="validateAndPopulate"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_graduationprogramcreditspolicyifapplicable'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -241,7 +259,6 @@
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -257,10 +274,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_homeschoolingpolicyifapplicable'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -276,10 +302,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_internationalstudentpoliciesifapplicable'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -303,10 +338,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_complywithhomestayguidelines'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -329,10 +373,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_willapplyforstudentgraduationcreditpolicy'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -362,7 +415,10 @@
 
       <v-row align="center">
         <v-col cols="8">
-          <v-label>Special Education Policy</v-label>
+          <v-label
+            >Special Education Policy (Disabliities and Diverse
+            Abilities)</v-label
+          >
         </v-col>
         <v-col cols="4">
           <v-radio-group
@@ -370,12 +426,20 @@
             v-model="formData.iosas_specialeducationpolicy"
             color="#003366"
             class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
             inline
+            @change="validateAndPopulate"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_specialeducationpolicy'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -648,9 +712,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(
-              formData.iosas_boardingsafetyandsupervisionpolicy
-            )
+            formData[
+              'iosas_boardingsafetyandsupervisionpolicy@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
           }}
         </v-col>
       </v-row>
@@ -750,9 +814,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(
-              formData.iosas_graduationprogramcreditspolicyifapplicable
-            )
+            formData[
+              'iosas_graduationprogramcreditspolicyifapplicable@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
           }}
         </v-col>
       </v-row>
@@ -776,9 +840,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(
-              formData.iosas_homeschoolingpolicyifapplicable
-            )
+            formData[
+              'iosas_homeschoolingpolicyifapplicable@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
           }}
         </v-col>
       </v-row>
@@ -789,9 +853,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(
-              formData.iosas_internationalstudentpoliciesifapplicable
-            )
+            formData[
+              'iosas_internationalstudentpoliciesifapplicable@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
           }}
         </v-col>
       </v-row>
@@ -809,9 +873,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(
-              formData.iosas_complywithhomestayguidelines
-            )
+            formData[
+              'iosas_complywithhomestayguidelines@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
           }}
         </v-col>
       </v-row>
@@ -829,9 +893,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(
-              formData.iosas_willapplyforstudentgraduationcreditpolicy
-            )
+            formData[
+              'iosas_willapplyforstudentgraduationcreditpolicy@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
           }}
         </v-col>
       </v-row>
@@ -850,7 +914,10 @@
 
       <v-row align="center">
         <v-col cols="8">
-          <v-label>Special Education Policy </v-label>
+          <v-label
+            >Special Education Policy (Disabliities and Diverse
+            Abilities)</v-label
+          >
         </v-col>
         <v-col cols="4">
           {{
@@ -1015,6 +1082,8 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
@@ -1039,6 +1108,9 @@ export default {
     GOV_URL,
     rules: Rules,
   }),
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+  },
   methods: {
     formatBooleanToYesNoString,
   },
