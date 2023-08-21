@@ -18,10 +18,6 @@ const auth = {
     const payload = jsonwebtoken.decode(token);
     log.info('isTokenExpired: context: ', context);
     if (payload['exp']) {
-      // log.info('Token: JWT', token)
-      // log.info('isTokenExpired: exp:', payload['exp']);
-      // log.info('isTokenExpired: now: ', now + 30);
-      // log.info('isTokenExpired: diff: ', payload['exp'] - (now + 30));
       const expDate = new Date((payload['exp'] * 1000));
       log.info(`isTokenExpired: exp: ${expDate}, now: ${new Date()}`);
     }
