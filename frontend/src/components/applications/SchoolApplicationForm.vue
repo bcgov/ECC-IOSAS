@@ -31,12 +31,8 @@
       ></v-app-bar-nav-icon>
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
-          <v-tab
-            v-for="item in items"
-            :key="item"
-            :value="item"
-            :disabled="disabledTabs.includes(item)"
-          >
+          <v-tab v-for="item in items" :key="item" :value="item">
+            <!-- :disabled="disabledTabs.includes(item)" -->
             {{ item }}
           </v-tab>
         </v-tabs>

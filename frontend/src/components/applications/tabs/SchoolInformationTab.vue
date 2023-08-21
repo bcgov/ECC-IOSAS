@@ -30,7 +30,9 @@
             label="Select Start Grade"
             variant="outlined"
             color="rgb(59, 153, 252)"
-            :items="GRADE_OPTIONS"
+            item-title="label"
+            item-value="value"
+            :items="this.getApplicationPickListOptions['iosas_startgrade']"
           >
           </v-select>
         </v-col>
@@ -42,7 +44,9 @@
             label="Select End Grade"
             variant="outlined"
             color="rgb(59, 153, 252)"
-            :items="GRADE_OPTIONS"
+            item-title="label"
+            item-value="value"
+            :items="this.getApplicationPickListOptions['iosas_endgrade']"
           ></v-select>
         </v-col>
       </v-row>
@@ -465,11 +469,14 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING, GRADE_OPTIONS, GOV_URL } from '../../../utils/constants';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolInformationTab',
   components: {},
+
   props: {
     formData: {
       type: Object,
@@ -483,11 +490,19 @@ export default {
   data: () => ({
     NULL_STRING,
     GOV_URL,
-    GRADE_OPTIONS,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
+  mounted() {
+    console.log(this.getApplicationPickListOptions);
+  },
+  computed: {
+    ...mapState(metaDataStore, [
+      'getActiveSchoolYearSelect',
+      'getEOIPickListOptions',
+      'getApplicationPickListOptions',
+      'getSchoolAuthorityListOptions',
+    ]),
+  },
   methods: {
     formatBooleanToYesNoString,
   },

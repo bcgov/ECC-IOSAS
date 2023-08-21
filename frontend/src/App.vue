@@ -73,13 +73,6 @@ export default {
       'getUserInfo',
       'logout',
     ]),
-    ...mapState(metaDataStore, [
-      'getActiveSchoolYear',
-      'getEOIPickLists',
-      'getSchoolAuthority',
-      'getDocumentPickLists',
-      'getApplicationPickLists',
-    ]),
   },
 };
 </script>
