@@ -31,10 +31,12 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_familiarwithgrantstoispolicyifseekingfunds"
             v-model="formData.iosas_familiarwithgrantstoispolicyifseekingfunds"
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -50,10 +52,12 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_willsaoperateonnonprofitbasis"
             v-model="formData.iosas_willsaoperateonnonprofitbasis"
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -81,6 +85,7 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
@@ -126,10 +131,10 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
             <v-radio label="No" color="#003366" :value="false" />
-            <v-radio label="N/A" color="#003366" :value="null" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -150,9 +155,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_hastheauthoritydevelopedarefundpolicy'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -273,9 +288,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(
-              formData.iosas_hastheauthoritydevelopedarefundpolicy
-            )
+            formData[
+              'iosas_hastheauthoritydevelopedarefundpolicy@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
           }}
         </v-col>
       </v-row>
@@ -284,10 +299,14 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import * as Rules from '../../../utils/institute/formRules';
+import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'GroupCertificationTab',
+  emits: ['validateAndPopulate'],
   components: {},
   props: {
     formData: {
@@ -298,13 +317,20 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
     GOV_URL,
     NULL_STRING,
+    rules: Rules,
   }),
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+  },
   methods: {
     formatBooleanToYesNoString,
   },

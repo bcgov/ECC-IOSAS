@@ -327,6 +327,25 @@
           </div>
         </v-col>
       </v-row>
+      <br />
+      <v-label>Other School affiliation</v-label>
+      <v-row>
+        <v-col cols="12" sm="12" md="12" xs="12">
+          <v-text-field
+            :disabled="!isEditing"
+            id="iosas_schoolassociationother"
+            v-model="formData.iosas_schoolassociationother"
+            :maxlength="255"
+            variant="outlined"
+            :rules="
+              formData.iosas_schoolaffiliation.includes(otherAffiliationCode)
+                ? [rules.required()]
+                : []
+            "
+            color="rgb(59, 153, 252)"
+          />
+        </v-col>
+      </v-row>
     </div>
     <div v-else>
       <v-row>
@@ -519,6 +538,7 @@ export default {
     GOV_URL,
     rules: Rules,
     groupTwoCode: 100000000,
+    otherAffiliationCode: 100000006,
   }),
   mounted() {},
   computed: {

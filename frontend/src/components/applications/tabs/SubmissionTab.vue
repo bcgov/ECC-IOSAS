@@ -24,15 +24,16 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_completesetofpoliciesoutlinedinchecklist"
             v-model="formData.iosas_completesetofpoliciesoutlinedinchecklist"
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -47,15 +48,16 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
+            id="iosas_businessplanincludingfinancialinformation"
             v-model="formData.iosas_businessplanincludingfinancialinformation"
             color="#003366"
             class="mt-4"
             :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
             inline
-            :disabled="!isEditing"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -116,6 +118,7 @@ import { formatBooleanToYesNoString } from '../../../utils/format';
 import { GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SubmissionTab',
+  emits: ['validateAndPopulate'],
   components: {},
   props: {
     formData: {
@@ -126,12 +129,18 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
     GOV_URL,
     rules: Rules,
   }),
-  mounted() {},
+  mounted() {
+    console.log(this.formData.iosas_businessplanincludingfinancialinformation);
+  },
   computed: {},
   methods: {
     formatBooleanToYesNoString,

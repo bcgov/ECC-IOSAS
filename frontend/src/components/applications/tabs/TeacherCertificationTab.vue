@@ -61,10 +61,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
-            <v-radio label="N/A" color="#003366" v-bind:value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_awareofcertificationrequirements'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -117,9 +126,9 @@
         <v-col cols="4">
           <p>
             {{
-              formatBooleanToYesNoString(
-                formData.iosas_awareofcertificationrequirements
-              )
+              formData[
+                'iosas_awareofcertificationrequirements@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
             }}
           </p>
         </v-col>
@@ -151,10 +160,13 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'TeacherCertificationTab',
+  emits: ['validateAndPopulate'],
   components: {},
   props: {
     formData: {
@@ -165,6 +177,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    validateAndPopulate: {
+      type: Function,
+      required: true,
+    },
   },
   data: () => ({
     NULL_STRING,
@@ -172,7 +188,9 @@ export default {
     rules: Rules,
   }),
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+  },
   methods: { formatBooleanToYesNoString },
 };
 </script>
