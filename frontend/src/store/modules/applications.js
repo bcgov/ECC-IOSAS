@@ -22,6 +22,7 @@ export const applicationsStore = defineStore('applications', {
   getters: {
     getConfirmationMessage: (state) => state.confirmationMessage,
     getSchoolApplicationsFormatted: (state) =>
+      // Sort applications by last 4 digits of the applicationnumber
       state.schoolApplications
         .sort(
           (a, b) =>
@@ -29,7 +30,6 @@ export const applicationsStore = defineStore('applications', {
             b.iosas_applicationnumber.split('-').pop()
         )
         .map((v) => ({
-          // TODO: update with id when connected to API
           application_number:
             v.iosas_applicationnumber + ' ' + v.iosas_applicationid,
           status: v['statuscode@OData.Community.Display.V1.FormattedValue'],
@@ -63,7 +63,16 @@ export const applicationsStore = defineStore('applications', {
           ],
       })),
     getEOI: (state) => {
-      return state.eoi;
+      const formattedData = {
+        ...state.eoi,
+        'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue':
+          updateStatusName(
+            state.eoi[
+              'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
+            ]
+          ),
+      };
+      return formattedData;
     },
     getSchoolApplication: (state) => {
       return state.application;

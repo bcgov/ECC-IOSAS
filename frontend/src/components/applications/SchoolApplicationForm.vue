@@ -151,6 +151,8 @@
 <script>
 import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
+import ApiService from '../../common/apiService';
+import { applicationsStore } from './../../store/modules/applications';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 
@@ -286,6 +288,7 @@ export default {
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
+    // ...mapState(applicationsStore, ['setConfirmationMessage']),
   },
   created() {
     console.log('school application', this.formData);
@@ -296,6 +299,7 @@ export default {
     this.disabledTabs = isDraft ? DISABLED_TABS : [];
   },
   methods: {
+    applicationsStore,
     isLastPage() {
       return this.tab === 'Submission';
     },
@@ -320,29 +324,33 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.$emit('setIsLoading');
-        setTimeout(() => {
-          this.$router.push({
-            name: 'applicationConfirmation',
-            params: { type: 'Delete#APP' },
+        this.$emit('setIsLoading', true);
+        ApiService.cancelSchoolApplication(this.formData.iosas_applicationid)
+          .then(async () => {
+            await applicationsStore().setConfirmationMessage(
+              `School application ${this.data.iosas_applicationnumber} has been successfully removed from your records.`
+            );
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'Delete#APP' },
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            this.setFailureAlert(
+              error?.response?.data?.message
+                ? error?.response?.data?.message
+                : 'An error occurred while cancelling the school application. Please try again later.'
+            );
           });
-        }, 1000);
       }
-    },
-    getData() {
-      return [
-        {
-          application_number: 'APP-1048',
-          status: 'Draft',
-        },
-      ];
     },
     handleDraftSubmit() {
       this.handleSubmit();
     },
     async handleSubmit() {
       this.$refs.schoolApplicationForm.validate().then(() => {
-        this.$emit('setIsLoading');
+        this.$emit('setIsLoading', true);
         // mocking a loading state - will be replaced when API is connected.
         setTimeout(() => {
           this.$router.push({

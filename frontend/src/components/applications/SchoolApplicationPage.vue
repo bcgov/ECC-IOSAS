@@ -40,9 +40,7 @@ export default {
   },
   data: () => ({
     isLoading: true,
-    applicationData: {
-      iosas_semestertype: [],
-    },
+    applicationData: {},
     breadcrumbs: [
       {
         title: 'Dashboard',
@@ -63,8 +61,8 @@ export default {
     this.fetchAppData();
   },
   methods: {
-    setIsLoading() {
-      this.isLoading = true;
+    setIsLoading(value) {
+      this.isLoading = value;
     },
     async fetchAppData() {
       this.isLoading = true;
