@@ -1073,7 +1073,7 @@ export default {
       'getSchoolAuthorityListOptions',
     ]),
     ...mapState(applicationsStore, ['setConfirmationMessage']),
-    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
+    ...mapState(authStore, ['isAuthenticated', 'contactInfo']),
   },
   created() {
     this.data = this.isNew ? this.data : this.eoi;
@@ -1102,12 +1102,13 @@ export default {
         this.populatedAndDisableDesignatedContact = true;
         const designatedContact = {
           iosas_existingcontact: true,
-          iosas_designatedcontactfirstname: this.userInfo.firstName,
-          iosas_schoolauthoritycontactname: this.userInfo.lastName,
-          iosas_schoolauthoritycontactemail: this.userInfo.email,
-          iosas_schoolauthoritycontactphone: this.userInfo?.phone || null,
+          iosas_designatedcontactfirstname: this.contactInfo.firstname,
+          iosas_schoolauthoritycontactname: this.contactInfo.lastname,
+          iosas_schoolauthoritycontactemail: this.contactInfo.emailaddress1,
+          iosas_schoolauthoritycontactphone:
+            this.contactInfo?.telephone1 || null,
         };
-        if (this.userInfo?.phone) {
+        if (this.contactInfo?.telephone1) {
           this.populateAndDisableContactPhone = true;
         }
 
