@@ -309,4 +309,8 @@ h1 {
 .no-mb {
   margin-bottom: 0px !important;
 }
+
+.sm {
+  font-size: 14px !important;
+}
 </style>

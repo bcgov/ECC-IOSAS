@@ -1,15 +1,13 @@
 <template>
   <v-container>
     <h4>Independent School Policies</h4>
-    <v-label
-      ><strong
-        >Except where noted, these policies are required for all B.C.
-        Independent Schools. Please include all relevant policies with your
-        submission. For information on specific policies please visit
-        <a :href="GOV_URL.independentSchoolInfoUrl"
-          >Independent School: Create School Specific Policies.</a
-        >
-      </strong>
+    <v-label class="sm"
+      >Except where noted, these policies are required for all B.C. Independent
+      Schools. Please include all relevant policies with your submission. For
+      information on specific policies please visit
+      <a :href="GOV_URL.independentSchoolInfoUrl"
+        >Independent School: Create School Specific Policies.</a
+      >
     </v-label>
     <br />
     <br />
@@ -124,101 +122,6 @@
 
       <v-row align="center">
         <v-col cols="8">
-          <v-label
-            >Emergency Drills Policy and Procedures and Emergency Response
-            Plan</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_emergencydrillspolicyproceduresresponse"
-            v-model="formData.iosas_emergencydrillspolicyproceduresresponse"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Does the policy include a section on dealing with accidents,
-            medical alert situations, fire, earthquake, and lockdown
-            drills?</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_policyincludessectionsdealingwithemergencies"
-            v-model="
-              formData.iosas_policyincludessectionsdealingwithemergencies
-            "
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Are other emergency drills (emergency response plan, etc.)
-            implemented at the proposed school?</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_otheremergencydrillsimplemeneted"
-            v-model="formData.iosas_otheremergencydrillsimplemeneted"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Does the policy include a section on dealing with permanent school
-            closure?</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_policyincludepermanentschoolclosure"
-            v-model="formData.iosas_policyincludepermanentschoolclosure"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
           <v-label>Graduation Program Credits policy (if applicable)</v-label>
         </v-col>
         <v-col cols="4">
@@ -293,105 +196,6 @@
 
       <v-row align="center">
         <v-col cols="8">
-          <v-label>International Student policies (if applicable)</v-label>
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_internationalstudentpoliciesifapplicable"
-            v-model="formData.iosas_internationalstudentpoliciesifapplicable"
-            color="#003366"
-            class="mt-4"
-            inline
-            @change="$emit('validateAndPopulate', $event)"
-            :rules="[rules.requiredSelect()]"
-          >
-            <v-radio
-              v-for="item in getApplicationPickListOptions?.[
-                'iosas_internationalstudentpoliciesifapplicable'
-              ]"
-              :key="item.value"
-              inline
-              :label="item.label"
-              color="#003366"
-              v-bind:value="item.value"
-            />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school (or its agents) comply (or be required to
-            comply) with the
-            <a :href="GOV_URL.homestayGuidelinesUrl" target="_blank"
-              >Homestay Guidelines,</a
-            >
-            including obtaining health insurance, when hosting international
-            students?</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_complywithhomestayguidelines"
-            v-model="formData.iosas_complywithhomestayguidelines"
-            color="#003366"
-            class="mt-4"
-            inline
-            @change="$emit('validateAndPopulate', $event)"
-            :rules="[rules.requiredSelect()]"
-          >
-            <v-radio
-              v-for="item in getApplicationPickListOptions?.[
-                'iosas_complywithhomestayguidelines'
-              ]"
-              :key="item.value"
-              inline
-              :label="item.label"
-              color="#003366"
-              v-bind:value="item.value"
-            />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school apply the Ministry’s
-            <a
-              :href="GOV_URL.internationalStudentGraduationCreditPolicyUrl"
-              target="_blank"
-              >International Student Graduation Credit Policy</a
-            >determining equivalency credits for international students?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_willapplyforstudentgraduationcreditpolicy"
-            v-model="formData.iosas_willapplyforstudentgraduationcreditpolicy"
-            color="#003366"
-            class="mt-4"
-            inline
-            @change="$emit('validateAndPopulate', $event)"
-            :rules="[rules.requiredSelect()]"
-          >
-            <v-radio
-              v-for="item in getApplicationPickListOptions?.[
-                'iosas_willapplyforstudentgraduationcreditpolicy'
-              ]"
-              :key="item.value"
-              inline
-              :label="item.label"
-              color="#003366"
-              v-bind:value="item.value"
-            />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
           <v-label
             >Privacy Policy (for the collection, use and disclosure of student,
             teacher and parent information collected by the school)</v-label
@@ -412,113 +216,6 @@
           </v-radio-group>
         </v-col>
       </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label
-            >Special Education Policy (Disabliities and Diverse
-            Abilities)</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_specialeducationpolicy"
-            v-model="formData.iosas_specialeducationpolicy"
-            color="#003366"
-            class="mt-4"
-            inline
-            @change="validateAndPopulate"
-            :rules="[rules.requiredSelect()]"
-          >
-            <v-radio
-              v-for="item in getApplicationPickListOptions?.[
-                'iosas_specialeducationpolicy'
-              ]"
-              :key="item.value"
-              inline
-              :label="item.label"
-              color="#003366"
-              v-bind:value="item.value"
-            />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school develop a separate Special Education
-            Budget to reflect anticipated expenditures based on the needs
-            identified in the IEPs?</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_willdevelopbudgetforexpenditurebasedoniep"
-            v-model="formData.iosas_willdevelopbudgetforexpenditurebasedoniep"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school provide learning assistance support for
-            special education students who are not additionally funded through
-            Supplementary Special Education grants?</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_learningassistanceforspecialstudents"
-            v-model="formData.iosas_learningassistanceforspecialstudents"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school have a
-            <a
-              :href="GOV_URL.schoolCompletionCertificatePolicyUrl"
-              target="_blank"
-              >School Completion Certificate Policy/Program?</a
-            ></v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_willhavecompletioncertificatepolicy"
-            v-model="formData.iosas_willhavecompletioncertificatepolicy"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-
       <v-row align="center">
         <v-col cols="8">
           <v-label>Educational Resource Policy</v-label>
@@ -666,6 +363,322 @@
           </v-radio-group>
         </v-col>
       </v-row>
+
+      <br />
+      <v-divider></v-divider>
+      <h4>Emergency Policy</h4>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Emergency Drills Policy and Procedures and Emergency Response
+            Plan</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_emergencydrillspolicyproceduresresponse"
+            v-model="formData.iosas_emergencydrillspolicyproceduresresponse"
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Does the policy include a section on dealing with accidents,
+            medical alert situations, fire, earthquake, and lockdown
+            drills?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_policyincludessectionsdealingwithemergencies"
+            v-model="
+              formData.iosas_policyincludessectionsdealingwithemergencies
+            "
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Are other emergency drills (emergency response plan, etc.)
+            implemented at the proposed school?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_otheremergencydrillsimplemeneted"
+            v-model="formData.iosas_otheremergencydrillsimplemeneted"
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Does the policy include a section on dealing with permanent school
+            closure?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_policyincludepermanentschoolclosure"
+            v-model="formData.iosas_policyincludepermanentschoolclosure"
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <br />
+      <v-divider></v-divider>
+      <h4>International Students</h4>
+      <br />
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label>International Student policies (if applicable)</v-label>
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_internationalstudentpoliciesifapplicable"
+            v-model="formData.iosas_internationalstudentpoliciesifapplicable"
+            color="#003366"
+            class="mt-4"
+            inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
+          >
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_internationalstudentpoliciesifapplicable'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school (or its agents) comply (or be required to
+            comply) with the
+            <a :href="GOV_URL.homestayGuidelinesUrl" target="_blank"
+              >Homestay Guidelines,</a
+            >
+            including obtaining health insurance, when hosting international
+            students?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_complywithhomestayguidelines"
+            v-model="formData.iosas_complywithhomestayguidelines"
+            color="#003366"
+            class="mt-4"
+            inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
+          >
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_complywithhomestayguidelines'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school apply the Ministry’s
+            <a
+              :href="GOV_URL.internationalStudentGraduationCreditPolicyUrl"
+              target="_blank"
+              >International Student Graduation Credit Policy</a
+            >determining equivalency credits for international students?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_willapplyforstudentgraduationcreditpolicy"
+            v-model="formData.iosas_willapplyforstudentgraduationcreditpolicy"
+            color="#003366"
+            class="mt-4"
+            inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
+          >
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_willapplyforstudentgraduationcreditpolicy'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <br />
+      <v-divider></v-divider>
+      <h4>Special Education Policy</h4>
+      <br />
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Special Education Policy (Disabliities and Diverse
+            Abilities)</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_specialeducationpolicy"
+            v-model="formData.iosas_specialeducationpolicy"
+            color="#003366"
+            class="mt-4"
+            inline
+            @change="validateAndPopulate"
+            :rules="[rules.requiredSelect()]"
+          >
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_specialeducationpolicy'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school develop a separate Special Education
+            Budget to reflect anticipated expenditures based on the needs
+            identified in the IEPs?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_willdevelopbudgetforexpenditurebasedoniep"
+            v-model="formData.iosas_willdevelopbudgetforexpenditurebasedoniep"
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school provide learning assistance support for
+            special education students who are not additionally funded through
+            Supplementary Special Education grants?</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_learningassistanceforspecialstudents"
+            v-model="formData.iosas_learningassistanceforspecialstudents"
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school have a
+            <a
+              :href="GOV_URL.schoolCompletionCertificatePolicyUrl"
+              target="_blank"
+              >School Completion Certificate Policy/Program?</a
+            ></v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-radio-group
+            id="iosas_willhavecompletioncertificatepolicy"
+            v-model="formData.iosas_willhavecompletioncertificatepolicy"
+            color="#003366"
+            class="mt-4"
+            :rules="[rules.requiredRadio()]"
+            @change="$emit('validateAndPopulate', $event)"
+            inline
+          >
+            <v-radio label="Yes" color="#003366" :value="true" />
+            <v-radio label="No" color="#003366" :value="false" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <br />
+      <v-divider></v-divider>
+      <br />
       <v-label
         >If 'no' to any of the above policies, please explain below:</v-label
       >
@@ -744,70 +757,6 @@
           }}
         </v-col>
       </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label
-            >Emergency Drills Policy and Procedures and Emergency Response Plan
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_emergencydrillspolicyproceduresresponse
-            )
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Does the policy include a section on dealing with accidents,
-            medical alert situations, fire, earthquake, and lockdown drills?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_policyincludessectionsdealingwithemergencies
-            )
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Are other emergency drills (emergency response plan, etc.)
-            implemented at the proposed school?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_otheremergencydrillsimplemeneted
-            )
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Does the policy include a section on dealing with permanent school
-            closure?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_policyincludepermanentschoolclosure
-            )
-          }}
-        </v-col>
-      </v-row>
-
       <v-row align="center">
         <v-col cols="8">
           <v-label>Graduation Program Credits policy (if applicable) </v-label>
@@ -846,60 +795,6 @@
           }}
         </v-col>
       </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label>International Student policies (if applicable) </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formData[
-              'iosas_internationalstudentpoliciesifapplicable@OData.Community.Display.V1.FormattedValue'
-            ] || NULL_STRING
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school (or its agents) comply (or be required to
-            comply) with the
-            <a :href="GOV_URL.homestayGuidelinesUrl" target="_blank"
-              >Homestay Guidelines,</a
-            >, including obtaining health insurance, when hosting international
-            students?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formData[
-              'iosas_complywithhomestayguidelines@OData.Community.Display.V1.FormattedValue'
-            ] || NULL_STRING
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school apply the Ministry’s
-            <a
-              :href="GOV_URL.internationalStudentGraduationCreditPolicyUrl"
-              target="_blank"
-              >International Student Graduation Credit Policy</a
-            >determining equivalency credits for international students?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formData[
-              'iosas_willapplyforstudentgraduationcreditpolicy@OData.Community.Display.V1.FormattedValue'
-            ] || NULL_STRING
-          }}
-        </v-col>
-      </v-row>
-
       <v-row align="center">
         <v-col cols="8">
           <v-label
@@ -911,75 +806,6 @@
           {{ formatBooleanToYesNoString(formData.iosas_privacypolicy) }}
         </v-col>
       </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label
-            >Special Education Policy (Disabliities and Diverse
-            Abilities)</v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(formData.iosas_specialeducationpolicy)
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school develop a separate Special Education
-            Budget to reflect anticipated expenditures based on the needs
-            identified in the IEPs?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_willdevelopbudgetforexpenditurebasedoniep
-            )
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school provide learning assistance support for
-            special education students who are not additionally funded through
-            Supplementary Special Education grants?
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_learningassistanceforspecialstudents
-            )
-          }}
-        </v-col>
-      </v-row>
-
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label class="ml-5"
-            >Will the proposed school have a
-            <a
-              :href="GOV_URL.schoolCompletionCertificatePolicyUrl"
-              target="_blank"
-              >School Completion Certificate Policy/Program?</a
-            >
-          </v-label>
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_willhavecompletioncertificatepolicy
-            )
-          }}
-        </v-col>
-      </v-row>
-
       <v-row align="center">
         <v-col cols="8">
           <v-label>Educational Resource Policy </v-label>
@@ -1068,10 +894,210 @@
           }}
         </v-col>
       </v-row>
+
+      <br />
+      <v-divider></v-divider>
+      <h4>Emergency Policy</h4>
+      <br />
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Emergency Drills Policy and Procedures and Emergency Response Plan
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_emergencydrillspolicyproceduresresponse
+            )
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Does the policy include a section on dealing with accidents,
+            medical alert situations, fire, earthquake, and lockdown drills?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_policyincludessectionsdealingwithemergencies
+            )
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Are other emergency drills (emergency response plan, etc.)
+            implemented at the proposed school?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_otheremergencydrillsimplemeneted
+            )
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Does the policy include a section on dealing with permanent school
+            closure?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_policyincludepermanentschoolclosure
+            )
+          }}
+        </v-col>
+      </v-row>
+
+      <br />
+      <v-divider></v-divider>
+      <h4>International Students</h4>
+      <br />
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label>International Student policies (if applicable) </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formData[
+              'iosas_internationalstudentpoliciesifapplicable@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school (or its agents) comply (or be required to
+            comply) with the
+            <a :href="GOV_URL.homestayGuidelinesUrl" target="_blank"
+              >Homestay Guidelines,</a
+            >, including obtaining health insurance, when hosting international
+            students?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formData[
+              'iosas_complywithhomestayguidelines@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school apply the Ministry’s
+            <a
+              :href="GOV_URL.internationalStudentGraduationCreditPolicyUrl"
+              target="_blank"
+              >International Student Graduation Credit Policy</a
+            >determining equivalency credits for international students?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formData[
+              'iosas_willapplyforstudentgraduationcreditpolicy@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
+        </v-col>
+      </v-row>
+
+      <br />
+      <v-divider></v-divider>
+      <h4>Special Education Policy</h4>
+      <br />
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label
+            >Special Education Policy (Disabliities and Diverse
+            Abilities)</v-label
+          >
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(formData.iosas_specialeducationpolicy)
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school develop a separate Special Education
+            Budget to reflect anticipated expenditures based on the needs
+            identified in the IEPs?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_willdevelopbudgetforexpenditurebasedoniep
+            )
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school provide learning assistance support for
+            special education students who are not additionally funded through
+            Supplementary Special Education grants?
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_learningassistanceforspecialstudents
+            )
+          }}
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="8">
+          <v-label class="ml-5"
+            >Will the proposed school have a
+            <a
+              :href="GOV_URL.schoolCompletionCertificatePolicyUrl"
+              target="_blank"
+              >School Completion Certificate Policy/Program?</a
+            >
+          </v-label>
+        </v-col>
+        <v-col cols="4">
+          {{
+            formatBooleanToYesNoString(
+              formData.iosas_willhavecompletioncertificatepolicy
+            )
+          }}
+        </v-col>
+      </v-row>
+      <br />
+      <v-divider></v-divider>
+      <br />
       <v-row>
-        <v-label
-          >If 'no' to any of the above policies, please explain below:</v-label
-        >
+        <v-label>If 'no' to any of the above policies</v-label>
         <v-col cols="12">
           {{ formData.iosas_ifnotoanyschoolpolicyexplainwhy || NULL_STRING }}
         </v-col>

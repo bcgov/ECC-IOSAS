@@ -203,14 +203,6 @@ export default {
       type: Boolean,
       required: true,
     },
-    // setIsLoading: {
-    //   type: Function,
-    //   required: true,
-    // },
-    // updateData: {
-    //   type: Function,
-    //   required: true,
-    // },
   },
   data() {
     return {
