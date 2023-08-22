@@ -75,10 +75,10 @@
               ></v-autocomplete>
             </v-col>
             <v-col cols="12" sm="12" md="12" xs="12" v-else>
-              <v-label
-                >School Authority Name (as it appears on attached incorporation
-                documents)</v-label
-              >
+              <v-label class="no-mb">School Authority Name </v-label>
+              <v-label class="sm block"
+                >As it appears on attached incorporation documents
+              </v-label>
               <v-text-field
                 id="iosas_schoolauthorityname"
                 v-model="data.iosas_schoolauthorityname"
@@ -95,7 +95,7 @@
             </v-col>
           </v-row>
           <br />
-          <v-label><strong>Authority Mailing Address</strong></v-label>
+          <v-label>Authority Mailing Address</v-label>
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-text-field
@@ -180,8 +180,8 @@
           <br />
 
           <div>
-            <v-label>Designated Authority Contact</v-label>
-            <v-label
+            <v-label class="no-mb">Designated Authority Contact</v-label>
+            <v-label class="sm"
               >The designated contact is the person submitting the application,
               and the person who will receive follow-up emails and contact by
               the ministry.</v-label
@@ -228,7 +228,7 @@
               <v-col cols="12" sm="12" md="6" xs="12">
                 <!-- Force email confirmation for new unauthenticated EOI/replace with phone field for drafts -->
                 <v-text-field
-                  v-if="this.isNew && !this.isAuthenticated"
+                  v-if="isNew && !isAuthenticated"
                   id="designatedContactEmailConfirmation"
                   v-model="designatedContactEmailConfirmation"
                   :rules="[
@@ -259,7 +259,7 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
-                  v-if="this.isNew && !this.isAuthenticated"
+                  v-if="isNew && !isAuthenticated"
                   id="iosas_schoolauthoritycontactphone"
                   v-model="data.iosas_schoolauthoritycontactphone"
                   :disabled="populateAndDisableContactPhone"
@@ -382,7 +382,7 @@
             </v-col>
           </v-row>
           <div v-if="schoolAddressKnown">
-            <v-label><strong>School Address</strong></v-label>
+            <v-label>School Address</v-label>
             <v-row>
               <v-col cols="12" sm="12" md="8" xs="12">
                 <v-text-field
@@ -599,45 +599,59 @@
                   mdi-file-document-check-outline
                 </v-icon>
                 <p>{{ incorporationDocument.fileName }}</p>
-
-                <!-- TODO: Add ability to delete documents -->
-                <!-- <v-btn
+                <v-btn
                   secondary
                   class="ml-15"
                   variant="flat"
                   size="sm"
                   @click.stop="removeDocment(incorporationDocument)"
-                  ><v-icon aria-hidden="false" color="red" size="20">
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
                     mdi-delete-forever-outline
                   </v-icon></v-btn
-                > -->
+                >
               </div>
               <v-btn
                 v-else
                 secondary
                 class="mt-2 block"
                 variant="outlined"
-                @click="toggleUpload(this.incorporationDocCode)"
+                @click="toggleUpload(incorporationDocCode)"
                 >Upload</v-btn
               >
+              <div
+                class="v-input__details"
+                v-if="incorporationDocumentRequired"
+              >
+                <div class="v-messages" role="alert">
+                  <div
+                    class="v-messages__message"
+                    style="transform-origin: center center"
+                  >
+                    Required
+                  </div>
+                </div>
+              </div>
             </v-col>
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-label>Certificate Issue Date</v-label>
-              <!-- <v-date-picker
-                ref="iosas_incorporationcertificateissuedate"
-                v-model="data.iosas_incorporationcertificateissuedate"
-                :rules="[rules.required()]"
-                :enable-time-picker="false"
-                format="yyyy-MM-dd"
-              ></v-date-picker> -->
               <VueDatePicker
                 ref="iosas_incorporationcertificateissuedate"
                 v-model="data.iosas_incorporationcertificateissuedate"
-                :rules="[rules.required()]"
                 :enable-time-picker="false"
                 format="yyyy-MM-dd"
-                @change="dateSelected"
+                :class="certificateIssueDateRequired ? 'error' : ''"
+                @update:model-value="dateSelected"
               />
+              <div class="v-input__details" v-if="certificateIssueDateRequired">
+                <div class="v-messages" role="alert">
+                  <div
+                    class="v-messages__message"
+                    style="transform-origin: center center"
+                  >
+                    Required
+                  </div>
+                </div>
+              </div>
             </v-col>
           </v-row>
           <v-row>
@@ -656,29 +670,27 @@
                   mdi-file-document-check-outline
                 </v-icon>
                 {{ certificateOfGoodStandingDocument.fileName }}
-                <!-- TODO: Add ability to delete documents -->
-                <!-- <v-btn
-                      secondary
-                      class="ml-15"
-                      variant="flat"
-                      size="sm"
-                      @click.stop="
-                        removeDocment(certificateOfGoodStandingDocument)
-                      "
-                      ><v-icon aria-hidden="false" color="red" size="20">
-                        mdi-delete-forever-outline
-                      </v-icon></v-btn
-                    > -->
+                <v-btn
+                  secondary
+                  class="ml-15"
+                  variant="flat"
+                  size="sm"
+                  @click.stop="removeDocment(certificateOfGoodStandingDocument)"
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
+                    mdi-delete-forever-outline
+                  </v-icon></v-btn
+                >
               </div>
               <v-btn
                 v-else
                 secondary
                 class="mt-2 block"
                 variant="outlined"
-                @click="toggleUpload(this.certificateOfGoodStandingDocCode)"
+                @click="toggleUpload(certificateOfGoodStandingDocCode)"
                 >Upload</v-btn
               >
             </v-col>
+
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-label>Certificate of Good Standing Issue Date</v-label>
               <VueDatePicker
@@ -689,8 +701,26 @@
                 "
                 :enable-time-picker="false"
                 format="yyyy-MM-dd"
+                :class="goodStandingIssueDateRequired ? 'error' : ''"
                 @change="dateSelected"
               />
+              <div
+                class="v-input__details"
+                v-if="goodStandingIssueDateRequired"
+              >
+                <div
+                  class="v-messages"
+                  role="alert"
+                  id="iosas_incorporationcertificateissuedate-messages"
+                >
+                  <div
+                    class="v-messages__message"
+                    style="transform-origin: center center"
+                  >
+                    Required
+                  </div>
+                </div>
+              </div>
             </v-col>
           </v-row>
           <v-row>
@@ -702,25 +732,23 @@
                     mdi-file-document-check-outline
                   </v-icon>
                   {{ document.fileName }}
-
-                  <!-- TODO: Add ability to delete documents -->
-                  <!-- <v-btn
-                        secondary
-                        class="ml-15"
-                        variant="flat"
-                        size="sm"
-                        @click.stop="removeDocment(document)"
-                        ><v-icon aria-hidden="false" color="red" size="20">
-                          mdi-delete-forever-outline
-                        </v-icon></v-btn
-                      > -->
+                  <v-btn
+                    secondary
+                    class="ml-15"
+                    variant="flat"
+                    size="sm"
+                    @click.stop="removeDocment(document)"
+                    ><v-icon aria-hidden="false" color="#b00020" size="20">
+                      mdi-delete-forever-outline
+                    </v-icon></v-btn
+                  >
                 </div>
               </div>
               <v-btn
                 secondary
                 class="mt-2 block"
                 variant="outlined"
-                @click="toggleUpload(this.otherDocCode)"
+                @click="toggleUpload(otherDocCode)"
                 >Upload</v-btn
               >
             </v-col>
@@ -837,7 +865,7 @@ export default {
     VueDatePicker,
     EOIFormHeader,
   },
-  emits: ['setIsLoading', 'fetchEOIData', 'updateEOIData'],
+  emits: ['setIsLoading', 'updateEOIData'],
   mixins: [alertMixin],
   props: {
     eoi: {
@@ -867,48 +895,8 @@ export default {
     },
     documents: {
       handler(val) {
-        if (this.isNew) {
-          // New EOI's will onyl have documents saved in state
-          this.incorporationDocument = val.find(
-            ({ documentType }) => documentType === this.incorporationDocCode
-          );
-          this.certificateOfGoodStandingDocument = val.find(
-            ({ documentType }) =>
-              documentType === this.certificateOfGoodStandingDocCode
-          );
-          this.otherDocuments = val.filter(
-            ({ documentType }) => documentType === this.otherDocCode
-          );
-        } else {
-          if (!this.incorporationDocument) {
-            this.incorporationDocument = val.find(
-              ({ documentType }) => documentType === this.incorporationDocCode
-            );
-          } else if (!this.certificateOfGoodStandingDocument) {
-            this.certificateOfGoodStandingDocument = val.find(
-              ({ documentType }) =>
-                documentType === this.certificateOfGoodStandingDocCode
-            );
-          }
-
-          // Add state documents to pre-existing documents
-          const additionalDocuments = val.filter(
-            ({ documentType }) => documentType === this.otherDocCode
-          );
-          if (this.data?.documents?.length) {
-            const savedDocuments = this.data?.documents
-              .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-              .filter(
-                ({ iosas_eoidocumenttype }) =>
-                  iosas_eoidocumenttype === this.otherDocCode
-              );
-
-            this.otherDocuments = savedDocuments.concat(additionalDocuments);
-          } else {
-            this.otherDocuments = additionalDocuments;
-          }
-        }
-        return;
+        console.log(val);
+        this.displayDocuments();
       },
     },
     schoolAddressKnown: {
@@ -1041,37 +1029,68 @@ export default {
         }
       },
     },
+    'data.iosas_incorporationcertificateissuedate': {
+      handler(val) {
+        console.log(val);
+        if (val && this.certificateIssueDateRequired) {
+          this.certificateIssueDateRequired = false;
+        }
+      },
+    },
+    'data.iosas_certificateofgoodstandingissuedate': {
+      handler(val) {
+        if (val && this.goodStandingIssueDateRequired) {
+          this.goodStandingIssueDateRequired = false;
+        }
+      },
+    },
   },
   data() {
     return {
+      rules: Rules,
       GOV_URL,
       groupTwoCode: 100000000,
       incorporationDocCode: 100000000,
       certificateOfGoodStandingDocCode: 100000001,
       otherDocCode: 100000002,
-      designatedContactEmailConfirmation: null,
+
+      // Used to populate confirmation Message
       authorityName: null,
       schoolYearLabel: null,
+
+      // Document states
       incorporationDocument: null,
       certificateOfGoodStandingDocument: null,
       otherDocuments: [],
+
+      // Validation booleans
       isFormValid: false,
-      isEditing: false,
+      showError: false,
+      certificateIssueDateRequired: false,
+      incorporationDocumentRequired: false,
+      goodStandingIssueDateRequired: false,
       isSubmitted: false,
-      schoolAddressKnown: null,
+      designatedContactEmailConfirmation: false,
       applicationConfirmation: false,
+
+      // UI conditions
+      isEditing: false,
+      schoolAddressKnown: null,
+      documentsLoading: false,
+
+      // Population/disable booleans
       populateAndDisableAuthorityAddress: false,
       populatedAndDisableDesignatedContact: false,
       populatedAndDisableAuthorityHead: false,
       populateAndDisableContactPhone: false,
+
+      // document modal and selected docuemt type
       documentUpload: false,
       selectedDocumentOption: null,
-      rules: Rules,
+
+      // form data
       data: {},
       documents: [],
-      showActivationSnackBar: false,
-      activationErrorMessage: null,
-      showError: false,
     };
   },
   computed: {
@@ -1090,10 +1109,9 @@ export default {
       this.isNew || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
 
     if (this.data?.documents?.length > 0) {
-      this.displayDocuments();
+      this.displayExistingDocuments();
     }
 
-    // Disable autopopulated fields on draft applications
     if (!this.isNew) {
       this.handlePopulateExistingForm();
     } else {
@@ -1103,8 +1121,10 @@ export default {
   methods: {
     authStore,
     applicationsStore,
+    validateForm() {},
     dateSelected(event) {
-      console.log(event);
+      // this.editContact.effectiveDateMoment = moment(this.editContact.effectiveDate).format('YYYY-MM-DD').toString();
+      console.log(event.target.value);
     },
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
@@ -1153,11 +1173,26 @@ export default {
       this.selectedDocumentOption = documentCode;
       this.documentUpload = true;
     },
+    validateDocuments() {
+      if (!this.incorporationDocument) {
+        this.incorporationDocumentRequired = true;
+        if (!this.data.iosas_incorporationcertificateissuedate) {
+          this.certificateIssueDateRequired = true;
+        }
+      } else if (
+        this.certificateOfGoodStandingDocument &&
+        !this.data.iosas_certificateofgoodstandingissuedate
+      ) {
+        this.goodStandingIssueDateRequired = true;
+      }
+    },
     async handleUpdate() {
       if (this.isSubmitted) {
         const valid = await this.$refs.expressionOfInterestForm.validate();
         this.isFormValid = valid.valid;
         this.showError = !this.isFormValid;
+
+        this.validateDocuments();
         await applicationsStore().setConfirmationMessage(
           `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
         );
@@ -1243,6 +1278,7 @@ export default {
         return this.handleUpdate();
       }
       const valid = await this.$refs.expressionOfInterestForm.validate();
+      this.validateDocuments();
 
       this.isFormValid = valid.valid;
       this.showError = !this.isFormValid;
@@ -1297,6 +1333,56 @@ export default {
       );
     },
     displayDocuments() {
+      if (this.isNew) {
+        // New EOI's will onyl have documents saved in state
+        this.incorporationDocument = this.documents.find(
+          ({ documentType }) => documentType === this.incorporationDocCode
+        );
+        if (this.incorporationDocument) {
+          this.incorporationDocumentRequired = false;
+        }
+        this.certificateOfGoodStandingDocument = this.documents.find(
+          ({ documentType }) =>
+            documentType === this.certificateOfGoodStandingDocCode
+        );
+        this.otherDocuments = this.documents.filter(
+          ({ documentType }) => documentType === this.otherDocCode
+        );
+      } else {
+        if (!this.incorporationDocument) {
+          this.incorporationDocument = this.documents.find(
+            ({ documentType }) => documentType === this.incorporationDocCode
+          );
+          if (this.incorporationDocument) {
+            this.incorporationDocumentRequired = false;
+          }
+        } else if (!this.certificateOfGoodStandingDocument) {
+          this.certificateOfGoodStandingDocument = this.documents.find(
+            ({ documentType }) =>
+              documentType === this.certificateOfGoodStandingDocCode
+          );
+        }
+
+        // Add state documents to pre-existing documents
+        const additionalDocuments = this.documents.filter(
+          ({ documentType }) => documentType === this.otherDocCode
+        );
+        if (this.data?.documents?.length) {
+          const savedDocuments = this.data?.documents
+            .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
+            .filter(
+              ({ iosas_eoidocumenttype }) =>
+                iosas_eoidocumenttype === this.otherDocCode
+            );
+
+          this.otherDocuments = savedDocuments.concat(additionalDocuments);
+        } else {
+          this.otherDocuments = additionalDocuments;
+        }
+      }
+      return;
+    },
+    displayExistingDocuments() {
       this.incorporationDocument = this.data?.documents
         .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
         .find(
@@ -1318,6 +1404,7 @@ export default {
         );
     },
     async removeDocment(document) {
+      console.log('DOCUMENT', document);
       const documentName = document.iosas_documentid
         ? document.iosas_file_name
         : document.fileName;
@@ -1338,7 +1425,7 @@ export default {
         return;
       } else {
         if (document.iosas_documentid) {
-          this.$emit('setIsLoading', true);
+          // this.$emit('setIsLoading', true);
           await ApiService.deleteDocument(document.iosas_documentid)
             .then(async () => {
               const documentResponse = await ApiService.getEOIDocuments(
@@ -1346,7 +1433,11 @@ export default {
               );
               if (documentResponse) {
                 this.data.documents = documentResponse.data.value;
+                // this.documents = this.documents;
+                this.displayExistingDocuments();
                 this.displayDocuments();
+
+                console.log(this.documents);
               }
               this.setSuccessAlert(
                 `Success! The Document ${document.iosas_file_name} has been removed from your records`
@@ -1361,6 +1452,7 @@ export default {
               );
             });
         } else {
+          console.log('in the else');
           const filteredDocuments = this.documents.filter(({ id }) => {
             return id !== document.id;
           });
@@ -1392,7 +1484,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .submit-button {
   background-color: #003366 !important;
   color: white !important;
@@ -1430,5 +1522,21 @@ export default {
 }
 .block {
   display: block;
+}
+
+//
+.error {
+  :deep(.dp__input) {
+    color: #b00020;
+    opacity: 100% !important;
+    border-color: #b00020 !important;
+  }
+}
+.v-messages__message {
+  color: #b00020;
+  opacity: 100% !important;
+}
+.v-messages {
+  opacity: 100%;
 }
 </style>

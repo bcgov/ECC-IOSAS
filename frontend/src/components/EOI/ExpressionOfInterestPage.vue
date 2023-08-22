@@ -37,7 +37,6 @@
                   :isLoading="isLoading"
                   :draftStatusCode="draftStatusCode"
                   @setIsLoading="setIsLoading"
-                  @fetchEOIData="fetchEOIData"
                 />
               </div>
             </div>
