@@ -623,12 +623,20 @@
             </v-col>
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-label>Certificate Issue Date</v-label>
+              <!-- <v-date-picker
+                ref="iosas_incorporationcertificateissuedate"
+                v-model="data.iosas_incorporationcertificateissuedate"
+                :rules="[rules.required()]"
+                :enable-time-picker="false"
+                format="yyyy-MM-dd"
+              ></v-date-picker> -->
               <VueDatePicker
                 ref="iosas_incorporationcertificateissuedate"
                 v-model="data.iosas_incorporationcertificateissuedate"
                 :rules="[rules.required()]"
                 :enable-time-picker="false"
                 format="yyyy-MM-dd"
+                @change="dateSelected"
               />
             </v-col>
           </v-row>
@@ -681,6 +689,7 @@
                 "
                 :enable-time-picker="false"
                 format="yyyy-MM-dd"
+                @change="dateSelected"
               />
             </v-col>
           </v-row>
@@ -1094,6 +1103,9 @@ export default {
   methods: {
     authStore,
     applicationsStore,
+    dateSelected(event) {
+      console.log(event);
+    },
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
       this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
