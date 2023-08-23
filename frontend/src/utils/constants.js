@@ -163,33 +163,3 @@ export const GOV_URL = {
 };
 
 export const NULL_STRING = '-';
-
-// School Application form tabs - disabled by default until form is valid
-export const DISABLED_TABS = [
-  'School Information',
-  'School Authority',
-  'Student Enrolment',
-  'School Semester',
-  'Group Certification',
-  'School Facility',
-  'School Policies',
-  'Educational Program',
-  'Teacher Certification',
-  'Documents',
-  'Submission',
-];
-
-// TODO: add links to title for incorporation type
-export const INCORPORATION_TYPE_OPTIONS = [
-  { label: 'Societies Act', url: GOV_URL.societiesActUrl, value: 'Societies' },
-  {
-    label: 'Business Corporation Act',
-    url: GOV_URL.businessCorporationActUrl,
-    value: 'Business',
-  },
-  {
-    label: 'an Order in Council or Private Act',
-    url: null,
-    value: 'Council/Private',
-  },
-];

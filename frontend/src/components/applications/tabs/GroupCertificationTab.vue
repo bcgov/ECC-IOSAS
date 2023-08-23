@@ -196,8 +196,8 @@
       </v-row>
       <v-row align="center">
         <v-col cols="8">
-          <v-label>
-            Will the School Authority operate on a non-profit basis?
+          <v-label
+            >Will the School Authority operate on a non-profit basis?
           </v-label>
         </v-col>
         <v-col cols="4">
@@ -245,8 +245,7 @@
         <a :href="GOV_URL.independentSchoolRegulations" target="_blank">
           Independent School Regulation?</a
         >
-        <br />
-        Specifically:
+        <br />Specifically:
         <ul class="ml-10">
           <li>
             $100,000 of bonding must be in place when making Application for

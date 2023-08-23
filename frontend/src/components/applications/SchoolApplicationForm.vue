@@ -177,7 +177,6 @@ import GroupCertificationTab from './tabs/GroupCertificationTab.vue';
 import EducationalProgramTab from './tabs/EducationalProgramTab.vue';
 import TeacherCertificationTab from './tabs/TeacherCertificationTab.vue';
 import SubmissionTab from './tabs/SubmissionTab.vue';
-import { DISABLED_TABS } from '../../utils/constants';
 
 export default {
   name: 'SchoolApplicationForm',
@@ -212,7 +211,6 @@ export default {
   data() {
     return {
       draftCode: 100000001,
-      DISABLED_TABS,
       drawer: false,
       disabledTabs: [],
       isEditing: false,

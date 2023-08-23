@@ -77,13 +77,11 @@
         incorporated:</v-label
       >
       <v-row>
-        <!-- TODO: ADD URLS BACK society and provincial incorporation act -->
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-radio-group
             id="iosas_incorporationtype"
             v-model="formData.iosas_incorporationtype"
             color="#003366"
-            class="mt-4"
             inline
             @change="$emit('validateAndPopulate', $event)"
             :rules="[rules.requiredSelect()]"
@@ -94,10 +92,20 @@
               ]"
               :key="item.value"
               inline
-              :label="item.label"
               color="#003366"
-              v-bind:value="item.value"
-            />
+              :value="item.value"
+            >
+              <template v-slot:label>
+                <a
+                  target="_blank"
+                  :href="getIncorporationUrl(item.label)"
+                  v-if="getIncorporationUrl(item.label)"
+                >
+                  {{ item.label }}
+                </a>
+                <p v-else>{{ item.label }}</p>
+              </template>
+            </v-radio>
           </v-radio-group>
         </v-col>
         <v-spacer />
@@ -219,7 +227,11 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          {{ NULL_STRING }}
+          {{
+            formData[
+              'iosas_incorporationtype@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
         </v-col>
       </v-row>
 
@@ -230,7 +242,13 @@
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Date of last Annual Report</v-label>
-          <p>{{ formData.iosas_dateoflastannualreport || NULL_STRING }}</p>
+          <p>
+            {{
+              formData[
+                'iosas_dateoflastannualreport@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
 
@@ -308,6 +326,13 @@ export default {
   mounted() {},
   methods: {
     formatBooleanToYesNoString,
+    getIncorporationUrl(label) {
+      const urlHashMap = {
+        'Provincial Incorporation Act': GOV_URL.businessCorporationActUrl,
+        'Society Act': GOV_URL.societiesActUrl,
+      };
+      return urlHashMap[label] ? urlHashMap[label] : null;
+    },
     getAuthorityHeadName() {
       return this.formData.iosas_authorityheadfirstname
         ? this.formData.iosas_authorityheadfirstname +

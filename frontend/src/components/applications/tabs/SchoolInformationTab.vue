@@ -16,6 +16,21 @@
             color="rgb(59, 153, 252)"
           />
         </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-select
+            id="_iosas_edu_year_value"
+            disabled
+            v-model="formData._iosas_edu_year_value"
+            label="School Year"
+            variant="outlined"
+            color="rgb(59, 153, 252)"
+            :items="getActiveSchoolYearSelect"
+            item-title="label"
+            item-value="value"
+            :rules="[rules.requiredSelect()]"
+          >
+          </v-select>
+        </v-col>
       </v-row>
       <v-label
         >Please specify grade range to be offered in the first year of
@@ -316,14 +331,8 @@
             <v-checkbox
               v-model="formData.iosas_schoolaffiliation"
               :value="item.value"
-            >
-              <template v-slot:label>
-                <a target="_blank" :href="item.url" v-if="item.url">
-                  {{ item.label }}
-                </a>
-                <p v-else>{{ item.label }}</p>
-              </template>
-            </v-checkbox>
+              :label="item.label"
+            />
           </div>
         </v-col>
       </v-row>
@@ -352,6 +361,16 @@
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Proposed School Name</v-label>
           <p>{{ formData.iosas_proposedschoolname || NULL_STRING }}</p>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>School Year</v-label>
+          <p>
+            {{
+              formData[
+                '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -515,13 +534,21 @@
             <a :href="GOV_URL.SDA" target="_blank">SDA,</a> or other if
             applicable)</v-label
           >
-          <p>
-            {{
-              formData[
-                'iosas_schoolaffiliation@OData.Community.Display.V1.FormattedValue'
-              ] || NULL_STRING
-            }}
-          </p>
+          <v-col cols="12" sm="12" md="12" xs="12">
+            <div
+              v-for="item in getApplicationMultiPickListOptions[
+                'iosas_schoolaffiliation'
+              ]"
+              :key="item.value"
+            >
+              <v-checkbox
+                v-model="formData.iosas_schoolaffiliation"
+                :value="item.value"
+                :label="item.label"
+                disabled
+              />
+            </div>
+          </v-col>
         </v-col>
       </v-row>
       <v-row>
@@ -564,6 +591,7 @@ export default {
   mounted() {},
   computed: {
     ...mapState(metaDataStore, [
+      'getActiveSchoolYearSelect',
       'getApplicationPickListOptions',
       'getApplicationMultiPickListOptions',
     ]),

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h4>Certification of Teachers</h4>
-    <v-label><strong>Schools seeking Group 2 and 4 only</strong></v-label>
+    <v-label class="sm">Schools seeking Group 2 and 4 only</v-label>
     <br />
     <v-label
       >The school principal/head of school and all teachers teaching a subject
@@ -22,7 +22,7 @@
       <a :href="GOV_URL.criminalRecordCheckUrl" target="_blank">
         Ministry of Public Safety and Solicitor General.</a
       >
-      Volunteers working with childrenmay also have their criminal record check
+      Volunteers working with children may also have their criminal record check
       completed by the Ministry of Public Safety and Solicitor General or local
       police.
     </v-label>
