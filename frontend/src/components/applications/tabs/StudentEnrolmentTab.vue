@@ -1,16 +1,14 @@
 <template>
   <v-container>
     <h4>Projected Student Enrolment</h4>
-    <v-label
-      ><strong
-        >NOTE: A new school must have 10 or more school age students who are
-        enrolled with the school and reported as 1.00 FTE each in accordance
-        with the
-        <a :href="GOV_URL.instructionsForIndependentSchoolsUrl" target="_blank">
-          1701 instructions for independent schools
-        </a>
-        for the September data collection.
-      </strong>
+    <v-label class="sm"
+      >NOTE: A new school must have 10 or more school age students who are
+      enrolled with the school and reported as 1.00 FTE each in accordance with
+      the
+      <a :href="GOV_URL.instructionsForIndependentSchoolsUrl" target="_blank">
+        1701 instructions for independent schools
+      </a>
+      for the September data collection.
     </v-label>
     <br />
     <br />
@@ -344,3 +342,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-label {
+  display: inline;
+}
+</style>
