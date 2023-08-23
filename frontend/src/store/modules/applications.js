@@ -6,6 +6,8 @@ const updateStatusName = (status) => {
   const newStatus = {
     'New (Submitted)': 'New',
     'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
+    '2 - Draft App': 'Draft',
+    '3 - App Submitted': 'Submitted',
   };
   return newStatus[status] ? newStatus[status] : status;
 };
@@ -32,7 +34,9 @@ export const applicationsStore = defineStore('applications', {
         .map((v) => ({
           application_number:
             v.iosas_applicationnumber + ' ' + v.iosas_applicationid,
-          status: v['statuscode@OData.Community.Display.V1.FormattedValue'],
+          status: updateStatusName(
+            v['statuscode@OData.Community.Display.V1.FormattedValue']
+          ),
           school_name: v.iosas_proposedschoolname,
           school_year:
             v[
@@ -75,7 +79,16 @@ export const applicationsStore = defineStore('applications', {
       return formattedData;
     },
     getSchoolApplication: (state) => {
-      return state.application;
+      const formattedData = {
+        ...state.application,
+        'statuscode@OData.Community.Display.V1.FormattedValue':
+          updateStatusName(
+            state.application[
+              'statuscode@OData.Community.Display.V1.FormattedValue'
+            ]
+          ),
+      };
+      return formattedData;
     },
   },
   actions: {

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h4>Application for Group Certification</h4>
-    <v-label><strong>Schools Seeking group 2 and 4 only</strong></v-label>
+    <v-label class="sm">Schools Seeking group 2 and 4 only</v-label>
     <br />
     <br />
     <v-label
@@ -315,10 +315,6 @@ export default {
     },
     isEditing: {
       type: Boolean,
-      required: true,
-    },
-    validateAndPopulate: {
-      type: Function,
       required: true,
     },
   },

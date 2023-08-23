@@ -14,9 +14,9 @@
       <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
         <v-tab
           v-for="item in items"
-          :disabled="disabledTabs.includes(item)"
           :key="item"
           :value="item"
+          :disabled="disabledTabs.includes(item)"
           @click.stop="drawer = !drawer"
         >
           {{ item }}
@@ -31,8 +31,12 @@
       ></v-app-bar-nav-icon>
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
-          <v-tab v-for="item in items" :key="item" :value="item">
-            <!-- :disabled="disabledTabs.includes(item)" -->
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            :value="item"
+            :disabled="disabledTabs.includes(item)"
+          >
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -153,6 +157,7 @@
 import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
 import ApiService from '../../common/apiService';
+import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
@@ -245,10 +250,12 @@ export default {
         { tab: 'School Policies', component: 'SchoolPoliciesTab' },
         { tab: 'Educational Program', component: 'EducationalProgramTab' },
         { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
-        { tab: 'Document', component: null },
+        { tab: 'Documents', component: null },
         { tab: 'Submission', component: 'SubmissionTab' },
       ],
       tab: 'General',
+      currentTab: 100000000,
+      generalTabValue: 100000000,
       items: [
         'General',
         'School Information',
@@ -266,14 +273,23 @@ export default {
     };
   },
   watch: {
-    // If next button is clicked && form is valid
-    //remove current tab from disabled tab list
+    $route(to, from) {
+      if (to.params.tab !== from.params.tab) {
+        this.setTabLabel(to.params.tab);
+      }
+    },
+    // If tab is changed, change route to match
     tab: {
-      handler() {
-        if (this.disabledTabs.length) {
-          this.disabledTabs = this.disabledTabs.filter(
-            (tab) => tab !== this.tab
-          );
+      handler(val, prevVal) {
+        if (val !== prevVal) {
+          const nextTab = this.getApplicationPickListOptions?.[
+            'iosas_portalapplicationstep'
+          ].find((t) => t.label === val).value;
+
+          return this.$router.replace({
+            name: 'schoolApplicationPage',
+            params: { id: this.formData.iosas_applicationid, tab: nextTab },
+          });
         }
       },
     },
@@ -286,21 +302,67 @@ export default {
         }
       },
     },
+    'formData.iosas_addressline1': {
+      handler(val) {
+        if (val) {
+          this.formData.iosas_province = 'British Columbia';
+          this.formData.iosas_country = 'Canada';
+        } else {
+          this.formData.iosas_province = null;
+          this.formData.iosas_country = null;
+        }
+      },
+    },
+    'formData.iosas_mailingaddress1': {
+      handler(val) {
+        if (val) {
+          this.formData.iosas_mailingaddressprovince = 'British Columbia';
+          this.formData.iosas_mailingaddresscountry = 'Canada';
+        } else {
+          this.formData.iosas_mailingaddressprovince = null;
+          this.formData.iosas_mailingaddresscountry = null;
+        }
+      },
+    },
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
-    // ...mapState(applicationsStore, ['setConfirmationMessage']),
+    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
   },
   created() {
-    console.log('school application', this.formData);
+    if (this.formData?.iosas_portalapplicationstep) {
+      this.setTabLabel(this.formData?.iosas_portalapplicationstep);
+      this.currentTab = this.formData?.iosas_portalapplicationstep;
+    } else if (
+      !this.formData?.iosas_portalapplicationstep &&
+      this.$route.params.tab
+    ) {
+      this.setTabLabel(this.$route.params.tab);
+    } else {
+      this.setTabLabel(generalTabValue);
+    }
+
     const isDraft =
       this.formData && this.formData?.statuscode === this.draftCode;
     this.isEditing = isDraft;
-    // TODO: Do not disable tab if application has been updated/submitted but still in progress
     this.disabledTabs = isDraft ? DISABLED_TABS : [];
   },
   methods: {
     applicationsStore,
+    setDisabledTabs() {},
+    setTabLabel(tabValue) {
+      this.tab = this.getApplicationPickListOptions?.[
+        'iosas_portalapplicationstep'
+      ].find((t) => t.value === Number(tabValue)).label;
+      const highestTab = Math.max(...[this.currentTab, Number(tabValue)]);
+      let labels = [];
+      const tabsNotTracked = this.getApplicationPickListOptions?.[
+        'iosas_portalapplicationstep'
+      ]
+        .filter((t) => t.value > highestTab)
+        .map(({ label }) => labels.push(label));
+      this.disabledTabs = labels;
+    },
     isLastPage() {
       return this.tab === 'Submission';
     },
@@ -346,10 +408,14 @@ export default {
       }
     },
     handleDraftSubmit() {
+      const payload = {
+        ...this.formData,
+        iosas_portalapplicationstep: Number(this.$route.params.tab),
+      };
       this.$emit(
         'updateData',
         this.formData.iosas_applicationid,
-        this.formData,
+        payload,
         false
       );
     },
@@ -361,32 +427,62 @@ export default {
         await applicationsStore().setConfirmationMessage(
           `School application ${this.formData.iosas_applicationnumber} has been successfully submitted.`
         );
+        const payload = {
+          ...this.formData,
+          iosas_portalapplicationstep: Number(this.$route.params.tab),
+        };
         this.$emit(
           'updateData',
           this.formData.iosas_applicationid,
-          this.formData,
+          payload,
           true
         );
       }
     },
     prevTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
-      return (this.tab = this.items[currentTabIndex - 1]);
+      const prevTab = this.items[currentTabIndex - 1];
+      const prevTabValue = this.getApplicationPickListOptions[
+        'iosas_portalapplicationstep'
+      ].find((t) => t.label === prevTab).value;
+
+      return this.$router.replace({
+        name: 'schoolApplicationPage',
+        params: { id: this.formData.iosas_applicationid, tab: prevTabValue },
+      });
     },
     async nextTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
       const nextTab = this.items[currentTabIndex + 1];
-      const nextTabUnlocked = !this.disabledTabs.includes(nextTab);
 
+      const nextTabUnlocked = !this.disabledTabs.filter(
+        (t) => t.value === nextTab
+      );
+      const nextTabValue = this.getApplicationPickListOptions[
+        'iosas_portalapplicationstep'
+      ].find((t) => t.label === nextTab).value;
+
+      if (nextTabValue > this.currentTab) {
+        this.currentTab = nextTabValue;
+      }
       if (nextTabUnlocked) {
         // Allow users to navigate through tabs without
         // triggering validation errors until they try to access a locked tab.
-        return (this.tab = nextTab);
+        return this.$router.replace({
+          name: 'schoolApplicationPage',
+          params: { id: this.formData.iosas_applicationid, tab: nextTabValue },
+        });
       } else {
         const valid = await this.$refs.schoolApplicationForm.validate();
         this.showError = !valid.valid;
         if (this.isFormValid) {
-          return (this.tab = nextTab);
+          return this.$router.replace({
+            name: 'schoolApplicationPage',
+            params: {
+              id: this.formData.iosas_applicationid,
+              tab: nextTabValue,
+            },
+          });
         }
       }
     },

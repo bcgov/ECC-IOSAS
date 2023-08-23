@@ -78,25 +78,27 @@
       >
       <v-row>
         <!-- TODO: ADD URLS BACK society and provincial incorporation act -->
-        <v-col cols="12" sm="12" md="6" xs="12">
-          <div
-            v-for="item in getApplicationPickListOptions[
-              'iosas_incorporationtype'
-            ]"
-            :key="item.value"
+        <v-col cols="12" sm="12" md="12" xs="12">
+          <v-radio-group
+            id="iosas_incorporationtype"
+            v-model="formData.iosas_incorporationtype"
+            color="#003366"
+            class="mt-4"
+            inline
+            @change="validateAndPopulate"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-checkbox
-              v-model="formData.iosas_incorporationtype"
-              :value="item.value"
-            >
-              <template v-slot:label>
-                <a target="_blank" :href="item.url" v-if="item.url">
-                  {{ item.label }}
-                </a>
-                <p v-else>{{ item.label }}</p>
-              </template>
-            </v-checkbox>
-          </div>
+            <v-radio
+              v-for="item in getApplicationPickListOptions[
+                'iosas_incorporationtype'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
+          </v-radio-group>
         </v-col>
         <v-spacer />
       </v-row>
@@ -217,34 +219,7 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <div
-            v-for="item in getApplicationPickListOptions[
-              'iosas_incorporationtype'
-            ]"
-            :key="item.value"
-          >
-            <v-checkbox
-              :id="
-                iosas_preexistingauthority
-                  ? edu_incorporationtype
-                  : iosas_incorporationtype
-              "
-              :v-model="
-                iosas_preexistingauthority
-                  ? formData.edu_incorporationtype
-                  : formData.iosas_incorporationtype
-              "
-              :value="item.value"
-              disabled
-            >
-              <template v-slot:label>
-                <a target="_blank" :href="item.url" v-if="item.url">
-                  {{ item.label }}
-                </a>
-                <p v-else>{{ item.label }}</p>
-              </template>
-            </v-checkbox>
-          </div>
+          {{ NULL_STRING }}
         </v-col>
       </v-row>
 
@@ -319,10 +294,6 @@ export default {
     },
     isEditing: {
       type: Boolean,
-      required: true,
-    },
-    validateAndPopulate: {
-      type: Function,
       required: true,
     },
   },

@@ -129,18 +129,11 @@ export default {
       type: Boolean,
       required: true,
     },
-    validateAndPopulate: {
-      type: Function,
-      required: true,
-    },
   },
   data: () => ({
     GOV_URL,
     rules: Rules,
   }),
-  mounted() {
-    console.log(this.formData.iosas_businessplanincludingfinancialinformation);
-  },
   computed: {},
   methods: {
     formatBooleanToYesNoString,

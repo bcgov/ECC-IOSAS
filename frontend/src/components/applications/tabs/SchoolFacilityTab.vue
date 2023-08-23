@@ -234,10 +234,6 @@ export default {
       type: Boolean,
       required: true,
     },
-    validateAndPopulate: {
-      type: Function,
-      required: true,
-    },
   },
   data: () => ({
     GOV_URL,

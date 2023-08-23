@@ -466,7 +466,6 @@
       <br />
       <v-divider></v-divider>
       <h4>International Students</h4>
-      <br />
 
       <v-row align="center">
         <v-col cols="8">
@@ -569,7 +568,6 @@
       <br />
       <v-divider></v-divider>
       <h4>Special Education Policy</h4>
-      <br />
 
       <v-row align="center">
         <v-col cols="8">
@@ -1122,10 +1120,6 @@ export default {
     },
     isEditing: {
       type: Boolean,
-      required: true,
-    },
-    validateAndPopulate: {
-      type: Function,
       required: true,
     },
   },
