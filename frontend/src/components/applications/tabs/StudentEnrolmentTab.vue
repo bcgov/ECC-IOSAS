@@ -21,7 +21,7 @@
             v-model="formData.iosas_numberofstudentskindergarten"
             variant="outlined"
             label="Kindergarten"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -31,7 +31,7 @@
             v-model="formData.iosas_numberofstudentsg1"
             variant="outlined"
             label="Grade 1"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -41,7 +41,7 @@
             v-model="formData.iosas_numberofstudentsg2"
             variant="outlined"
             label="Grade 2"
-            :rules="[rules.required(), rules.number()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -53,7 +53,7 @@
             v-model="formData.iosas_numberofstudentsg3"
             variant="outlined"
             label="Grade 3"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -63,7 +63,7 @@
             v-model="formData.iosas_numberofstudentsg4"
             variant="outlined"
             label="Grade 4"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -73,7 +73,7 @@
             v-model="formData.iosas_numberofstudentsg5"
             variant="outlined"
             label="Grade 5"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -85,7 +85,7 @@
             v-model="formData.iosas_numberofstudentsg6"
             variant="outlined"
             label="Grade 6"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -95,7 +95,7 @@
             v-model="formData.iosas_numberofstudentsg7"
             variant="outlined"
             label="Grade 7"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -118,7 +118,7 @@
             v-model="formData.iosas_numberofstudentsg8"
             variant="outlined"
             label="Grade 8"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -128,7 +128,7 @@
             v-model="formData.iosas_numberofstudentsg9"
             variant="outlined"
             label="Grade 9"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -138,7 +138,7 @@
             v-model="formData.iosas_numberofstudentsg10"
             variant="outlined"
             label="Grade 10"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -151,7 +151,7 @@
             v-model="formData.iosas_numberofstudentsg11"
             variant="outlined"
             label="Grade 11"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -161,7 +161,7 @@
             v-model="formData.iosas_numberofstudentsg12"
             variant="outlined"
             label="Grade 12"
-            :rules="[rules.required()]"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>

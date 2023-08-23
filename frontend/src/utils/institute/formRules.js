@@ -72,6 +72,15 @@ const required = (message = 'Required') => {
 };
 
 /**
+ * Rule required number allows 0 to be valid
+ * @param {String} message
+ * @returns Function
+ */
+const requiredNumber = (message = 'Required') => {
+  return (v) => !v || v !== 0 || message;
+};
+
+/**
  * Custom endDate Rule! Checks that we have start date and that end date
  * happens after start date. Date format should be 2022-12-10 YYYY-MM-DD.
  * @param {String} effectiveDate
@@ -183,6 +192,7 @@ export {
   website,
   requiredSelect,
   requiredRadio,
+  requiredNumber,
   emailConfirmation,
   gradeRangeRule,
   enrolmentTotalGreaterThanTen,
