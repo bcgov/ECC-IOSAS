@@ -163,6 +163,16 @@ const emailConfirmation = (
   return true;
 };
 
+/**
+ * Custom validation to ensure student enrolment is > 10
+ * @returns {String|Boolean}
+ */
+const enrolmentTotalGreaterThanTen = (
+  message = 'A new school must have 10 or more students enrolled'
+) => {
+  return (v) => v > 10 || message;
+};
+
 export {
   email,
   endDateRule,
@@ -175,4 +185,5 @@ export {
   requiredRadio,
   emailConfirmation,
   gradeRangeRule,
+  enrolmentTotalGreaterThanTen,
 };

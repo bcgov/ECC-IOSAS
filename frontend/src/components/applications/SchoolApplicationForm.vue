@@ -322,10 +322,47 @@ export default {
         }
       },
     },
+    sumA(val) {
+      this.formData.iosas_primaryschooltotal = val;
+    },
+    sumB(val) {
+      this.formData.iosas_highschooltotal = val;
+    },
+    sumAB(val) {
+      this.formData.iosas_totalenrolment = val;
+    },
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+    // Student Enrolment values are calculated on the BE, the FE will enforce that enrolment is > 10
+    sumA() {
+      return (
+        Number(this.formData.iosas_numberofstudentsg7) +
+        Number(this.formData.iosas_numberofstudentsg6) +
+        Number(this.formData.iosas_numberofstudentsg5) +
+        Number(this.formData.iosas_numberofstudentsg5) +
+        Number(this.formData.iosas_numberofstudentsg3) +
+        Number(this.formData.iosas_numberofstudentsg2) +
+        Number(this.formData.iosas_numberofstudentsg1) +
+        Number(this.formData.iosas_numberofstudentskindergarten)
+      );
+    },
+    sumB() {
+      return (
+        Number(this.formData.iosas_numberofstudentsg8) +
+        Number(this.formData.iosas_numberofstudentsg9) +
+        Number(this.formData.iosas_numberofstudentsg10) +
+        Number(this.formData.iosas_numberofstudentsg11) +
+        Number(this.formData.iosas_numberofstudentsg12)
+      );
+    },
+    sumAB() {
+      return (
+        Number(this.formData.iosas_primaryschooltotal) +
+        Number(this.formData.iosas_highschooltotal)
+      );
+    },
   },
   created() {
     if (this.formData?.iosas_portalapplicationstep) {
