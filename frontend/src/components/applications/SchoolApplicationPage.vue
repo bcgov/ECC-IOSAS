@@ -96,8 +96,6 @@ export default {
         });
     },
     async updateData(id, payload, isSubmitted) {
-      console.log('PAYLOAD', this.formatPayload(payload));
-
       try {
         this.isLoading = true;
         const updateResponse = await ApiService.updateSchoolApplication(

@@ -85,7 +85,7 @@
             color="#003366"
             class="mt-4"
             inline
-            @change="validateAndPopulate"
+            @change="$emit('validateAndPopulate', $event)"
             :rules="[rules.requiredSelect()]"
           >
             <v-radio

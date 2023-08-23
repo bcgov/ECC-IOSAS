@@ -240,7 +240,7 @@ export default {
   methods: {
     formatBooleanToYesNoString,
     getCorrectDate() {
-      return this.formData.iosas_reviewstatus === this.draftCode
+      return this.formData?.statuscode === this.draftCode
         ? {
             label: 'Submission Date',
             date: this.formData[

@@ -72,7 +72,6 @@ export const metaDataStore = defineStore('metaData', {
       this.applicationPickListOptions = await this.formatPickLists(response);
     },
     async setApplicationMultiPickListOptions(response) {
-      console.log(response);
       this.applicationMultiPickListOptions = await this.formatPickLists(
         response
       );

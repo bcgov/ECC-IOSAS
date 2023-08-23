@@ -16,7 +16,7 @@
           v-for="item in items"
           :key="item"
           :value="item"
-          :disabled="disabledTabs.includes(item)"
+          :disabled="disabledTabs.includes(item) && this.isEditing"
           @click.stop="drawer = !drawer"
         >
           {{ item }}
@@ -35,7 +35,7 @@
             v-for="item in items"
             :key="item"
             :value="item"
-            :disabled="disabledTabs.includes(item)"
+            :disabled="disabledTabs.includes(item) && this.isEditing"
           >
             {{ item }}
           </v-tab>
@@ -337,6 +337,7 @@ export default {
       !this.formData?.iosas_portalapplicationstep &&
       this.$route.params.tab
     ) {
+      this.currentTab = this.$route.params.tab;
       this.setTabLabel(this.$route.params.tab);
     } else {
       this.setTabLabel(generalTabValue);
@@ -345,7 +346,6 @@ export default {
     const isDraft =
       this.formData && this.formData?.statuscode === this.draftCode;
     this.isEditing = isDraft;
-    this.disabledTabs = isDraft ? DISABLED_TABS : [];
   },
   methods: {
     applicationsStore,
