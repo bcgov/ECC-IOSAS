@@ -1,4 +1,5 @@
 import ApiService from '../../common/apiService';
+import ApplicationService from '../../common/applicationService';
 import { formatStringToNumericArray } from '../../utils/format';
 import { defineStore } from 'pinia';
 
@@ -124,13 +125,15 @@ export const applicationsStore = defineStore('applications', {
       await this.setEOIApplication(eoi);
     },
     async getAllSchoolApplications() {
-      const response = await ApiService.getAllApplicationsByUser();
+      const response = await ApplicationService.getAllApplicationsByUser();
       await this.setSchoolApplications(response.data.value);
     },
     async getApplicationById(appId) {
-      const response = await ApiService.getApplicationById(appId);
+      const response = await ApplicationService.getApplicationById(appId);
 
-      const documentResponse = await ApiService.getApplicationDocuments(appId);
+      const documentResponse = await ApplicationService.getApplicationDocuments(
+        appId
+      );
       const data = response.data.value[0];
       const app = {
         ...data,

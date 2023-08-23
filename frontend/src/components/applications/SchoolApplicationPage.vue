@@ -31,7 +31,7 @@
 
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
-import ApiService from '../../common/apiService';
+import ApplicationService from '../../common/applicationService';
 import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
@@ -98,7 +98,7 @@ export default {
     async updateData(id, payload, isSubmitted) {
       try {
         this.isLoading = true;
-        const updateResponse = await ApiService.updateSchoolApplication(
+        const updateResponse = await ApplicationService.updateSchoolApplication(
           id,
           this.formatPayload(payload),
           isSubmitted

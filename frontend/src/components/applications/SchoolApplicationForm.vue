@@ -156,7 +156,7 @@
 <script>
 import { authStore } from './../../store/modules/auth';
 import { mapState } from 'pinia';
-import ApiService from '../../common/apiService';
+import ApplicationService from '../../common/applicationService';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import alertMixin from './../../mixins/alertMixin';
@@ -422,7 +422,9 @@ export default {
         return;
       } else {
         this.$emit('setIsLoading', true);
-        ApiService.cancelSchoolApplication(this.formData.iosas_applicationid)
+        ApplicationService.cancelSchoolApplication(
+          this.formData.iosas_applicationid
+        )
           .then(async () => {
             await applicationsStore().setConfirmationMessage(
               `School application ${this.formData.iosas_applicationnumber} has been successfully removed from your records.`
