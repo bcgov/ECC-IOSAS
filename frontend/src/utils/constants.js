@@ -230,3 +230,9 @@ export const ADDITIONAL_PROGRAMS = [
   { label: 'Students with diverse abilities', value: 'diverseAbilities' },
   { label: 'Other (please specify):', value: 'Other' },
 ];
+
+export const EOI_DOC_CODES = {
+  incorporation: 100000000,
+  goodStanding: 100000001,
+  other: 100000002,
+};

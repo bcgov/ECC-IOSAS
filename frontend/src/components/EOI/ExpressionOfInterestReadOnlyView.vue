@@ -213,8 +213,7 @@
         </v-row>
         <br />
         <v-divider></v-divider>
-        <EOIDocuments :eoi="eoi" :isViewOnly="true" />
-        <!-- <h4>Documents</h4>
+        <h4>Documents</h4>
         <div v-if="eoi?.documents.length">
           <v-row>
             <v-col cols="12" sm="12" md="6" xs="12">
@@ -277,7 +276,7 @@
               <div v-else>{{ NULL_STRING }}</div>
             </v-col>
           </v-row>
-        </div> -->
+        </div>
 
         <br />
         <v-divider></v-divider>
@@ -294,14 +293,12 @@
 
 <script>
 import EOIFormHeader from './EOIFormHeader.vue';
-import EOIDocuments from './EOIDocuments.vue';
 import { formatBooleanToYesNoString } from '../../utils/format';
-import { NULL_STRING } from '../../utils/constants';
+import { NULL_STRING, EOI_DOC_CODES } from '../../utils/constants';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
   components: {
     EOIFormHeader,
-    EOIDocuments,
   },
   props: {
     eoi: {
@@ -320,21 +317,25 @@ export default {
       certificateOfGoodStandingDocument: null,
       otherDocuments: null,
       NULL_STRING,
+      EOI_DOC_CODES,
     };
   },
-  // created() {
-  //   if (this.eoi?.documents?.length > 0) {
-  //     this.incorporationDocument = this.eoi.documents.find(
-  //       ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
-  //     );
-  //     this.certificateOfGoodStandingDocument = this.eoi.documents.find(
-  //       ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000001
-  //     );
-  //     this.otherDocuments = this.eoi.documents.filter(
-  //       ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000002
-  //     );
-  //   }
-  // },
+  created() {
+    if (this.eoi?.documents?.length > 0) {
+      this.incorporationDocument = this.eoi.documents.find(
+        ({ iosas_eoidocumenttype }) =>
+          iosas_eoidocumenttype === EOI_DOC_CODES.incorporation
+      );
+      this.certificateOfGoodStandingDocument = this.eoi.documents.find(
+        ({ iosas_eoidocumenttype }) =>
+          iosas_eoidocumenttype === EOI_DOC_CODES.goodStanding
+      );
+      this.otherDocuments = this.eoi.documents.filter(
+        ({ iosas_eoidocumenttype }) =>
+          iosas_eoidocumenttype === EOI_DOC_CODES.other
+      );
+    }
+  },
   methods: {
     formatBooleanToYesNoString,
     getSchoolAuthorityName() {

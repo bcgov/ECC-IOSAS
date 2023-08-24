@@ -583,176 +583,195 @@
           </v-row>
           <v-divider></v-divider>
           <h4>Documents</h4>
-          <v-row>
-            <v-col cols="12" sm="12" md="6" xs="12">
-              <v-label class="no-mb">Incorporation Certificate </v-label>
-              <v-label class="sm"
-                >Issued under the
-                <a :href="GOV_URL.BClawsUrl" target="_blank">Societies Act</a>
-                or the
-                <a :href="GOV_URL.BCLawBusinessActUrl" target="_blank"
-                  >Business Corporations Act.</a
-                ></v-label
-              >
-              <div v-if="incorporationDocument" class="d-flex">
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                <p>{{ incorporationDocument.fileName }}</p>
-                <v-btn
-                  secondary
-                  class="ml-15"
-                  variant="flat"
-                  size="sm"
-                  @click.stop="removeDocment(incorporationDocument)"
-                  ><v-icon aria-hidden="false" color="#b00020" size="20">
-                    mdi-delete-forever-outline
-                  </v-icon></v-btn
-                >
-              </div>
-              <v-btn
-                v-else
-                secondary
-                class="mt-2 block"
-                variant="outlined"
-                @click="toggleUpload(incorporationDocCode)"
-                >Upload</v-btn
-              >
-              <div
-                class="v-input__details"
-                v-if="incorporationDocumentRequired"
-              >
-                <div class="v-messages" role="alert">
-                  <div
-                    class="v-messages__message"
-                    style="transform-origin: center center"
-                  >
-                    Required
-                  </div>
-                </div>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="12" md="6" xs="12">
-              <v-label>Certificate Issue Date</v-label>
-              <VueDatePicker
-                ref="iosas_incorporationcertificateissuedate"
-                v-model="data.iosas_incorporationcertificateissuedate"
-                :enable-time-picker="false"
-                format="yyyy-MM-dd"
-                :class="certificateIssueDateRequired ? 'error' : ''"
-                @update:model-value="dateSelected"
+          <v-row v-if="isDocumentsLoading" class="document-loader">
+            <v-col class="d-flex justify-center">
+              <v-progress-circular
+                class="mt-16"
+                :size="70"
+                :width="7"
+                color="primary"
+                indeterminate
+                :active="isLoading"
               />
-              <div class="v-input__details" v-if="certificateIssueDateRequired">
-                <div class="v-messages" role="alert">
-                  <div
-                    class="v-messages__message"
-                    style="transform-origin: center center"
-                  >
-                    Required
-                  </div>
-                </div>
-              </div>
             </v-col>
           </v-row>
-          <v-row>
-            <v-col cols="12" sm="12" md="6" xs="12">
-              <v-label class="no-mb">Certificate of Good Standing</v-label>
-              <v-label class="sm"
-                >Required if original incorporation documents are more than 6
-                months old. For information please see
-                <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank"
-                  >Certificates of Good Standing.
-                </a>
-              </v-label>
-
-              <div v-if="certificateOfGoodStandingDocument" class="d-flex">
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                {{ certificateOfGoodStandingDocument.fileName }}
-                <v-btn
-                  secondary
-                  class="ml-15"
-                  variant="flat"
-                  size="sm"
-                  @click.stop="removeDocment(certificateOfGoodStandingDocument)"
-                  ><v-icon aria-hidden="false" color="#b00020" size="20">
-                    mdi-delete-forever-outline
-                  </v-icon></v-btn
+          <div v-else>
+            <v-row>
+              <v-col cols="12" sm="12" md="6" xs="12">
+                <v-label class="no-mb">Incorporation Certificate </v-label>
+                <v-label class="sm"
+                  >Issued under the
+                  <a :href="GOV_URL.BClawsUrl" target="_blank">Societies Act</a>
+                  or the
+                  <a :href="GOV_URL.BCLawBusinessActUrl" target="_blank"
+                    >Business Corporations Act.</a
+                  ></v-label
                 >
-              </div>
-              <v-btn
-                v-else
-                secondary
-                class="mt-2 block"
-                variant="outlined"
-                @click="toggleUpload(certificateOfGoodStandingDocCode)"
-                >Upload</v-btn
-              >
-            </v-col>
-
-            <v-col cols="12" sm="12" md="6" xs="12">
-              <v-label>Certificate of Good Standing Issue Date</v-label>
-              <VueDatePicker
-                ref="iosas_certificateofgoodstandingissuedate"
-                v-model="data.iosas_certificateofgoodstandingissuedate"
-                :rules="
-                  certificateOfGoodStandingDocument ? [rules.required()] : []
-                "
-                :enable-time-picker="false"
-                format="yyyy-MM-dd"
-                :class="goodStandingIssueDateRequired ? 'error' : ''"
-                @change="dateSelected"
-              />
-              <div
-                class="v-input__details"
-                v-if="goodStandingIssueDateRequired"
-              >
-                <div
-                  class="v-messages"
-                  role="alert"
-                  id="iosas_incorporationcertificateissuedate-messages"
-                >
-                  <div
-                    class="v-messages__message"
-                    style="transform-origin: center center"
-                  >
-                    Required
-                  </div>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" sm="12" md="6" xs="12">
-              <v-label>Other (Optional)</v-label>
-              <div v-for="document in otherDocuments" key="document.content">
-                <div class="d-flex">
+                <div v-if="incorporationDocument" class="d-flex">
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ document.fileName }}
+                  <p>{{ incorporationDocument.fileName }}</p>
                   <v-btn
                     secondary
                     class="ml-15"
                     variant="flat"
                     size="sm"
-                    @click.stop="removeDocment(document)"
+                    @click.stop="removeDocment(incorporationDocument)"
                     ><v-icon aria-hidden="false" color="#b00020" size="20">
                       mdi-delete-forever-outline
                     </v-icon></v-btn
                   >
                 </div>
-              </div>
-              <v-btn
-                secondary
-                class="mt-2 block"
-                variant="outlined"
-                @click="toggleUpload(otherDocCode)"
-                >Upload</v-btn
-              >
-            </v-col>
-          </v-row>
+                <v-btn
+                  v-else
+                  secondary
+                  class="mt-2 block"
+                  variant="outlined"
+                  @click="toggleUpload(incorporationDocCode)"
+                  >Upload</v-btn
+                >
+                <div
+                  class="v-input__details"
+                  v-if="incorporationDocumentRequired"
+                >
+                  <div class="v-messages" role="alert">
+                    <div
+                      class="v-messages__message"
+                      style="transform-origin: center center"
+                    >
+                      Required
+                    </div>
+                  </div>
+                </div>
+              </v-col>
+              <v-col cols="12" sm="12" md="6" xs="12">
+                <v-label>Certificate Issue Date</v-label>
+                <VueDatePicker
+                  ref="iosas_incorporationcertificateissuedate"
+                  v-model="data.iosas_incorporationcertificateissuedate"
+                  :enable-time-picker="false"
+                  format="yyyy-MM-dd"
+                  :class="certificateIssueDateRequired ? 'error' : ''"
+                />
+                <div
+                  class="v-input__details"
+                  v-if="certificateIssueDateRequired"
+                >
+                  <div class="v-messages" role="alert">
+                    <div
+                      class="v-messages__message"
+                      style="transform-origin: center center"
+                    >
+                      Required
+                    </div>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" sm="12" md="6" xs="12">
+                <v-label class="no-mb">Certificate of Good Standing</v-label>
+                <v-label class="sm"
+                  >Required if original incorporation documents are more than 6
+                  months old. For information please see
+                  <a
+                    :href="GOV_URL.certificateOfGoodStandingUrl"
+                    target="_blank"
+                    >Certificates of Good Standing.
+                  </a>
+                </v-label>
+
+                <div v-if="certificateOfGoodStandingDocument" class="d-flex">
+                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                    mdi-file-document-check-outline
+                  </v-icon>
+                  {{ certificateOfGoodStandingDocument.fileName }}
+                  <v-btn
+                    secondary
+                    class="ml-15"
+                    variant="flat"
+                    size="sm"
+                    @click.stop="
+                      removeDocment(certificateOfGoodStandingDocument)
+                    "
+                    ><v-icon aria-hidden="false" color="#b00020" size="20">
+                      mdi-delete-forever-outline
+                    </v-icon></v-btn
+                  >
+                </div>
+                <v-btn
+                  v-else
+                  secondary
+                  class="mt-2 block"
+                  variant="outlined"
+                  @click="toggleUpload(certificateOfGoodStandingDocCode)"
+                  >Upload</v-btn
+                >
+              </v-col>
+
+              <v-col cols="12" sm="12" md="6" xs="12">
+                <v-label>Certificate of Good Standing Issue Date</v-label>
+                <VueDatePicker
+                  ref="iosas_certificateofgoodstandingissuedate"
+                  v-model="data.iosas_certificateofgoodstandingissuedate"
+                  :rules="
+                    certificateOfGoodStandingDocument ? [rules.required()] : []
+                  "
+                  :enable-time-picker="false"
+                  format="yyyy-MM-dd"
+                  :class="goodStandingIssueDateRequired ? 'error' : ''"
+                />
+                <div
+                  class="v-input__details"
+                  v-if="goodStandingIssueDateRequired"
+                >
+                  <div
+                    class="v-messages"
+                    role="alert"
+                    id="iosas_incorporationcertificateissuedate-messages"
+                  >
+                    <div
+                      class="v-messages__message"
+                      style="transform-origin: center center"
+                    >
+                      Required
+                    </div>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" sm="12" md="6" xs="12">
+                <v-label>Other (Optional)</v-label>
+                <div v-for="document in otherDocuments" key="document.content">
+                  <div class="d-flex">
+                    <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    {{ document.fileName }}
+                    <v-btn
+                      secondary
+                      class="ml-15"
+                      variant="flat"
+                      size="sm"
+                      @click.stop="removeDocment(document)"
+                      ><v-icon aria-hidden="false" color="#b00020" size="20">
+                        mdi-delete-forever-outline
+                      </v-icon></v-btn
+                    >
+                  </div>
+                </div>
+                <v-btn
+                  secondary
+                  class="mt-2 block"
+                  variant="outlined"
+                  @click="toggleUpload(otherDocCode)"
+                  >Upload</v-btn
+                >
+              </v-col>
+            </v-row>
+          </div>
           <br />
           <v-divider></v-divider>
           <v-label>Additional Notes (Optional)</v-label>
@@ -1076,7 +1095,7 @@ export default {
       // UI conditions
       isEditing: false,
       schoolAddressKnown: null,
-      documentsLoading: false,
+      isDocumentsLoading: false,
 
       // Population/disable booleans
       populateAndDisableAuthorityAddress: false,
@@ -1121,11 +1140,6 @@ export default {
   methods: {
     authStore,
     applicationsStore,
-    validateForm() {},
-    dateSelected(event) {
-      // this.editContact.effectiveDateMoment = moment(this.editContact.effectiveDate).format('YYYY-MM-DD').toString();
-      console.log(event.target.value);
-    },
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
       this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
@@ -1424,6 +1438,7 @@ export default {
       if (!confirmation) {
         return;
       } else {
+        this.isDocumentsLoading = true;
         if (document.iosas_documentid) {
           // this.$emit('setIsLoading', true);
           await ApiService.deleteDocument(document.iosas_documentid)
@@ -1436,9 +1451,8 @@ export default {
                 // this.documents = this.documents;
                 this.displayExistingDocuments();
                 this.displayDocuments();
-
-                console.log(this.documents);
               }
+              this.isDocumentsLoading = false;
               this.setSuccessAlert(
                 `Success! The Document ${document.iosas_file_name} has been removed from your records`
               );
@@ -1452,11 +1466,11 @@ export default {
               );
             });
         } else {
-          console.log('in the else');
           const filteredDocuments = this.documents.filter(({ id }) => {
             return id !== document.id;
           });
           this.documents = filteredDocuments;
+          this.isDocumentsLoading = false;
           return this.documents;
         }
       }
@@ -1538,5 +1552,9 @@ export default {
 }
 .v-messages {
   opacity: 100%;
+}
+
+.document-loader {
+  height: 450px;
 }
 </style>
