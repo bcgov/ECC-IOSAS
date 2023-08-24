@@ -28,42 +28,45 @@ export const applicationsStore = defineStore('applications', {
       // Sort applications by last 4 digits of the applicationnumber
       state.schoolApplications
         .sort(
-          (a, b) =>
-            a.iosas_applicationnumber.split('-').pop() -
-            b.iosas_applicationnumber.split('-').pop()
+          (appA, appB) =>
+            appA.iosas_applicationnumber.split('-').pop() -
+            appB.iosas_applicationnumber.split('-').pop()
         )
-        .map((v) => ({
+        .map((app) => ({
           application_number:
-            v.iosas_applicationnumber + ' ' + v.iosas_applicationid,
+            app.iosas_applicationnumber + ' ' + app.iosas_applicationid,
           status: updateStatusName(
-            v['statuscode@OData.Community.Display.V1.FormattedValue']
+            app['statuscode@OData.Community.Display.V1.FormattedValue']
           ),
-          school_name: v.iosas_proposedschoolname,
+          school_name: app.iosas_proposedschoolname,
           school_year:
-            v[
+            app[
               '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
             ],
           group_classification:
-            v[
+            app[
               'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
             ],
         })),
     getEOIApplicationsFormatted: (state) =>
       // Sort EOIs by last 4 digits of the eoinumber
       state.EOIApplications?.sort(
-        (a, b) =>
-          a.iosas_eoinumber.split('-').pop() -
-          b.iosas_eoinumber.split('-').pop()
-      ).map((v) => ({
-        EOI_number: v.iosas_eoinumber + ' ' + v.iosas_expressionofinterestid,
+        (appA, appB) =>
+          appA.iosas_eoinumber.split('-').pop() -
+          appB.iosas_eoinumber.split('-').pop()
+      ).map((app) => ({
+        EOI_number:
+          app.iosas_eoinumber + ' ' + app.iosas_expressionofinterestid,
         status: updateStatusName(
-          v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue']
+          app['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue']
         ),
-        proposed_school_name: v.iosas_proposedschoolname,
+        proposed_school_name: app.iosas_proposedschoolname,
         school_year:
-          v['_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'],
+          app[
+            '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
+          ],
         group_classification:
-          v[
+          app[
             'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
           ],
       })),
