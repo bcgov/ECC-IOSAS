@@ -37,7 +37,6 @@
                   :isLoading="isLoading"
                   :draftStatusCode="draftStatusCode"
                   @setIsLoading="setIsLoading"
-                  @fetchEOIData="fetchEOIData"
                 />
               </div>
             </div>
@@ -135,8 +134,9 @@ export default {
         });
     },
     async handleUpladDocuments(eoiID, documents) {
+      const documentsNotUploaded = documents.filter((doc) => doc.content);
       Promise.all(
-        documents.map(async (document) => {
+        documentsNotUploaded.map(async (document) => {
           const payload = {
             ...document,
             regardingId: eoiID,

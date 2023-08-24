@@ -110,6 +110,17 @@ export default {
     }
   },
 
+  async getContactByExternalId(id) {
+    try {
+      return await apiAxios.get(ApiRoutes.contact.CONTACT(id));
+    } catch (e) {
+      console.log(
+        `Failed to get from Nodejs getContactByExternalId API - ${e}`
+      );
+      throw e;
+    }
+  },
+
   // MetaData
   async getActiveSchoolYears() {
     try {

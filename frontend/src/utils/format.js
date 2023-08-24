@@ -85,6 +85,14 @@ export function formatBooleanToYesNoString(bool) {
   return bool ? 'Yes' : 'No';
 }
 
+export function formatLongName(string) {
+  if (string.length > 35) {
+    return `${string.substring(0, 35)}...`;
+  } else {
+    return string;
+  }
+}
+
 // Used to display data or default where 0 is an acceptable value.
 export function displayDefaultNumberValue(data) {
   return data || data === 0 ? data : NULL_STRING;

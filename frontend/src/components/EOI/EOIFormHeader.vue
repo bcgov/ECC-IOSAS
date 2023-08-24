@@ -44,7 +44,7 @@ export default {
     getCorrectDate() {
       return this.eoi.iosas_reviewstatus === this.draftStatusCode
         ? {
-            label: 'Submission Date',
+            label: 'Created Date',
             date:
               this.eoi['createdon@OData.Community.Display.V1.FormattedValue'] ||
               NULL_STRING,

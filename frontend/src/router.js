@@ -146,6 +146,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
+  const tabTitle = 'Independent School BC Portal';
+  const defaultTitle = to.meta.pageTitle
+    ? to.meta.pageTitle + ' | ' + tabTitle
+    : tabTitle;
+  document.title = defaultTitle;
   const aStore = authStore();
   const apStore = appStore();
   // this section is to set page title in vue store

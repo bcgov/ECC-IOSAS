@@ -209,15 +209,8 @@ h1 {
 
 @media screen and (max-width: 1900px) {
   .content-container {
-    padding-right: 20em !important;
-    padding-left: 20em !important;
-  }
-}
-
-@media screen and (max-width: 1900px) {
-  .content-container {
-    padding-right: 20em !important;
-    padding-left: 20em !important;
+    padding-right: 15em !important;
+    padding-left: 15em !important;
   }
 }
 

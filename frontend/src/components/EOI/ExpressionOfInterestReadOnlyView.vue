@@ -294,7 +294,7 @@
 <script>
 import EOIFormHeader from './EOIFormHeader.vue';
 import { formatBooleanToYesNoString } from '../../utils/format';
-import { NULL_STRING } from '../../utils/constants';
+import { NULL_STRING, EOI_DOC_CODES } from '../../utils/constants';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
   components: {
@@ -317,18 +317,22 @@ export default {
       certificateOfGoodStandingDocument: null,
       otherDocuments: null,
       NULL_STRING,
+      EOI_DOC_CODES,
     };
   },
   created() {
     if (this.eoi?.documents?.length > 0) {
       this.incorporationDocument = this.eoi.documents.find(
-        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000000
+        ({ iosas_eoidocumenttype }) =>
+          iosas_eoidocumenttype === this.EOI_DOC_CODES.incorporation
       );
       this.certificateOfGoodStandingDocument = this.eoi.documents.find(
-        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000001
+        ({ iosas_eoidocumenttype }) =>
+          iosas_eoidocumenttype === this.EOI_DOC_CODES.goodStanding
       );
       this.otherDocuments = this.eoi.documents.filter(
-        ({ iosas_eoidocumenttype }) => iosas_eoidocumenttype === 100000002
+        ({ iosas_eoidocumenttype }) =>
+          iosas_eoidocumenttype === this.EOI_DOC_CODES.other
       );
     }
   },
