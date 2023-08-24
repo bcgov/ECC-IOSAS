@@ -32,6 +32,9 @@ export const ApiRoutes = Object.freeze({
     BASE_URL: dynamicRoot,
     HEALTH: dynamicRoot + '/Health',
   },
+  contact: {
+    CONTACT: (id) => dynamicRoot + `/Contact/GetbyExternalId?externalId=${id}`,
+  },
   // All metadata API for EOI/Applications
   meta: {
     ACTIVE_SCHOOL_YEARS: dynamicRoot + '/SchoolYear/GetActiveYears',
@@ -227,3 +230,9 @@ export const ADDITIONAL_PROGRAMS = [
   { label: 'Students with diverse abilities', value: 'diverseAbilities' },
   { label: 'Other (please specify):', value: 'Other' },
 ];
+
+export const EOI_DOC_CODES = {
+  incorporation: 100000000,
+  goodStanding: 100000001,
+  other: 100000002,
+};

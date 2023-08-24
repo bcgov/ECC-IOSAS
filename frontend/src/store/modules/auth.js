@@ -19,6 +19,7 @@ export const authStore = defineStore('auth', {
     acronyms: [],
     isAuthenticated: false,
     userInfo: null,
+    contactInfo: null,
     error: false,
     isLoading: true,
     loginError: false,
@@ -32,6 +33,7 @@ export const authStore = defineStore('auth', {
     loginErrorGet: (state) => state.loginError,
     errorGet: (state) => state.error,
     isLoadingGet: (state) => state.isLoading,
+    contactInfoGet: (state) => state.contactInfo,
   },
   actions: {
     //sets Json web token and determines whether user is authenticated
@@ -76,6 +78,12 @@ export const authStore = defineStore('auth', {
     },
     async getUserInfo() {
       const userInfoRes = await ApiService.getUserInfo();
+      if (userInfoRes) {
+        const dynamicsContact = await ApiService.getContactByExternalId(
+          userInfoRes.data.userId
+        );
+        this.contactInfo = dynamicsContact.data.value[0];
+      }
       this.userInfo = userInfoRes.data;
     },
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
