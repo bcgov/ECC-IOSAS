@@ -27,7 +27,7 @@ export const applicationsStore = defineStore('applications', {
     getSchoolApplicationsFormatted: (state) =>
       // Sort applications by last 4 digits of the applicationnumber
       state.schoolApplications
-        .sort(
+        ?.sort(
           (appA, appB) =>
             appA.iosas_applicationnumber.split('-').pop() -
             appB.iosas_applicationnumber.split('-').pop()
