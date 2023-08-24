@@ -1109,7 +1109,7 @@ export default {
       'getSchoolAuthorityListOptions',
     ]),
     ...mapState(applicationsStore, ['setConfirmationMessage']),
-    ...mapState(authStore, ['isAuthenticated', 'contactInfo']),
+    ...mapState(authStore, ['isAuthenticated', 'contactInfo', 'userInfo']),
 
     formatDocumets() {
       this.incorporationDocument = this.documents?.find(
@@ -1125,17 +1125,19 @@ export default {
 
     populateDAC() {
       if (this.isAuthenticated && this.isNew) {
+        // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
+        const user = this.contactInfo ? this.contactInfo : this.userInfo;
+
         // Set the Designated Contact to authenticated user data
         this.populatedAndDisableDesignatedContact = true;
         const designatedContact = {
           iosas_existingcontact: true,
-          iosas_designatedcontactfirstname: this.contactInfo.firstname,
-          iosas_schoolauthoritycontactname: this.contactInfo.lastname,
-          iosas_schoolauthoritycontactemail: this.contactInfo.emailaddress1,
-          iosas_schoolauthoritycontactphone:
-            this.contactInfo?.telephone1 || null,
+          iosas_designatedcontactfirstname: user.firstname || user.firstName,
+          iosas_schoolauthoritycontactname: user.lastname || user.lastName,
+          iosas_schoolauthoritycontactemail: user.emailaddress1 || user.email,
+          iosas_schoolauthoritycontactphone: user?.telephone1 || null,
         };
-        if (this.contactInfo?.telephone1) {
+        if (user?.telephone1) {
           this.populateAndDisableContactPhone = true;
         }
 

@@ -39,9 +39,10 @@ async function getUserInfo(req, res) {
     firstName: userInfo.name.givenName,
     lastName: userInfo.name.familyName,
     email: userInfo._json.email,
-    userId: userInfo._json.preferred_username,
+    // userId: userInfo._json.preferred_username,
     displayName: userInfo.displayName ?? 'Unknown',
     accountType: userInfo._json.azp,
+    telephone1: userInfo._json.phone,
   };
   return res.status(HttpStatus.OK).json(resData);
 }

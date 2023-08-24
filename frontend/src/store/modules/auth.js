@@ -78,7 +78,7 @@ export const authStore = defineStore('auth', {
     },
     async getUserInfo() {
       const userInfoRes = await ApiService.getUserInfo();
-      if (userInfoRes) {
+      if (userInfoRes?.data.userId) {
         const dynamicsContact = await ApiService.getContactByExternalId(
           userInfoRes.data.userId
         );
