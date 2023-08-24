@@ -609,13 +609,13 @@
                 >
                 <div
                   v-if="incorporationDocument"
-                  class="d-flex justify-content-between"
+                  class="d-flex justify-space-between"
                 >
                   <div>
                     <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                       mdi-file-document-check-outline
                     </v-icon>
-                    <p>{{ incorporationDocument.fileName }}</p>
+                    {{ formatLongName(incorporationDocument.fileName) }}
                   </div>
                   <v-btn
                     secondary
@@ -636,19 +636,7 @@
                   @click="toggleUpload(EOI_DOC_CODES.incorporation)"
                   >Upload</v-btn
                 >
-                <div
-                  class="v-input__details"
-                  v-if="incorporationDocumentRequired"
-                >
-                  <div class="v-messages" role="alert">
-                    <div
-                      class="v-messages__message"
-                      style="transform-origin: center center"
-                    >
-                      Required
-                    </div>
-                  </div>
-                </div>
+                <RequiredMessage :isVisible="incorporationDocumentRequired" />
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-label>Certificate Issue Date</v-label>
@@ -659,19 +647,8 @@
                   format="yyyy-MM-dd"
                   :class="certificateIssueDateRequired ? 'error' : ''"
                 />
-                <div
-                  class="v-input__details"
-                  v-if="certificateIssueDateRequired"
-                >
-                  <div class="v-messages" role="alert">
-                    <div
-                      class="v-messages__message"
-                      style="transform-origin: center center"
-                    >
-                      Required
-                    </div>
-                  </div>
-                </div>
+
+                <RequiredMessage :isVisible="certificateIssueDateRequired" />
               </v-col>
             </v-row>
             <v-row>
@@ -687,11 +664,18 @@
                   </a>
                 </v-label>
 
-                <div v-if="certificateOfGoodStandingDocument" class="d-flex">
-                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                    mdi-file-document-check-outline
-                  </v-icon>
-                  {{ certificateOfGoodStandingDocument.fileName }}
+                <div
+                  v-if="certificateOfGoodStandingDocument"
+                  class="d-flex justify-space-between"
+                >
+                  <div>
+                    <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    {{
+                      formatLongName(certificateOfGoodStandingDocument.fileName)
+                    }}
+                  </div>
                   <v-btn
                     secondary
                     class="ml-15"
@@ -727,23 +711,7 @@
                   format="yyyy-MM-dd"
                   :class="goodStandingIssueDateRequired ? 'error' : ''"
                 />
-                <div
-                  class="v-input__details"
-                  v-if="goodStandingIssueDateRequired"
-                >
-                  <div
-                    class="v-messages"
-                    role="alert"
-                    id="iosas_incorporationcertificateissuedate-messages"
-                  >
-                    <div
-                      class="v-messages__message"
-                      style="transform-origin: center center"
-                    >
-                      Required
-                    </div>
-                  </div>
-                </div>
+                <RequiredMessage :isVisible="goodStandingIssueDateRequired" />
               </v-col>
             </v-row>
             <v-row>
@@ -755,12 +723,13 @@
                   )"
                   :key="document.id"
                 >
-                  <!-- <div v-for="document in otherDocuments" key="document.content"> -->
-                  <div class="d-flex">
-                    <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                      mdi-file-document-check-outline
-                    </v-icon>
-                    {{ document.fileName }}
+                  <div class="d-flex justify-space-between">
+                    <div>
+                      <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                        mdi-file-document-check-outline
+                      </v-icon>
+                      {{ formatLongName(document.fileName) }}
+                    </div>
                     <v-btn
                       secondary
                       class="ml-15"
@@ -781,6 +750,7 @@
                   >Upload</v-btn
                 >
               </v-col>
+              <v-col cols="12" sm="12" md="6" xs="12" />
             </v-row>
           </div>
           <br />
@@ -881,9 +851,11 @@ import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
 import { GOV_URL, EOI_DOC_CODES } from '../../utils/constants';
+import { formatLongName } from '../../utils/format';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
+import RequiredMessage from '../RequiredMessage.vue';
 
 export default {
   name: 'ExpressionOfInterestForm',
@@ -894,6 +866,7 @@ export default {
     DocumentUpload,
     VueDatePicker,
     EOIFormHeader,
+    RequiredMessage,
   },
   emits: ['setIsLoading', 'updateEOIData'],
   mixins: [alertMixin],
@@ -1067,6 +1040,13 @@ export default {
         }
       },
     },
+    incorporationDocument: {
+      handler(val) {
+        if (val && this.incorporationDocumentRequired) {
+          this.incorporationDocumentRequired = false;
+        }
+      },
+    },
     populateDAC(val) {
       this.data = val;
     },
@@ -1181,6 +1161,7 @@ export default {
   methods: {
     authStore,
     applicationsStore,
+    formatLongName,
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
       this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
@@ -1214,10 +1195,13 @@ export default {
     async validateDocuments() {
       if (!this.incorporationDocument) {
         this.incorporationDocumentRequired = true;
-        if (!this.data.iosas_incorporationcertificateissuedate) {
-          this.certificateIssueDateRequired = true;
-        }
-      } else if (
+      }
+
+      if (!this.data.iosas_incorporationcertificateissuedate) {
+        this.certificateIssueDateRequired = true;
+      }
+
+      if (
         this.certificateOfGoodStandingDocument &&
         !this.data.iosas_certificateofgoodstandingissuedate
       ) {
@@ -1326,7 +1310,12 @@ export default {
 
       this.isFormValid = valid.valid;
       this.showError = !this.isFormValid;
-      if (this.isFormValid) {
+      if (
+        this.isFormValid &&
+        !this.incorporationDocumentRequired &&
+        !this.certificateIssueDateRequired &&
+        !this.goodStandingIssueDateRequired
+      ) {
         this.$emit('setIsLoading', true);
         ApiService.createEOI(this.data, this.isSubmitted)
           .then(async (response) => {
@@ -1496,8 +1485,6 @@ export default {
 .block {
   display: block;
 }
-
-//
 .error {
   :deep(.dp__input) {
     color: #b00020;
@@ -1505,14 +1492,6 @@ export default {
     border-color: #b00020 !important;
   }
 }
-.v-messages__message {
-  color: #b00020;
-  opacity: 100% !important;
-}
-.v-messages {
-  opacity: 100%;
-}
-
 .document-loader {
   height: 450px;
 }
