@@ -365,7 +365,10 @@ export default {
     },
   },
   created() {
-    if (this.formData?.iosas_portalapplicationstep) {
+    const isDraft =
+      this.formData && this.formData?.statuscode === this.draftCode;
+    this.isEditing = isDraft;
+    if (this.formData?.iosas_portalapplicationstep && this.isEditing) {
       this.setTabLabel(this.formData?.iosas_portalapplicationstep);
       this.currentTab = this.formData?.iosas_portalapplicationstep;
     } else if (
@@ -375,12 +378,8 @@ export default {
       this.currentTab = this.$route.params.tab;
       this.setTabLabel(this.$route.params.tab);
     } else {
-      this.setTabLabel(generalTabValue);
+      this.setTabLabel(this.generalTabValue);
     }
-
-    const isDraft =
-      this.formData && this.formData?.statuscode === this.draftCode;
-    this.isEditing = isDraft;
   },
   methods: {
     applicationsStore,
