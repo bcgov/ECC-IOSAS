@@ -242,7 +242,7 @@ export default {
     getCorrectDate() {
       return this.formData?.statuscode === this.draftCode
         ? {
-            label: 'Submission Date',
+            label: 'Created Date',
             date: this.formData[
               'createdon@OData.Community.Display.V1.FormattedValue'
             ],
