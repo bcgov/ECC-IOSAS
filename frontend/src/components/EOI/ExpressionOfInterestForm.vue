@@ -617,7 +617,7 @@
                     class="ml-15"
                     variant="flat"
                     size="sm"
-                    @click.stop="removeDocment(incorporationDocument)"
+                    @click.stop="removeDocument(incorporationDocument)"
                     ><v-icon aria-hidden="false" color="#b00020" size="20">
                       mdi-delete-forever-outline
                     </v-icon></v-btn
@@ -693,7 +693,7 @@
                     variant="flat"
                     size="sm"
                     @click.stop="
-                      removeDocment(certificateOfGoodStandingDocument)
+                      removeDocument(certificateOfGoodStandingDocument)
                     "
                     ><v-icon aria-hidden="false" color="#b00020" size="20">
                       mdi-delete-forever-outline
@@ -744,7 +744,13 @@
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-label>Other (Optional)</v-label>
-                <div v-for="document in otherDocuments" key="document.content">
+                <div
+                  v-for="document in documents.filter(
+                    ({ documentType }) => documentType === EOI_DOC_CODES.other
+                  )"
+                  :key="document.id"
+                >
+                  <!-- <div v-for="document in otherDocuments" key="document.content"> -->
                   <div class="d-flex">
                     <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                       mdi-file-document-check-outline
@@ -755,7 +761,7 @@
                       class="ml-15"
                       variant="flat"
                       size="sm"
-                      @click.stop="removeDocment(document)"
+                      @click.stop="removeDocument(document)"
                       ><v-icon aria-hidden="false" color="#b00020" size="20">
                         mdi-delete-forever-outline
                       </v-icon></v-btn
@@ -912,12 +918,6 @@ export default {
         }
       },
     },
-    documents: {
-      handler(val) {
-        // console.log(val);
-        // this.displayDocuments();
-      },
-    },
     schoolAddressKnown: {
       handler(val) {
         if (val) {
@@ -1050,7 +1050,6 @@ export default {
     },
     'data.iosas_incorporationcertificateissuedate': {
       handler(val) {
-        console.log(val);
         if (val && this.certificateIssueDateRequired) {
           this.certificateIssueDateRequired = false;
         }
@@ -1063,9 +1062,10 @@ export default {
         }
       },
     },
+    populateDAC(val) {
+      this.data = val;
+    },
     formatDocumets(val) {
-      console.log('DOCUMENTS', val);
-
       if (!this.incorporationDocument) {
         this.incorporationDocument = val.find(
           ({ documentType }) =>
@@ -1086,16 +1086,9 @@ export default {
       GOV_URL,
       EOI_DOC_CODES,
       groupTwoCode: 100000000,
-
       // Used to populate confirmation Message
       authorityName: null,
       schoolYearLabel: null,
-
-      // Document states
-      incorporationDocument: null,
-      certificateOfGoodStandingDocument: null,
-      otherDocuments: [],
-
       // Validation booleans
       isFormValid: false,
       showError: false,
@@ -1105,25 +1098,22 @@ export default {
       isSubmitted: false,
       designatedContactEmailConfirmation: false,
       applicationConfirmation: false,
-
       // UI conditions
       isEditing: false,
       schoolAddressKnown: null,
       isDocumentsLoading: false,
-
-      // Population/disable booleans
       populateAndDisableAuthorityAddress: false,
       populatedAndDisableDesignatedContact: false,
       populatedAndDisableAuthorityHead: false,
       populateAndDisableContactPhone: false,
-
-      // document modal and selected docuemt type
+      // Document states
+      incorporationDocument: null,
+      certificateOfGoodStandingDocument: null,
+      documents: [],
       documentUpload: false,
       selectedDocumentOption: null,
-
       // form data
       data: {},
-      documents: [],
     };
   },
   computed: {
@@ -1137,51 +1127,19 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'contactInfo']),
 
     formatDocumets() {
-      this.incorporationDocument = this.data?.documents
-        ?.map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-        .find(
-          ({ iosas_eoidocumenttype }) =>
-            iosas_eoidocumenttype === this.EOI_DOC_CODES.incorporation
-        );
+      this.incorporationDocument = this.documents?.find(
+        ({ documentType }) => documentType === this.EOI_DOC_CODES.incorporation
+      );
 
-      this.certificateOfGoodStandingDocument = this.data?.documents
-        ?.map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-        .find(
-          ({ iosas_eoidocumenttype }) =>
-            iosas_eoidocumenttype === this.EOI_DOC_CODES.goodStanding
-        );
-      this.otherDocuments = this.data?.documents
-        ?.map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-        .filter(
-          ({ iosas_eoidocumenttype }) =>
-            iosas_eoidocumenttype === this.EOI_DOC_CODES.other
-        );
+      this.certificateOfGoodStandingDocument = this.documents?.find(
+        ({ documentType }) => documentType === this.EOI_DOC_CODES.goodStanding
+      );
 
       return this.documents;
     },
-  },
-  created() {
-    this.data = this.isNew ? this.data : this.eoi;
-    this.isEditing =
-      this.isNew || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
 
-    if (this.data?.documents?.length > 0) {
-      // this.displayExistingDocuments();
-    }
-
-    if (!this.isNew) {
-      this.handlePopulateExistingForm();
-    } else {
-      this.handlePopulateNewForm();
-    }
-  },
-  methods: {
-    authStore,
-    applicationsStore,
-    handlePopulateNewForm() {
-      this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
-      this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
-      if (this.isAuthenticated) {
+    populateDAC() {
+      if (this.isAuthenticated && this.isNew) {
         // Set the Designated Contact to authenticated user data
         this.populatedAndDisableDesignatedContact = true;
         const designatedContact = {
@@ -1196,8 +1154,31 @@ export default {
           this.populateAndDisableContactPhone = true;
         }
 
-        this.data = { ...this.data, ...designatedContact };
+        return { ...this.data, ...designatedContact };
       }
+    },
+  },
+  created() {
+    this.data = this.isNew ? this.data : this.eoi;
+    this.isEditing =
+      this.isNew || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
+
+    if (this.data?.documents?.length > 0) {
+      this.documents = [...this.data.documents];
+    }
+
+    if (!this.isNew) {
+      this.handlePopulateExistingForm();
+    } else {
+      this.handlePopulateNewForm();
+    }
+  },
+  methods: {
+    authStore,
+    applicationsStore,
+    handlePopulateNewForm() {
+      this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
+      this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
     },
     handlePopulateExistingForm() {
       if (this.data?.iosas_designatedcontactsameasauthorityhead) {
@@ -1225,7 +1206,7 @@ export default {
       this.selectedDocumentOption = documentCode;
       this.documentUpload = true;
     },
-    validateDocuments() {
+    async validateDocuments() {
       if (!this.incorporationDocument) {
         this.incorporationDocumentRequired = true;
         if (!this.data.iosas_incorporationcertificateissuedate) {
@@ -1244,12 +1225,18 @@ export default {
         this.isFormValid = valid.valid;
         this.showError = !this.isFormValid;
 
-        this.validateDocuments();
+        await this.validateDocuments();
         await applicationsStore().setConfirmationMessage(
           `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
         );
       }
-      if (this.isFormValid || !this.isSubmitted) {
+      if (
+        this.isFormValid ||
+        !this.isSubmitted ||
+        !this.incorporationDocumentRequired ||
+        !this.certificateIssueDateRequired ||
+        !this.goodStandingIssueDateRequired
+      ) {
         await this.$emit(
           'updateEOIData',
           this.data.iosas_expressionofinterestid,
@@ -1330,7 +1317,7 @@ export default {
         return this.handleUpdate();
       }
       const valid = await this.$refs.expressionOfInterestForm.validate();
-      this.validateDocuments();
+      await this.validateDocuments();
 
       this.isFormValid = valid.valid;
       this.showError = !this.isFormValid;
@@ -1384,8 +1371,7 @@ export default {
         })
       );
     },
-    async removeDocment(document) {
-      console.log('DOCUMENT', document);
+    async removeDocument(document) {
       const documentName = document.iosas_documentid
         ? document.iosas_file_name
         : document.fileName;
@@ -1406,6 +1392,9 @@ export default {
         return;
       } else {
         this.isDocumentsLoading = true;
+        const filteredDocuments = this.documents.filter(({ id }) => {
+          return id !== document.id;
+        });
         if (document.iosas_documentid) {
           await ApiService.deleteDocument(document.iosas_documentid)
             .then(async () => {
@@ -1413,7 +1402,9 @@ export default {
                 this.data.iosas_expressionofinterestid
               );
               if (documentResponse) {
-                this.data.documents = documentResponse.data.value;
+                this.documents = filteredDocuments.concat(
+                  documentResponse.data.value
+                );
               }
               this.isDocumentsLoading = false;
               this.setSuccessAlert(
@@ -1429,9 +1420,9 @@ export default {
               );
             });
         } else {
-          const filteredDocuments = this.documents.filter(({ id }) => {
-            return id !== document.id;
-          });
+          // const filteredDocuments = this.documents.filter(({ id }) => {
+          //   return id !== document.id;
+          // });
           this.documents = filteredDocuments;
           this.isDocumentsLoading = false;
           return this.documents;
