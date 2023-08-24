@@ -35,7 +35,12 @@
       >
       <v-row>
         <v-col cols="6" sm="6" md="6" xs="6">
-          <div v-for="item in ADDITIONAL_PROGRAMS" :key="item.value">
+          <div
+            v-for="item in getApplicationMultiPickListOptions[
+              'iosas_additionalprograms'
+            ]"
+            :key="item.value"
+          >
             <v-checkbox
               v-model="formData.iosas_additionalprograms"
               :label="item.label"
@@ -69,9 +74,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING, ADDITIONAL_PROGRAMS } from '../../../utils/constants';
+import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'EducationalProgramTab',
   components: {},
@@ -86,12 +93,13 @@ export default {
     },
   },
   data: () => ({
-    ADDITIONAL_PROGRAMS,
     NULL_STRING,
     rules: Rules,
   }),
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationMultiPickListOptions']),
+  },
   methods: {
     formatBooleanToYesNoString,
   },

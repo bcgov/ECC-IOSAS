@@ -40,13 +40,17 @@ export const ApiRoutes = Object.freeze({
     ACTIVE_SCHOOL_YEARS: dynamicRoot + '/SchoolYear/GetActiveYears',
     PICK_LISTS: (tableName) =>
       dynamicRoot + `/Metdata/GetPickListValues?tableName=${tableName}`,
+    MULTI_PICK_LISTS: (tableName) =>
+      dynamicRoot +
+      `/Metdata/GetMultiSelectPicklistValues?tableName=${tableName}`,
     SCHOOL_AUTHORITY:
       dynamicRoot + '/SchoolAuthority/GetActiveSchoolAuthorityList',
     CONTACT_BY_SCHOOL_AUTHORITY: (id) =>
       dynamicRoot + `/Contact/GetBySchoolAuthority?schoolAuthorityId=${id}`,
   },
   documents: {
-    APPLICATION_DOCUMENTS: dynamicRoot + '/Document/GetApplicationDocumentList',
+    APPLICATION_DOCUMENTS: (id) =>
+      dynamicRoot + `/Document/GetApplicationDocumentList?id=${id}`,
     EOI_DOCUMENTS: (id) =>
       dynamicRoot + `/Document/GetEOIDocumentList?id=${id}`,
     UPLOAD_DOCUMENT: dynamicRoot + '/Document/Upload',
@@ -61,6 +65,13 @@ export const ApiRoutes = Object.freeze({
     CREATE_EOI: (submitted) =>
       dynamicRoot + `/EOI/Create?submitted=${submitted}`,
     CANCEL_EOI: (id) => dynamicRoot + `/EOI/Cancel?id=${id}`,
+  },
+  app: {
+    APPLICATIONS: dynamicRoot + '/Application/GetAllByUser',
+    APPLICATION: (id) => dynamicRoot + `/Application/GetById?id=${id}`,
+    CANCEL_APPLICATION: (id) => dynamicRoot + `/Application/Cancel?id=${id}`,
+    UPDATE_APPLICATION: (id, submitted) =>
+      dynamicRoot + `/Application/Update?id=${id}&submitted=${submitted}`,
   },
 });
 
@@ -88,35 +99,6 @@ export const PAGE_TITLES = Object.freeze({
 export const MINISTRY_NAME = 'Ministry of Education and Child Care';
 
 export const EDX_SAGA_REQUEST_DELAY_MILLISECONDS = 2000;
-
-export const GRADE_OPTIONS = [
-  'Kindergarten',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-];
-
-export const YEAR_OPTIONS = [
-  '2020/21 SY',
-  '2021/22 SY',
-  '2022/23 SY',
-  '2023/24 SY',
-  '2023/24 SY',
-  '2025/26 SY',
-  '2026/27 SY',
-  '2027/28 SY',
-  '2028/29 SY',
-  '2029/30 SY',
-];
 
 export const GOV_URL = {
   independentActUrl:
@@ -184,52 +166,6 @@ export const GOV_URL = {
 };
 
 export const NULL_STRING = '-';
-
-// School Application form tabs - disabled by default until form is valid
-export const DISABLED_TABS = [
-  'School Information',
-  'School Authority',
-  'Student Enrolment',
-  'School Semester',
-  'Group Certification',
-  'School Facility',
-  'School Policies',
-  'Educational Program',
-  'Teacher Certification',
-  'Documents',
-  'Submission',
-];
-
-// Getting replaced with PickLists
-export const SEMESTER_TYPE_OPTIONS = [
-  { label: 'Semestered', value: 'semestered' },
-  { label: 'Linear', value: 'linear' },
-  { label: 'Regular School Year (Sept - June)', value: 'regular' },
-  { label: 'Summer', value: 'summer' },
-  { label: 'All Year', value: 'all' },
-];
-
-export const INCORPORATION_TYPE_OPTIONS = [
-  { label: 'Societies Act', url: GOV_URL.societiesActUrl, value: 'Societies' },
-  {
-    label: 'Business Corporation Act',
-    url: GOV_URL.businessCorporationActUrl,
-    value: 'Business',
-  },
-  {
-    label: 'an Order in Council or Private Act',
-    url: null,
-    value: 'Council/Private',
-  },
-];
-
-export const ADDITIONAL_PROGRAMS = [
-  { label: 'Indigenous Students', value: 'indigenousStudents' },
-  { label: 'English Language Learner Students', value: 'ESL' },
-  { label: 'International Students', value: 'InternationalStudents' },
-  { label: 'Students with diverse abilities', value: 'diverseAbilities' },
-  { label: 'Other (please specify):', value: 'Other' },
-];
 
 export const EOI_DOC_CODES = {
   incorporation: 100000000,

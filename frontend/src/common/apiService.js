@@ -156,15 +156,11 @@ export default {
       throw e;
     }
   },
-
-  // School Applications
-  async getApplicationDocuments() {
+  async getMultiPickLists(tableName) {
     try {
-      return await apiAxios.get(ApiRoutes.documents.APPLICATION_DOCUMENTS);
+      return await apiAxios.get(ApiRoutes.meta.MULTI_PICK_LISTS(tableName));
     } catch (e) {
-      console.log(
-        `Failed to get from Nodejs getApplicationDocuments API - ${e}`
-      );
+      console.log(`Failed to get from Nodejs getPickLists API - ${e}`);
       throw e;
     }
   },

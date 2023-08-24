@@ -59,26 +59,54 @@
             color="rgb(59, 153, 252)"
           />
         </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-text-field
+            :disabled="!isEditing"
+            id="iosas_authorityheadphone"
+            v-model="formData.iosas_authorityheadphone"
+            :rules="[rules.required()]"
+            :maxlength="255"
+            variant="outlined"
+            label="E-mail"
+            color="rgb(59, 153, 252)"
+          />
+        </v-col>
       </v-row>
       <v-label
         >Please indicate under which legislation your School Authority is
         incorporated:</v-label
       >
       <v-row>
-        <v-col cols="12" sm="12" md="6" xs="12">
-          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
-            <v-checkbox
-              v-model="formData.iosas_incorporationtype"
+        <v-col cols="12" sm="12" md="12" xs="12">
+          <v-radio-group
+            id="iosas_incorporationtype"
+            v-model="formData.iosas_incorporationtype"
+            color="#003366"
+            inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
+          >
+            <v-radio
+              v-for="item in getApplicationPickListOptions[
+                'iosas_incorporationtype'
+              ]"
+              :key="item.value"
+              inline
+              color="#003366"
               :value="item.value"
             >
               <template v-slot:label>
-                <a target="_blank" :href="item.url" v-if="item.url">
+                <a
+                  target="_blank"
+                  :href="getIncorporationUrl(item.label)"
+                  v-if="getIncorporationUrl(item.label)"
+                >
                   {{ item.label }}
                 </a>
                 <p v-else>{{ item.label }}</p>
               </template>
-            </v-checkbox>
-          </div>
+            </v-radio>
+          </v-radio-group>
         </v-col>
         <v-spacer />
       </v-row>
@@ -97,14 +125,12 @@
           />
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-text-field
-            :disabled="!isEditing"
-            id="iosas_dateoflastannualreport"
+          <VueDatePicker
+            ref="iosas_dateoflastannualreport"
             v-model="formData.iosas_dateoflastannualreport"
-            :maxlength="255"
-            variant="outlined"
-            label="Date of last Annual Report (optional)"
-            color="rgb(59, 153, 252)"
+            :rules="[rules.required()]"
+            :enable-time-picker="false"
+            format="yyyy-MM-dd"
           />
         </v-col>
       </v-row>
@@ -159,6 +185,11 @@
           <v-textarea
             id="iosas_detailsofinvolvement"
             v-model="formData.iosas_detailsofinvolvement"
+            :rules="
+              formData.iosas_proponentspreviouslyinvolvedinisbc
+                ? [rules.required()]
+                : []
+            "
             :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"
@@ -178,9 +209,15 @@
           <v-label>School Authority Head</v-label>
           <p>{{ getAuthorityHeadName() || NULL_STRING }}</p>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>E-mail</v-label>
           <p>{{ formData.iosas_authorityheademail || NULL_STRING }}</p>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Phone</v-label>
+          <p>{{ formData.iosas_authorityheadphone || NULL_STRING }}</p>
         </v-col>
       </v-row>
       <br />
@@ -190,20 +227,11 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <div v-for="item in INCORPORATION_TYPE_OPTIONS" :key="item.value">
-            <v-checkbox
-              v-model="formData.iosas_incorporationtype"
-              :value="item.value"
-              disabled
-            >
-              <template v-slot:label>
-                <a target="_blank" :href="item.url" v-if="item.url">
-                  {{ item.label }}
-                </a>
-                <p v-else>{{ item.label }}</p>
-              </template>
-            </v-checkbox>
-          </div>
+          {{
+            formData[
+              'iosas_incorporationtype@OData.Community.Display.V1.FormattedValue'
+            ] || NULL_STRING
+          }}
         </v-col>
       </v-row>
 
@@ -214,7 +242,13 @@
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
           <v-label>Date of last Annual Report</v-label>
-          <p>{{ formData.iosas_dateoflastannualreport || NULL_STRING }}</p>
+          <p>
+            {{
+              formData[
+                'iosas_dateoflastannualreport@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
+            }}
+          </p>
         </v-col>
       </v-row>
 
@@ -260,14 +294,16 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import {
-  NULL_STRING,
-  GOV_URL,
-  INCORPORATION_TYPE_OPTIONS,
-} from '../../../utils/constants';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolAuthorityInformationTab',
+  components: {
+    VueDatePicker,
+  },
   emits: ['validateAndPopulate'],
   props: {
     formData: {
@@ -278,19 +314,25 @@ export default {
       type: Boolean,
       required: true,
     },
-    validateAndPopulate: {
-      type: Function,
-      required: true,
-    },
   },
   data: () => ({
     GOV_URL,
     NULL_STRING,
-    INCORPORATION_TYPE_OPTIONS,
     rules: Rules,
   }),
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+  },
+  mounted() {},
   methods: {
     formatBooleanToYesNoString,
+    getIncorporationUrl(label) {
+      const urlHashMap = {
+        'Provincial Incorporation Act': GOV_URL.businessCorporationActUrl,
+        'Society Act': GOV_URL.societiesActUrl,
+      };
+      return urlHashMap[label] ? urlHashMap[label] : null;
+    },
     getAuthorityHeadName() {
       return this.formData.iosas_authorityheadfirstname
         ? this.formData.iosas_authorityheadfirstname +
@@ -301,3 +343,22 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+:deep(.dp__input) {
+  height: 55px;
+}
+:deep(.mdi-information) {
+  color: #003366;
+}
+:deep(.dp__active_date) {
+  background-color: #003366;
+  color: white;
+}
+:deep(.dp__select) {
+  color: #003366;
+}
+:deep(.dp__today) {
+  border-color: #003366;
+}
+</style>

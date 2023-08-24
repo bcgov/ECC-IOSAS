@@ -23,6 +23,7 @@
         :formData="applicationData"
         :isLoading="isLoading"
         @setIsLoading="setIsLoading"
+        @updateData="updateData"
       />
     </div>
   </v-container>
@@ -30,17 +31,20 @@
 
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
+import ApplicationService from '../../common/applicationService';
+import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
 
 export default {
   name: 'SchoolApplicationPage',
+  mixins: [alertMixin],
   components: {
     SchoolApplicationForm,
   },
   data: () => ({
     isLoading: true,
-    applicationData: null,
+    applicationData: {},
     breadcrumbs: [
       {
         title: 'Dashboard',
@@ -55,23 +59,72 @@ export default {
     ],
   }),
   computed: {
-    ...mapState(applicationsStore, ['getSchoolApplicationById']),
+    ...mapState(applicationsStore, ['getSchoolApplication']),
   },
   created() {
-    applicationsStore()
-      .getApplicationData()
-      .then(() => {
-        setTimeout(() => {
-          this.isLoading = false;
-          this.applicationData = this.getSchoolApplicationById(
-            this.$route.params.id
-          );
-        }, 500);
-      });
+    this.fetchAppData();
   },
   methods: {
-    setIsLoading() {
+    setIsLoading(value) {
+      this.isLoading = value;
+    },
+    convertToString(data) {
+      return data.length > 0 ? data.toString() : null;
+    },
+    formatPayload(payload) {
+      // Convert array to comma seperated string
+      return {
+        ...payload,
+        iosas_schoolaffiliation: this.convertToString(
+          payload.iosas_schoolaffiliation
+        ),
+        iosas_semestertype: this.convertToString(payload.iosas_semestertype),
+        iosas_additionalprograms: this.convertToString(
+          payload.iosas_additionalprograms
+        ),
+      };
+    },
+    async fetchAppData() {
       this.isLoading = true;
+      return applicationsStore()
+        .getApplicationById(this.$route.params.id)
+        .then(() => {
+          this.applicationData = this.getSchoolApplication;
+
+          this.isLoading = false;
+          return this.applicationData;
+        });
+    },
+    async updateData(id, payload, isSubmitted) {
+      try {
+        this.isLoading = true;
+        const updateResponse = await ApplicationService.updateSchoolApplication(
+          id,
+          this.formatPayload(payload),
+          isSubmitted
+        );
+        if (updateResponse.data) {
+          if (isSubmitted) {
+            this.$router.push({
+              name: 'applicationConfirmation',
+              params: { type: 'APP' },
+            });
+          } else {
+            this.isLoading = false;
+            await this.fetchAppData();
+
+            this.setSuccessAlert(
+              `Success! School Application ${payload.iosas_applicationnumber} has been updated.`
+            );
+          }
+        }
+      } catch (error) {
+        this.isLoading = false;
+        this.setFailureAlert(
+          `An error occurred while trying to update the school ppplication ${payload.iosas_applicationnumber}. Please try again later.`
+        );
+        throw error;
+      }
     },
   },
 };

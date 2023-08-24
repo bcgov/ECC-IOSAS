@@ -47,6 +47,8 @@ export default {
     await metaDataStore().getEOIPickLists();
     await metaDataStore().getDocumentPickLists();
     await metaDataStore().getSchoolAuthority();
+    await metaDataStore().getApplicationPickLists();
+    await metaDataStore().getApplicationMultiPickLists();
 
     this.setLoading(true);
     await this.getJwtToken()
@@ -71,12 +73,6 @@ export default {
       'getJwtToken',
       'getUserInfo',
       'logout',
-    ]),
-    ...mapState(metaDataStore, [
-      'getActiveSchoolYear',
-      'getEOIPickLists',
-      'getSchoolAuthority',
-      'getDocumentPickLists',
     ]),
   },
 };
@@ -239,6 +235,10 @@ h1 {
   white-space: break-spaces !important;
   margin-bottom: 10px;
 }
+
+.v-input--disabled {
+  color: black !important;
+}
 .v-selection-control--inline .v-label {
   margin-bottom: 0 !important;
 }
@@ -299,12 +299,11 @@ h1 {
   height: 30px !important;
 }
 
-// using for field name confirmations - Will be removed
-.orange {
-  color: orangered !important;
-}
-
 .no-mb {
   margin-bottom: 0px !important;
+}
+
+.sm {
+  font-size: 14px !important;
 }
 </style>

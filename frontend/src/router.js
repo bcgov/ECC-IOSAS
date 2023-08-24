@@ -15,7 +15,7 @@ import ExpressionOfInterestPage from './components/EOI/ExpressionOfInterestPage.
 import NewExpressionOfInterestPage from './components/EOI/NewExpressionOfInterestPage.vue';
 import ConfirmationPage from './components/common/ConfirmationPage.vue';
 import SchoolApplicationPage from './components/applications/SchoolApplicationPage.vue';
-import ProfilePage from './components/profile/ProfilePage.vue';
+// import ProfilePage from './components/profile/ProfilePage.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -109,25 +109,26 @@ const router = createRouter({
       },
     },
     {
-      path: '/school-application/:id',
+      path: '/school-application/:id/:tab',
       name: 'schoolApplicationPage',
       component: SchoolApplicationPage,
       props: {},
       meta: {
         pageTitle: 'Application',
-        // requiresAuth: true,
-      },
-    },
-    {
-      path: '/user-profile',
-      name: 'User Profile',
-      component: ProfilePage,
-      props: {},
-      meta: {
-        pageTitle: 'User Profile',
         requiresAuth: true,
       },
     },
+    // TODO: Add back when a profile is needed
+    // {
+    //   path: '/user-profile',
+    //   name: 'User Profile',
+    //   component: ProfilePage,
+    //   props: {},
+    //   meta: {
+    //     pageTitle: 'User Profile',
+    //     requiresAuth: true,
+    //   },
+    // },
     {
       path: '/:catchAll(.*)',
       name: 'notfound',

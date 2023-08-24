@@ -1,60 +1,98 @@
 import ApiService from '../../common/apiService';
+import ApplicationService from '../../common/applicationService';
+import { formatStringToNumericArray } from '../../utils/format';
 import { defineStore } from 'pinia';
-import { SCHOOL_APPLICATION_MOCK } from '../../utils/constants/mocks';
+
+const updateStatusName = (status) => {
+  const newStatus = {
+    'New (Submitted)': 'New',
+    'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
+    '2 - Draft App': 'Draft',
+    '3 - App Submitted': 'Submitted',
+  };
+  return newStatus[status] ? newStatus[status] : status;
+};
 
 export const applicationsStore = defineStore('applications', {
   namespaced: true,
   state: () => ({
     EOIApplications: null,
-    schoolApplicationsMap: new Map(),
+    schoolApplications: null,
+    application: null,
     eoi: null,
     confirmationMessage: null,
   }),
   getters: {
     getConfirmationMessage: (state) => state.confirmationMessage,
     getSchoolApplicationsFormatted: (state) =>
-      // format the data for table view - keys are turned into table headers
-      Object.values(Object.fromEntries(state.schoolApplicationsMap)).map(
-        (v) => ({
-          // TODO: update with id when connected to API
+      // Sort applications by last 4 digits of the applicationnumber
+      state.schoolApplications
+        .sort(
+          (appA, appB) =>
+            appA.iosas_applicationnumber.split('-').pop() -
+            appB.iosas_applicationnumber.split('-').pop()
+        )
+        .map((app) => ({
           application_number:
-            v.iosas_applicationnumber + ' ' + v.iosas_applicationnumber,
-          status:
-            v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
-          school_name: v.iosas_proposedschoolname,
+            app.iosas_applicationnumber + ' ' + app.iosas_applicationid,
+          status: updateStatusName(
+            app['statuscode@OData.Community.Display.V1.FormattedValue']
+          ),
+          school_name: app.iosas_proposedschoolname,
           school_year:
-            v[
+            app[
               '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
             ],
           group_classification:
-            v[
+            app[
               'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
             ],
-        })
-      ),
+        })),
     getEOIApplicationsFormatted: (state) =>
       // Sort EOIs by last 4 digits of the eoinumber
       state.EOIApplications?.sort(
-        (a, b) =>
-          a.iosas_eoinumber.split('-').pop() -
-          b.iosas_eoinumber.split('-').pop()
-      ).map((v) => ({
-        EOI_number: v.iosas_eoinumber + ' ' + v.iosas_expressionofinterestid,
-        status:
-          v['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'],
-        proposed_school_name: v.iosas_proposedschoolname,
+        (appA, appB) =>
+          appA.iosas_eoinumber.split('-').pop() -
+          appB.iosas_eoinumber.split('-').pop()
+      ).map((app) => ({
+        EOI_number:
+          app.iosas_eoinumber + ' ' + app.iosas_expressionofinterestid,
+        status: updateStatusName(
+          app['iosas_reviewstatus@OData.Community.Display.V1.FormattedValue']
+        ),
+        proposed_school_name: app.iosas_proposedschoolname,
         school_year:
-          v['_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'],
+          app[
+            '_iosas_edu_year_value@OData.Community.Display.V1.FormattedValue'
+          ],
         group_classification:
-          v[
+          app[
             'iosas_groupclassification@OData.Community.Display.V1.FormattedValue'
           ],
       })),
     getEOI: (state) => {
-      return state.eoi;
+      const formattedData = {
+        ...state.eoi,
+        'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue':
+          updateStatusName(
+            state.eoi[
+              'iosas_reviewstatus@OData.Community.Display.V1.FormattedValue'
+            ]
+          ),
+      };
+      return formattedData;
     },
-    getSchoolApplicationById: (state) => {
-      return (appId) => state.schoolApplicationsMap.get(appId);
+    getSchoolApplication: (state) => {
+      const formattedData = {
+        ...state.application,
+        'statuscode@OData.Community.Display.V1.FormattedValue':
+          updateStatusName(
+            state.application[
+              'statuscode@OData.Community.Display.V1.FormattedValue'
+            ]
+          ),
+      };
+      return formattedData;
     },
   },
   actions: {
@@ -68,22 +106,10 @@ export const applicationsStore = defineStore('applications', {
       this.eoi = response;
     },
     async setSchoolApplications(applicationsResponse) {
-      this.schoolApplicationsMap = new Map();
-      applicationsResponse.forEach((element) => {
-        this.schoolApplicationsMap.set(
-          element.iosas_applicationnumber,
-          element
-        );
-      });
+      this.schoolApplications = applicationsResponse;
     },
-    async getApplicationData() {
-      if (localStorage.getItem('jwtToken')) {
-        if (this.schoolApplicationsMap.size === 0) {
-          // API doesn't exist yet, using mock data for now
-          // const response = await ApiService.getSchoolApplications();
-          await this.setSchoolApplications(SCHOOL_APPLICATION_MOCK);
-        }
-      }
+    async setSchoolApplication(applicationResponse) {
+      this.application = applicationResponse;
     },
     async getAllEOI() {
       const response = await ApiService.getAllEOIByUser();
@@ -105,6 +131,33 @@ export const applicationsStore = defineStore('applications', {
           : [],
       };
       await this.setEOIApplication(eoi);
+    },
+    async getAllSchoolApplications() {
+      const response = await ApplicationService.getAllApplicationsByUser();
+      await this.setSchoolApplications(response.data.value);
+    },
+    async getApplicationById(appId) {
+      const response = await ApplicationService.getApplicationById(appId);
+
+      const documentResponse = await ApplicationService.getApplicationDocuments(
+        appId
+      );
+      const data = response.data.value[0];
+      const app = {
+        ...data,
+        // format comma seperated lists into arrays and convert values to numbers
+        iosas_schoolaffiliation: formatStringToNumericArray(
+          data.iosas_schoolaffiliation
+        ),
+        iosas_additionalprograms: formatStringToNumericArray(
+          data.iosas_additionalprograms
+        ),
+        iosas_semestertype: formatStringToNumericArray(data.iosas_semestertype),
+        documents: documentResponse.data.value
+          ? documentResponse.data.value
+          : [],
+      };
+      await this.setSchoolApplication(app);
     },
   },
 });

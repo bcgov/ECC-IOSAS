@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h4>Certification of Teachers</h4>
-    <v-label><strong>Schools seeking Group 2 and 4 only</strong></v-label>
+    <v-label class="sm">Schools seeking Group 2 and 4 only</v-label>
     <br />
     <v-label
       >The school principal/head of school and all teachers teaching a subject
@@ -22,7 +22,7 @@
       <a :href="GOV_URL.criminalRecordCheckUrl" target="_blank">
         Ministry of Public Safety and Solicitor General.</a
       >
-      Volunteers working with childrenmay also have their criminal record check
+      Volunteers working with children may also have their criminal record check
       completed by the Ministry of Public Safety and Solicitor General or local
       police.
     </v-label>
@@ -61,10 +61,19 @@
             color="#003366"
             class="mt-4"
             inline
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredSelect()]"
           >
-            <v-radio label="Yes" color="#003366" v-bind:value="true" />
-            <v-radio label="No" color="#003366" v-bind:value="false" />
-            <v-radio label="N/A" color="#003366" v-bind:value="null" />
+            <v-radio
+              v-for="item in getApplicationPickListOptions?.[
+                'iosas_awareofcertificationrequirements'
+              ]"
+              :key="item.value"
+              inline
+              :label="item.label"
+              color="#003366"
+              v-bind:value="item.value"
+            />
           </v-radio-group>
         </v-col>
       </v-row>
@@ -117,9 +126,9 @@
         <v-col cols="4">
           <p>
             {{
-              formatBooleanToYesNoString(
-                formData.iosas_awareofcertificationrequirements
-              )
+              formData[
+                'iosas_awareofcertificationrequirements@OData.Community.Display.V1.FormattedValue'
+              ] || NULL_STRING
             }}
           </p>
         </v-col>
@@ -151,10 +160,13 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'TeacherCertificationTab',
+  emits: ['validateAndPopulate'],
   components: {},
   props: {
     formData: {
@@ -172,7 +184,9 @@ export default {
     rules: Rules,
   }),
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+  },
   methods: { formatBooleanToYesNoString },
 };
 </script>

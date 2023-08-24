@@ -144,16 +144,11 @@ export default {
     this.eoiApplications = this.getEOIApplicationsFormatted
       ? this.getEOIApplicationsFormatted
       : [];
-    applicationsStore()
-      .getApplicationData()
-      .then(() => {
-        // mocking a loading state - will be replaced when API is connected.
-        setTimeout(() => {
-          this.isLoading = false;
-          this.schoolApplications =
-            applicationsStore().getSchoolApplicationsFormatted;
-        }, 1000);
-      });
+    await applicationsStore().getAllSchoolApplications();
+    this.schoolApplications =
+      applicationsStore().getSchoolApplicationsFormatted;
+
+    this.isLoading = false;
   },
   methods: {
     authStore,

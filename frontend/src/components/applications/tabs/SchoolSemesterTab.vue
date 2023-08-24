@@ -1,13 +1,18 @@
 <template>
   <v-container>
     <h4>School Semester Indicator Type</h4>
-    <v-label
+    <v-label class="sm"
       >Schools Seeking Group 1, 2 and 4 only. Please select however many fit the
       intended school.</v-label
     >
     <v-row>
       <v-col cols="6" sm="6" md="6" xs="6">
-        <div v-for="item in SEMESTER_TYPE_OPTIONS" :key="item.value">
+        <div
+          v-for="item in getApplicationMultiPickListOptions[
+            'iosas_semestertype'
+          ]"
+          :key="item.value"
+        >
           <v-checkbox
             v-model="formData.iosas_semestertype"
             :label="item.label"
@@ -23,7 +28,7 @@
       <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
-      <v-label>Minimum required hours per year 450 Hours </v-label>
+      <v-label class="sm">Minimum required hours per year 450 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
@@ -61,13 +66,13 @@
       </v-row>
       <v-label><strong>Full day Kindergarten</strong></v-label>
       <br />
-      <v-label>Minimum required hours per year 850 Hours </v-label>
+      <v-label class="sm">Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_fulldaykindergartenproposedhoursperyear"
-            v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
+            id="iosas_fulldaykindergartenproposedhoursperday"
+            v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -88,8 +93,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_fulldaykindergartenproposedhoursperday"
-            v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
+            id="iosas_fulldaykindergartenproposedhoursperyear"
+            v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -99,13 +104,13 @@
       </v-row>
       <v-label><strong>Grades 1-12</strong></v-label>
       <br />
-      <v-label>Minimum required hours per year 850 Hours </v-label>
+      <v-label class="sm">Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_grades112proposedhoursperyear"
-            v-model="formData.iosas_grades112proposedhoursperyear"
+            id="iosas_grades112proposedhoursperday"
+            v-model="formData.iosas_grades112proposedhoursperday"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Day"
@@ -126,8 +131,8 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_grades112proposedhoursperday"
-            v-model="formData.iosas_grades112proposedhoursperday"
+            id="iosas_grades112proposedhoursperyear"
+            v-model="formData.iosas_grades112proposedhoursperyear"
             :maxlength="255"
             variant="outlined"
             label="Proposed Hours Per Year"
@@ -140,7 +145,7 @@
       <br />
       <v-label><strong>Half day Kindergarten</strong></v-label>
       <br />
-      <v-label>Minimum required hours per year 450 Hours </v-label>
+      <v-label class="sm">Minimum required hours per year 450 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -173,7 +178,7 @@
       <br />
       <v-label><strong>Full day Kindergarten</strong></v-label>
       <br />
-      <v-label>Minimum required hours per year 850 Hours </v-label>
+      <v-label class="sm">Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -206,7 +211,7 @@
       <br />
       <v-label><strong>Grades 1-12</strong></v-label>
       <br />
-      <v-label>Minimum required hours per year 850 Hours </v-label>
+      <v-label class="sm">Minimum required hours per year 850 Hours </v-label>
       <v-row>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
@@ -232,9 +237,11 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { metaDataStore } from '../../../store/modules/metaData';
 import * as Rules from '../../../utils/institute/formRules';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { NULL_STRING, SEMESTER_TYPE_OPTIONS } from '../../../utils/constants';
+import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'SchoolSemesterTab',
   components: {},
@@ -249,12 +256,13 @@ export default {
     },
   },
   data: () => ({
-    SEMESTER_TYPE_OPTIONS,
     NULL_STRING,
     rules: Rules,
   }),
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapState(metaDataStore, ['getApplicationMultiPickListOptions']),
+  },
   methods: { formatBooleanToYesNoString },
 };
 </script>

@@ -72,6 +72,15 @@ const required = (message = 'Required') => {
 };
 
 /**
+ * Rule required number allows 0 to be valid
+ * @param {String} message
+ * @returns Function
+ */
+const requiredNumber = (message = 'Required') => {
+  return (v) => !v || v !== 0 || message;
+};
+
+/**
  * Custom endDate Rule! Checks that we have start date and that end date
  * happens after start date. Date format should be 2022-12-10 YYYY-MM-DD.
  * @param {String} effectiveDate
@@ -163,6 +172,16 @@ const emailConfirmation = (
   return true;
 };
 
+/**
+ * Custom validation to ensure student enrolment is > 10
+ * @returns {String|Boolean}
+ */
+const enrolmentTotalGreaterThanTen = (
+  message = 'A new school must have 10 or more students enrolled'
+) => {
+  return (v) => v > 10 || message;
+};
+
 export {
   email,
   endDateRule,
@@ -173,6 +192,8 @@ export {
   website,
   requiredSelect,
   requiredRadio,
+  requiredNumber,
   emailConfirmation,
   gradeRangeRule,
+  enrolmentTotalGreaterThanTen,
 };

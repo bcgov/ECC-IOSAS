@@ -1,16 +1,14 @@
 <template>
   <v-container>
     <h4>Projected Student Enrolment</h4>
-    <v-label
-      ><strong
-        >NOTE: A new school must have 10 or more school age students who are
-        enrolled with the school and reported as 1.00 FTE each in accordance
-        with the
-        <a :href="GOV_URL.instructionsForIndependentSchoolsUrl" target="_blank">
-          1701 instructions for independent schools
-        </a>
-        for the September data collection.
-      </strong>
+    <v-label class="sm d-inline"
+      >NOTE: A new school must have 10 or more school age students who are
+      enrolled with the school and reported as 1.00 FTE each in accordance with
+      the
+      <a :href="GOV_URL.instructionsForIndependentSchoolsUrl" target="_blank">
+        1701 instructions for independent schools
+      </a>
+      for the September data collection.
     </v-label>
     <br />
     <br />
@@ -21,9 +19,9 @@
           <v-text-field
             id="iosas_numberofstudentskindergarten"
             v-model="formData.iosas_numberofstudentskindergarten"
-            :maxlength="255"
             variant="outlined"
             label="Kindergarten"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -31,9 +29,9 @@
           <v-text-field
             id="iosas_numberofstudentsg1"
             v-model="formData.iosas_numberofstudentsg1"
-            :maxlength="255"
             variant="outlined"
             label="Grade 1"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -41,9 +39,9 @@
           <v-text-field
             id="iosas_numberofstudentsg2"
             v-model="formData.iosas_numberofstudentsg2"
-            :maxlength="255"
             variant="outlined"
             label="Grade 2"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -53,9 +51,9 @@
           <v-text-field
             id="iosas_numberofstudentsg3"
             v-model="formData.iosas_numberofstudentsg3"
-            :maxlength="255"
             variant="outlined"
             label="Grade 3"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -63,9 +61,9 @@
           <v-text-field
             id="iosas_numberofstudentsg4"
             v-model="formData.iosas_numberofstudentsg4"
-            :maxlength="255"
             variant="outlined"
             label="Grade 4"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -73,9 +71,9 @@
           <v-text-field
             id="iosas_numberofstudentsg5"
             v-model="formData.iosas_numberofstudentsg5"
-            :maxlength="255"
             variant="outlined"
             label="Grade 5"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -85,9 +83,9 @@
           <v-text-field
             id="iosas_numberofstudentsg6"
             v-model="formData.iosas_numberofstudentsg6"
-            :maxlength="255"
             variant="outlined"
             label="Grade 6"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -95,9 +93,9 @@
           <v-text-field
             id="iosas_numberofstudentsg7"
             v-model="formData.iosas_numberofstudentsg7"
-            :maxlength="255"
             variant="outlined"
             label="Grade 7"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -106,7 +104,6 @@
             disabled
             id="iosas_primaryschooltotal"
             v-model="formData.iosas_primaryschooltotal"
-            :maxlength="255"
             variant="outlined"
             label="Total (A)"
             color="rgb(59, 153, 252)"
@@ -119,9 +116,9 @@
           <v-text-field
             id="iosas_numberofstudentsg8"
             v-model="formData.iosas_numberofstudentsg8"
-            :maxlength="255"
             variant="outlined"
             label="Grade 8"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -129,9 +126,9 @@
           <v-text-field
             id="iosas_numberofstudentsg9"
             v-model="formData.iosas_numberofstudentsg9"
-            :maxlength="255"
             variant="outlined"
             label="Grade 9"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -139,9 +136,9 @@
           <v-text-field
             id="iosas_numberofstudentsg10"
             v-model="formData.iosas_numberofstudentsg10"
-            :maxlength="255"
             variant="outlined"
             label="Grade 10"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -152,9 +149,9 @@
           <v-text-field
             id="iosas_numberofstudentsg11"
             v-model="formData.iosas_numberofstudentsg11"
-            :maxlength="255"
             variant="outlined"
             label="Grade 11"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -162,9 +159,9 @@
           <v-text-field
             id="iosas_numberofstudentsg12"
             v-model="formData.iosas_numberofstudentsg12"
-            :maxlength="255"
             variant="outlined"
             label="Grade 12"
+            :rules="[rules.requiredNumber(), rules.number()]"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -173,7 +170,6 @@
             disabled
             id="iosas_highschooltotal"
             v-model="formData.iosas_highschooltotal"
-            :maxlength="255"
             variant="outlined"
             label="Total (B)"
             color="rgb(59, 153, 252)"
@@ -186,7 +182,7 @@
             disabled
             id="iosas_totalenrolment"
             v-model="formData.iosas_totalenrolment"
-            :maxlength="255"
+            :rules="[rules.enrolmentTotalGreaterThanTen()]"
             variant="outlined"
             label="Total of A and B enrolment"
             color="rgb(59, 153, 252)"
@@ -344,3 +340,13 @@ export default {
   },
 };
 </script>
+
+<style>
+/* Change color of disabled validation error */
+.v-input--disabled .v-input__details,
+.v-input--disabled .v-input__prepend,
+.v-input--disabled .v-input__append {
+  color: #b00020;
+  opacity: 0.9 !important;
+}
+</style>

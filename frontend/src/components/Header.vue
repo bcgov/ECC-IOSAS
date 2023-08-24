@@ -56,13 +56,14 @@
           </v-chip>
         </template>
         <v-list dark style="background-color: #003366; color: white">
-          <v-list-item
+          <!-- TODO: Add back when a profile is needed -->
+          <!-- <v-list-item
             id="home_button"
             style="min-height: 4vh"
             :href="authRoutes.PROFILE"
           >
             <v-list-item-title>Profile</v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-item
             id="logout_button"
             style="min-height: 4vh"

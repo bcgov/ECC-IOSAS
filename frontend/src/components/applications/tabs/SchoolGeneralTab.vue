@@ -10,7 +10,11 @@
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Status </v-label>
-          <p>{{ formData.statuscode }}</p>
+          <p>
+            {{
+              formData['statuscode@OData.Community.Display.V1.FormattedValue']
+            }}
+          </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>{{ getCorrectDate().label }}</v-label>
@@ -110,13 +114,21 @@
     </div>
     <div v-else>
       <v-row>
-        <v-col cols="12" sm="12" md="6" xs="12">
+        <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Application Number </v-label>
           <p>{{ formData.iosas_applicationnumber }}</p>
         </v-col>
-        <v-col cols="12" sm="12" md="6" xs="12">
+        <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Status </v-label>
-          <p>{{ formData.statuscode }}</p>
+          <p>
+            {{
+              formData['statuscode@OData.Community.Display.V1.FormattedValue']
+            }}
+          </p>
+        </v-col>
+        <v-col cols="12" sm="12" md="4" xs="12">
+          <v-label>{{ getCorrectDate().label }}</v-label>
+          <p>{{ getCorrectDate().date }}</p>
         </v-col>
       </v-row>
       <br />
@@ -201,10 +213,7 @@
 <script>
 import * as Rules from '../../../utils/institute/formRules';
 import { GOV_URL } from '../../../utils/constants';
-import {
-  formatBooleanToYesNoString,
-  formatDateTime,
-} from '../../../utils/format';
+import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'SchoolGeneralTab',
@@ -218,8 +227,8 @@ export default {
       type: Boolean,
       required: true,
     },
-    validateAndPopulate: {
-      type: Function,
+    draftCode: {
+      type: Number,
       required: true,
     },
   },
@@ -230,16 +239,19 @@ export default {
   }),
   methods: {
     formatBooleanToYesNoString,
-    formatDateTime,
     getCorrectDate() {
-      return this.formData.iosas_reviewstatus === 'Draft'
+      return this.formData?.statuscode === this.draftCode
         ? {
-            label: 'Submission Date',
-            date: this.formatDateTime(this.formData.iosas_submissiondate),
+            label: 'Created Date',
+            date: this.formData[
+              'createdon@OData.Community.Display.V1.FormattedValue'
+            ],
           }
         : {
             label: 'Decision Date',
-            date: this.formatDateTime(this.formData.iosas_approvaldate),
+            date: this.formData[
+              'iosas_submissiondate@OData.Community.Display.V1.FormattedValue'
+            ],
           };
     },
   },

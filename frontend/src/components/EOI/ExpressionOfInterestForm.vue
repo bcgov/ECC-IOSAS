@@ -925,7 +925,7 @@ export default {
       },
     },
     'data.iosas_designatedcontactsameasauthorityhead': {
-      handler(val, oldVal) {
+      handler(val) {
         let contact;
         if (val) {
           this.populatedAndDisableAuthorityHead = true;
@@ -996,7 +996,7 @@ export default {
       },
     },
     'data.iosas_existingauthority': {
-      handler(val, oldVal) {
+      handler(val) {
         if (
           !val &&
           this.data._iosas_edu_schoolauthority_value &&

@@ -97,3 +97,6 @@ export function formatLongName(string) {
 export function displayDefaultNumberValue(data) {
   return data || data === 0 ? data : NULL_STRING;
 }
+
+export const formatStringToNumericArray = (string) =>
+  string ? string.split(',').map((value) => Number(value)) : [];
