@@ -628,7 +628,7 @@
                   secondary
                   class="mt-2 block"
                   variant="outlined"
-                  @click="toggleUpload(incorporationDocCode)"
+                  @click="toggleUpload(EOI_DOC_CODES.incorporation)"
                   >Upload</v-btn
                 >
                 <div
@@ -705,7 +705,7 @@
                   secondary
                   class="mt-2 block"
                   variant="outlined"
-                  @click="toggleUpload(certificateOfGoodStandingDocCode)"
+                  @click="toggleUpload(EOI_DOC_CODES.goodStanding)"
                   >Upload</v-btn
                 >
               </v-col>
@@ -766,7 +766,7 @@
                   secondary
                   class="mt-2 block"
                   variant="outlined"
-                  @click="toggleUpload(otherDocCode)"
+                  @click="toggleUpload(EOI_DOC_CODES.other)"
                   >Upload</v-btn
                 >
               </v-col>
@@ -869,7 +869,7 @@ import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
-import { GOV_URL } from '../../utils/constants';
+import { GOV_URL, EOI_DOC_CODES } from '../../utils/constants';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
@@ -914,8 +914,8 @@ export default {
     },
     documents: {
       handler(val) {
-        console.log(val);
-        this.displayDocuments();
+        // console.log(val);
+        // this.displayDocuments();
       },
     },
     schoolAddressKnown: {
@@ -1063,15 +1063,29 @@ export default {
         }
       },
     },
+    formatDocumets(val) {
+      console.log('DOCUMENTS', val);
+
+      if (!this.incorporationDocument) {
+        this.incorporationDocument = val.find(
+          ({ documentType }) =>
+            documentType === this.EOI_DOC_CODES.incorporation
+        );
+      }
+
+      if (!this.certificateOfGoodStandingDocument) {
+        this.certificateOfGoodStandingDocument = val.find(
+          ({ documentType }) => documentType === this.EOI_DOC_CODES.goodStanding
+        );
+      }
+    },
   },
   data() {
     return {
       rules: Rules,
       GOV_URL,
+      EOI_DOC_CODES,
       groupTwoCode: 100000000,
-      incorporationDocCode: 100000000,
-      certificateOfGoodStandingDocCode: 100000001,
-      otherDocCode: 100000002,
 
       // Used to populate confirmation Message
       authorityName: null,
@@ -1121,6 +1135,30 @@ export default {
     ]),
     ...mapState(applicationsStore, ['setConfirmationMessage']),
     ...mapState(authStore, ['isAuthenticated', 'contactInfo']),
+
+    formatDocumets() {
+      this.incorporationDocument = this.data?.documents
+        ?.map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
+        .find(
+          ({ iosas_eoidocumenttype }) =>
+            iosas_eoidocumenttype === this.EOI_DOC_CODES.incorporation
+        );
+
+      this.certificateOfGoodStandingDocument = this.data?.documents
+        ?.map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
+        .find(
+          ({ iosas_eoidocumenttype }) =>
+            iosas_eoidocumenttype === this.EOI_DOC_CODES.goodStanding
+        );
+      this.otherDocuments = this.data?.documents
+        ?.map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
+        .filter(
+          ({ iosas_eoidocumenttype }) =>
+            iosas_eoidocumenttype === this.EOI_DOC_CODES.other
+        );
+
+      return this.documents;
+    },
   },
   created() {
     this.data = this.isNew ? this.data : this.eoi;
@@ -1128,7 +1166,7 @@ export default {
       this.isNew || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
 
     if (this.data?.documents?.length > 0) {
-      this.displayExistingDocuments();
+      // this.displayExistingDocuments();
     }
 
     if (!this.isNew) {
@@ -1346,77 +1384,6 @@ export default {
         })
       );
     },
-    displayDocuments() {
-      if (this.isNew) {
-        // New EOI's will onyl have documents saved in state
-        this.incorporationDocument = this.documents.find(
-          ({ documentType }) => documentType === this.incorporationDocCode
-        );
-        if (this.incorporationDocument) {
-          this.incorporationDocumentRequired = false;
-        }
-        this.certificateOfGoodStandingDocument = this.documents.find(
-          ({ documentType }) =>
-            documentType === this.certificateOfGoodStandingDocCode
-        );
-        this.otherDocuments = this.documents.filter(
-          ({ documentType }) => documentType === this.otherDocCode
-        );
-      } else {
-        if (!this.incorporationDocument) {
-          this.incorporationDocument = this.documents.find(
-            ({ documentType }) => documentType === this.incorporationDocCode
-          );
-          if (this.incorporationDocument) {
-            this.incorporationDocumentRequired = false;
-          }
-        } else if (!this.certificateOfGoodStandingDocument) {
-          this.certificateOfGoodStandingDocument = this.documents.find(
-            ({ documentType }) =>
-              documentType === this.certificateOfGoodStandingDocCode
-          );
-        }
-
-        // Add state documents to pre-existing documents
-        const additionalDocuments = this.documents.filter(
-          ({ documentType }) => documentType === this.otherDocCode
-        );
-        if (this.data?.documents?.length) {
-          const savedDocuments = this.data?.documents
-            .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-            .filter(
-              ({ iosas_eoidocumenttype }) =>
-                iosas_eoidocumenttype === this.otherDocCode
-            );
-
-          this.otherDocuments = savedDocuments.concat(additionalDocuments);
-        } else {
-          this.otherDocuments = additionalDocuments;
-        }
-      }
-      return;
-    },
-    displayExistingDocuments() {
-      this.incorporationDocument = this.data?.documents
-        .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-        .find(
-          ({ iosas_eoidocumenttype }) =>
-            iosas_eoidocumenttype === this.incorporationDocCode
-        );
-
-      this.certificateOfGoodStandingDocument = this.data?.documents
-        .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-        .find(
-          ({ iosas_eoidocumenttype }) =>
-            iosas_eoidocumenttype === this.certificateOfGoodStandingDocCode
-        );
-      this.otherDocuments = this.data?.documents
-        .map((doc) => ({ fileName: doc.iosas_file_name, ...doc }))
-        .filter(
-          ({ iosas_eoidocumenttype }) =>
-            iosas_eoidocumenttype === this.otherDocCode
-        );
-    },
     async removeDocment(document) {
       console.log('DOCUMENT', document);
       const documentName = document.iosas_documentid
@@ -1440,7 +1407,6 @@ export default {
       } else {
         this.isDocumentsLoading = true;
         if (document.iosas_documentid) {
-          // this.$emit('setIsLoading', true);
           await ApiService.deleteDocument(document.iosas_documentid)
             .then(async () => {
               const documentResponse = await ApiService.getEOIDocuments(
@@ -1448,9 +1414,6 @@ export default {
               );
               if (documentResponse) {
                 this.data.documents = documentResponse.data.value;
-                // this.documents = this.documents;
-                this.displayExistingDocuments();
-                this.displayDocuments();
               }
               this.isDocumentsLoading = false;
               this.setSuccessAlert(

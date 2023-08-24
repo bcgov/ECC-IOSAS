@@ -324,15 +324,15 @@ export default {
     if (this.eoi?.documents?.length > 0) {
       this.incorporationDocument = this.eoi.documents.find(
         ({ iosas_eoidocumenttype }) =>
-          iosas_eoidocumenttype === EOI_DOC_CODES.incorporation
+          iosas_eoidocumenttype === this.EOI_DOC_CODES.incorporation
       );
       this.certificateOfGoodStandingDocument = this.eoi.documents.find(
         ({ iosas_eoidocumenttype }) =>
-          iosas_eoidocumenttype === EOI_DOC_CODES.goodStanding
+          iosas_eoidocumenttype === this.EOI_DOC_CODES.goodStanding
       );
       this.otherDocuments = this.eoi.documents.filter(
         ({ iosas_eoidocumenttype }) =>
-          iosas_eoidocumenttype === EOI_DOC_CODES.other
+          iosas_eoidocumenttype === this.EOI_DOC_CODES.other
       );
     }
   },
