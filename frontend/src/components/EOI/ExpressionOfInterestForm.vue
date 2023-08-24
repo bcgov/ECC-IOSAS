@@ -607,11 +607,16 @@
                     >Business Corporations Act.</a
                   ></v-label
                 >
-                <div v-if="incorporationDocument" class="d-flex">
-                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                    mdi-file-document-check-outline
-                  </v-icon>
-                  <p>{{ incorporationDocument.fileName }}</p>
+                <div
+                  v-if="incorporationDocument"
+                  class="d-flex justify-content-between"
+                >
+                  <div>
+                    <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                      mdi-file-document-check-outline
+                    </v-icon>
+                    <p>{{ incorporationDocument.fileName }}</p>
+                  </div>
                   <v-btn
                     secondary
                     class="ml-15"
@@ -1231,11 +1236,11 @@ export default {
         );
       }
       if (
-        this.isFormValid ||
-        !this.isSubmitted ||
-        !this.incorporationDocumentRequired ||
-        !this.certificateIssueDateRequired ||
-        !this.goodStandingIssueDateRequired
+        (this.isFormValid &&
+          !this.incorporationDocumentRequired &&
+          !this.certificateIssueDateRequired &&
+          !this.goodStandingIssueDateRequired) ||
+        !this.isSubmitted
       ) {
         await this.$emit(
           'updateEOIData',
