@@ -53,4 +53,5 @@ jobs:
         working-directory: './tools'
         run: |
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
-          make update-dc-api
+          make print-status
+          make deploy-api

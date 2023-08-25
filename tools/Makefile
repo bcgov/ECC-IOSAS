@@ -216,7 +216,7 @@ promote-api:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
-	@oc -n "$(BUILD_NAMESPACE)" tag $(API):$(BUILD_TAG) $(API):$(ENV_PREFIX)
+	@oc -n "$(BUILD_NAMESPACE)" tag $(API):latest $(API):$(ENV_PREFIX)
 
 update-dc-web:
 	test -n "$(NAMESPACE)"
@@ -236,7 +236,7 @@ promote-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Web: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
-	@oc -n "$(BUILD_NAMESPACE)" tag $(Web):$(BUILD_TAG) $(Web):$(ENV_PREFIX)
+	@oc -n "$(BUILD_NAMESPACE)" tag $(Web):latest $(Web):$(ENV_PREFIX)
 
 d365-api-tunnel:
 	@echo "+\n++ Port Forwarding to D365 stack"

@@ -42,4 +42,4 @@ jobs:
           make print-status
           make build-web
           make promote-web
-          make update-dc-web
+          make deploy-web
