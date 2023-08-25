@@ -200,7 +200,7 @@ apiRouter.use('/user', userRouter);
 apiRouter.use('/dynamic', dynamicRouter);
 
 log.info(
-  `NODE ENV: ${process.env.NODE_ENV || 'NA'} | APP PORT: ${
+  `NODE ENV: ${process.env.NODE_ENV || 'NA'} | PORT: ${
     process.env.API_PORT || 'default-port-8080'
   }`
 );

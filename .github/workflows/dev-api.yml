@@ -36,6 +36,7 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         working-directory: './tools'
         run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make print-status
           make build-api
           make promote-api
