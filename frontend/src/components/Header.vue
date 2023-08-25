@@ -25,8 +25,8 @@
       <v-toolbar-title>
         <h3 class="mainTitle" style="color: white">
           {{ appTitle }}
-          <span :style="{ color: bannerColor }" class="environmen-flag"
-            >({{ bannerEnvironment }})</span
+          <span :style="{ color: envGet.bannerColor }" class="environmen-flag"
+            >({{ envGet.env.toUpperCase() }})</span
           >
         </h3>
       </v-toolbar-title>
@@ -81,7 +81,6 @@
 import { authStore } from '../store/modules/auth';
 import { mapState } from 'pinia';
 import { AuthRoutes, ApiRoutes } from '../utils/constants';
-import StaticConfig from '../common/staticConfig';
 
 export default {
   data() {
@@ -89,8 +88,6 @@ export default {
       appTitle: 'Independent School BC portal',
       authRoutes: AuthRoutes,
       apiRoutes: ApiRoutes,
-      bannerEnvironment: StaticConfig.BANNER_ENVIRONMENT,
-      bannerColor: StaticConfig.BANNER_COLOR,
     };
   },
   props: {
@@ -100,7 +97,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo', 'envGet']),
     dataReady: function () {
       return this.userInfo;
     },

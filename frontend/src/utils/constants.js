@@ -27,6 +27,7 @@ export const AuthRoutes = Object.freeze(object);
 export const ApiRoutes = Object.freeze({
   USER: baseRoot + '/user',
   CONFIG: baseRoot + '/config',
+  ENV: baseRoot + '/environment',
   // ** Dynamic **/
   dynamic: {
     BASE_URL: dynamicRoot,
@@ -107,8 +108,6 @@ export const GOV_URL = {
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/manual-of-school-law',
   establishingSchoolURL:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/independent-schools/establishing-an-independent-school',
-  bceidRegister: 'https://www.bceid.ca/register/',
-  devBceidRegister: 'https://www.development.bceid.ca/register/',
   independentSchoolActUrl:
     'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96216_01#Schedule',
   independentSchoolInfoUrl:

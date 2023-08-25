@@ -1,5 +1,6 @@
 import ApiService from '../../common/apiService';
 import AuthService from '../../common/authService';
+import StaticConfig from '../../common/staticConfig';
 import { defineStore } from 'pinia';
 
 function isFollowUpVisit(jwtToken) {
@@ -16,6 +17,11 @@ function isExpiredToken(jwtToken) {
 export const authStore = defineStore('auth', {
   namespaced: true,
   state: () => ({
+    env: {
+      env: StaticConfig.BANNER_ENVIRONMENT,
+      bannerColor: StaticConfig.BANNER_COLOR,
+      beceidRegURL: StaticConfig.VUE_APP_BCEID_REG_URL,
+    },
     acronyms: [],
     isAuthenticated: false,
     userInfo: null,
@@ -26,6 +32,7 @@ export const authStore = defineStore('auth', {
     jwtToken: localStorage.getItem('jwtToken'),
   }),
   getters: {
+    envGet: (state) => state.env,
     acronymsGet: (state) => state.acronyms,
     isAuthenticatedGet: (state) => state.isAuthenticated,
     jwtTokenGet: (state) => state.jwtToken,
@@ -60,6 +67,11 @@ export const authStore = defineStore('auth', {
         this.userInfo = null;
       }
     },
+    async setEnv(env) {
+      this.env = env;
+
+      console.log(this.env);
+    },
     async setLoginError() {
       this.loginError = true;
     },
@@ -85,6 +97,18 @@ export const authStore = defineStore('auth', {
         this.contactInfo = dynamicsContact.data.value[0];
       }
       this.userInfo = userInfoRes.data;
+    },
+    async getEnvironment() {
+      const envRes = await ApiService.getEnvironment();
+      if (envRes?.data.value) {
+        await this.setEnv(envRes?.data.value);
+      } else {
+        await this.setEnv({
+          env: StaticConfig.BANNER_ENVIRONMENT,
+          bannerColor: StaticConfig.BANNER_COLOR,
+          beceidRegURL: StaticConfig.VUE_APP_BCEID_REG_URL,
+        });
+      }
     },
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
     async getJwtToken() {

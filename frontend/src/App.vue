@@ -32,16 +32,28 @@ export default {
     MsieBanner,
     SnackBar,
   },
+  data() {
+    return {
+      fetchedEnv: false,
+    };
+  },
   metaInfo: {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
+    ...mapState(authStore, [
+      'isAuthenticated',
+      'loginError',
+      'isLoading',
+      'envGet',
+    ]),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
     },
   },
   async created() {
+    await this.fetchEnv();
+
     // TODO: try 3X, Unhandled rejection
     await metaDataStore().getActiveSchoolYear();
     await metaDataStore().getEOIPickLists();
@@ -69,11 +81,23 @@ export default {
   methods: {
     authStore,
     ...mapActions(authStore, [
+      'getEnvironment',
       'setLoading',
       'getJwtToken',
       'getUserInfo',
       'logout',
     ]),
+    async fetchEnv() {
+      // TODO: redirect? silent fail?
+      try {
+        await this.getEnvironment();
+      } catch (e) {
+        this.$router.replace({
+          name: 'error',
+          query: { message: `500_${e.data || 'ServerError'}` },
+        });
+      }
+    },
   },
 };
 </script>
