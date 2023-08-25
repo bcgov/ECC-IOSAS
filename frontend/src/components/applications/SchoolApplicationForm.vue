@@ -70,6 +70,8 @@
                       :draftCode="draftCode"
                       :isEditing="isEditing"
                       @validateAndPopulate="validateAndPopulateRadioButtons"
+                      @upload="upload"
+                      :documents="documents"
                     />
                   </keep-alive>
                 </v-window-item>
@@ -177,6 +179,7 @@ import GroupCertificationTab from './tabs/GroupCertificationTab.vue';
 import EducationalProgramTab from './tabs/EducationalProgramTab.vue';
 import TeacherCertificationTab from './tabs/TeacherCertificationTab.vue';
 import SubmissionTab from './tabs/SubmissionTab.vue';
+import DocumentTab from './tabs/DocumentTab.vue';
 
 export default {
   name: 'SchoolApplicationForm',
@@ -195,6 +198,7 @@ export default {
     EducationalProgramTab,
     TeacherCertificationTab,
     SubmissionTab,
+    DocumentTab,
   },
   emits: ['setIsLoading', 'updateData'],
   mixins: [alertMixin],
@@ -248,7 +252,7 @@ export default {
         { tab: 'School Policies', component: 'SchoolPoliciesTab' },
         { tab: 'Educational Program', component: 'EducationalProgramTab' },
         { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
-        { tab: 'Documents', component: null },
+        { tab: 'Documents', component: 'DocumentTab' },
         { tab: 'Submission', component: 'SubmissionTab' },
       ],
       tab: 'General',
@@ -268,6 +272,7 @@ export default {
         'Documents',
         'Submission',
       ],
+      documents: [],
     };
   },
   watch: {
@@ -402,6 +407,15 @@ export default {
     },
     isFirstPage() {
       return this.tab === 'General';
+    },
+    async upload(document, replace = false) {
+      if (replace) {
+        this.documents = document;
+      } else {
+        this.documents = [...this.documents, document];
+      }
+
+      console.log(this.documents);
     },
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(

@@ -277,6 +277,7 @@
             </v-col>
           </v-row>
         </div>
+        <div v-else>{{ NULL_STRING }}</div>
 
         <br />
         <v-divider></v-divider>

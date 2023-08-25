@@ -77,7 +77,8 @@ const required = (message = 'Required') => {
  * @returns Function
  */
 const requiredNumber = (message = 'Required') => {
-  return (v) => !v || v !== 0 || message;
+  // TODO: why not required
+  return (v) => (!v && v !== 0) || message;
 };
 
 /**
@@ -179,7 +180,7 @@ const emailConfirmation = (
 const enrolmentTotalGreaterThanTen = (
   message = 'A new school must have 10 or more students enrolled'
 ) => {
-  return (v) => v > 10 || message;
+  return (v) => v >= 10 || message;
 };
 
 export {

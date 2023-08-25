@@ -171,3 +171,10 @@ export const EOI_DOC_CODES = {
   goodStanding: 100000001,
   other: 100000002,
 };
+
+export const APP_DOC_STAGE_CODES = {
+  SchoolApplication: 100000000,
+  interview: 100000001,
+};
+
+export const SCHOOL_APP_CODE_CODES = {};

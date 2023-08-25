@@ -591,7 +591,7 @@
                 :width="7"
                 color="primary"
                 indeterminate
-                :active="isLoading"
+                :active="isDocumentsLoading"
               />
             </v-col>
           </v-row>
@@ -1410,9 +1410,6 @@ export default {
               );
             });
         } else {
-          // const filteredDocuments = this.documents.filter(({ id }) => {
-          //   return id !== document.id;
-          // });
           this.documents = filteredDocuments;
           this.isDocumentsLoading = false;
           return this.documents;
