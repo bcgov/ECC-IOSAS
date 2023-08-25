@@ -54,7 +54,7 @@ bceid_reg_url=
 endif
 
 define BUILD_TAG
-"$(BUILD_REF)-$(COMMIT_SHA)"
+"$(COMMIT_SHA)"
 endef
 
 define BUILD_TEMPLATE_PATH
@@ -81,6 +81,8 @@ endef
 define rollout_and_wait
 @oc -n $(NAMESPACE) rollout status $1
 endef
+
+BRANCH_REF=$(BUILD_REF)-$(BUILD_TAG)
 
 
 
@@ -175,6 +177,7 @@ build-api:
 		-p SOURCE_CONTEXT_DIR=/backend -p NAME=$(API) | oc -n $(BUILD_NAMESPACE) apply -f -
 	@oc -n $(BUILD_NAMESPACE) start-build bc/$(API) --wait --follow=true
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):latest
+	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):$(BRANCH_REF)
 
 build-web:
 	test -n "$(BUILD_REF)"
@@ -190,6 +193,7 @@ build-web:
 		-p SOURCE_CONTEXT_DIR=/frontend -p NAME=$(Web) | oc -n $(BUILD_NAMESPACE) apply -f -
 	@oc -n $(BUILD_NAMESPACE) start-build bc/$(Web) --wait --follow=true
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):latest
+	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):$(BRANCH_REF)
 
 
 
@@ -213,10 +217,10 @@ deploy-api: update-dc-api
 	$(call rollout_and_wait,dc/$(API))
 
 promote-api:
-	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
-	@echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
-	@oc -n "$(BUILD_NAMESPACE)" tag $(API):latest $(API):$(ENV_PREFIX)
+	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
+	sh config/promote-app.sh $(BUILD_NAMESPACE) $(API) $(BUILD_TAG) $(ENV_PREFIX)
+	
 
 update-dc-web:
 	test -n "$(NAMESPACE)"
@@ -233,10 +237,9 @@ deploy-web: update-dc-web
 	$(call rollout_and_wait,dc/$(Web))
 
 promote-web:
-	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
-	@echo "+\n++ Web: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
-	@oc -n "$(BUILD_NAMESPACE)" tag $(Web):latest $(Web):$(ENV_PREFIX)
+	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
+	sh config/promote-app.sh $(BUILD_NAMESPACE) $(Web) $(BUILD_TAG) $(ENV_PREFIX)
 
 d365-api-tunnel:
 	@echo "+\n++ Port Forwarding to D365 stack"
