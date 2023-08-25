@@ -54,7 +54,7 @@ bceid_reg_url=
 endif
 
 define BUILD_TAG
-"$(COMMIT_SHA)"
+"iosas-$(COMMIT_SHA)"
 endef
 
 define BUILD_TEMPLATE_PATH
