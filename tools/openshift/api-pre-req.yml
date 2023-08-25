@@ -9,9 +9,8 @@ objects:
   - apiVersion: v1
     kind: Secret
     metadata:
-      name: ${PROJECT_NAME}-${NAME}-creds
+      name: iosas-api-creds
     stringData:
-      oidc-discovery: ${SOAM_DISCOVERY}
       oidc-clientId: ${SOAM_CLIENT_ID}
       oidc-clientSecrect: ${SOAM_CLIENT_SECRET}
 parameters:
@@ -20,9 +19,6 @@ parameters:
     value: api
   - name: PROJECT_NAME
     value: iosas
-  - name: SOAM_DISCOVERY
-    displayName: SOAM Key Cloak Discovery URL
-    required: true
   - name: SOAM_CLIENT_ID
     displayName: SOAM Keycloak Client Id
     required: true

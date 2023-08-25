@@ -127,10 +127,10 @@ init-api-config:
 	@echo "++\n Init API config in $(NAMESPACE) \n++"
 	test -n $(SOAM_CLIENT_ID)
 	test -n $(SOAM_CLIENT_SECRET)
-	@oc -n $(NAMESPACE) delete configmap iosas-api-creds || true
-	@oc -n $(NAMESPACE) create configmap iosas-api-creds \
-	 --from-literal=oidc-clientId=$(SOAM_CLIENT_ID) \
-	 --from-literal=oidc-clientSecrect=$(SOAM_CLIENT_SECRET)
+	@oc -n $(NAMESPACE) delete secret iosas-api-creds || true
+	@oc -n $(NAMESPACE) process -f openshift/api-pre-req.yml \
+		-p SOAM_CLIENT_ID=$(SOAM_CLIENT_ID) \
+		-p SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET) | oc -n $(NAMESPACE) apply -f -
 
 
 
