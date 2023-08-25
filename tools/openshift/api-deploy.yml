@@ -52,12 +52,9 @@ objects:
                 - name: SOAM_URL
                   value: ${SOAM_URL}
                 - name: SITEMINDER_LOGOUT_ENDPOINT
-                  value: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl=
+                  value: ${SITEMINDER_LOGOUT_ENDPOINT}
                 - name: SOAM_DISCOVERY
-                  valueFrom:
-                    secretKeyRef:
-                      key: oidc-discovery
-                      name: iosas-api-creds
+                  value: ${SOAM_DISCOVERY}
                 - name: SOAM_CLIENT_ID
                   valueFrom:
                     secretKeyRef:
@@ -186,5 +183,9 @@ parameters:
   - name: FRONT_END
     value: "/"
   - name: SOAM_URL
-    value: "https://soam-dev.apps.silver.devops.gov.bc.ca"
+    require: true
+  - name: SOAM_DISCOVERY
+    require: true
+  - name: SITEMINDER_LOGOUT_ENDPOINT
+    require: true
   

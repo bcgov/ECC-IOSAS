@@ -3,21 +3,55 @@ export $(shell sed 's/=.*//' ../.env)
 
 .DEFAULT_GOAL := default
 export GIT_LOCAL_BRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
-export NAMESPACE := $(or $(NAMESPACE), d1273d-dev)
+export NAMESPACE_DEV := $(or $(NAMESPACE_DEV), d1273d-dev)
+export NAMESPACE_TEST := $(or $(NAMESPACE_TEST), d1273d-dev)
+export NAMESPACE_PROD := $(or $(NAMESPACE_PROD), d1273d-dev)
 export APP_NAME := $(or $(PROJECT_NAME), ecc-iosas)
 export BUILD_ID := $(or $(BUILD_ID), 1)
 export TEMPLATE_FILE_NAME := $(or $(TEMPLATE_FILE_NAME), $$FILE)
 export BUILD_REF := $(or $(BUILD_REF), $(GIT_LOCAL_BRANCH))
 export BUILD_NAMESPACE := $(or $(BUILD_NAMESPACE), d1273d-tools)
 export DOMAIN := $(or $(DOMAIN), apps.silver.devops.gov.bc.ca)
-export HOST_PREFIX := $(or $(HOST_PREFIX), dev)
+export ENV_PREFIX := $(or $(ENV_PREFIX), dev)
 export NEW_DB := $(or $(NEW_DB), $$NEW_DB)
 export JOB_NAME := $(or $(JOB_NAME), $$JN)
-export SITE_MINDER_LOGOUT_URL := $(or $(SITE_MINDER_LOGOUT_URL), https://logontest.gov.bc.ca/clp-cgi/logoff.cgi)
 export UI_PRIVATE_KEY := $(or $(UI_PRIVATE_KEY), None)
 export UI_PUBLIC_KEY := $(or $(UI_PUBLIC_KEY), None)
 export LAST_COMMIT := $(shell git log -1 --oneline --decorate=full --no-color --format="%h, %cn, %f, %D" | sed 's/->/:/')
 export COMMIT_SHA:=$(shell git rev-parse --short=7 HEAD)
+
+HOST_PREFIX= $(ENV_PREFIX)
+
+# Seeting up Name space as per env prefix
+ifeq ($(ENV_PREFIX), dev)
+NAMESPACE=$(NAMESPACE_DEV)
+SITE_MINDER_LOGOUT_URL=https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi
+SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_DEV)
+SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_DEV)
+SOAM_DISCOVERY=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
+SOAM_URL=https://soam-dev.apps.silver.devops.gov.bc.ca
+bceid_reg_url=
+endif
+
+ifeq ($(ENV_PREFIX), test)
+NAMESPACE=$(NAMESPACE_TEST)
+SITE_MINDER_LOGOUT_URL=https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi
+SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_TEST)
+SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_TEST)
+SOAM_DISCOVERY=https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
+SOAM_URL=https://soam-test.apps.silver.devops.gov.bc.ca
+bceid_reg_url=
+endif
+
+ifeq ($(ENV_PREFIX), prod)
+NAMESPACE=$(NAMESPACE_PROD)
+SITE_MINDER_LOGOUT_URL=https://logontest.gov.bc.ca/clp-cgi/logoff.cgi
+SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_PROD)
+SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_PROD)
+SOAM_DISCOVERY=
+SOAM_URL=
+bceid_reg_url=
+endif
 
 define BUILD_TAG
 "$(BUILD_REF)-$(COMMIT_SHA)"
@@ -49,6 +83,8 @@ define rollout_and_wait
 endef
 
 
+
+
 init-oc: | print-status init-project
 oc-build-api: | print-status build-api
 oc-deploy-api: | print-status deploy-api
@@ -59,24 +95,26 @@ oc-deploy-web: | print-status deploy-web
 
 
 
-
-
-
 print-status:
 	@echo " +---------------------------------------------------------+ "
 	@echo " | Current Settings                                        | "
 	@echo " +---------------------------------------------------------+ "
-	@echo " | PROJECT:      			$(APP_NAME)"
-	@echo " | BRANCH:       			$(BUILD_REF)"
-	@echo " | NAMESPACE:    			$(NAMESPACE)"
-	@echo " | BUILD_NAMESPACE:    $(BUILD_NAMESPACE)"
+	@echo " | PROJECT:      						$(APP_NAME)"
+	@echo " | BRANCH:       						$(BUILD_REF)"
+	@echo " | NAMESPACE:    						$(NAMESPACE)"
+	@echo " | BUILD_NAMESPACE:    			$(BUILD_NAMESPACE)"
+	@echo " | ENV PREFIX:    						$(ENV_PREFIX)"
 	@echo " +---------------------------------------------------------+ "
-	@echo " | BUILD_ID: 	$(COMMIT_SHA) "
-	@echo " | BUILD_TAG: 	$(BUILD_TAG) "
-	@echo " | HOST NAME: 	$(HOST) "
+	@echo " | BUILD_ID: 								$(COMMIT_SHA) "
+	@echo " | BUILD_TAG: 								$(BUILD_TAG) "
+	@echo " | HOST NAME: 								$(HOST) "
+	@echo " | SITEMINDER URL:						$(SITE_MINDER_LOGOUT_URL)"
+	@echo " | SOAM DISCOVERY: 					$(SOAM_DISCOVERY)"
+	@echo " | SOAM URL: 								$(SOAM_URL)"
+	@echo " | SOAM CLIENT ID: 					$(SOAM_CLIENT_ID)"
 	@echo " +---------------------------------------------------------+ "
 
-init-project:
+init-project: print-status
 	@echo "Run initial set-up for the project, including network security\n" 
 	@oc -n $(NAMESPACE) process -f openshift/networkpolicy.yml -p NAMESPACE=$(NAMESPACE) | oc -n $(NAMESPACE) apply -f -
 	@oc -n $(BUILD_NAMESPACE) policy add-role-to-group system:image-puller system:serviceaccounts:$(NAMESPACE)
@@ -85,20 +123,32 @@ build-patroni:
 	@oc -n $(BUILD_NAMESPACE) process -f $(BUILD_TEMPLATE_PATH)  -p NAME=patroni -p TAG="12-latest" -p BASE_IMAGE_NAME=postgres -p BASE_IMAGE_TAG="12" -p SOURCE_REPOSITORY_URL="https://github.com/BCDevOps/platform-services.git" -p SOURCE_REPOSITORY_REF="master" -p SOURCE_CONTEXT_DIR="apps/pgsql/patroni/docker" | oc -n $(BUILD_NAMESPACE) apply -f -
 	@oc -n $(BUILD_NAMESPACE) start-build bc/patroni --wait
 
-init-api:
-	@echo "++\n Init Api in $(NAMESPACE) \n++"
-	test -n $(SOAM_DISCOVERY)
+init-api-config:
+	@echo "++\n Init API config in $(NAMESPACE) \n++"
 	test -n $(SOAM_CLIENT_ID)
 	test -n $(SOAM_CLIENT_SECRET)
-	@oc -n $(NAMESPACE) process -f openshift/api-pre-req.yml \
-		-p SOAM_DISCOVERY=$(SOAM_DISCOVERY) \
-		-p SOAM_CLIENT_ID=$(SOAM_CLIENT_ID) \
-		-p SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET) | oc -n $(NAMESPACE) apply -f -
+	@oc -n $(NAMESPACE) delete configmap iosas-api-creds || true
+	@oc -n $(NAMESPACE) create configmap iosas-api-creds \
+	 --from-literal=oidc-clientId=$(SOAM_CLIENT_ID) \
+	 --from-literal=oidc-clientSecrect=$(SOAM_CLIENT_SECRET)
+
+
 
 init-api-sec:
-	@echo "++\n Init Api in $(NAMESPACE) \n++"
-	@oc -n $(NAMESPACE) create secret generic iosas-ui-sec  --from-file=private-key=certificates/tempPenBackendkey \
-		--from-file=certificate=certificates/tempPenBackendKey.pub.key
+	@echo "\n Generating keys for backend \n"
+	@rm tempPenBackendkey tempPenBackendkey.pub tempPenBackendkey.key || true
+	@ssh-keygen -b 4096 -t rsa -f tempPenBackendkey -m pem -q -N "" && ssh-keygen -f tempPenBackendkey -e -m pem >> tempPenBackendkey.key
+	@echo "\n Creating OC Sec \n"
+	@oc -n $(NAMESPACE) delete secret iosas-ui-sec || true
+	@oc -n $(NAMESPACE) create secret generic iosas-ui-sec \
+	--from-file=private-key=tempPenBackendkey \
+	--from-file=certificate=tempPenBackendKey.key
+	@echo "\n Remving keys"
+	@rm tempPenBackendkey tempPenBackendkey.pub tempPenBackendkey.key
+
+#	#@oc -n $(NAMESPACE) create secret generic iosas-ui-sec \
+	--from-literal=private-key=PVT_KEY \
+	--from-literal=certificate=certificates/tempPenBackendKey.pub.key
 
 init-web:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"
@@ -160,8 +210,11 @@ update-dc-api:
 	@oc -n $(NAMESPACE) process -f openshift/api-deploy.yml \
 		-p NAME=$(API) \
 		-p HOST_NAME=$(HOST) \
+		-p SOAM_URL=$(SOAM_URL) \
+		-p SOAM_DISCOVERY=$(SOAM_DISCOVERY) \
+		-p SITEMINDER_LOGOUT_ENDPOINT=$(SITE_MINDER_LOGOUT_URL) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
-		-p IMAGE_STREAM_TAG="$(API):$(HOST_PREFIX)" \
+		-p IMAGE_STREAM_TAG="$(API):$(ENV_PREFIX)" \
 		-p VERSION="$(LAST_COMMIT)" \
 		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
 
@@ -171,8 +224,8 @@ deploy-api: update-dc-api
 promote-api:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
-	@echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
-	@oc -n "$(BUILD_NAMESPACE)" tag $(API):$(BUILD_TAG) $(API):$(HOST_PREFIX)
+	@echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
+	@oc -n "$(BUILD_NAMESPACE)" tag $(API):$(BUILD_TAG) $(API):$(ENV_PREFIX)
 
 update-dc-web:
 	test -n "$(NAMESPACE)"
@@ -182,7 +235,7 @@ update-dc-web:
 		-p NAME=$(Web) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
-		-p IMAGE_STREAM_TAG="$(Web):$(HOST_PREFIX)" \
+		-p IMAGE_STREAM_TAG="$(Web):$(ENV_PREFIX)" \
 		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
@@ -191,8 +244,8 @@ deploy-web: update-dc-web
 promote-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
-	@echo "+\n++ Web: Deploying latest tag $(BUILD_TAG) API with ENV $(HOST_PREFIX) $\n+"
-	@oc -n "$(BUILD_NAMESPACE)" tag $(Web):$(BUILD_TAG) $(Web):$(HOST_PREFIX)
+	@echo "+\n++ Web: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
+	@oc -n "$(BUILD_NAMESPACE)" tag $(Web):$(BUILD_TAG) $(Web):$(ENV_PREFIX)
 
 d365-api-tunnel:
 	@echo "+\n++ Port Forwarding to D365 stack"

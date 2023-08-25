@@ -7,22 +7,20 @@ on:
   push:
     branches:
       - main-dev
-    tags:
-      - dev
-
 env:
   CLUSTER: https://api.silver.devops.gov.bc.ca:6443
   AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_OCP4 }}
-  BUILD_REF:  ${{ github.base_ref }}
-
+  BUILD_REF: ${{ github.base_ref }}
+  ENV_PREFIX: dev
+  NAMESPACE_DEV: ${{ vars.NAMESPACE_DEV }}
+  SOAM_CLIENT_ID_DEV: ${{ vars.SOAM_CLIENT_ID_DEV }}
+  SOAM_CLIENT_SECRET_DEV: ${{ secrets.SOAM_CLIENT_SECRET_DEV }}
 jobs:
   api:
     name: OpenShift Build & Deploy
     runs-on: ubuntu-latest
     concurrency: ci-build-api
     timeout-minutes: 20
-    env:
-      HOST_PREFIX: dev
     steps:
       - name: Checkout
         uses: actions/checkout@v2

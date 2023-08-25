@@ -168,6 +168,8 @@ async function generateTokens(req, res) {
     req.user.jwt = result.jwt;
     req.user.refreshToken = result.refreshToken;
     req.user.jwtFrontend = auth.generateUiToken();
+    req.passport.session.user.jwt = result.jwt;
+    req.passport.session.user.refreshToken = result.refreshToken;
     const responseJson = {
       jwtFrontend: req.user.jwtFrontend
     };
