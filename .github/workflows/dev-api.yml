@@ -24,20 +24,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
+      - name: Check changes on backend code
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
             src:
               - 'backend/**'
-              - 'tools/openshift/**'
           base: ${{ github.ref}}
       - name: Build changes
         if: steps.changes.outputs.src == 'true'
         working-directory: './tools'
         run: |
-          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make print-status
           make build-api
           make promote-api
+      - name: Check changes on dir
+        uses: dorny/paths-filter@v2
+        id: changes_tools
+        with:
+          filters: |
+            src:
+              - 'backend/**'
+              - 'tools/**'
+          base: ${{ github.ref}}
+      - name: Deploy changes
+        if: steps.changes_tools.outputs.src == 'true'
+        working-directory: './tools'
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make update-dc-api

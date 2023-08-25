@@ -245,7 +245,7 @@ d365-api-tunnel:
 # Tagging env
 tag-test:
 ifdef ticket
-	@git tag -fa test -m "Deploy $(ticket) to TEST env"
+	@git tag -fa test -m "Deploy $(ticket) to TEST Openshift env"
 else
 	@echo -e '\nTicket name missing - Example :: make tag-test ticket=HCAP-ABC \n'
 	@echo -e 'Falling Back to using branch name\n'
@@ -255,7 +255,7 @@ endif
 
 tag-prod:
 ifdef ticket
-	@git tag -fa prod -m "Deploy $(ticket) to PROD env"
+	@git tag -fa prod -m "Deploy $(ticket) to PROD Openshift env"
 else
 	@echo -e '\nTicket name missing - Example :: make tag-test ticket=HCAP-ABC \n'
 	@echo -e 'Falling Back to using branch name\n'
