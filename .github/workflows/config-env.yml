@@ -1,0 +1,53 @@
+# Configuring target env
+name: Configuring Target Env
+
+on:
+  workflow_dispatch:
+    inputs:
+      oc_env_suffix:
+        description: The Env suffic of oc name space
+        required: true
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+env:
+  CLUSTER: https://api.silver.devops.gov.bc.ca:6443
+  AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_OCP4 }}
+  BUILD_REF: ${{ github.base_ref }}
+  ENV_PREFIX: ${{ inputs.oc_env_suffix }}
+  NAMESPACE_DEV: ${{ vars.NAMESPACE_DEV }}
+  NAMESPACE_TEST: ${{ vars.NAMESPACE_TEST }}
+  NAMESPACE_PROD: ${{ vars.NAMESPACE_PROD }}
+  SOAM_CLIENT_ID_DEV: ${{ vars.SOAM_CLIENT_ID_DEV }}
+  SOAM_CLIENT_SECRET_DEV: ${{ secrets.SOAM_CLIENT_SECRET_DEV }}
+  SOAM_CLIENT_ID_TEST: ${{ vars.SOAM_CLIENT_ID_TEST }}
+  SOAM_CLIENT_SECRET_TEST: ${{ secrets.SOAM_CLIENT_SECRET_TEST }}
+  SOAM_CLIENT_ID_PROD: ${{ vars.SOAM_CLIENT_ID_PROD }}
+  SOAM_CLIENT_SECRET_PROD: ${{ secrets.SOAM_CLIENT_SECRET_PROD }}
+jobs:
+  api:
+    name: Openshift Configure env
+    runs-on: ubuntu-latest
+    concurrency: ci-config-${{ inputs.oc_env_suffix }}
+    timeout-minutes: 20
+    env:
+      ENV_PREFIX: dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure service account and network plocy
+        working-directory: './tools'
+        continue-on-error: true
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
+          make init-project
+      - name: Configure secret and configmap
+        working-directory: './tools'
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
+          make print-status
+          make init-api-sec
+          make promote-api
+          make init-api-config
