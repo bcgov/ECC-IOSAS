@@ -25,7 +25,7 @@ HOST_PREFIX= $(ENV_PREFIX)
 # Seeting up Name space as per env prefix
 ifeq ($(ENV_PREFIX), dev)
 NAMESPACE=$(NAMESPACE_DEV)
-SITE_MINDER_LOGOUT_URL=https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi
+SITE_MINDER_LOGOUT_URL="https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_DEV)
 SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_DEV)
 SOAM_DISCOVERY=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
@@ -35,7 +35,7 @@ endif
 
 ifeq ($(ENV_PREFIX), test)
 NAMESPACE=$(NAMESPACE_TEST)
-SITE_MINDER_LOGOUT_URL=https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi
+SITE_MINDER_LOGOUT_URL="https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_TEST)
 SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_TEST)
 SOAM_DISCOVERY=https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
@@ -45,7 +45,7 @@ endif
 
 ifeq ($(ENV_PREFIX), prod)
 NAMESPACE=$(NAMESPACE_PROD)
-SITE_MINDER_LOGOUT_URL=https://logontest.gov.bc.ca/clp-cgi/logoff.cgi
+SITE_MINDER_LOGOUT_URL="https://logon7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_PROD)
 SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_PROD)
 SOAM_DISCOVERY=
@@ -135,20 +135,11 @@ init-api-config:
 
 
 init-api-sec:
-	@echo "\n Generating keys for backend \n"
+	@echo "\n Generating keys for backend for namespace $(NAMESPACE) \n"
 	@rm tempPenBackendkey tempPenBackendkey.pub tempPenBackendkey.key || true
-	@ssh-keygen -b 4096 -t rsa -f tempPenBackendkey -m pem -q -N "" && ssh-keygen -f tempPenBackendkey -e -m pem >> tempPenBackendkey.key
 	@echo "\n Creating OC Sec \n"
 	@oc -n $(NAMESPACE) delete secret iosas-ui-sec || true
-	@oc -n $(NAMESPACE) create secret generic iosas-ui-sec \
-	--from-file=private-key=tempPenBackendkey \
-	--from-file=certificate=tempPenBackendKey.key
-	@echo "\n Remving keys"
-	@rm tempPenBackendkey tempPenBackendkey.pub tempPenBackendkey.key
-
-#	#@oc -n $(NAMESPACE) create secret generic iosas-ui-sec \
-	--from-literal=private-key=PVT_KEY \
-	--from-literal=certificate=certificates/tempPenBackendKey.pub.key
+	@sh config/create-secret.sh $(NAMESPACE)
 
 init-web:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"
@@ -250,3 +241,24 @@ promote-web:
 d365-api-tunnel:
 	@echo "+\n++ Port Forwarding to D365 stack"
 	@oc -n $(NAMESPACE) port-forward svc/$(API)-d365 5091
+
+# Tagging env
+tag-test:
+ifdef ticket
+	@git tag -fa test -m "Deploy $(ticket) to TEST env"
+else
+	@echo -e '\nTicket name missing - Example :: make tag-test ticket=HCAP-ABC \n'
+	@echo -e 'Falling Back to using branch name\n'
+	@git tag -fa test -m "Deploy $(git rev-parse --abbrev-ref HEAD) to TEST env"
+endif
+	@git push --force origin refs/tags/test:refs/tags/test
+
+tag-prod:
+ifdef ticket
+	@git tag -fa prod -m "Deploy $(ticket) to PROD env"
+else
+	@echo -e '\nTicket name missing - Example :: make tag-test ticket=HCAP-ABC \n'
+	@echo -e 'Falling Back to using branch name\n'
+	@git tag -fa prod -m "Deploy $(git rev-parse --abbrev-ref HEAD) to PROD env"
+endif
+	@git push --force origin refs/tags/prod:refs/tags/prod

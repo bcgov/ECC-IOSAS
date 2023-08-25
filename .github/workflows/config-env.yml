@@ -49,5 +49,4 @@ jobs:
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make print-status
           make init-api-sec
-          make promote-api
           make init-api-config
