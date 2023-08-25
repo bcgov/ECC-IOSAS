@@ -25,7 +25,7 @@
       <v-toolbar-title>
         <h3 class="mainTitle" style="color: white">
           {{ appTitle }}
-          <span :style="{ color: envGet.bannerColor }" class="environmen-flag"
+          <span :style="{ color: envGet.bannerColor }" class="environment-flag"
             >({{ envGet.env.toUpperCase() }})</span
           >
         </h3>
@@ -169,7 +169,7 @@ a {
   }
 }
 
-.environmen-flag {
+.environment-flag {
   font-weight: bolder;
   font-size: 20px;
 }

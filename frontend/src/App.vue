@@ -32,11 +32,6 @@ export default {
     MsieBanner,
     SnackBar,
   },
-  data() {
-    return {
-      fetchedEnv: false,
-    };
-  },
   metaInfo: {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
