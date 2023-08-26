@@ -172,9 +172,10 @@ export const EOI_DOC_CODES = {
   other: 100000002,
 };
 
-export const APP_DOC_STAGE_CODES = {
-  SchoolApplication: 100000000,
-  interview: 100000001,
+export const SCHOOL_APP_CODE_CODES = {
+  schoolPolicyCode: 100000002,
+  businessPlanCode: 100000003,
+  confirmationOfEligibilityCode: 100000004,
+  tuitionRefundPolicyCode: 100000005,
+  businessReferencesCode: 100000006,
 };
-
-export const SCHOOL_APP_CODE_CODES = {};

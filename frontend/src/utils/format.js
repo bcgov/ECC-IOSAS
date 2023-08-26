@@ -86,7 +86,7 @@ export function formatBooleanToYesNoString(bool) {
 }
 
 export function formatLongName(string) {
-  if (string.length > 35) {
+  if (string?.length > 35) {
     return `${string.substring(0, 35)}...`;
   } else {
     return string;

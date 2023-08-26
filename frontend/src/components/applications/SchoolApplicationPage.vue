@@ -32,6 +32,7 @@
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
 import ApplicationService from '../../common/applicationService';
+import ApiService from '../../common/ApiService';
 import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
@@ -95,7 +96,30 @@ export default {
           return this.applicationData;
         });
     },
-    async updateData(id, payload, isSubmitted) {
+    async handleUploadDocuments(appID, documents) {
+      const documentsNotUploaded = documents.filter((doc) => doc.content);
+      Promise.all(
+        documentsNotUploaded.map(async (document) => {
+          const payload = {
+            ...document,
+            regardingId: appID,
+            regardingType: 'iosas_application',
+          };
+          await ApiService.uploadFile(payload)
+            .then((response) => {
+              return response;
+            })
+            .catch((error) => {
+              this.setFailureAlert(
+                error?.response?.data?.message
+                  ? error?.response?.data?.message
+                  : 'An error occurred while saving the expression of Interest. Please try again later.'
+              );
+            });
+        })
+      );
+    },
+    async updateData(id, payload, documents, isSubmitted) {
       try {
         this.isLoading = true;
         const updateResponse = await ApplicationService.updateSchoolApplication(
@@ -104,6 +128,12 @@ export default {
           isSubmitted
         );
         if (updateResponse.data) {
+          if (documents.length) {
+            await this.handleUploadDocuments(
+              payload.iosas_applicationid,
+              documents
+            );
+          }
           if (isSubmitted) {
             this.$router.push({
               name: 'applicationConfirmation',

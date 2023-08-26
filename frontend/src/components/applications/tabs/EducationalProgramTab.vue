@@ -29,10 +29,11 @@
       </v-row>
       <br />
       <h4>Additional Programs</h4>
-      <v-label
+      <v-label class="no-mb"
         >At this time does the proposed school intend on enrolling any of the
-        following students? (Check all that apply)</v-label
-      >
+        following students?
+      </v-label>
+      <v-label class="sm">Check all that apply</v-label>
       <v-row>
         <v-col cols="6" sm="6" md="6" xs="6">
           <div

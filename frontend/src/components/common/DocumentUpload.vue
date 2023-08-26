@@ -39,16 +39,6 @@
       <v-alert type="error" dense variant="outlined" v-if="alertType">
         {{ alertMessage }}
       </v-alert>
-      <!-- <v-alert
-        v-model="alert"
-        dense
-        outlined
-        dismissible
-        :class="alertType"
-        class="mb-3"
-      >
-        {{ alertMessage }}
-      </v-alert> -->
     </v-card-text>
     <v-card-actions>
       <v-spacer />

@@ -154,7 +154,12 @@ export const applicationsStore = defineStore('applications', {
         ),
         iosas_semestertype: formatStringToNumericArray(data.iosas_semestertype),
         documents: documentResponse.data.value
-          ? documentResponse.data.value
+          ? documentResponse.data.value.map((doc) => ({
+              fileName: doc.iosas_file_name,
+              documentType: doc.iosas_newschoolapplicationdocumenttype,
+              id: doc.iosas_documentid,
+              ...doc,
+            }))
           : [],
       };
       await this.setSchoolApplication(app);

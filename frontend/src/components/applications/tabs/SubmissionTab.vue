@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h4>Application Submission</h4>
-    <div v-if="isEditing">
+    <div>
       <v-label
         >You will be contacted via email with the results of your application.
         Successful applicants will be invited for an Interview as outlined In
@@ -10,104 +10,6 @@
           >Establishing an Independent School Policy.</a
         >.
       </v-label>
-      <br />
-      <br />
-      <h5>Attachments</h5>
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label
-            >Complete set of policies/procedures as outlined in the
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >Interview Checklist (PDF)</a
-            ></v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_completesetofpoliciesoutlinedinchecklist"
-            v-model="formData.iosas_completesetofpoliciesoutlinedinchecklist"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label
-            >Business Plan with required financial information (Part A and B)
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >Interview Checklist (PDF)</a
-            ></v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-radio-group
-            id="iosas_businessplanincludingfinancialinformation"
-            v-model="formData.iosas_businessplanincludingfinancialinformation"
-            color="#003366"
-            class="mt-4"
-            :rules="[rules.requiredRadio()]"
-            @change="$emit('validateAndPopulate', $event)"
-            inline
-          >
-            <v-radio label="Yes" color="#003366" :value="true" />
-            <v-radio label="No" color="#003366" :value="false" />
-          </v-radio-group>
-        </v-col>
-      </v-row>
-    </div>
-    <div v-else>
-      <v-label
-        >You will be contacted via email with the results of your application.
-        Successful applicants will be invited for an Interview as outlined In
-        Step 3 of the
-        <a :href="GOV_URL.establishingSchoolURL"
-          >Establishing an Independent School Policy.</a
-        >
-      </v-label>
-      <br />
-      <br />
-      <h5>Attachments</h5>
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label
-            >Complete set of policies/procedures as outlined in the
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >Interview Checklist (PDF)</a
-            ></v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_completesetofpoliciesoutlinedinchecklist
-            )
-          }}
-        </v-col>
-      </v-row>
-      <v-row align="center">
-        <v-col cols="8">
-          <v-label
-            >Business Plan with required financial information (Part A and B)
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >(Interview Checklist (PDF))</a
-            ></v-label
-          >
-        </v-col>
-        <v-col cols="4">
-          {{
-            formatBooleanToYesNoString(
-              formData.iosas_businessplanincludingfinancialinformation
-            )
-          }}
-        </v-col>
-      </v-row>
     </div>
   </v-container>
 </template>

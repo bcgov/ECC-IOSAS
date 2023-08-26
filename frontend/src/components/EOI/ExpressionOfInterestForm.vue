@@ -1475,9 +1475,6 @@ export default {
 .sm {
   font-size: 14px;
 }
-.block {
-  display: block;
-}
 .error {
   :deep(.dp__input) {
     color: #b00020;

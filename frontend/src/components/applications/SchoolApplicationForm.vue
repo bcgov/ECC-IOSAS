@@ -96,7 +96,7 @@
                   </v-col>
                 </v-row>
                 <br />
-                <v-row align="end">
+                <v-row align="end" align-self="end">
                   <v-spacer />
                   <PrimaryButton
                     secondary
@@ -385,6 +385,10 @@ export default {
     } else {
       this.setTabLabel(this.generalTabValue);
     }
+
+    if (this.formData?.documents?.length > 0) {
+      this.documents = [...this.formData.documents];
+    }
   },
   methods: {
     applicationsStore,
@@ -458,14 +462,21 @@ export default {
       }
     },
     handleDraftSubmit() {
+      // Only update portalStep if its less than the currently saved step
+      const portalStep =
+        Number(this.formData.iosas_portalapplicationstep) >
+        Number(this.$route.params.tab)
+          ? this.formData.iosas_portalapplicationstep
+          : this.$route.params.tab;
       const payload = {
         ...this.formData,
-        iosas_portalapplicationstep: Number(this.$route.params.tab),
+        iosas_portalapplicationstep: Number(portalStep),
       };
       this.$emit(
         'updateData',
         this.formData.iosas_applicationid,
         payload,
+        this.documents,
         false
       );
     },
@@ -477,14 +488,21 @@ export default {
         await applicationsStore().setConfirmationMessage(
           `School application ${this.formData.iosas_applicationnumber} has been successfully submitted.`
         );
+        // Only update portalStep if its less than the currently saved step
+        const portalStep =
+          Number(this.formData.iosas_portalapplicationstep) >
+          Number(this.$route.params.tab)
+            ? this.formData.iosas_portalapplicationstep
+            : this.$route.params.tab;
         const payload = {
           ...this.formData,
-          iosas_portalapplicationstep: Number(this.$route.params.tab),
+          iosas_portalapplicationstep: Number(portalStep),
         };
         this.$emit(
           'updateData',
           this.formData.iosas_applicationid,
           payload,
+          this.documents,
           true
         );
       }

@@ -34,7 +34,7 @@ const email = (message = 'E-mail must be valid') => {
  * @param {String} message
  * @returns Function
  */
-const number = (message = 'Must be a number') => {
+const number = (message = 'Must be a positive number') => {
   return (v) => !v || /^\d+$/.test(v) || message;
 };
 
@@ -77,8 +77,13 @@ const required = (message = 'Required') => {
  * @returns Function
  */
 const requiredNumber = (message = 'Required') => {
-  // TODO: why not required
-  return (v) => (!v && v !== 0) || message;
+  return (v) => {
+    if (v || v === 0) {
+      return false;
+    } else {
+      return message;
+    }
+  };
 };
 
 /**
