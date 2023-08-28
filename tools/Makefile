@@ -145,8 +145,8 @@ init-api-sec:
 
 init-web:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"
-	@oc -n $(NAMESPACE) delete configmap iosas-ui-config
-	oc create -n $(NAMESPACE) configmap iosas-ui-config \
+	@oc -n $(NAMESPACE) delete configmap iosas-ui-config || true
+	@oc create -n $(NAMESPACE) configmap iosas-ui-config \
 	--from-literal=TZ="America/Vancouver" \
 	--from-literal=HOST_ROUTE="$(HOST)" \
 	--from-literal=config.js="$regConfig" \
