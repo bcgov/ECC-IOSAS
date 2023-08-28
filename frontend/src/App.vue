@@ -47,7 +47,7 @@ export default {
     },
   },
   async created() {
-    await this.fetchEnv();
+    await this.getEnvironment();
 
     // TODO: try 3X, Unhandled rejection
     await metaDataStore().getActiveSchoolYear();
@@ -82,14 +82,6 @@ export default {
       'getUserInfo',
       'logout',
     ]),
-    async fetchEnv() {
-      // TODO: redirect? silent fail?
-      try {
-        await this.getEnvironment();
-      } catch (e) {
-        throw e;
-      }
-    },
   },
 };
 </script>
