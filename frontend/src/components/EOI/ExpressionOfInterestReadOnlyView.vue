@@ -222,7 +222,7 @@
                 <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ incorporationDocument.iosas_file_name }}
+                {{ incorporationDocument.fileName }}
               </div>
               <div v-else>{{ NULL_STRING }}</div>
             </v-col>
@@ -245,7 +245,7 @@
                 <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ certificateOfGoodStandingDocument.iosas_file_name }}
+                {{ certificateOfGoodStandingDocument.fileName }}
               </div>
               <div v-else>{{ NULL_STRING }}</div>
             </v-col>
@@ -271,7 +271,7 @@
                 <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ document.iosas_file_name }}
+                {{ document.fileName }}
               </div>
               <div v-else>{{ NULL_STRING }}</div>
             </v-col>

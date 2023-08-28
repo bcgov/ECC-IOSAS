@@ -9,6 +9,11 @@
         </p>
       </template>
     </ConfirmationDialog>
+    <ConfirmationDialog ref="confirmDeleteDocument">
+      <template #message>
+        <p>This document will be removed from your records.</p>
+      </template>
+    </ConfirmationDialog>
 
     <v-navigation-drawer temporary class="mobile-tabs" v-model="drawer">
       <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
@@ -69,9 +74,9 @@
                       :formData="formData"
                       :draftCode="draftCode"
                       :isEditing="isEditing"
+                      :isDocumentsLoading="isDocumentsLoading"
                       @validateAndPopulate="validateAndPopulateRadioButtons"
-                      @upload="upload"
-                      :documents="documents"
+                      @removeDocument="removeDocument"
                     />
                   </keep-alive>
                 </v-window-item>
@@ -158,10 +163,12 @@
 
 <script>
 import { authStore } from './../../store/modules/auth';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import ApplicationService from '../../common/applicationService';
+import ApiService from '../../common/ApiService';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
+import { documentStore } from './../../store/modules/document';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 
@@ -181,6 +188,7 @@ import EducationalProgramTab from './tabs/EducationalProgramTab.vue';
 import TeacherCertificationTab from './tabs/TeacherCertificationTab.vue';
 import SubmissionTab from './tabs/SubmissionTab.vue';
 import DocumentTab from './tabs/DocumentTab.vue';
+import PreCertificationTab from './tabs/PreCertificationTab.vue';
 
 export default {
   name: 'SchoolApplicationForm',
@@ -200,6 +208,7 @@ export default {
     TeacherCertificationTab,
     SubmissionTab,
     DocumentTab,
+    PreCertificationTab,
   },
   emits: ['setIsLoading', 'updateData'],
   mixins: [alertMixin],
@@ -223,6 +232,7 @@ export default {
       showError: false,
       defaultStatus: 'Submitted',
       applicationConfirmation: false,
+      confirmDeleteDocument: false,
       rules: Rules,
       tabContent: [
         {
@@ -255,7 +265,10 @@ export default {
         { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
         { tab: 'Documents', component: 'DocumentTab' },
         { tab: 'Submission', component: 'SubmissionTab' },
-        { tab: 'Pre-Certification Submission', component: null },
+        {
+          tab: 'Pre-Certification Submission',
+          component: 'PreCertificationTab',
+        },
       ],
       tab: 'General',
       currentTab: 100000000,
@@ -275,7 +288,8 @@ export default {
         'Submission',
         'Pre-Certification Submission',
       ],
-      documents: [],
+      // documents: [],
+      isDocumentsLoading: false,
       schoolYearLabel: null,
     };
   },
@@ -355,6 +369,7 @@ export default {
       'getApplicationPickListOptions',
       'getSchoolYears',
     ]),
+    ...mapState(documentStore, ['getApplicationDocuments']),
     // Student Enrolment values are calculated on the BE, the FE will enforce that enrolment is > 10
     sumA() {
       return (
@@ -402,17 +417,16 @@ export default {
     } else {
       this.setTabLabel(this.generalTabValue);
     }
-
-    if (this.formData?.documents?.length > 0) {
-      this.documents = [...this.formData.documents];
-    }
-
     if (this.formData._iosas_edu_year_value) {
       this.setSchoolYearLabel(this.formData._iosas_edu_year_value);
     }
   },
   methods: {
-    applicationsStore,
+    ...mapActions(applicationsStore, ['setConfirmationMessage']),
+    ...mapActions(documentStore, [
+      'addApplicationDocument',
+      'setApplicationDocuments',
+    ]),
     setSchoolYearLabel(yearValue) {
       const matchedSchoolYear = this.getSchoolYears.find(
         ({ value }) => value === yearValue
@@ -439,14 +453,78 @@ export default {
     isFirstPage() {
       return this.tab === 'General';
     },
-    async upload(document, replace = false) {
-      if (replace) {
-        this.documents = document;
+    async removeDocument(document) {
+      const documentName = document.iosas_documentid
+        ? document.iosas_file_name
+        : document.fileName;
+      const confirmation = await this.$refs.confirmDeleteDocument.open(
+        `Remove Document - ${documentName}?`,
+        null,
+        {
+          color: '#fff',
+          width: 580,
+          closeIcon: false,
+          subtitle: false,
+          dark: false,
+          resolveText: 'Confirm',
+          rejectText: 'Cancel',
+        }
+      );
+      if (!confirmation) {
+        return;
       } else {
-        this.documents = [...this.documents, document];
+        this.isDocumentsLoading = true;
+        if (document.iosas_documentid) {
+          // Remove all saved documents, refetch
+          const unUploadedDocuments = this.getApplicationDocuments.filter(
+            ({ iosas_documentid }) => {
+              return !iosas_documentid;
+            }
+          );
+          await ApiService.deleteDocument(document.iosas_documentid)
+            .then(async () => {
+              const documentResponse =
+                await ApplicationService.getApplicationDocuments(
+                  this.formData.iosas_applicationid
+                );
+              if (documentResponse) {
+                const formattedDocumentResponse = documentResponse?.data?.value
+                  .length
+                  ? documentResponse?.data?.value.map((doc) => ({
+                      fileName: doc.iosas_file_name,
+                      documentType: doc.iosas_newschoolapplicationdocumenttype,
+                      id: doc.iosas_documentid,
+                      ...doc,
+                    }))
+                  : [];
+                await this.setApplicationDocuments(
+                  unUploadedDocuments.concat(formattedDocumentResponse)
+                );
+              }
+              this.isDocumentsLoading = false;
+              this.setSuccessAlert(
+                `Success! The Document ${document.iosas_file_name} has been removed from your records`
+              );
+            })
+            .catch((error) => {
+              console.error(error);
+              this.setFailureAlert(
+                error?.response?.data?.message
+                  ? error?.response?.data?.message
+                  : 'An error occurred while saving the expression of Interest. Please try again later.'
+              );
+            });
+        } else {
+          // Remove only the deleted/unUploaded state document
+          const filteredDocuments = this.getApplicationDocuments.filter(
+            ({ id }) => {
+              return id !== document.id;
+            }
+          );
+          await this.setApplicationDocuments(filteredDocuments);
+          this.isDocumentsLoading = false;
+        }
       }
-
-      console.log(this.documents);
     },
     async handleDelete() {
       const confirmation = await this.$refs.confirmDelete.open(
@@ -470,7 +548,7 @@ export default {
           this.formData.iosas_applicationid
         )
           .then(async () => {
-            await applicationsStore().setConfirmationMessage(
+            await this.setConfirmationMessage(
               `School Application ${this.formData.iosas_applicationnumber} has been successfully removed from your records.`
             );
             this.$router.push({
@@ -503,7 +581,7 @@ export default {
         'updateData',
         this.formData.iosas_applicationid,
         payload,
-        this.documents,
+        this.getApplicationDocuments,
         false
       );
     },
@@ -512,7 +590,7 @@ export default {
 
       this.isFormValid = valid.valid;
       if (this.isFormValid) {
-        await applicationsStore().setConfirmationMessage(
+        await this.setConfirmationMessage(
           `Thank you for submitting your school application and supporting documentations to open ${this.formData.iosas_proposedschoolname} in September ${this.schoolYearLabel}, you will be contacted once your submission has been reviewed.`
         );
         // Only update portalStep if its less than the currently saved step
@@ -529,7 +607,7 @@ export default {
           'updateData',
           this.formData.iosas_applicationid,
           payload,
-          this.documents,
+          this.getApplicationDocuments,
           true
         );
       }
@@ -665,6 +743,7 @@ li {
 }
 
 .v-window-item {
-  min-height: 350px;
+  min-height: 330px;
+  margin-bottom: 10px;
 }
 </style>

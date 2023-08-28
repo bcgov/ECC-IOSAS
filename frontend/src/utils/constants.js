@@ -173,9 +173,22 @@ export const EOI_DOC_CODES = {
 };
 
 export const SCHOOL_APP_CODE_CODES = {
+  // DocumentTab documents
   schoolPolicyCode: 100000002,
   businessPlanCode: 100000003,
   confirmationOfEligibilityCode: 100000004,
   tuitionRefundPolicyCode: 100000005,
   businessReferencesCode: 100000006,
+  // Pre-CertificationTab documents
+  proofOfPurchaseCode: 100000010,
+  mulicipalComplianceCode: 100000011,
+  confimationWaterTestingCode: 100000012,
+  creditOrSurityBondCode: 100000016,
+};
+
+// Null fields for sections that haven't happened,
+// on next tab change for first time??
+// Don't change if been on page before
+const boolFieldsPerSection = {
+  100000000: {},
 };

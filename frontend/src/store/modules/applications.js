@@ -1,5 +1,6 @@
 import ApiService from '../../common/apiService';
 import ApplicationService from '../../common/applicationService';
+import { documentStore } from './document';
 import { formatStringToNumericArray } from '../../utils/format';
 import { defineStore } from 'pinia';
 
@@ -142,6 +143,15 @@ export const applicationsStore = defineStore('applications', {
       const documentResponse = await ApplicationService.getApplicationDocuments(
         appId
       );
+      const documents = documentResponse.data.value
+        ? documentResponse.data.value.map((doc) => ({
+            fileName: doc.iosas_file_name,
+            documentType: doc.iosas_newschoolapplicationdocumenttype,
+            id: doc.iosas_documentid,
+            ...doc,
+          }))
+        : [];
+      await documentStore().setApplicationDocuments(documents);
       const data = response.data.value[0];
       const app = {
         ...data,
@@ -153,14 +163,6 @@ export const applicationsStore = defineStore('applications', {
           data.iosas_additionalprograms
         ),
         iosas_semestertype: formatStringToNumericArray(data.iosas_semestertype),
-        documents: documentResponse.data.value
-          ? documentResponse.data.value.map((doc) => ({
-              fileName: doc.iosas_file_name,
-              documentType: doc.iosas_newschoolapplicationdocumenttype,
-              id: doc.iosas_documentid,
-              ...doc,
-            }))
-          : [],
       };
       await this.setSchoolApplication(app);
     },

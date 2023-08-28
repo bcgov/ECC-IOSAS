@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <h4>Documents</h4>
+    <h4>Pre-Certification Documents</h4>
     <br />
-    <v-dialog v-model="documentUpload" width="auto">
+    <v-dialog v-model="preCertDocumentUpload" width="auto">
       <DocumentUpload
-        ref="documentUpload"
+        ref="preCertDocumentUpload"
         @upload="upload"
         @close="closeDocumentDialog"
         :options="
@@ -29,28 +29,20 @@
       <div v-else>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">School Policy/Procedure Manual</v-label>
-            <br />
-            <v-label class="sm"
-              >Complete set of policies/procedures as outlined in the
-              <a :href="GOV_URL.interviewChecklistPDFUrl"
-                >Interview Checklist (PDF)</a
-              >
-            </v-label>
-
-            <div v-if="schoolPolicyDoc" class="d-flex justify-space-between">
+            <v-label>Proof of lease/purchase of facility</v-label>
+            <div v-if="proofOfPurchaseDoc" class="d-flex justify-space-between">
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(schoolPolicyDoc.fileName) }}
+                {{ formatLongName(proofOfPurchaseDoc.fileName) }}
               </div>
               <v-btn
                 secondary
                 class="ml-15"
                 variant="flat"
                 size="sm"
-                @click.stop="this.$emit('removeDocument', schoolPolicyDoc)"
+                @click.stop="this.$emit('removeDocument', proofOfPurchaseDoc)"
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
                 </v-icon></v-btn
@@ -61,35 +53,33 @@
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="toggleUpload(SCHOOL_APP_CODE_CODES.schoolPolicyCode)"
+              @click="toggleUpload(SCHOOL_APP_CODE_CODES.proofOfPurchaseCode)"
               >Upload</v-btn
             >
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">Business Plan</v-label>
-            <br />
-            <v-label class="sm"
-              >Business Plan with required financial information (Part A and B)
-              <a :href="GOV_URL.interviewChecklistPDFUrl"
-                >Interview Checklist (PDF)</a
-              >
-            </v-label>
+            <v-label>Municipal compliance letter</v-label>
 
-            <div v-if="businessPlanDoc" class="d-flex justify-space-between">
+            <div
+              v-if="mulicipalComplianceDoc"
+              class="d-flex justify-space-between"
+            >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(businessPlanDoc.fileName) }}
+                {{ formatLongName(mulicipalComplianceDoc.fileName) }}
               </div>
               <v-btn
                 secondary
                 class="ml-15"
                 variant="flat"
                 size="sm"
-                @click.stop="this.$emit('removeDocument', businessPlanDoc)"
+                @click.stop="
+                  this.$emit('removeDocument', mulicipalComplianceDoc)
+                "
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
                 </v-icon></v-btn
@@ -100,7 +90,47 @@
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="toggleUpload(SCHOOL_APP_CODE_CODES.businessPlanCode)"
+              @click="
+                toggleUpload(SCHOOL_APP_CODE_CODES.mulicipalComplianceCode)
+              "
+              >Upload</v-btn
+            >
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="12" md="8" xs="12">
+            <v-label class="no-mb">Confirmation of water testing</v-label>
+            <div
+              v-if="confimationWaterTestingDoc"
+              class="d-flex justify-space-between"
+            >
+              <div>
+                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                  mdi-file-document-check-outline
+                </v-icon>
+                {{ formatLongName(confimationWaterTestingDoc.fileName) }}
+              </div>
+              <v-btn
+                secondary
+                class="ml-15"
+                variant="flat"
+                size="sm"
+                @click.stop="
+                  this.$emit('removeDocument', confimationWaterTestingDoc)
+                "
+                ><v-icon aria-hidden="false" color="#b00020" size="20">
+                  mdi-delete-forever-outline
+                </v-icon></v-btn
+              >
+            </div>
+            <v-btn
+              v-else
+              secondary
+              class="mt-2 block"
+              variant="outlined"
+              @click="
+                toggleUpload(SCHOOL_APP_CODE_CODES.confimationWaterTestingCode)
+              "
               >Upload</v-btn
             >
           </v-col>
@@ -114,58 +144,18 @@
         <br />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">Written confirmation of eligibility</v-label>
-            <div
-              v-if="confirmationOfEligibilityDoc"
-              class="d-flex justify-space-between"
-            >
-              <div>
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
-              </div>
-              <v-btn
-                secondary
-                class="ml-15"
-                variant="flat"
-                size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', confirmationOfEligibilityDoc)
-                "
-                ><v-icon aria-hidden="false" color="#b00020" size="20">
-                  mdi-delete-forever-outline
-                </v-icon></v-btn
-              >
-            </div>
-            <v-btn
-              v-else
-              secondary
-              class="mt-2 block"
-              variant="outlined"
-              @click="
-                toggleUpload(
-                  SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
-                )
-              "
-              >Upload</v-btn
-            >
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb"
-              >Completed Free/Tuition Refund Policy</v-label
+              >Irrevocable letter of credit or surety bond</v-label
             >
             <div
-              v-if="tuitionRefundPolicyDoc"
+              v-if="creditOrSurityBondDoc"
               class="d-flex justify-space-between"
             >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
+                {{ formatLongName(creditOrSurityBondDoc.fileName) }}
               </div>
               <v-btn
                 secondary
@@ -173,7 +163,7 @@
                 variant="flat"
                 size="sm"
                 @click.stop="
-                  this.$emit('removeDocument', tuitionRefundPolicyDoc)
+                  this.$emit('removeDocument', creditOrSurityBondDoc)
                 "
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
@@ -186,47 +176,7 @@
               class="mt-2 block"
               variant="outlined"
               @click="
-                toggleUpload(SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode)
-              "
-              >Upload</v-btn
-            >
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb"
-              >Contact Information for two business references</v-label
-            >
-            <div
-              v-if="businessReferencesDoc"
-              class="d-flex justify-space-between"
-            >
-              <div>
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                {{ formatLongName(businessReferencesDoc.fileName) }}
-              </div>
-              <v-btn
-                secondary
-                class="ml-15"
-                variant="flat"
-                size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', businessReferencesDoc)
-                "
-                ><v-icon aria-hidden="false" color="#b00020" size="20">
-                  mdi-delete-forever-outline
-                </v-icon></v-btn
-              >
-            </div>
-            <v-btn
-              v-else
-              secondary
-              class="mt-2 block"
-              variant="outlined"
-              @click="
-                toggleUpload(SCHOOL_APP_CODE_CODES.businessReferencesCode)
+                toggleUpload(SCHOOL_APP_CODE_CODES.creditOrSurityBondCode)
               "
               >Upload</v-btn
             >
@@ -237,46 +187,51 @@
     <div v-else>
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
-          <v-label class="no-mb">School Policy/Procedure Manual</v-label>
-          <br />
-          <v-label class="sm"
-            >Complete set of policies/procedures as outlined in the
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >Interview Checklist (PDF)</a
-            >
-          </v-label>
-          <div v-if="schoolPolicyDoc">
+          <v-label>Proof of lease/purchase of facility</v-label>
+          <div v-if="proofOfPurchaseDoc">
             <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
               mdi-file-document-check-outline
             </v-icon>
-            {{ formatLongName(schoolPolicyDoc.fileName) }}
+            {{ formatLongName(proofOfPurchaseDoc.fileName) }}
           </div>
           <div v-else>{{ NULL_STRING }}</div>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label class="no-mb">Business Plan</v-label>
-          <br />
-          <v-label class="sm"
-            >Business Plan with required financial information (Part A and B)
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >Interview Checklist (PDF)</a
-            >
-          </v-label>
-
-          <div v-if="businessPlanDoc" class="d-flex justify-space-between">
+          <v-label>Municipal compliance letter</v-label>
+          <div
+            v-if="mulicipalComplianceDoc"
+            class="d-flex justify-space-between"
+          >
             <div>
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(businessPlanDoc.fileName) }}
+              {{ formatLongName(mulicipalComplianceDoc.fileName) }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
         </v-col>
       </v-row>
       <br />
+      <v-row>
+        <v-col cols="12" sm="12" md="8" xs="12">
+          <v-label>Confirmation of water testing</v-label>
+          <div
+            v-if="confimationWaterTestingDoc"
+            class="d-flex justify-space-between"
+          >
+            <div>
+              <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                mdi-file-document-check-outline
+              </v-icon>
+              {{ formatLongName(confimationWaterTestingDoc.fileName) }}
+            </div>
+          </div>
+          <div v-else>{{ NULL_STRING }}</div>
+        </v-col>
+      </v-row>
       <v-divider></v-divider>
       <br />
       <h4>Additional Documents</h4>
@@ -285,50 +240,16 @@
       <br />
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label>Written confirmation of eligibility</v-label>
+          <v-label>Irrevocable letter of credit or surety bond</v-label>
           <div
-            v-if="confirmationOfEligibilityDoc"
+            v-if="creditOrSurityBondDoc"
             class="d-flex justify-space-between"
           >
             <div>
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
-            </div>
-          </div>
-          <div v-else>{{ NULL_STRING }}</div>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label>Completed Free/Tuition Refund Policy</v-label>
-          <div
-            v-if="tuitionRefundPolicyDoc"
-            class="d-flex justify-space-between"
-          >
-            <div>
-              <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                mdi-file-document-check-outline
-              </v-icon>
-              {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
-            </div>
-          </div>
-          <div v-else>{{ NULL_STRING }}</div>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label>Contact Information for two business references</v-label>
-          <div
-            v-if="businessReferencesDoc"
-            class="d-flex justify-space-between"
-          >
-            <div>
-              <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                mdi-file-document-check-outline
-              </v-icon>
-              {{ formatLongName(businessReferencesDoc.fileName) }}
+              {{ formatLongName(creditOrSurityBondDoc.fileName) }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -354,8 +275,9 @@ import {
   SCHOOL_APP_CODE_CODES,
   NULL_STRING,
 } from '../../../utils/constants';
+
 export default {
-  name: 'DocumentTab',
+  name: 'PreCertificationTab',
   emit: ['validateAndPopulate', 'removeDocument'],
   mixins: [alertMixin],
   components: {
@@ -378,83 +300,75 @@ export default {
   watch: {
     getApplicationDocuments: {
       handler(val) {
-        this.schoolPolicyDoc = val.find(
+        this.proofOfPurchaseDoc = val.find(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.schoolPolicyCode
+            documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
         );
-        this.businessPlanDoc = val.find(
+        this.mulicipalComplianceDoc = val.find(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.businessPlanCode
+            documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
         );
-        this.confirmationOfEligibilityDoc = val.find(
+        this.confimationWaterTestingDoc = val.find(
           ({ documentType }) =>
             documentType ===
-            this.SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
+            this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
         );
-        this.tuitionRefundPolicyDoc = val.find(
+        this.creditOrSurityBondDoc = val.find(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode
-        );
-        this.businessReferencesDoc = val.find(
-          ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.businessReferencesCode
+            documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
         );
       },
     },
-  },
-  data: () => ({
-    GOV_URL,
-    NULL_STRING,
-    rules: Rules,
-    SCHOOL_APP_CODE_CODES,
-    documentUpload: false,
-    selectedDocumentOption: null,
+    data: () => ({
+      GOV_URL,
+      NULL_STRING,
+      rules: Rules,
+      SCHOOL_APP_CODE_CODES,
+      preCertDocumentUpload: false,
+      selectedDocumentOption: null,
 
-    // categorized documents
-    schoolPolicyDoc: null,
-    businessPlanDoc: null,
-    confirmationOfEligibilityDoc: null,
-    tuitionRefundPolicyDoc: null,
-    businessReferencesDoc: null,
-  }),
-  mounted() {},
-  created() {
-    this.schoolPolicyDoc = this.getApplicationDocuments?.find(
-      ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.schoolPolicyCode
-    );
-    this.businessPlanDoc = this.getApplicationDocuments?.find(
-      ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.businessPlanCode
-    );
-    this.confirmationOfEligibilityDoc = this.getApplicationDocuments?.find(
-      ({ documentType }) =>
-        documentType ===
-        this.SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
-    );
-    this.tuitionRefundPolicyDoc = this.getApplicationDocuments?.find(
-      ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode
-    );
-    this.businessReferencesDoc = this.getApplicationDocuments?.find(
-      ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.businessReferencesCode
-    );
-  },
-  computed: {
-    ...mapState(metaDataStore, ['getDocumentPickListOptions']),
-    ...mapState(documentStore, ['getApplicationDocuments']),
+      // categorized documents
+      proofOfPurchaseDoc: null,
+      mulicipalComplianceDoc: null,
+      confimationWaterTestingDoc: null,
+      creditOrSurityBondDoc: null,
+    }),
+    computed: {
+      ...mapState(metaDataStore, ['getDocumentPickListOptions']),
+      ...mapState(documentStore, ['getApplicationDocuments']),
+    },
+    mounted() {},
+    created() {
+      console.log('getApplicationDocuments', this.getApplicationDocuments);
+      this.proofOfPurchaseDoc = this.getApplicationDocuments?.find(
+        ({ documentType }) =>
+          documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
+      );
+      this.mulicipalComplianceDoc = this.getApplicationDocuments?.find(
+        ({ documentType }) =>
+          documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
+      );
+      this.confimationWaterTestingDoc = this.getApplicationDocuments?.find(
+        ({ documentType }) =>
+          documentType ===
+          this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
+      );
+      this.creditOrSurityBondDoc = this.getApplicationDocuments?.find(
+        ({ documentType }) =>
+          documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
+      );
+    },
   },
   methods: {
     formatBooleanToYesNoString,
     formatLongName,
     ...mapActions(documentStore, ['addApplicationDocument']),
     closeDocumentDialog() {
-      this.documentUpload = false;
+      this.preCertDocumentUpload = false;
     },
     toggleUpload(documentCode = null) {
       this.selectedDocumentOption = documentCode;
-      this.documentUpload = true;
+      this.preCertDocumentUpload = true;
     },
     async upload(document) {
       this.addApplicationDocument(document);
