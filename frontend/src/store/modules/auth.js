@@ -69,8 +69,6 @@ export const authStore = defineStore('auth', {
     },
     async setEnv(env) {
       this.env = env;
-
-      console.log(this.env);
     },
     async setLoginError() {
       this.loginError = true;
