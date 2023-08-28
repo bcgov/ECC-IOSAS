@@ -25,7 +25,10 @@
       <v-toolbar-title>
         <h3 class="mainTitle" style="color: white">
           {{ appTitle }}
-          <span :style="{ color: envGet.bannerColor }" class="environment-flag"
+          <span
+            v-if="!isProd"
+            :style="{ color: envGet.bannerColor }"
+            class="environment-flag"
             >({{ envGet.env.toUpperCase() }})</span
           >
         </h3>
@@ -103,6 +106,9 @@ export default {
     },
   },
   methods: {
+    isProd() {
+      return this.envGet?.env === 'prod';
+    },
     getName() {
       return this.userInfo?.displayName;
     },
