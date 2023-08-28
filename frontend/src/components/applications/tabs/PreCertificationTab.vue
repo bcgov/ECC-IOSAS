@@ -319,45 +319,44 @@ export default {
         );
       },
     },
-    data: () => ({
-      GOV_URL,
-      NULL_STRING,
-      rules: Rules,
-      SCHOOL_APP_CODE_CODES,
-      preCertDocumentUpload: false,
-      selectedDocumentOption: null,
+  },
+  data: () => ({
+    GOV_URL,
+    NULL_STRING,
+    rules: Rules,
+    SCHOOL_APP_CODE_CODES,
+    preCertDocumentUpload: false,
+    selectedDocumentOption: null,
 
-      // categorized documents
-      proofOfPurchaseDoc: null,
-      mulicipalComplianceDoc: null,
-      confimationWaterTestingDoc: null,
-      creditOrSurityBondDoc: null,
-    }),
-    computed: {
-      ...mapState(metaDataStore, ['getDocumentPickListOptions']),
-      ...mapState(documentStore, ['getApplicationDocuments']),
-    },
-    mounted() {},
-    created() {
-      console.log('getApplicationDocuments', this.getApplicationDocuments);
-      this.proofOfPurchaseDoc = this.getApplicationDocuments?.find(
-        ({ documentType }) =>
-          documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
-      );
-      this.mulicipalComplianceDoc = this.getApplicationDocuments?.find(
-        ({ documentType }) =>
-          documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
-      );
-      this.confimationWaterTestingDoc = this.getApplicationDocuments?.find(
-        ({ documentType }) =>
-          documentType ===
-          this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
-      );
-      this.creditOrSurityBondDoc = this.getApplicationDocuments?.find(
-        ({ documentType }) =>
-          documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
-      );
-    },
+    // categorized documents
+    proofOfPurchaseDoc: null,
+    mulicipalComplianceDoc: null,
+    confimationWaterTestingDoc: null,
+    creditOrSurityBondDoc: null,
+  }),
+  computed: {
+    ...mapState(metaDataStore, ['getDocumentPickListOptions']),
+    ...mapState(documentStore, ['getApplicationDocuments']),
+  },
+  mounted() {},
+  created() {
+    console.log('getApplicationDocuments', this.getApplicationDocuments);
+    this.proofOfPurchaseDoc = this.getApplicationDocuments?.find(
+      ({ documentType }) =>
+        documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
+    );
+    this.mulicipalComplianceDoc = this.getApplicationDocuments?.find(
+      ({ documentType }) =>
+        documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
+    );
+    this.confimationWaterTestingDoc = this.getApplicationDocuments?.find(
+      ({ documentType }) =>
+        documentType === this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
+    );
+    this.creditOrSurityBondDoc = this.getApplicationDocuments?.find(
+      ({ documentType }) =>
+        documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
+    );
   },
   methods: {
     formatBooleanToYesNoString,
