@@ -44,6 +44,7 @@ jobs:
           make init-api-sec
           make init-api-config
           make promote-api
-          make promote-web
           make deploy-api
+          make init-web
+          make promote-web
           make deploy-web
