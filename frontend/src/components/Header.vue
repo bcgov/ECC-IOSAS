@@ -26,7 +26,7 @@
         <h3 class="mainTitle" style="color: white">
           {{ appTitle }}
           <span
-            v-if="!isProd"
+            v-if="isNotProd()"
             :style="{ color: envGet.bannerColor }"
             class="environment-flag"
             >({{ envGet.env.toUpperCase() }})</span
@@ -106,8 +106,8 @@ export default {
     },
   },
   methods: {
-    isProd() {
-      return this.envGet?.env === 'prod';
+    isNotProd() {
+      return this.envGet?.env !== 'prod';
     },
     getName() {
       return this.userInfo?.displayName;
