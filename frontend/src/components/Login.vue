@@ -46,9 +46,8 @@
                 <v-card-actions>
                   <v-btn
                     id="register-button"
-                    :href="
-                      isDev() ? GOV_URL.devBceidRegister : GOV_URL.bceidRegister
-                    "
+                    :href="envGet.beceidRegURL"
+                    target="_blank"
                     class="ma-2"
                   >
                     Register for a BCeID <v-icon>mdi-login</v-icon>
@@ -105,7 +104,6 @@ import { AuthRoutes, GOV_URL } from '../utils/constants';
 import ContactCard from './common/ContactCard.vue';
 import IndependentSchoolDisclaimer from './IndependentSchoolDisclaimer.vue';
 import RelatedLinksCard from './common/RelatedLinksCard.vue';
-import StaticConfig from '../common/staticConfig';
 
 export default {
   name: 'Login',
@@ -115,16 +113,12 @@ export default {
       appTitle: 'Independent School BC',
       authRoutes: AuthRoutes,
       GOV_URL,
-      bannerEnvironment: StaticConfig.BANNER_ENVIRONMENT,
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated']),
+    ...mapState(authStore, ['isAuthenticated', 'envGet']),
   },
   methods: {
-    isDev() {
-      return this.bannerEnvironment === 'DEV';
-    },
     clearStorage() {
       authStore().setJwtToken();
     },

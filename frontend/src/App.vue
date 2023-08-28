@@ -36,12 +36,19 @@ export default {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
+    ...mapState(authStore, [
+      'isAuthenticated',
+      'loginError',
+      'isLoading',
+      'envGet',
+    ]),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
     },
   },
   async created() {
+    await this.getEnvironment();
+
     // TODO: try 3X, Unhandled rejection
     await metaDataStore().getActiveSchoolYear();
     await metaDataStore().getEOIPickLists();
@@ -69,6 +76,7 @@ export default {
   methods: {
     authStore,
     ...mapActions(authStore, [
+      'getEnvironment',
       'setLoading',
       'getJwtToken',
       'getUserInfo',

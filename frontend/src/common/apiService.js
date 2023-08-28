@@ -80,6 +80,19 @@ export default {
     }
   },
 
+  /**
+   * Get Environment variables
+   * @returns environment variables to display on the UI
+   */
+  async getEnvironment() {
+    try {
+      return apiAxios.get(ApiRoutes.ENV);
+    } catch (err) {
+      console.log(`Failed to get from Nodejs getEnvironment API - ${e}`);
+      throw e;
+    }
+  },
+
   // Documents
   async uploadFile(fileData) {
     try {
