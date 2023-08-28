@@ -75,6 +75,8 @@ objects:
                     secretKeyRef:
                       key: certificate
                       name: iosas-ui-sec
+                - name: ENV_PREFIX
+                  value: ${ENV_PREFIX}
               image: ${IMAGE_REGISTRY}/${BUILD_NAMESPACE}/${IMAGE_STREAM_TAG}
               imagePullPolicy: Always
               name: ${NAME}
@@ -187,5 +189,7 @@ parameters:
   - name: SOAM_DISCOVERY
     require: true
   - name: SITEMINDER_LOGOUT_ENDPOINT
+    require: true
+  - name: ENV_PREFIX
     require: true
   

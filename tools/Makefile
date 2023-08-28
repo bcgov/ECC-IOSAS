@@ -212,7 +212,8 @@ update-dc-api:
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(API):$(ENV_PREFIX)" \
 		-p VERSION="$(LAST_COMMIT)" \
-		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
+		-p BUILD_ID=$(BUILD_TAG) \
+		-p ENV_PREFIX=$(ENV_PREFIX) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
 	$(call rollout_and_wait,dc/$(API))

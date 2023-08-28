@@ -25,6 +25,7 @@ const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const healthCheck = require('./routes/health-check');
 const dynamicRouter = require('./routes/dynamics');
+const environmentRouter = require('./routes/environment');
 // const promMid = require('express-prometheus-middleware');
 //initialize app
 const app = express();
@@ -73,6 +74,7 @@ app.use(
 healthCheck.configure();
 app.use(healthCheck.router);
 app.use(require('./routes/version').router);
+app.use('/api/environment', environmentRouter);
 //initialize routing and session. Cookies are now only reachable via requests (not js)
 app.use(passport.initialize());
 app.use(passport.session());
