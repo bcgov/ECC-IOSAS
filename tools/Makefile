@@ -145,6 +145,7 @@ init-api-sec:
 
 init-web:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"
+	@oc -n $(NAMESPACE) delete configmap iosas-ui-config
 	oc create -n $(NAMESPACE) configmap iosas-ui-config \
 	--from-literal=TZ="America/Vancouver" \
 	--from-literal=HOST_ROUTE="$(HOST)" \
@@ -238,7 +239,7 @@ deploy-web: update-dc-web
 
 promote-web:
 	test -n "$(BUILD_NAMESPACE)"
-	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
+	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) Web with ENV $(ENV_PREFIX) $\n+"
 	sh config/promote-app.sh $(BUILD_NAMESPACE) $(Web) $(BUILD_TAG) $(ENV_PREFIX)
 
 d365-api-tunnel:
