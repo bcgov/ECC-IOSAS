@@ -87,10 +87,7 @@ export default {
       try {
         await this.getEnvironment();
       } catch (e) {
-        this.$router.replace({
-          name: 'error',
-          query: { message: `500_${e.data || 'ServerError'}` },
-        });
+        throw e;
       }
     },
   },
