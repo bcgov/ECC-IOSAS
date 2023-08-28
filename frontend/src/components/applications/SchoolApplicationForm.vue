@@ -77,16 +77,17 @@
                 </v-window-item>
               </v-window>
 
-              <v-container v-if="isEditing">
-                <v-row v-if="isLastPage()">
-                  <v-col cols="12" sm="12" md="12" xs="12">
-                    <v-checkbox
-                      v-model="applicationConfirmation"
-                      label="I confirm this application is complete and ready to be submitted for review."
-                    ></v-checkbox>
-                  </v-col>
-                </v-row>
+              <v-row v-if="isLastPage()">
+                <v-col cols="12" sm="12" md="12" xs="12">
+                  <v-checkbox
+                    v-model="applicationConfirmation"
+                    :disabled="!isEditing"
+                    label="I confirm this application is complete and ready to be submitted for review."
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
 
+              <v-container v-if="isEditing">
                 <v-row justify="center" align="center" v-if="showError">
                   <v-col>
                     <v-alert type="error" title="Error" variant="outlined">
@@ -254,6 +255,7 @@ export default {
         { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
         { tab: 'Documents', component: 'DocumentTab' },
         { tab: 'Submission', component: 'SubmissionTab' },
+        { tab: 'Pre-Certification Submission', component: null },
       ],
       tab: 'General',
       currentTab: 100000000,
@@ -271,8 +273,10 @@ export default {
         'Teacher Certification',
         'Documents',
         'Submission',
+        'Pre-Certification Submission',
       ],
       documents: [],
+      schoolYearLabel: null,
     };
   },
   watch: {
@@ -327,6 +331,14 @@ export default {
         }
       },
     },
+    'formData._iosas_edu_year_value': {
+      handler(val) {
+        if (val) {
+          this.setSchoolYearLabel(val);
+        }
+        return;
+      },
+    },
     sumA(val) {
       this.formData.iosas_primaryschooltotal = val;
     },
@@ -339,7 +351,10 @@ export default {
   },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'userInfo']),
-    ...mapState(metaDataStore, ['getApplicationPickListOptions']),
+    ...mapState(metaDataStore, [
+      'getApplicationPickListOptions',
+      'getSchoolYears',
+    ]),
     // Student Enrolment values are calculated on the BE, the FE will enforce that enrolment is > 10
     sumA() {
       return (
@@ -373,6 +388,8 @@ export default {
     const isDraft =
       this.formData && this.formData?.statuscode === this.draftCode;
     this.isEditing = isDraft;
+    // Display confirmation message as disabled/populated in viewOnly mode
+    this.applicationConfirmation = !isDraft;
     if (this.formData?.iosas_portalapplicationstep && this.isEditing) {
       this.setTabLabel(this.formData?.iosas_portalapplicationstep);
       this.currentTab = this.formData?.iosas_portalapplicationstep;
@@ -389,9 +406,19 @@ export default {
     if (this.formData?.documents?.length > 0) {
       this.documents = [...this.formData.documents];
     }
+
+    if (this.formData._iosas_edu_year_value) {
+      this.setSchoolYearLabel(this.formData._iosas_edu_year_value);
+    }
   },
   methods: {
     applicationsStore,
+    setSchoolYearLabel(yearValue) {
+      const matchedSchoolYear = this.getSchoolYears.find(
+        ({ value }) => value === yearValue
+      );
+      this.schoolYearLabel = matchedSchoolYear?.year?.iosas_label;
+    },
     setDisabledTabs() {},
     setTabLabel(tabValue) {
       this.tab = this.getApplicationPickListOptions?.[
@@ -444,7 +471,7 @@ export default {
         )
           .then(async () => {
             await applicationsStore().setConfirmationMessage(
-              `School application ${this.formData.iosas_applicationnumber} has been successfully removed from your records.`
+              `School Application ${this.formData.iosas_applicationnumber} has been successfully removed from your records.`
             );
             this.$router.push({
               name: 'applicationConfirmation',
@@ -486,7 +513,7 @@ export default {
       this.isFormValid = valid.valid;
       if (this.isFormValid) {
         await applicationsStore().setConfirmationMessage(
-          `School application ${this.formData.iosas_applicationnumber} has been successfully submitted.`
+          `Thank you for submitting your school application and supporting documentations to open ${this.formData.iosas_proposedschoolname} in September ${this.schoolYearLabel}, you will be contacted once your submission has been reviewed.`
         );
         // Only update portalStep if its less than the currently saved step
         const portalStep =
@@ -635,5 +662,9 @@ li {
 
 .flex-4 {
   flex: 4;
+}
+
+.v-window-item {
+  min-height: 350px;
 }
 </style>

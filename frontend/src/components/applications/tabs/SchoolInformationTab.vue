@@ -24,7 +24,7 @@
             label="School Year"
             variant="outlined"
             color="rgb(59, 153, 252)"
-            :items="getActiveSchoolYearSelect"
+            :items="getSchoolYears"
             item-title="label"
             item-value="value"
             :rules="[rules.requiredSelect()]"
@@ -591,7 +591,7 @@ export default {
   mounted() {},
   computed: {
     ...mapState(metaDataStore, [
-      'getActiveSchoolYearSelect',
+      'getSchoolYears',
       'getApplicationPickListOptions',
       'getApplicationMultiPickListOptions',
     ]),

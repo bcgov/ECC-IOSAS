@@ -916,7 +916,7 @@ export default {
     'data._iosas_edu_year_value': {
       handler(val) {
         if (!this.schoolYearLabel && val) {
-          const matchedSchoolYear = this.getActiveSchoolYearSelect.find(
+          const matchedSchoolYear = this.getSchoolYears.find(
             ({ value }) => value === val
           );
           this.schoolYearLabel = matchedSchoolYear.year?.iosas_label;
@@ -1104,6 +1104,7 @@ export default {
       'getEOIPickListOptions',
       'getDocumentPickListOptions',
       'getSchoolAuthorityListOptions',
+      'getSchoolYears',
     ]),
     ...mapState(applicationsStore, ['setConfirmationMessage']),
     ...mapState(authStore, ['isAuthenticated', 'contactInfo', 'userInfo']),

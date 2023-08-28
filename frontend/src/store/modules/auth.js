@@ -54,6 +54,7 @@ export const authStore = defineStore('auth', {
         localStorage.removeItem('applicationPickLists');
         localStorage.removeItem('schoolAuthority');
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('applicationMultiPickLists');
       }
     },
     async setUserInfo(userInfo) {
