@@ -35,6 +35,8 @@ jobs:
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           echo Env prefix: $ENV_PREFIX
           make print-status
+          make init-api-sec
+          make init-api-config
           make promote-api
           make promote-web
           make deploy-api

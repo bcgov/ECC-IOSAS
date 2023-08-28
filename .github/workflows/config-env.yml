@@ -48,5 +48,6 @@ jobs:
         run: |
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make print-status
+          make init-project
           make init-api-sec
           make init-api-config
