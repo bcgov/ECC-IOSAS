@@ -37,10 +37,15 @@ nconf.overrides({
   },
 });
 
+const getRealm = () => {
+  return (process.env.ENV_PREFIX || 'dev') == 'dev' ? 'master' : 'IOSAS';
+};
+
 nconf.defaults({
   environment: env,
   logoutEndpoint:
-    process.env.SOAM_URL + '/auth/realms/master/protocol/openid-connect/logout',
+    process.env.SOAM_URL +
+    `/auth/realms/${getRealm()}/protocol/openid-connect/logout`,
   siteMinder_logout_endpoint: process.env.SITEMINDER_LOGOUT_ENDPOINT,
   server: {
     frontend: process.env.SERVER_FRONTEND,
