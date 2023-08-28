@@ -1,14 +1,22 @@
 # Configuring target env
-name: Prmoting app to env
+name: Prmoting app manually
 
 on:
-  push:
-    tags:
-      - test
+  workflow_dispatch:
+    inputs:
+      oc_env_suffix:
+        description: The Env suffic of oc name space
+        required: true
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
 env:
   CLUSTER: https://api.silver.devops.gov.bc.ca:6443
   AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_OCP4 }}
   BUILD_REF: ${{ github.base_ref }}
+  ENV_PREFIX: ${{ inputs.oc_env_suffix  }}
   NAMESPACE_DEV: ${{ vars.NAMESPACE_DEV }}
   NAMESPACE_TEST: ${{ vars.NAMESPACE_TEST }}
   NAMESPACE_PROD: ${{ vars.NAMESPACE_PROD }}
@@ -25,8 +33,6 @@ jobs:
     concurrency: ci-config-${{ inputs.oc_env_suffix }}
     timeout-minutes: 20
     steps:
-      - name: Set env
-        run: echo "ENV_PREFIX=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
       - name: Tag build and deploy application
