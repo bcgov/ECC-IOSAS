@@ -154,6 +154,7 @@ export default {
     authStore,
     applicationsStore,
     redirectToEOIForm() {
+      console.log('Clicked button to redirect to New EOI form');
       this.$router.push({ path: AuthRoutes.NEW_EOI });
     },
   },
