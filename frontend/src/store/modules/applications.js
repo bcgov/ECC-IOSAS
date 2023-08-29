@@ -3,16 +3,10 @@ import ApplicationService from '../../common/applicationService';
 import { documentStore } from './document';
 import { formatStringToNumericArray } from '../../utils/format';
 import { defineStore } from 'pinia';
+import { STATUS_MAP } from '../../utils/constants';
 
 const updateStatusName = (status) => {
-  const newStatus = {
-    'New (Submitted)': 'New',
-    'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
-    '2 - Draft App': 'Draft',
-    '3 - App Submitted': 'Submitted',
-    '6 - Pre-Certification': 'Pre-Certification',
-  };
-  return newStatus[status] ? newStatus[status] : status;
+  return STATUS_MAP[status] ? STATUS_MAP[status] : status;
 };
 
 export const applicationsStore = defineStore('applications', {

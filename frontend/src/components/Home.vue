@@ -28,7 +28,8 @@
   </v-container>
 
   <v-container v-else fluid class="dashboard-container">
-    <v-row
+    <!-- TODO: re-add alerts once they are dynamic and not hardcoded -->
+    <!-- <v-row
       align="center"
       justify="center"
       style="margin-right: 0; margin-left: 0"
@@ -48,7 +49,7 @@
           to complete and submit your New School Application <b>APP-1048</b>.
         </v-card>
       </v-col>
-    </v-row>
+    </v-row> -->
     <br />
     <br />
     <v-row no-gutter>

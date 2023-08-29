@@ -192,3 +192,15 @@ export const SCHOOL_APP_CODE_CODES = {
 const boolFieldsPerSection = {
   100000000: {},
 };
+
+export const STATUS_MAP = {
+  'New (Submitted)': 'New',
+  'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
+  '1 - New App': 'New',
+  '2 - Draft App': 'Draft',
+  '3 - App Submitted': 'Submitted',
+  '4 - App Review': 'In Review',
+  '5 - Interview': 'Interview',
+  '6 - Pre-Certification': 'Pre-Certification',
+  '7 - Interim Certification': 'Interim Certification',
+};
