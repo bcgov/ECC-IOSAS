@@ -35,7 +35,8 @@ const dynamicIntegrationService = {
     };
     try {
       const { data } = await axios.post(endPoint, body);
-      logger.info('Register | Dynamic | Resp | Success | resp', data);
+      logger.info('Register | Dynamic | Resp | Success | request:', body);
+      logger.info('Register | Dynamic | Resp | Success | resp:', data);
       const { value = [], contactid: contactId } = data;
       if (contactId) {
         logger.info(`Register | Dynamic | ID:`, contactId);
