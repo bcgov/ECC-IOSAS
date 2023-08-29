@@ -46,7 +46,7 @@
                 <v-card-actions>
                   <v-btn
                     id="register-button"
-                    :href="envGet.beceidRegURL"
+                    :href="envGet?.beceidRegURL"
                     target="_blank"
                     class="ma-2"
                   >

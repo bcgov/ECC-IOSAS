@@ -27,9 +27,9 @@
           {{ appTitle }}
           <span
             v-if="isNotProd()"
-            :style="{ color: envGet.bannerColor }"
+            :style="{ color: envGet?.bannerColor }"
             class="environment-flag"
-            >({{ envGet.env.toUpperCase() }})</span
+            >({{ envGet?.env.toUpperCase() }})</span
           >
         </h3>
       </v-toolbar-title>
