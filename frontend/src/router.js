@@ -155,23 +155,38 @@ router.beforeEach((to, _from, next) => {
   const apStore = appStore();
   // this section is to set page title in vue store
   if (to.meta.requiresAuth) {
+    console.log('In Router - Route required Auth');
+
     aStore
       .getJwtToken()
       .then(() => {
         if (!aStore.isAuthenticated) {
+          console.log('In Router - token expired, redirecting');
           next('/token-expired');
         } else {
+          console.log(
+            'In Router - token good, redirecting to authenticated route'
+          );
           next();
         }
       })
       .catch(() => {
         if (!aStore.userInfo) {
+          console.log(
+            'In Router - token good, no user data, redirecting to login'
+          );
           next('/login');
         } else {
+          console.log(
+            'In Router - token good, no user data, redirecting to /token-expired'
+          );
           next('/token-expired');
         }
       });
   } else {
+    console.log(
+      'In Router -  Route does not required Auth - Navigating to new route'
+    );
     next();
   }
 });
