@@ -12,6 +12,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const utils = require('./components/utils');
 const auth = require('./components/auth');
+const dynamicIntegrationService = require('./components/dynamics-integration');
 const bodyParser = require('body-parser');
 // const connectRedis = require('connect-redis');
 dotenv.config();
@@ -99,7 +100,7 @@ function addLoginPassportUse(
         scope: discovery.scopes_supported,
         kc_idp_hint: kc_idp_hint,
       },
-      (
+      async (
         _issuer,
         profile,
         _context,
@@ -116,12 +117,28 @@ function addLoginPassportUse(
         ) {
           return done('No access token', null);
         }
+        //
+        log.info(`Passport | ${strategyName} | Login success`);
+        const userInfo = parseJwt(accessToken);
         //set access and refresh tokens
         profile.jwtFrontend = auth.generateUiToken();
         profile.jwt = accessToken;
-        profile._json = parseJwt(accessToken);
+        profile._json = userInfo;
         profile.refreshToken = refreshToken;
-        return done(null, profile);
+        try {
+          const { dynamicContactId } = await dynamicIntegrationService.register(
+            userInfo
+          );
+          log.info(`Passport | ${strategyName} | D365 id: ${dynamicContactId}`);
+          profile.dynamicContactId = dynamicContactId;
+          return done(null, profile);
+        } catch (err) {
+          log.error(
+            `Passport | ${strategyName} | Fail to register user in dynamic with error:`,
+            err
+          );
+          return done('Unable to register in dynamic', null);
+        }
       }
     )
   );
@@ -175,7 +192,6 @@ utils.getOidcDiscovery().then((discovery) => {
         if (typeof jwtPayload === 'undefined' || jwtPayload === null) {
           return done('No JWT token', null);
         }
-
         done(null, {
           email: jwtPayload.email,
           familyName: jwtPayload.family_name,
@@ -184,6 +200,7 @@ utils.getOidcDiscovery().then((discovery) => {
           name: jwtPayload.name,
           user_guid: jwtPayload.user_guid,
           realmRole: jwtPayload.realm_role,
+          dynamicContactId: jwtPayload.dynamicContactId,
         });
       }
     )

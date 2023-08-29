@@ -18,7 +18,7 @@ const auth = {
     const payload = jsonwebtoken.decode(token);
     log.info('isTokenExpired: context: ', context);
     if (payload['exp']) {
-      const expDate = new Date((payload['exp'] * 1000));
+      const expDate = new Date(payload['exp'] * 1000);
       log.info(`isTokenExpired: exp: ${expDate}, now: ${new Date()}`);
     }
 
@@ -30,10 +30,18 @@ const auth = {
     const now = Date.now().valueOf() / 1000;
     const payload = jsonwebtoken.decode(token);
     if (!payload.iat || typeof payload.iat === 'undefined') {
-      log.warn('isRenewable', '| The token has no IAT possibly wrong token', payload);
-      return new Error('Unable to process refresh token associated with user, contact key cloak admin');
+      log.warn(
+        'isRenewable',
+        '| The token has no IAT possibly wrong token',
+        payload
+      );
+      return new Error(
+        'Unable to process refresh token associated with user, contact key cloak admin'
+      );
     }
-    const exp = payload.exp || (payload.iat + ((process.env.DEFAULT_SESSION_TIME || 30.0) * 60));
+    const exp =
+      payload.exp ||
+      payload.iat + (process.env.DEFAULT_SESSION_TIME || 30.0) * 60;
     // log.info('isRenewable', ` | exp: ${exp} | now: ${now} | payload.exp: ${payload.exp} | iat: ${payload.iat}`);
     // Check if expiration exists, or lacks expiration
     return exp > now;
@@ -63,7 +71,7 @@ const auth = {
         }
       );
 
-      log.verbose('renew', utils.prettyStringify(response.data));
+      log.info('renew | result: ', utils.prettyStringify(response.data));
       if (
         response &&
         response.data &&
@@ -103,8 +111,15 @@ const auth = {
             if (result.jwt && result.refreshToken) {
               req.user.jwt = result.jwt; // eslint-disable-line require-atomic-updates
               req.user.refreshToken = result.refreshToken; // eslint-disable-line require-atomic-updates
+              if (req.session?.passport?.user) {
+                req.session.passport.user.jwt = result.jwt;
+                req.session.passport.user.refreshToken = result.refreshToken;
+              }
             } else {
-              log.error('refreshJWT: Unable to refres token with error: ', result)
+              log.error(
+                'refreshJWT: Unable to refres token with error: ',
+                result
+              );
               delete req.user;
             }
           } else {
@@ -185,7 +200,11 @@ const auth = {
   },
   isValidBackendToken() {
     return function (req, res, next) {
-      if (req?.session?.passport?.user?.jwt) {
+      const jwt =
+        req.user.jwt && typeof req.user.jwt == 'string'
+          ? req.user.jwt
+          : req.session?.passport?.user?.jwt;
+      if (jwt) {
         try {
           utils
             .getOidcDiscovery()
@@ -195,10 +214,7 @@ const auth = {
                 const formattedPubKey = `-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
                 // log.info(`Public key: ${publicKey}`);
                 // log.info(`Formatted key: ${formattedPubKey}`);
-                jsonwebtoken.verify(
-                  req.session.passport.user.jwt,
-                  formattedPubKey
-                );
+                jsonwebtoken.verify(jwt, formattedPubKey);
               } catch (e) {
                 log.info(
                   'The kc token verification fail with underlying error'
