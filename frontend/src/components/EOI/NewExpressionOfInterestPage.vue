@@ -74,9 +74,6 @@ export default {
       },
     ],
   }),
-  mounted() {
-    console.log('NEW EXPRESSION OF INTEREST PAGE MOUNTED');
-  },
   computed: {
     ...mapState(authStore, ['isAuthenticated']),
   },
