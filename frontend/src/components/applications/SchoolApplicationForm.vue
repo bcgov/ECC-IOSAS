@@ -77,6 +77,7 @@
                       :isDocumentsLoading="isDocumentsLoading"
                       @validateAndPopulate="validateAndPopulateRadioButtons"
                       @removeDocument="removeDocument"
+                      :isPreCertEditable="isPreCertEditable"
                     />
                   </keep-alive>
                 </v-window-item>
@@ -91,6 +92,17 @@
                   ></v-checkbox>
                 </v-col>
               </v-row>
+
+              <v-container v-if="isPreCertEditable && isPreCertTab()">
+                <v-row align="end" align-self="end">
+                  <PrimaryButton
+                    primary
+                    text="Save Documents"
+                    class="mr-2"
+                    :click-action="handleUploadPreCertDocuments"
+                  />
+                </v-row>
+              </v-container>
 
               <v-container v-if="isEditing">
                 <v-row justify="center" align="center" v-if="showError">
@@ -210,7 +222,7 @@ export default {
     DocumentTab,
     PreCertificationTab,
   },
-  emits: ['setIsLoading', 'updateData'],
+  emits: ['setIsLoading', 'updateData', 'handleUploadDocuments'],
   mixins: [alertMixin],
   props: {
     formData: {
@@ -225,6 +237,8 @@ export default {
   data() {
     return {
       draftCode: 100000001,
+      preCertCode: 100000009,
+      isPreCertEditable: false,
       drawer: false,
       disabledTabs: [],
       isEditing: false,
@@ -403,6 +417,8 @@ export default {
     const isDraft =
       this.formData && this.formData?.statuscode === this.draftCode;
     this.isEditing = isDraft;
+    this.isPreCertEditable =
+      this.formData && this.formData?.statuscode === this.preCertCode;
     // Display confirmation message as disabled/populated in viewOnly mode
     this.applicationConfirmation = !isDraft;
     if (this.formData?.iosas_portalapplicationstep && this.isEditing) {
@@ -427,6 +443,9 @@ export default {
       'addApplicationDocument',
       'setApplicationDocuments',
     ]),
+    isPreCertTab() {
+      return this.tab === 'Pre-Certification Submission';
+    },
     setSchoolYearLabel(yearValue) {
       const matchedSchoolYear = this.getSchoolYears.find(
         ({ value }) => value === yearValue
@@ -452,6 +471,15 @@ export default {
     },
     isFirstPage() {
       return this.tab === 'General';
+    },
+    async handleUploadPreCertDocuments() {
+      // TODO: fix loading state
+      this.isDocumentsLoading = true;
+      const response = await this.$emit(
+        'handleUploadDocuments',
+        this.formData.iosas_applicationid,
+        this.getApplicationDocuments
+      );
     },
     async removeDocument(document) {
       const documentName = document.iosas_documentid

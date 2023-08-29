@@ -10,6 +10,7 @@ const updateStatusName = (status) => {
     'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
     '2 - Draft App': 'Draft',
     '3 - App Submitted': 'Submitted',
+    '6 - Pre-Certification': 'Pre-Certification',
   };
   return newStatus[status] ? newStatus[status] : status;
 };

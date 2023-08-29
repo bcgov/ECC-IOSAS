@@ -24,6 +24,7 @@
         :isLoading="isLoading"
         @setIsLoading="setIsLoading"
         @updateData="updateData"
+        @handleUploadDocuments="handleUploadDocuments"
       />
     </div>
   </v-container>

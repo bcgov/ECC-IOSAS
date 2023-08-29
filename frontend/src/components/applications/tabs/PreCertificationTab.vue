@@ -13,7 +13,7 @@
         :selectedOption="selectedDocumentOption"
       />
     </v-dialog>
-    <div v-if="isEditing">
+    <div v-if="isPreCertEditable">
       <v-row v-if="isDocumentsLoading" class="document-loader">
         <v-col class="d-flex justify-center">
           <v-progress-circular
@@ -288,7 +288,7 @@ export default {
       type: Object,
       required: true,
     },
-    isEditing: {
+    isPreCertEditable: {
       type: Boolean,
       required: true,
     },
