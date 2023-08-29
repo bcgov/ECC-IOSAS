@@ -36,7 +36,13 @@ const dynamicIntegrationService = {
     try {
       const { data } = await axios.post(endPoint, body);
       logger.info('Register | Dynamic | Resp | Success | resp', data);
-      const { value = [] } = data;
+      const { value = [], contactid: contactId } = data;
+      if (contactId) {
+        logger.info(`Register | Dynamic | ID:`, contactId);
+        return {
+          dynamicContactId: contactId,
+        };
+      }
       assert(value.length > 0, 'Empty/No value received from service');
       const [item] = value;
       assert(item.contactid, 'No contact id recived in the resp');
