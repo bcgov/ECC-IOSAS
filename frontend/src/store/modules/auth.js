@@ -17,11 +17,7 @@ function isExpiredToken(jwtToken) {
 export const authStore = defineStore('auth', {
   namespaced: true,
   state: () => ({
-    env: {
-      env: StaticConfig.BANNER_ENVIRONMENT,
-      bannerColor: StaticConfig.BANNER_COLOR,
-      beceidRegURL: StaticConfig.VUE_APP_BCEID_REG_URL,
-    },
+    env: null,
     acronyms: [],
     isAuthenticated: false,
     userInfo: null,
@@ -98,8 +94,8 @@ export const authStore = defineStore('auth', {
     },
     async getEnvironment() {
       const envRes = await ApiService.getEnvironment();
-      if (envRes?.data.value) {
-        await this.setEnv(envRes?.data.value);
+      if (envRes?.data) {
+        await this.setEnv(envRes?.data);
       } else {
         await this.setEnv({
           env: StaticConfig.BANNER_ENVIRONMENT,

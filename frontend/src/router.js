@@ -161,19 +161,7 @@ router.beforeEach((to, _from, next) => {
         if (!aStore.isAuthenticated) {
           next('/token-expired');
         } else {
-          aStore
-            .getUserInfo()
-            .then(() => {
-              if (to.meta.permission) {
-                next('/unauthorized');
-              } else if (to && to.meta) {
-                apStore.setPageTitle(to.meta.pageTitle);
-                next();
-              }
-            })
-            .catch(() => {
-              next('error');
-            });
+          next();
         }
       })
       .catch(() => {
@@ -184,14 +172,6 @@ router.beforeEach((to, _from, next) => {
         }
       });
   } else {
-    if (!aStore.userInfo) {
-      next();
-    }
-    if (to && to.meta) {
-      apStore.setPageTitle(to.meta.pageTitle);
-    } else {
-      apStore.setPageTitle('');
-    }
     next();
   }
 });
