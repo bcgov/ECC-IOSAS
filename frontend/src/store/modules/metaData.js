@@ -1,6 +1,8 @@
 import ApiService from '../../common/apiService';
 import { defineStore } from 'pinia';
 
+const localStorageSuccess = { status: 200, statusText: 'OK' };
+
 const setLocalStorage = (name, data) => {
   localStorage.setItem(name, JSON.stringify(data));
 };
@@ -91,8 +93,10 @@ export const metaDataStore = defineStore('metaData', {
         const response = await ApiService.getActiveSchoolYears();
         setLocalStorage('activeSchoolYears', response.data.value);
         await this.setActiveSchoolYears(response.data.value);
+        return response;
       } else {
         await this.setActiveSchoolYears(getLocalStorage('activeSchoolYears'));
+        return localStorageSuccess;
       }
     },
     async getEOIPickLists() {
@@ -102,8 +106,10 @@ export const metaDataStore = defineStore('metaData', {
         );
         setLocalStorage('EOIPickLists', response.data.value);
         await this.setEOIPickListOptions(response.data.value);
+        return response;
       } else {
         await this.setEOIPickListOptions(getLocalStorage('EOIPickLists'));
+        return localStorageSuccess;
       }
     },
     async getApplicationPickLists() {
@@ -111,10 +117,12 @@ export const metaDataStore = defineStore('metaData', {
         const response = await ApiService.getPickLists('iosas_application');
         setLocalStorage('applicationPickLists', response.data.value);
         await this.setApplicationPickListOptions(response.data.value);
+        return response;
       } else {
         await this.setApplicationPickListOptions(
           getLocalStorage('applicationPickLists')
         );
+        return localStorageSuccess;
       }
     },
     async getApplicationMultiPickLists() {
@@ -124,10 +132,12 @@ export const metaDataStore = defineStore('metaData', {
         );
         setLocalStorage('applicationMultiPickLists', response.data.value);
         await this.setApplicationMultiPickListOptions(response.data.value);
+        return response;
       } else {
         await this.setApplicationMultiPickListOptions(
           getLocalStorage('applicationMultiPickLists')
         );
+        return localStorageSuccess;
       }
     },
     async getDocumentPickLists() {
@@ -135,10 +145,12 @@ export const metaDataStore = defineStore('metaData', {
         const response = await ApiService.getPickLists('iosas_document');
         setLocalStorage('documentPickLists', response.data.value);
         await this.setDocumentPickListOptions(response.data.value);
+        return response;
       } else {
         await this.setDocumentPickListOptions(
           getLocalStorage('documentPickLists')
         );
+        return localStorageSuccess;
       }
     },
     async getSchoolAuthority() {
@@ -146,10 +158,12 @@ export const metaDataStore = defineStore('metaData', {
         const response = await ApiService.getSchoolAuthority();
         setLocalStorage('schoolAuthority', response.data.value);
         await this.setSchoolAuthorityOptions(response.data.value);
+        return response;
       } else {
         await this.setSchoolAuthorityOptions(
           getLocalStorage('schoolAuthority')
         );
+        return localStorageSuccess;
       }
     },
     async getAuthorityHead(schoolAuthorityId) {

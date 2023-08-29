@@ -48,14 +48,7 @@ export default {
   },
   async created() {
     await this.getEnvironment();
-
-    // TODO: try 3X, Unhandled rejection
-    await metaDataStore().getActiveSchoolYear();
-    await metaDataStore().getEOIPickLists();
-    await metaDataStore().getDocumentPickLists();
-    await metaDataStore().getSchoolAuthority();
-    await metaDataStore().getApplicationPickLists();
-    await metaDataStore().getApplicationMultiPickLists();
+    await this.fetchDynamicsMetaData();
 
     this.setLoading(true);
     await this.getJwtToken()
@@ -82,6 +75,33 @@ export default {
       'getUserInfo',
       'logout',
     ]),
+    ...mapActions(metaDataStore, [
+      'getActiveSchoolYear',
+      'getEOIPickLists',
+      'getDocumentPickLists',
+      'getSchoolAuthority',
+      'getApplicationMultiPickLists',
+      'getApplicationPickLists',
+    ]),
+    async fetchDynamicsMetaData() {
+      const dynamicResponses = await Promise.all([
+        this.getActiveSchoolYear(),
+        this.getEOIPickLists(),
+        this.getDocumentPickLists(),
+        this.getSchoolAuthority(),
+        this.getApplicationPickLists(),
+        this.getApplicationMultiPickLists(),
+      ]);
+
+      dynamicResponses.forEach((response) => {
+        if (response.status !== 200) {
+          this.$router.replace({
+            name: 'error',
+            query: { message: `500_ServerError` },
+          });
+        }
+      });
+    },
   },
 };
 </script>
