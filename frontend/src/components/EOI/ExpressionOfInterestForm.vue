@@ -1047,9 +1047,6 @@ export default {
         }
       },
     },
-    populateDAC(val) {
-      this.data = val;
-    },
     formatDocumets(val) {
       if (!this.incorporationDocument) {
         this.incorporationDocument = val.find(
@@ -1122,28 +1119,6 @@ export default {
 
       return this.documents;
     },
-
-    populateDAC() {
-      if (this.isAuthenticated && this.isNew) {
-        // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
-        const user = this.contactInfo ? this.contactInfo : this.userInfo;
-
-        // Set the Designated Contact to authenticated user data
-        this.populatedAndDisableDesignatedContact = true;
-        const designatedContact = {
-          iosas_existingcontact: true,
-          iosas_designatedcontactfirstname: user.firstname || user.firstName,
-          iosas_schoolauthoritycontactname: user.lastname || user.lastName,
-          iosas_schoolauthoritycontactemail: user.emailaddress1 || user.email,
-          iosas_schoolauthoritycontactphone: user?.telephone1 || null,
-        };
-        if (user?.telephone1) {
-          this.populateAndDisableContactPhone = true;
-        }
-
-        return { ...this.data, ...designatedContact };
-      }
-    },
   },
   created() {
     this.data = this.isNew ? this.data : this.eoi;
@@ -1167,6 +1142,25 @@ export default {
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
       this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
+
+      if (this.isAuthenticated) {
+        // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
+        const user = this.contactInfo ? this.contactInfo : this.userInfo;
+
+        // Set the Designated Contact to authenticated user data
+        this.populatedAndDisableDesignatedContact = true;
+        const designatedContact = {
+          iosas_existingcontact: true,
+          iosas_designatedcontactfirstname: user.firstname || user.firstName,
+          iosas_schoolauthoritycontactname: user.lastname || user.lastName,
+          iosas_schoolauthoritycontactemail: user.emailaddress1 || user.email,
+          iosas_schoolauthoritycontactphone: user?.telephone1 || null,
+        };
+        if (user?.telephone1) {
+          this.populateAndDisableContactPhone = true;
+        }
+        this.data = { ...this.data, ...designatedContact };
+      }
     },
     handlePopulateExistingForm() {
       if (this.data?.iosas_designatedcontactsameasauthorityhead) {
