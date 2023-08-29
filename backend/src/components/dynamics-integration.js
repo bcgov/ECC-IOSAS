@@ -6,11 +6,14 @@ const logger = require('./logger');
 let d365 = null;
 const dynamicIntegrationService = {
   config() {
-    return d365 || (() => {
-      d365 = config.get('d365') || { host: 'NA' };
-      logger.info(`D365 | Config | ${JSON.stringify(d365, null, 2)}`, d365);
-      return d365;
-    })();
+    return (
+      d365 ||
+      (() => {
+        d365 = config.get('d365') || { host: 'NA' };
+        logger.info(`D365 | Config | ${JSON.stringify(d365, null, 2)}`, d365);
+        return d365;
+      })()
+    );
   },
   host() {
     return `http://${this.config().host}:5091`;
@@ -28,30 +31,31 @@ const dynamicIntegrationService = {
       lastname: family_name,
       firstname: given_name,
       emailaddress1: email,
-      telephone1: ''
-    }
+      telephone1: '',
+    };
     try {
       const { data } = await axios.post(endPoint, body);
-      logger.info('Register | Dynamic | Resp | ', data);
+      logger.info('Register | Dynamic | Resp | Success');
       const { value } = data;
       assert(value.length > 0, 'Empty/No value received from service');
-      const [ item ] = value
+      const [item] = value;
       assert(item.contactid, 'No contact id recived in the resp');
+      logger.info(`Register | Dynamic | ID:`, item.contactid);
       return {
         dynamicContactId: item.contactid,
-      }
+      };
     } catch (err) {
       logger.error(`Register | Fail to register/login | ${err}`);
       return {
-        dynamicContactId: null
-      }
+        dynamicContactId: null,
+      };
     }
   },
   async swagger() {
     const endPoint = this.host() + '/swagger/index.html';
     const { data } = await axios.get(endPoint);
     return data;
-  }
+  },
 };
 
 /**

@@ -3,8 +3,8 @@ const { getSessionUser, getDataWithParams } = require('./utils');
 const config = require('../config');
 const { ServiceError } = require('./error');
 const HttpStatus = require('http-status-codes');
+const log = require('./logger');
 // const lodash = require('lodash');
-// const log = require('./logger');
 // const cacheService = require('./cache-service');
 // let codes = null;
 
@@ -28,6 +28,17 @@ async function getEdxUserByDigitalId(accessToken, digitalID, correlationID) {
 
 async function getUserInfo(req, res) {
   const userInfo = getSessionUser(req);
+  const passportUser = {
+    ...(userInfo || {}),
+  };
+  delete passportUser.jwt;
+  delete passportUser.jwtFrontend;
+  delete passportUser.refreshToken;
+  delete passportUser._json;
+  log.info('getUserInfo | info | ', {
+    user: req.user || {},
+    passportUser,
+  });
   const correlationID = req.session?.correlationID;
   if (!userInfo || !userInfo.jwt) {
     return res.status(HttpStatus.UNAUTHORIZED).json({

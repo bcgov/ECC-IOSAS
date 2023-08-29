@@ -26,7 +26,10 @@ const proxyMiddleWare =
   async (req, resp, next) => {
     const path = req.path || '';
     const method = req.method;
-    const dynamicConactId = req.session.dynamicContactId;
+    const dynamicConactId =
+      req.user?.dynamicContactId ||
+      req.session?.passport?.user?.dynamicConactId ||
+      req.session?.dynamicContactId;
     if (!dynamicConactId && isSecure) {
       resp.status(HttpStatus.FORBIDDEN).send('Forbiden: No Dynamic ID');
     }
@@ -37,7 +40,7 @@ const proxyMiddleWare =
     ) {
       resp
         .status(HttpStatus.FORBIDDEN)
-        .send(`Forbiden: The resource ${path} not accissble`);
+        .send(`Forbiden: The resource ${path} not accessible`);
     }
     log.info(
       `dynamic-middleware | Processsing | Req: [path: ${path}]; method: ${method}`
@@ -63,7 +66,11 @@ const proxyMiddleWare =
       log.info(
         `Dynamic | API | URL: ${endpoint} | Method: ${method}| Success: ${status}`
       );
-      return resp.status(status || HttpStatus.OK).json(responseData || {});
+      const sendStatus =
+        status == HttpStatus.UNAUTHORIZED && isSecure == false
+          ? HttpStatus.BAD_REQUEST
+          : status || HttpStatus.OK;
+      return resp.status(sendStatus).json(responseData || {});
     } catch (err) {
       log.error(`dynamic-middleware | path: ${path} | Error: ${err}`);
       if (err.response) {
