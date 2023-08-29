@@ -21,7 +21,7 @@
           v-for="item in items"
           :key="item"
           :value="item"
-          :disabled="disabledTabs.includes(item) && this.isEditing"
+          :disabled="isTabDisabled(item)"
           @click.stop="drawer = !drawer"
         >
           {{ item }}
@@ -40,7 +40,7 @@
             v-for="item in items"
             :key="item"
             :value="item"
-            :disabled="disabledTabs.includes(item) && this.isEditing"
+            :disabled="isTabDisabled(item)"
           >
             {{ item }}
           </v-tab>
@@ -443,6 +443,24 @@ export default {
       'addApplicationDocument',
       'setApplicationDocuments',
     ]),
+    isTabDisabled(tab) {
+      if (tab === 'Pre-Certification Submission') {
+        if (
+          this.isPreCertEditable ||
+          this.formData.iosas_precertdocumentssubmitted
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      if (this.isEditing) {
+        return this.disabledTabs.includes(tab);
+      } else {
+        return false;
+      }
+    },
     isPreCertTab() {
       return this.tab === 'Pre-Certification Submission';
     },
