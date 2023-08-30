@@ -21,9 +21,9 @@
           v-for="item in items"
           :key="item"
           :value="item"
-          :disabled="isTabDisabled(item)"
           @click.stop="drawer = !drawer"
         >
+          <!-- :disabled="isTabDisabled(item)" -->
           {{ item }}
         </v-tab>
       </v-tabs>
@@ -36,12 +36,8 @@
       ></v-app-bar-nav-icon>
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
-          <v-tab
-            v-for="item in items"
-            :key="item"
-            :value="item"
-            :disabled="isTabDisabled(item)"
-          >
+          <v-tab v-for="item in items" :key="item" :value="item">
+            <!-- :disabled="isTabDisabled(item)" -->
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -302,7 +298,6 @@ export default {
         'Submission',
         'Pre-Certification Submission',
       ],
-      // documents: [],
       isDocumentsLoading: false,
       schoolYearLabel: null,
     };
@@ -483,6 +478,9 @@ export default {
         .filter((t) => t.value > highestTab)
         .map(({ label }) => labels.push(label));
       this.disabledTabs = labels;
+    },
+    isSubmissionTab() {
+      return this.tab === 'Submission';
     },
     isLastPage() {
       return this.tab === 'Submission';
