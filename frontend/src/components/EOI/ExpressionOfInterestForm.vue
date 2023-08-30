@@ -997,11 +997,7 @@ export default {
     },
     'data.iosas_existingauthority': {
       handler(val) {
-        if (
-          !val &&
-          this.data._iosas_edu_schoolauthority_value &&
-          this.populateAndDisableAuthorityAddress
-        ) {
+        if (!val) {
           this.populateAndDisableAuthorityAddress = false;
           return (this.data = {
             ...this.data,
@@ -1257,7 +1253,6 @@ export default {
             );
             this.$router.push({
               name: 'applicationConfirmation',
-              params: { type: 'EOI' },
             });
           })
           .catch((error) => {
@@ -1325,7 +1320,6 @@ export default {
             );
             this.$router.push({
               name: 'applicationConfirmation',
-              params: { type: 'EOI' },
             });
           })
           .catch((error) => {

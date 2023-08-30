@@ -7,8 +7,8 @@
     </v-breadcrumbs>
 
     <v-container fluid class="content-container">
-      <div class="form-container">
-        <p>{{ getMessage() }}</p>
+      <div class="confirmation-container">
+        <p>{{ getConfirmationMessage }}</p>
       </div>
     </v-container>
   </v-container>
@@ -25,14 +25,6 @@ export default {
     ...mapState(authStore, ['isAuthenticated']),
   },
   data: () => ({
-    messages: {
-      EOI: 'Thank you for submitting your Expression of Interest (EOI), you will be contacted once your submission has been reviewed.',
-      'Delete#EOI':
-        'Expression of Interest has been successfully removed from your records.',
-      APP: 'Thank you for submitting your Application for an Independent School Certification, you will be contacted once your application has been reviewed.',
-      'Delete#APP':
-        'Application for Independent School Certification has been successfully removed from your records.',
-    },
     items: [
       {
         title: 'Dashboard',
@@ -48,11 +40,6 @@ export default {
   }),
   methods: {
     authStore,
-    getMessage() {
-      return this.getConfirmationMessage
-        ? this.getConfirmationMessage
-        : this.messages[this.$route.params.type];
-    },
   },
 };
 </script>
@@ -60,5 +47,14 @@ export default {
 <style scoped>
 .full-height {
   height: 100%;
+}
+
+.confirmation-container {
+  position: relative;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+  -webkit-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
+  -moz-box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
 }
 </style>

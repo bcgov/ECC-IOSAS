@@ -88,7 +88,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/confirmation/:type',
+      path: '/confirmation',
       name: 'applicationConfirmation',
       component: ConfirmationPage,
       props: {},

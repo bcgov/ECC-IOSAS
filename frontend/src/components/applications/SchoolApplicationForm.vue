@@ -22,8 +22,8 @@
           :key="item"
           :value="item"
           @click.stop="drawer = !drawer"
+          :disabled="isTabDisabled(item)"
         >
-          <!-- :disabled="isTabDisabled(item)" -->
           {{ item }}
         </v-tab>
       </v-tabs>
@@ -36,8 +36,12 @@
       ></v-app-bar-nav-icon>
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
-          <v-tab v-for="item in items" :key="item" :value="item">
-            <!-- :disabled="isTabDisabled(item)" -->
+          <v-tab
+            v-for="item in items"
+            :key="item"
+            :value="item"
+            :disabled="isTabDisabled(item)"
+          >
             {{ item }}
           </v-tab>
         </v-tabs>
@@ -425,9 +429,15 @@ export default {
     ) {
       this.currentTab = this.$route.params.tab;
       this.setTabLabel(this.$route.params.tab);
+    } else if (
+      this.formData?.iosas_portalapplicationstep === 100000011 &&
+      this.isPreCertEditable
+    ) {
+      this.setTabLabel(100000012);
     } else {
       this.setTabLabel(this.generalTabValue);
     }
+
     if (this.formData._iosas_edu_year_value) {
       this.setSchoolYearLabel(this.formData._iosas_edu_year_value);
     }
@@ -597,7 +607,6 @@ export default {
             );
             this.$router.push({
               name: 'applicationConfirmation',
-              params: { type: 'Delete#APP' },
             });
           })
           .catch((error) => {

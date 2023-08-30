@@ -139,49 +139,95 @@
         <v-divider></v-divider>
         <br />
         <h4>Additional Documents</h4>
-        <v-label class="sm">Schools seeking Group 4 only</v-label>
-        <br />
         <br />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb"
-              >Irrevocable letter of credit or surety bond</v-label
-            >
+            <v-label>Other</v-label>
             <div
-              v-if="creditOrSurityBondDoc"
-              class="d-flex justify-space-between"
+              v-for="document in getApplicationDocuments.filter(
+                ({ documentType }) =>
+                  documentType === SCHOOL_APP_CODE_CODES.preCertOther
+              )"
+              :key="document.id"
             >
-              <div>
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                {{ formatLongName(creditOrSurityBondDoc.fileName) }}
+              <div class="d-flex justify-space-between">
+                <div>
+                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                    mdi-file-document-check-outline
+                  </v-icon>
+                  {{ formatLongName(document.fileName) }}
+                </div>
+                <v-btn
+                  secondary
+                  class="ml-15"
+                  variant="flat"
+                  size="sm"
+                  @click.stop="removeDocument(document)"
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
+                    mdi-delete-forever-outline
+                  </v-icon></v-btn
+                >
               </div>
-              <v-btn
-                secondary
-                class="ml-15"
-                variant="flat"
-                size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', creditOrSurityBondDoc)
-                "
-                ><v-icon aria-hidden="false" color="#b00020" size="20">
-                  mdi-delete-forever-outline
-                </v-icon></v-btn
-              >
             </div>
             <v-btn
-              v-else
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="
-                toggleUpload(SCHOOL_APP_CODE_CODES.creditOrSurityBondCode)
-              "
+              @click="toggleUpload(SCHOOL_APP_CODE_CODES.preCertOther)"
               >Upload</v-btn
             >
           </v-col>
         </v-row>
+        <br />
+        <div v-if="isGroupFour()">
+          <br />
+          <v-divider></v-divider>
+          <br />
+          <h4>Group 4 Documents</h4>
+          <v-label class="sm">Schools seeking Group 4 only</v-label>
+          <br />
+          <br />
+          <v-row>
+            <v-col cols="12" sm="12" md="8" xs="12">
+              <v-label class="no-mb"
+                >Irrevocable letter of credit or surety bond</v-label
+              >
+              <div
+                v-if="creditOrSurityBondDoc"
+                class="d-flex justify-space-between"
+              >
+                <div>
+                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                    mdi-file-document-check-outline
+                  </v-icon>
+                  {{ formatLongName(creditOrSurityBondDoc.fileName) }}
+                </div>
+                <v-btn
+                  secondary
+                  class="ml-15"
+                  variant="flat"
+                  size="sm"
+                  @click.stop="
+                    this.$emit('removeDocument', creditOrSurityBondDoc)
+                  "
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
+                    mdi-delete-forever-outline
+                  </v-icon></v-btn
+                >
+              </div>
+              <v-btn
+                v-else
+                secondary
+                class="mt-2 block"
+                variant="outlined"
+                @click="
+                  toggleUpload(SCHOOL_APP_CODE_CODES.creditOrSurityBondCode)
+                "
+                >Upload</v-btn
+              >
+            </v-col>
+          </v-row>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -232,29 +278,65 @@
           <div v-else>{{ NULL_STRING }}</div>
         </v-col>
       </v-row>
+      <br />
       <v-divider></v-divider>
       <br />
       <h4>Additional Documents</h4>
-      <v-label class="sm">Schools seeking Group 4 only</v-label>
-      <br />
       <br />
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label>Irrevocable letter of credit or surety bond</v-label>
+          <v-label>Other</v-label>
           <div
-            v-if="creditOrSurityBondDoc"
-            class="d-flex justify-space-between"
+            v-for="document in getApplicationDocuments.filter(
+              ({ documentType }) =>
+                documentType === SCHOOL_APP_CODE_CODES.preCertOther
+            )"
+            :key="document.id"
+            v-if="
+              getApplicationDocuments.filter(
+                ({ documentType }) =>
+                  documentType === SCHOOL_APP_CODE_CODES.preCertOther
+              ).length > 0
+            "
           >
-            <div>
-              <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                mdi-file-document-check-outline
-              </v-icon>
-              {{ formatLongName(creditOrSurityBondDoc.fileName) }}
+            <div class="d-flex justify-space-between">
+              <div>
+                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                  mdi-file-document-check-outline
+                </v-icon>
+                {{ formatLongName(document.fileName) }}
+              </div>
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
         </v-col>
       </v-row>
+      <br />
+      <div v-if="isGroupFour()">
+        <v-divider></v-divider>
+        <br />
+        <h4>Group 4 Documents</h4>
+        <v-label class="sm">Schools seeking Group 4 only</v-label>
+        <br />
+        <br />
+        <v-row>
+          <v-col cols="12" sm="12" md="8" xs="12">
+            <v-label>Irrevocable letter of credit or surety bond</v-label>
+            <div
+              v-if="creditOrSurityBondDoc"
+              class="d-flex justify-space-between"
+            >
+              <div>
+                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                  mdi-file-document-check-outline
+                </v-icon>
+                {{ formatLongName(creditOrSurityBondDoc.fileName) }}
+              </div>
+            </div>
+            <div v-else>{{ NULL_STRING }}</div>
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </v-container>
 </template>
@@ -325,6 +407,7 @@ export default {
     NULL_STRING,
     rules: Rules,
     SCHOOL_APP_CODE_CODES,
+    groupFourCode: 100000002,
     preCertDocumentUpload: false,
     selectedDocumentOption: null,
 
@@ -340,7 +423,6 @@ export default {
   },
   mounted() {},
   created() {
-    console.log('getApplicationDocuments', this.getApplicationDocuments);
     this.proofOfPurchaseDoc = this.getApplicationDocuments?.find(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
@@ -371,6 +453,9 @@ export default {
     },
     async upload(document) {
       this.addApplicationDocument(document);
+    },
+    isGroupFour() {
+      return this.formData.iosas_groupclassification === this.groupFourCode;
     },
   },
 };

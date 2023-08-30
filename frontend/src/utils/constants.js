@@ -174,12 +174,14 @@ export const EOI_DOC_CODES = {
 
 export const SCHOOL_APP_CODE_CODES = {
   // DocumentTab documents
+  otherDocCode: 100000001,
   schoolPolicyCode: 100000002,
   businessPlanCode: 100000003,
   confirmationOfEligibilityCode: 100000004,
   tuitionRefundPolicyCode: 100000005,
   businessReferencesCode: 100000006,
   // Pre-CertificationTab documents
+  preCertOther: 100000013,
   proofOfPurchaseCode: 100000010,
   mulicipalComplianceCode: 100000011,
   confimationWaterTestingCode: 100000012,

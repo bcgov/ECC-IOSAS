@@ -1,11 +1,9 @@
 import { defineStore } from 'pinia';
-import ApiService from '../../common/apiService';
 
 export const documentStore = defineStore('document', {
   state: () => ({
     applicationDocuments: [],
   }),
-  // TODO: Set documents here vs data.documents ??
   getters: {
     getApplicationDocuments: (state) => state.applicationDocuments,
   },

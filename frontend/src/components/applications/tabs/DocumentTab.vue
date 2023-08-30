@@ -109,129 +109,176 @@
         <v-divider></v-divider>
         <br />
         <h4>Additional Documents</h4>
-        <v-label class="sm">Schools seeking Group 4 only</v-label>
-        <br />
         <br />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">Written confirmation of eligibility</v-label>
+            <v-label>Other</v-label>
             <div
-              v-if="confirmationOfEligibilityDoc"
-              class="d-flex justify-space-between"
+              v-for="document in getApplicationDocuments.filter(
+                ({ documentType }) =>
+                  documentType === SCHOOL_APP_CODE_CODES.otherDocCode
+              )"
+              :key="document.id"
             >
-              <div>
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
+              <div class="d-flex justify-space-between">
+                <div>
+                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                    mdi-file-document-check-outline
+                  </v-icon>
+                  {{ formatLongName(document.fileName) }}
+                </div>
+                <v-btn
+                  secondary
+                  class="ml-15"
+                  variant="flat"
+                  size="sm"
+                  @click.stop="removeDocument(document)"
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
+                    mdi-delete-forever-outline
+                  </v-icon></v-btn
+                >
               </div>
-              <v-btn
-                secondary
-                class="ml-15"
-                variant="flat"
-                size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', confirmationOfEligibilityDoc)
-                "
-                ><v-icon aria-hidden="false" color="#b00020" size="20">
-                  mdi-delete-forever-outline
-                </v-icon></v-btn
-              >
             </div>
             <v-btn
-              v-else
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="
-                toggleUpload(
-                  SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
-                )
-              "
+              @click="toggleUpload(SCHOOL_APP_CODE_CODES.otherDocCode)"
               >Upload</v-btn
             >
           </v-col>
         </v-row>
-        <v-row>
-          <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb"
-              >Completed Free/Tuition Refund Policy</v-label
-            >
-            <div
-              v-if="tuitionRefundPolicyDoc"
-              class="d-flex justify-space-between"
-            >
-              <div>
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
+        <br />
+        <div v-if="isGroupFour()">
+          <v-divider></v-divider>
+          <br />
+          <h4>Group 4 Documents</h4>
+          <v-label class="sm">Schools seeking Group 4 only</v-label>
+          <br />
+          <br />
+          <v-row>
+            <v-col cols="12" sm="12" md="8" xs="12">
+              <v-label class="no-mb"
+                >Written confirmation of eligibility</v-label
+              >
+              <div
+                v-if="confirmationOfEligibilityDoc"
+                class="d-flex justify-space-between"
+              >
+                <div>
+                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                    mdi-file-document-check-outline
+                  </v-icon>
+                  {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
+                </div>
+                <v-btn
+                  secondary
+                  class="ml-15"
+                  variant="flat"
+                  size="sm"
+                  @click.stop="
+                    this.$emit('removeDocument', confirmationOfEligibilityDoc)
+                  "
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
+                    mdi-delete-forever-outline
+                  </v-icon></v-btn
+                >
               </div>
               <v-btn
+                v-else
                 secondary
-                class="ml-15"
-                variant="flat"
-                size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', tuitionRefundPolicyDoc)
+                class="mt-2 block"
+                variant="outlined"
+                @click="
+                  toggleUpload(
+                    SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
+                  )
                 "
-                ><v-icon aria-hidden="false" color="#b00020" size="20">
-                  mdi-delete-forever-outline
-                </v-icon></v-btn
+                >Upload</v-btn
               >
-            </div>
-            <v-btn
-              v-else
-              secondary
-              class="mt-2 block"
-              variant="outlined"
-              @click="
-                toggleUpload(SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode)
-              "
-              >Upload</v-btn
-            >
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb"
-              >Contact Information for two business references</v-label
-            >
-            <div
-              v-if="businessReferencesDoc"
-              class="d-flex justify-space-between"
-            >
-              <div>
-                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                  mdi-file-document-check-outline
-                </v-icon>
-                {{ formatLongName(businessReferencesDoc.fileName) }}
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12" md="8" xs="12">
+              <v-label class="no-mb"
+                >Completed Free/Tuition Refund Policy</v-label
+              >
+              <div
+                v-if="tuitionRefundPolicyDoc"
+                class="d-flex justify-space-between"
+              >
+                <div>
+                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                    mdi-file-document-check-outline
+                  </v-icon>
+                  {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
+                </div>
+                <v-btn
+                  secondary
+                  class="ml-15"
+                  variant="flat"
+                  size="sm"
+                  @click.stop="
+                    this.$emit('removeDocument', tuitionRefundPolicyDoc)
+                  "
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
+                    mdi-delete-forever-outline
+                  </v-icon></v-btn
+                >
               </div>
               <v-btn
+                v-else
                 secondary
-                class="ml-15"
-                variant="flat"
-                size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', businessReferencesDoc)
+                class="mt-2 block"
+                variant="outlined"
+                @click="
+                  toggleUpload(SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode)
                 "
-                ><v-icon aria-hidden="false" color="#b00020" size="20">
-                  mdi-delete-forever-outline
-                </v-icon></v-btn
+                >Upload</v-btn
               >
-            </div>
-            <v-btn
-              v-else
-              secondary
-              class="mt-2 block"
-              variant="outlined"
-              @click="
-                toggleUpload(SCHOOL_APP_CODE_CODES.businessReferencesCode)
-              "
-              >Upload</v-btn
-            >
-          </v-col>
-        </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12" md="8" xs="12">
+              <v-label class="no-mb"
+                >Contact Information for two business references</v-label
+              >
+              <div
+                v-if="businessReferencesDoc"
+                class="d-flex justify-space-between"
+              >
+                <div>
+                  <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                    mdi-file-document-check-outline
+                  </v-icon>
+                  {{ formatLongName(businessReferencesDoc.fileName) }}
+                </div>
+                <v-btn
+                  secondary
+                  class="ml-15"
+                  variant="flat"
+                  size="sm"
+                  @click.stop="
+                    this.$emit('removeDocument', businessReferencesDoc)
+                  "
+                  ><v-icon aria-hidden="false" color="#b00020" size="20">
+                    mdi-delete-forever-outline
+                  </v-icon></v-btn
+                >
+              </div>
+              <v-btn
+                v-else
+                secondary
+                class="mt-2 block"
+                variant="outlined"
+                @click="
+                  toggleUpload(SCHOOL_APP_CODE_CODES.businessReferencesCode)
+                "
+                >Upload</v-btn
+              >
+            </v-col>
+          </v-row>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -280,60 +327,95 @@
       <v-divider></v-divider>
       <br />
       <h4>Additional Documents</h4>
-      <v-label class="sm">Schools seeking Group 4 only</v-label>
-      <br />
       <br />
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label>Written confirmation of eligibility</v-label>
+          <v-label>Other</v-label>
           <div
-            v-if="confirmationOfEligibilityDoc"
-            class="d-flex justify-space-between"
+            v-for="document in getApplicationDocuments.filter(
+              ({ documentType }) =>
+                documentType === SCHOOL_APP_CODE_CODES.otherDocCode
+            )"
+            :key="document.id"
+            v-if="
+              getApplicationDocuments.filter(
+                ({ documentType }) =>
+                  documentType === SCHOOL_APP_CODE_CODES.otherDocCode
+              ).length > 0
+            "
           >
-            <div>
-              <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                mdi-file-document-check-outline
-              </v-icon>
-              {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
+            <div class="d-flex justify-space-between">
+              <div>
+                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                  mdi-file-document-check-outline
+                </v-icon>
+                {{ formatLongName(document.fileName) }}
+              </div>
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label>Completed Free/Tuition Refund Policy</v-label>
-          <div
-            v-if="tuitionRefundPolicyDoc"
-            class="d-flex justify-space-between"
-          >
-            <div>
-              <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                mdi-file-document-check-outline
-              </v-icon>
-              {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
+      <br />
+      <div v-if="isGroupFour()">
+        <v-divider></v-divider>
+        <br />
+        <h4>Group 4 Documents</h4>
+        <v-label class="sm">Schools seeking Group 4 only</v-label>
+        <br />
+        <br />
+        <v-row>
+          <v-col cols="12" sm="12" md="8" xs="12">
+            <v-label>Written confirmation of eligibility</v-label>
+            <div
+              v-if="confirmationOfEligibilityDoc"
+              class="d-flex justify-space-between"
+            >
+              <div>
+                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                  mdi-file-document-check-outline
+                </v-icon>
+                {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
+              </div>
             </div>
-          </div>
-          <div v-else>{{ NULL_STRING }}</div>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label>Contact Information for two business references</v-label>
-          <div
-            v-if="businessReferencesDoc"
-            class="d-flex justify-space-between"
-          >
-            <div>
-              <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
-                mdi-file-document-check-outline
-              </v-icon>
-              {{ formatLongName(businessReferencesDoc.fileName) }}
+            <div v-else>{{ NULL_STRING }}</div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="12" md="8" xs="12">
+            <v-label>Completed Free/Tuition Refund Policy</v-label>
+            <div
+              v-if="tuitionRefundPolicyDoc"
+              class="d-flex justify-space-between"
+            >
+              <div>
+                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                  mdi-file-document-check-outline
+                </v-icon>
+                {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
+              </div>
             </div>
-          </div>
-          <div v-else>{{ NULL_STRING }}</div>
-        </v-col>
-      </v-row>
+            <div v-else>{{ NULL_STRING }}</div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="12" md="8" xs="12">
+            <v-label>Contact Information for two business references</v-label>
+            <div
+              v-if="businessReferencesDoc"
+              class="d-flex justify-space-between"
+            >
+              <div>
+                <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
+                  mdi-file-document-check-outline
+                </v-icon>
+                {{ formatLongName(businessReferencesDoc.fileName) }}
+              </div>
+            </div>
+            <div v-else>{{ NULL_STRING }}</div>
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </v-container>
 </template>
@@ -407,6 +489,7 @@ export default {
     NULL_STRING,
     rules: Rules,
     SCHOOL_APP_CODE_CODES,
+    groupFourCode: 100000002,
     documentUpload: false,
     selectedDocumentOption: null,
 
@@ -458,6 +541,9 @@ export default {
     },
     async upload(document) {
       this.addApplicationDocument(document);
+    },
+    isGroupFour() {
+      return this.formData.iosas_groupclassification === this.groupFourCode;
     },
   },
 };
