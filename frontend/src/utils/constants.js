@@ -71,8 +71,10 @@ export const ApiRoutes = Object.freeze({
     APPLICATIONS: dynamicRoot + '/Application/GetAllByUser',
     APPLICATION: (id) => dynamicRoot + `/Application/GetById?id=${id}`,
     CANCEL_APPLICATION: (id) => dynamicRoot + `/Application/Cancel?id=${id}`,
+    // UPDATE_APPLICATION: (id, submitted) =>
+    //   dynamicRoot + `/Application/Update?id=${id}&submitted=${submitted}`,
     UPDATE_APPLICATION: (id, submitted) =>
-      dynamicRoot + `/Application/Update?id=${id}&submitted=${submitted}`,
+      dynamicRoot + `/Application/Update?id=${id}`,
   },
 });
 
@@ -194,6 +196,8 @@ export const SCHOOL_APP_CODE_CODES = {
 const boolFieldsPerSection = {
   100000000: {},
 };
+
+const boolFieldsArray = [''];
 
 export const STATUS_MAP = {
   'New (Submitted)': 'New',

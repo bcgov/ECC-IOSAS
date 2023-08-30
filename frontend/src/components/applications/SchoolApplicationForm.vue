@@ -93,7 +93,17 @@
                 </v-col>
               </v-row>
 
-              <v-container v-if="isPreCertEditable && isPreCertTab()">
+              <v-row v-if="isPreCertTab()">
+                <v-col cols="12" sm="12" md="12" xs="12">
+                  <v-checkbox
+                    v-model="formData.iosas_precertdocumentssubmitted"
+                    :disabled="!isPreCertEditable"
+                    label="I confirm that all pre-certifications documents are ready to be submitted."
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+
+              <!-- <v-container v-if="isPreCertEditable && isPreCertTab()">
                 <v-row align="end" align-self="end">
                   <PrimaryButton
                     primary
@@ -102,9 +112,11 @@
                     :click-action="handleUploadPreCertDocuments"
                   />
                 </v-row>
-              </v-container>
+              </v-container> -->
 
-              <v-container v-if="isEditing">
+              <v-container
+                v-if="isEditing || (isPreCertEditable && isPreCertTab())"
+              >
                 <v-row justify="center" align="center" v-if="showError">
                   <v-col>
                     <v-alert type="error" title="Error" variant="outlined">
@@ -130,6 +142,15 @@
                     class="mt-2 submit-button"
                     variant="elevated"
                     :disabled="!applicationConfirmation"
+                    >Submit</v-btn
+                  >
+                  <v-btn
+                    v-if="isPreCertTab()"
+                    type="submit"
+                    primary
+                    class="mt-2 submit-button"
+                    variant="elevated"
+                    :disabled="!formData.iosas_precertdocumentssubmitted"
                     >Submit</v-btn
                   >
                 </v-row>
@@ -238,6 +259,7 @@ export default {
     return {
       draftCode: 100000001,
       preCertCode: 100000009,
+      isPreCertDisabled: true,
       isPreCertEditable: false,
       drawer: false,
       disabledTabs: [],
@@ -413,13 +435,19 @@ export default {
     },
   },
   created() {
-    const isDraft =
-      this.formData && this.formData?.statuscode === this.draftCode;
-    this.isEditing = isDraft;
+    this.isEditing = this.formData?.statuscode === this.draftCode;
+
+    this.isPreCertDisabled =
+      this.formData?.statuscode !== this.preCertCode &&
+      !this.formData.iosas_precertdocumentssubmitted;
     this.isPreCertEditable =
       this.formData && this.formData?.statuscode === this.preCertCode;
     // Display confirmation message as disabled/populated in viewOnly mode
-    this.applicationConfirmation = !isDraft;
+    this.applicationConfirmation = !this.isEditing;
+    if (this.formData._iosas_edu_year_value) {
+      this.setSchoolYearLabel(this.formData._iosas_edu_year_value);
+    }
+
     if (this.formData?.iosas_portalapplicationstep && this.isEditing) {
       this.setTabLabel(this.formData?.iosas_portalapplicationstep);
       this.currentTab = this.formData?.iosas_portalapplicationstep;
@@ -436,10 +464,6 @@ export default {
       this.setTabLabel(100000012);
     } else {
       this.setTabLabel(this.generalTabValue);
-    }
-
-    if (this.formData._iosas_edu_year_value) {
-      this.setSchoolYearLabel(this.formData._iosas_edu_year_value);
     }
   },
   methods: {
