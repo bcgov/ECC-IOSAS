@@ -120,13 +120,7 @@ export default {
         })
       );
     },
-    async updateData(
-      id,
-      payload,
-      documents,
-      saveAndNext = false,
-      isSubmitted = null
-    ) {
+    async updateData(id, payload, documents, isSubmitted = null) {
       try {
         this.isLoading = true;
         const updateResponse = await ApplicationService.updateSchoolApplication(
@@ -144,14 +138,6 @@ export default {
           if (isSubmitted) {
             this.$router.push({
               name: 'applicationConfirmation',
-            });
-          } else if (saveAndNext) {
-            return this.$router.replace({
-              name: 'schoolApplicationPage',
-              params: {
-                id: payload.iosas_applicationid,
-                tab: Number(payload.iosas_portalapplicationstep) + 1,
-              },
             });
           } else {
             this.isLoading = false;

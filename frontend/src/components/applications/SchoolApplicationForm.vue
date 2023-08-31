@@ -174,7 +174,7 @@
                   :disabled="isNextDisabled"
                   id=""
                   secondary
-                  :text="isEditing ? 'Save & Next' : 'Next'"
+                  :text="isEditing ? 'Next' : 'Next'"
                   class="mr-2"
                   :click-action="isEditing ? nextAndSaveTab : nextTab"
                 />
@@ -327,12 +327,6 @@ export default {
     $route(to, from) {
       if (to.params.tab !== from.params.tab) {
         this.setTabLabel(to.params.tab);
-
-        console.log(
-          'Number(to.params.tab) === this.submissionTabValue',
-          Number(to.params.tab) === this.submissionTabValue
-        );
-        console.log(this.isPreCertDisabled);
         if (
           Number(to.params.tab) === this.submissionTabValue &&
           this.isPreCertDisabled
@@ -620,7 +614,7 @@ export default {
           });
       }
     },
-    handleDraftSubmit(saveAndNext = false) {
+    handleDraftSubmit() {
       const isSubmitted = this.isPreCertEditable ? null : false;
       // Only update portalStep if its less than the currently saved step
       const portalStep =
@@ -637,7 +631,6 @@ export default {
         this.formData.iosas_applicationid,
         payload,
         this.getApplicationDocuments,
-        saveAndNext,
         isSubmitted
       );
     },
