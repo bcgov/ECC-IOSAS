@@ -78,7 +78,6 @@
 import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import * as Rules from '../../../utils/institute/formRules';
-import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
 export default {
   name: 'EducationalProgramTab',
@@ -97,12 +96,8 @@ export default {
     NULL_STRING,
     rules: Rules,
   }),
-  mounted() {},
   computed: {
     ...mapState(metaDataStore, ['getApplicationMultiPickListOptions']),
-  },
-  methods: {
-    formatBooleanToYesNoString,
   },
 };
 </script>

@@ -427,10 +427,7 @@ import { metaDataStore } from '../../../store/modules/metaData';
 import { documentStore } from '../../../store/modules/document';
 import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
-import {
-  formatBooleanToYesNoString,
-  formatLongName,
-} from '../../../utils/format';
+import { formatLongName } from '../../../utils/format';
 import {
   GOV_URL,
   SCHOOL_APP_CODE_CODES,
@@ -529,7 +526,6 @@ export default {
     ...mapState(documentStore, ['getApplicationDocuments']),
   },
   methods: {
-    formatBooleanToYesNoString,
     formatLongName,
     ...mapActions(documentStore, ['addApplicationDocument']),
     closeDocumentDialog() {

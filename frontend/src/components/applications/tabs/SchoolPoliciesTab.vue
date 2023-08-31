@@ -131,7 +131,7 @@
             color="#003366"
             class="mt-4"
             inline
-            @change="validateAndPopulate"
+            @change="$emit('validateAndPopulate', $event)"
             :rules="[rules.requiredSelect()]"
           >
             <v-radio
@@ -583,7 +583,7 @@
             color="#003366"
             class="mt-4"
             inline
-            @change="validateAndPopulate"
+            @change="$emit('validateAndPopulate', $event)"
             :rules="[rules.requiredSelect()]"
           >
             <v-radio
@@ -686,10 +686,9 @@
           <v-textarea
             id="iosas_ifnotoanyschoolpolicyexplainwhy"
             v-model="formData.iosas_ifnotoanyschoolpolicyexplainwhy"
-            :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
+            :rules="[rules.requiredIfNo(formData, allPolicyTabFields)]"
           />
         </v-col>
       </v-row>
@@ -1109,6 +1108,7 @@ import * as Rules from '../../../utils/institute/formRules';
 import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
+import { allPolicyTabFields } from '../../../utils/application';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolPoliciesTab',
@@ -1126,6 +1126,7 @@ export default {
   data: () => ({
     NULL_STRING,
     GOV_URL,
+    allPolicyTabFields,
     rules: Rules,
   }),
   computed: {

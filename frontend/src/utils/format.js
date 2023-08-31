@@ -100,3 +100,9 @@ export function displayDefaultNumberValue(data) {
 
 export const formatStringToNumericArray = (string) =>
   string ? string.split(',').map((value) => Number(value)) : [];
+
+export const formatStringToArray = (string) =>
+  string ? string.split(',').map((value) => value) : [];
+
+export const formatArrayToString = (array) =>
+  array.length > 0 ? array.toString() : null;

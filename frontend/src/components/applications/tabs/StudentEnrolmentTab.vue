@@ -325,10 +325,7 @@
 
 <script>
 import * as Rules from '../../../utils/institute/formRules';
-import {
-  formatBooleanToYesNoString,
-  displayDefaultNumberValue,
-} from '../../../utils/format';
+import { displayDefaultNumberValue } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'StudentEnrolmentTab',
@@ -348,10 +345,7 @@ export default {
     NULL_STRING,
     rules: Rules,
   }),
-  mounted() {},
-  computed: {},
   methods: {
-    formatBooleanToYesNoString,
     displayDefaultNumberValue,
   },
 };

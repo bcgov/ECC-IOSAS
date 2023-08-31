@@ -162,6 +162,26 @@ const requiredRadio = (message = 'Required') => {
 };
 
 /**
+ * Rule for for requiring a field if previous fields have been set to false
+ * @param {String} message
+ * @param {Object} data
+ * @param {Array} fields
+ * @returns Function
+ */
+const requiredIfNo = (data, fields, message = 'Required') => {
+  return (v) => {
+    let response = true;
+    fields.forEach((fieldName) => {
+      if (data[fieldName] === false || data[fieldName] === 2) {
+        response = message;
+      }
+    });
+
+    return response;
+  };
+};
+
+/**
  * Custom confirmation email Rule! Forces user to confirm the email address being saved with the record
  * @param {String} contactEmail
  * @param {String} confirmationEmail
@@ -202,4 +222,5 @@ export {
   emailConfirmation,
   gradeRangeRule,
   enrolmentTotalGreaterThanTen,
+  requiredIfNo,
 };

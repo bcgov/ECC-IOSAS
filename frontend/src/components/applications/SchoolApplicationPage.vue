@@ -37,6 +37,7 @@ import ApiService from '../../common/ApiService';
 import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
+import { formatArrayToString } from '../../utils/format';
 
 export default {
   name: 'SchoolApplicationPage',
@@ -67,21 +68,21 @@ export default {
     this.fetchAppData();
   },
   methods: {
+    formatArrayToString,
     setIsLoading(value) {
       this.isLoading = value;
-    },
-    convertToString(data) {
-      return data.length > 0 ? data.toString() : null;
     },
     formatPayload(payload) {
       // Convert array to comma seperated string
       return {
         ...payload,
-        iosas_schoolaffiliation: this.convertToString(
+        iosas_schoolaffiliation: this.formatArrayToString(
           payload.iosas_schoolaffiliation
         ),
-        iosas_semestertype: this.convertToString(payload.iosas_semestertype),
-        iosas_additionalprograms: this.convertToString(
+        iosas_semestertype: this.formatArrayToString(
+          payload.iosas_semestertype
+        ),
+        iosas_additionalprograms: this.formatArrayToString(
           payload.iosas_additionalprograms
         ),
       };
@@ -135,7 +136,10 @@ export default {
               documents
             );
           }
-          if (isSubmitted) {
+          if (
+            isSubmitted ||
+            (isSubmitted === null && payload.iosas_precertdocumentssubmitted)
+          ) {
             this.$router.push({
               name: 'applicationConfirmation',
             });

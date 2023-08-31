@@ -267,7 +267,7 @@
             color="#003366"
             class="mt-4"
             inline
-            @change="validateAndPopulate"
+            @change="$emit('validateAndPopulate', $event)"
             :rules="[rules.requiredSelect()]"
           >
             <v-radio
@@ -332,6 +332,7 @@
               v-model="formData.iosas_schoolaffiliation"
               :value="item.value"
               :label="item.label"
+              :rules="[rules.required()]"
             />
           </div>
         </v-col>
@@ -570,7 +571,7 @@ import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolInformationTab',
   components: {},
-
+  emits: ['validateAndPopulate'],
   props: {
     formData: {
       type: Object,

@@ -579,9 +579,6 @@ export default {
       'getSchoolAuthorityListOptions',
     ]),
   },
-  mounted() {
-    console.log('formData', this.formData);
-  },
   methods: {
     formatBooleanToYesNoString,
     getIncorporationUrl(label) {

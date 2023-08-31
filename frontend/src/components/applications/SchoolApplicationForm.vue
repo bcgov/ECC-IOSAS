@@ -174,7 +174,7 @@
                   :disabled="isNextDisabled"
                   id=""
                   secondary
-                  :text="isEditing ? 'Next' : 'Next'"
+                  :text="isEditing ? 'Save & Next' : 'Next'"
                   class="mr-2"
                   :click-action="isEditing ? nextAndSaveTab : nextTab"
                 />
@@ -328,8 +328,9 @@ export default {
       if (to.params.tab !== from.params.tab) {
         this.setTabLabel(to.params.tab);
         if (
-          Number(to.params.tab) === this.submissionTabValue &&
-          this.isPreCertDisabled
+          (Number(to.params.tab) === this.submissionTabValue &&
+            this.isPreCertDisabled) ||
+          this.isPreCertTab()
         ) {
           this.isNextDisabled = true;
         } else {
@@ -337,7 +338,6 @@ export default {
         }
       }
     },
-    // If tab is changed, change route to match
     tab: {
       handler(val, prevVal) {
         if (val !== prevVal) {
@@ -438,14 +438,19 @@ export default {
     },
   },
   created() {
+    console.log(
+      this.getApplicationPickListOptions?.['iosas_portalapplicationstep']
+    );
+
+    console.log('CREATED??');
     this.isEditing =
       this.formData && this.formData?.statuscode === this.draftCode;
-    console.log(this.isEditing);
 
     this.isPreCertDisabled =
       this.formData &&
       this.formData?.statuscode !== this.preCertCode &&
       !this.formData.iosas_precertdocumentssubmitted;
+
     this.isPreCertEditable =
       this.formData &&
       this.formData?.statuscode === this.preCertCode &&
@@ -456,23 +461,52 @@ export default {
       this.setSchoolYearLabel(this.formData._iosas_edu_year_value);
     }
 
-    if (this.formData?.iosas_portalapplicationstep && this.isEditing) {
-      this.setTabLabel(this.formData?.iosas_portalapplicationstep);
-      this.currentTab = this.formData?.iosas_portalapplicationstep;
-    } else if (
-      !this.formData?.iosas_portalapplicationstep &&
-      this.$route.params.tab
-    ) {
-      this.currentTab = this.$route.params.tab;
-      this.setTabLabel(this.$route.params.tab);
-    } else if (
-      this.formData?.iosas_portalapplicationstep === 100000011 &&
-      this.isPreCertEditable
-    ) {
-      this.setTabLabel(100000012);
+    // TODO: update tab logic
+    console.log(
+      'iosas_portalapplicationstep',
+      this.formData.iosas_portalapplicationstep
+    );
+
+    if (this.isEditing) {
+      if (!this.formData?.iosas_portalapplicationstep) {
+        this.setTabLabel(this.generalTabValue);
+      } else if (this.$route.params.tab) {
+        console.log(this.isTabDisabled('Educational Program'));
+
+        // check if tab is disabled redirect to portal step
+        this.setTabLabel(this.formData?.iosas_portalapplicationstep);
+      } else {
+        this.setTabLabel(this.$route.params.tab);
+      }
     } else {
-      this.setTabLabel(this.generalTabValue);
+      if (
+        this.isPreCertDisabled &&
+        Number(this.$route.params.tab) === 100000012
+      ) {
+        this.setTabLabel(this.generalTabValue);
+      } else if (this.isPreCertEditable) {
+        this.setTabLabel(100000012);
+      } else {
+        this.setTabLabel(this.$route.params.tab);
+      }
     }
+    // if (this.formData?.iosas_portalapplicationstep && this.isEditing) {
+    //   this.setTabLabel(this.formData?.iosas_portalapplicationstep);
+    //   this.currentTab = this.formData?.iosas_portalapplicationstep;
+    // } else if (
+    //   !this.formData?.iosas_portalapplicationstep &&
+    //   this.$route.params.tab
+    // ) {
+    //   this.currentTab = this.$route.params.tab;
+    //   this.setTabLabel(this.$route.params.tab);
+    // } else if (
+    //   this.formData?.iosas_portalapplicationstep === 100000011 &&
+    //   this.isPreCertEditable
+    // ) {
+    //   this.setTabLabel(100000012);
+    // } else {
+    //   this.setTabLabel(this.generalTabValue);
+    // }
   },
   methods: {
     ...mapActions(applicationsStore, ['setConfirmationMessage']),
@@ -480,6 +514,7 @@ export default {
       'addApplicationDocument',
       'setApplicationDocuments',
     ]),
+
     isTabDisabled(tab) {
       if (tab === 'Pre-Certification Submission') {
         if (
@@ -641,9 +676,15 @@ export default {
       const isSubmitted = this.isPreCertEditable ? null : true;
       // Do this after initial Submission
       if (this.isFormValid) {
-        await this.setConfirmationMessage(
-          `Thank you for submitting your school application and supporting documentations to open ${this.formData.iosas_proposedschoolname} in September ${this.schoolYearLabel}, you will be contacted once your submission has been reviewed.`
-        );
+        if (isSubmitted) {
+          await this.setConfirmationMessage(
+            `Thank you for submitting your school application and supporting documentations to open ${this.formData.iosas_proposedschoolname} in September ${this.schoolYearLabel}, you will be contacted once your submission has been reviewed.`
+          );
+        } else {
+          await this.setConfirmationMessage(
+            `Thank you for submitting your pre-certification documents for ${this.formData.iosas_proposedschoolname}. You will be contacted once your pre-certification submission has been reviewed.`
+          );
+        }
         // Only update portalStep if its less than the currently saved step
         const portalStep =
           Number(this.formData.iosas_portalapplicationstep) >
@@ -659,7 +700,6 @@ export default {
           this.formData.iosas_applicationid,
           payload,
           this.getApplicationDocuments,
-          false,
           isSubmitted
         );
       }
@@ -702,36 +742,24 @@ export default {
         'iosas_portalapplicationstep'
       ].find((t) => t.label === nextTab).value;
 
-      if (nextTabValue > this.currentTab) {
-        this.currentTab = nextTabValue;
-      }
-      if (nextTabUnlocked) {
-        // Allow users to navigate through tabs without
-        // triggering validation errors until they try to access a locked tab.
-        return this.$router.replace({
-          name: 'schoolApplicationPage',
-          params: { id: this.formData.iosas_applicationid, tab: nextTabValue },
-        });
-      } else {
-        const valid = await this.$refs.schoolApplicationForm.validate();
-        this.showError = !valid.valid;
-        if (this.isFormValid) {
-          return this.$router.replace({
-            name: 'schoolApplicationPage',
-            params: {
-              id: this.formData.iosas_applicationid,
-              tab: nextTabValue,
-            },
-          });
-        }
-      }
-
-      // TODO: implement save and next functionality,
-      // const valid = await this.$refs.schoolApplicationForm.validate();
-      // this.showError = !valid.valid;
-      // if (this.isFormValid) {
-      //   this.handleDraftSubmit(true);
+      // if (nextTabValue > this.currentTab) {
+      //   this.currentTab = nextTabValue;
       // }
+      const valid = await this.$refs.schoolApplicationForm.validate();
+      this.showError = !valid.valid;
+      if (this.isFormValid) {
+        const payload = {
+          ...this.formData,
+          iosas_portalapplicationstep: nextTabValue,
+        };
+        await this.$emit(
+          'updateData',
+          this.formData.iosas_applicationid,
+          payload,
+          this.getApplicationDocuments,
+          false
+        );
+      }
     },
     validateAndPopulateRadioButtons(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,

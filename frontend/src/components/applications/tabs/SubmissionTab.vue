@@ -15,31 +15,12 @@
 </template>
 
 <script>
-import * as Rules from '../../../utils/institute/formRules';
-import { formatBooleanToYesNoString } from '../../../utils/format';
 import { GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SubmissionTab',
-  emits: ['validateAndPopulate'],
-  components: {},
-  props: {
-    formData: {
-      type: Object,
-      required: true,
-    },
-    isEditing: {
-      type: Boolean,
-      required: true,
-    },
-  },
   data: () => ({
     GOV_URL,
-    rules: Rules,
   }),
-  computed: {},
-  methods: {
-    formatBooleanToYesNoString,
-  },
 };
 </script>
 
