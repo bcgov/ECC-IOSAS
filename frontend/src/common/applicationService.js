@@ -32,7 +32,7 @@ export default {
       throw e;
     }
   },
-  async updateSchoolApplication(appId, payload, submitted) {
+  async updateSchoolApplication(appId, payload, submitted = null) {
     try {
       return await APIService.apiAxios.patch(
         ApiRoutes.app.UPDATE_APPLICATION(appId, submitted),
@@ -52,6 +52,14 @@ export default {
       );
     } catch (e) {
       console.log(`Failed to patch to Nodejs cancelEOI API - ${e}`);
+      throw e;
+    }
+  },
+  async getContactById(id) {
+    try {
+      return await APIService.apiAxios.get(ApiRoutes.app.CONTACT(id));
+    } catch (e) {
+      console.log(`Failed to get from Nodejs getContactById API - ${e}`);
       throw e;
     }
   },

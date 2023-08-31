@@ -67,6 +67,7 @@
                   v-for="t in tabContent"
                   :key="t.tab"
                   :value="t.tab"
+                  :transition="false"
                 >
                   <keep-alive>
                     <component
@@ -81,38 +82,26 @@
                     />
                   </keep-alive>
                 </v-window-item>
-              </v-window>
-
-              <v-row v-if="isLastPage()">
-                <v-col cols="12" sm="12" md="12" xs="12">
-                  <v-checkbox
-                    v-model="applicationConfirmation"
-                    :disabled="!isEditing"
-                    label="I confirm this application is complete and ready to be submitted for review."
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-
-              <v-row v-if="isPreCertTab()">
-                <v-col cols="12" sm="12" md="12" xs="12">
-                  <v-checkbox
-                    v-model="formData.iosas_precertdocumentssubmitted"
-                    :disabled="!isPreCertEditable"
-                    label="I confirm that all pre-certifications documents are ready to be submitted."
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-
-              <!-- <v-container v-if="isPreCertEditable && isPreCertTab()">
-                <v-row align="end" align-self="end">
-                  <PrimaryButton
-                    primary
-                    text="Save Documents"
-                    class="mr-2"
-                    :click-action="handleUploadPreCertDocuments"
-                  />
+                <v-row v-if="isSubmissionTab()">
+                  <v-col cols="12" sm="12" md="12" xs="12">
+                    <v-checkbox
+                      v-model="applicationConfirmation"
+                      :disabled="!isEditing"
+                      label="I confirm this application is complete and ready to be submitted for review."
+                    ></v-checkbox>
+                  </v-col>
                 </v-row>
-              </v-container> -->
+
+                <v-row v-if="isPreCertTab()">
+                  <v-col cols="12" sm="12" md="12" xs="12">
+                    <v-checkbox
+                      v-model="formData.iosas_precertdocumentssubmitted"
+                      :disabled="!isPreCertEditable"
+                      label="I confirm that all pre-certification documents are ready to be submitted."
+                    ></v-checkbox>
+                  </v-col>
+                </v-row>
+              </v-window>
 
               <v-container
                 v-if="isEditing || (isPreCertEditable && isPreCertTab())"
@@ -132,11 +121,15 @@
                     secondary
                     text="Save Draft"
                     class="mr-2"
+                    :disabled="
+                      isPreCertEditable &&
+                      formData.iosas_precertdocumentssubmitted
+                    "
                     :click-action="handleDraftSubmit"
                   />
 
                   <v-btn
-                    v-if="isLastPage()"
+                    v-if="isSubmissionTab()"
                     type="submit"
                     primary
                     class="mt-2 submit-button"
@@ -170,7 +163,7 @@
             <v-container>
               <v-row class="d-flex justify-space-between">
                 <PrimaryButton
-                  :disabled="isFirstPage()"
+                  :disabled="isGeneralTab()"
                   type="submit"
                   secondary
                   text="Previous"
@@ -178,12 +171,12 @@
                   :click-action="prevTab"
                 />
                 <PrimaryButton
-                  :disabled="isLastPage()"
+                  :disabled="isNextDisabled"
                   id=""
                   secondary
-                  text="Next"
+                  :text="isEditing ? 'Save & Next' : 'Next'"
                   class="mr-2"
-                  :click-action="nextTab"
+                  :click-action="isEditing ? nextAndSaveTab : nextTab"
                 />
               </v-row>
             </v-container>
@@ -309,6 +302,8 @@ export default {
       tab: 'General',
       currentTab: 100000000,
       generalTabValue: 100000000,
+      submissionTabValue: 100000011,
+      isNextDisabled: false,
       items: [
         'General',
         'School Information',
@@ -332,6 +327,20 @@ export default {
     $route(to, from) {
       if (to.params.tab !== from.params.tab) {
         this.setTabLabel(to.params.tab);
+
+        console.log(
+          'Number(to.params.tab) === this.submissionTabValue',
+          Number(to.params.tab) === this.submissionTabValue
+        );
+        console.log(this.isPreCertDisabled);
+        if (
+          Number(to.params.tab) === this.submissionTabValue &&
+          this.isPreCertDisabled
+        ) {
+          this.isNextDisabled = true;
+        } else {
+          this.isNextDisabled = false;
+        }
       }
     },
     // If tab is changed, change route to match
@@ -435,13 +444,18 @@ export default {
     },
   },
   created() {
-    this.isEditing = this.formData?.statuscode === this.draftCode;
+    this.isEditing =
+      this.formData && this.formData?.statuscode === this.draftCode;
+    console.log(this.isEditing);
 
     this.isPreCertDisabled =
+      this.formData &&
       this.formData?.statuscode !== this.preCertCode &&
       !this.formData.iosas_precertdocumentssubmitted;
     this.isPreCertEditable =
-      this.formData && this.formData?.statuscode === this.preCertCode;
+      this.formData &&
+      this.formData?.statuscode === this.preCertCode &&
+      !this.formData?.iosas_precertdocumentssubmitted;
     // Display confirmation message as disabled/populated in viewOnly mode
     this.applicationConfirmation = !this.isEditing;
     if (this.formData._iosas_edu_year_value) {
@@ -490,16 +504,12 @@ export default {
         return false;
       }
     },
-    isPreCertTab() {
-      return this.tab === 'Pre-Certification Submission';
-    },
     setSchoolYearLabel(yearValue) {
       const matchedSchoolYear = this.getSchoolYears.find(
         ({ value }) => value === yearValue
       );
       this.schoolYearLabel = matchedSchoolYear?.year?.iosas_label;
     },
-    setDisabledTabs() {},
     setTabLabel(tabValue) {
       this.tab = this.getApplicationPickListOptions?.[
         'iosas_portalapplicationstep'
@@ -513,23 +523,14 @@ export default {
         .map(({ label }) => labels.push(label));
       this.disabledTabs = labels;
     },
+    isPreCertTab() {
+      return this.tab === 'Pre-Certification Submission';
+    },
     isSubmissionTab() {
       return this.tab === 'Submission';
     },
-    isLastPage() {
-      return this.tab === 'Submission';
-    },
-    isFirstPage() {
+    isGeneralTab() {
       return this.tab === 'General';
-    },
-    async handleUploadPreCertDocuments() {
-      // TODO: fix loading state
-      this.isDocumentsLoading = true;
-      const response = await this.$emit(
-        'handleUploadDocuments',
-        this.formData.iosas_applicationid,
-        this.getApplicationDocuments
-      );
     },
     async removeDocument(document) {
       const documentName = document.iosas_documentid
@@ -552,33 +553,15 @@ export default {
         return;
       } else {
         this.isDocumentsLoading = true;
+        const filteredDocuments = this.getApplicationDocuments.filter(
+          ({ id }) => {
+            return id !== document.id;
+          }
+        );
         if (document.iosas_documentid) {
-          // Remove all saved documents, refetch
-          const unUploadedDocuments = this.getApplicationDocuments.filter(
-            ({ iosas_documentid }) => {
-              return !iosas_documentid;
-            }
-          );
           await ApiService.deleteDocument(document.iosas_documentid)
             .then(async () => {
-              const documentResponse =
-                await ApplicationService.getApplicationDocuments(
-                  this.formData.iosas_applicationid
-                );
-              if (documentResponse) {
-                const formattedDocumentResponse = documentResponse?.data?.value
-                  .length
-                  ? documentResponse?.data?.value.map((doc) => ({
-                      fileName: doc.iosas_file_name,
-                      documentType: doc.iosas_newschoolapplicationdocumenttype,
-                      id: doc.iosas_documentid,
-                      ...doc,
-                    }))
-                  : [];
-                await this.setApplicationDocuments(
-                  unUploadedDocuments.concat(formattedDocumentResponse)
-                );
-              }
+              await this.setApplicationDocuments(filteredDocuments);
               this.isDocumentsLoading = false;
               this.setSuccessAlert(
                 `Success! The Document ${document.iosas_file_name} has been removed from your records`
@@ -593,12 +576,6 @@ export default {
               );
             });
         } else {
-          // Remove only the deleted/unUploaded state document
-          const filteredDocuments = this.getApplicationDocuments.filter(
-            ({ id }) => {
-              return id !== document.id;
-            }
-          );
           await this.setApplicationDocuments(filteredDocuments);
           this.isDocumentsLoading = false;
         }
@@ -643,7 +620,8 @@ export default {
           });
       }
     },
-    handleDraftSubmit() {
+    handleDraftSubmit(saveAndNext = false) {
+      const isSubmitted = this.isPreCertEditable ? null : false;
       // Only update portalStep if its less than the currently saved step
       const portalStep =
         Number(this.formData.iosas_portalapplicationstep) >
@@ -659,13 +637,16 @@ export default {
         this.formData.iosas_applicationid,
         payload,
         this.getApplicationDocuments,
-        false
+        saveAndNext,
+        isSubmitted
       );
     },
     async handleSubmit() {
       const valid = await this.$refs.schoolApplicationForm.validate();
 
       this.isFormValid = valid.valid;
+      const isSubmitted = this.isPreCertEditable ? null : true;
+      // Do this after initial Submission
       if (this.isFormValid) {
         await this.setConfirmationMessage(
           `Thank you for submitting your school application and supporting documentations to open ${this.formData.iosas_proposedschoolname} in September ${this.schoolYearLabel}, you will be contacted once your submission has been reviewed.`
@@ -680,12 +661,13 @@ export default {
           ...this.formData,
           iosas_portalapplicationstep: Number(portalStep),
         };
-        this.$emit(
+        await this.$emit(
           'updateData',
           this.formData.iosas_applicationid,
           payload,
           this.getApplicationDocuments,
-          true
+          false,
+          isSubmitted
         );
       }
     },
@@ -702,6 +684,21 @@ export default {
       });
     },
     async nextTab() {
+      const currentTabIndex = this.items.indexOf(this.tab);
+      const nextTab = this.items[currentTabIndex + 1];
+
+      const nextTabUnlocked = !this.disabledTabs.filter(
+        (t) => t.value === nextTab
+      );
+      const nextTabValue = this.getApplicationPickListOptions[
+        'iosas_portalapplicationstep'
+      ].find((t) => t.label === nextTab).value;
+      return this.$router.replace({
+        name: 'schoolApplicationPage',
+        params: { id: this.formData.iosas_applicationid, tab: nextTabValue },
+      });
+    },
+    async nextAndSaveTab() {
       const currentTabIndex = this.items.indexOf(this.tab);
       const nextTab = this.items[currentTabIndex + 1];
 
@@ -735,6 +732,13 @@ export default {
           });
         }
       }
+
+      // TODO: implement save and next functionality,
+      // const valid = await this.$refs.schoolApplicationForm.validate();
+      // this.showError = !valid.valid;
+      // if (this.isFormValid) {
+      //   this.handleDraftSubmit(true);
+      // }
     },
     validateAndPopulateRadioButtons(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
@@ -820,7 +824,10 @@ li {
 }
 
 .v-window-item {
-  min-height: 330px;
-  margin-bottom: 10px;
+  min-height: 400px;
+}
+
+.v-window {
+  padding-bottom: 25px;
 }
 </style>

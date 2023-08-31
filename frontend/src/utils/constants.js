@@ -71,10 +71,11 @@ export const ApiRoutes = Object.freeze({
     APPLICATIONS: dynamicRoot + '/Application/GetAllByUser',
     APPLICATION: (id) => dynamicRoot + `/Application/GetById?id=${id}`,
     CANCEL_APPLICATION: (id) => dynamicRoot + `/Application/Cancel?id=${id}`,
-    // UPDATE_APPLICATION: (id, submitted) =>
-    //   dynamicRoot + `/Application/Update?id=${id}&submitted=${submitted}`,
     UPDATE_APPLICATION: (id, submitted) =>
-      dynamicRoot + `/Application/Update?id=${id}`,
+      submitted !== null
+        ? dynamicRoot + `/Application/Update?id=${id}&submitted=${submitted}`
+        : dynamicRoot + `/Application/Update?id=${id}`,
+    CONTACT: (id) => dynamicRoot + `/Contact/GetbyId?contactId=${id}`,
   },
 });
 
@@ -189,15 +190,6 @@ export const SCHOOL_APP_CODE_CODES = {
   confimationWaterTestingCode: 100000012,
   creditOrSurityBondCode: 100000016,
 };
-
-// Null fields for sections that haven't happened,
-// on next tab change for first time??
-// Don't change if been on page before
-const boolFieldsPerSection = {
-  100000000: {},
-};
-
-const boolFieldsArray = [''];
 
 export const STATUS_MAP = {
   'New (Submitted)': 'New',

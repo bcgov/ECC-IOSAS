@@ -162,7 +162,7 @@
                   class="ml-15"
                   variant="flat"
                   size="sm"
-                  @click.stop="removeDocument(document)"
+                  @click.stop="this.$emit('removeDocument', document)"
                   ><v-icon aria-hidden="false" color="#b00020" size="20">
                     mdi-delete-forever-outline
                   </v-icon></v-btn

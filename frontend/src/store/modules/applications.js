@@ -21,7 +21,6 @@ export const applicationsStore = defineStore('applications', {
   getters: {
     getConfirmationMessage: (state) => state.confirmationMessage,
     getSchoolApplicationsFormatted: (state) =>
-      // Sort applications by last 4 digits of the applicationnumber
       state.schoolApplications
         ?.sort(
           (appA, appB) =>
@@ -45,7 +44,6 @@ export const applicationsStore = defineStore('applications', {
             ],
         })),
     getEOIApplicationsFormatted: (state) =>
-      // Sort EOIs by last 4 digits of the eoinumber
       state.EOIApplications?.sort(
         (appA, appB) =>
           appA.iosas_eoinumber.split('-').pop() -
@@ -133,11 +131,17 @@ export const applicationsStore = defineStore('applications', {
       await this.setSchoolApplications(response.data.value);
     },
     async getApplicationById(appId) {
+      let contactResponse;
       const response = await ApplicationService.getApplicationById(appId);
-
       const documentResponse = await ApplicationService.getApplicationDocuments(
         appId
       );
+
+      if (response.data.value[0]) {
+        contactResponse = await ApplicationService.getContactById(
+          response.data.value[0]._iosas_designatedcontact_value
+        );
+      }
       const documents = documentResponse.data.value
         ? documentResponse.data.value.map((doc) => ({
             fileName: doc.iosas_file_name,
@@ -158,6 +162,11 @@ export const applicationsStore = defineStore('applications', {
           data.iosas_additionalprograms
         ),
         iosas_semestertype: formatStringToNumericArray(data.iosas_semestertype),
+        iosas_designatedcontactfirstname: contactResponse.data.firstname,
+        iosas_schoolauthoritycontactname: contactResponse.data.lastname,
+        iosas_schoolauthoritycontactemail: contactResponse.data.emailaddress1,
+        iosas_schoolauthoritycontactphone:
+          contactResponse.data.telephone1 || null,
       };
       await this.setSchoolApplication(app);
     },

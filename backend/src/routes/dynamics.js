@@ -18,7 +18,11 @@ const allowedPulicPaths = [
   'Metdata',
   'Health',
 ];
-const allowedProtectedPaths = ['Application', 'Contact/GetbyExternalId'];
+const allowedProtectedPaths = [
+  'Application',
+  'Contact/GetbyExternalId',
+  'Contact/GetbyId',
+];
 const allowedPaths = [...allowedPulicPaths, ...allowedProtectedPaths];
 
 const proxyMiddleWare =
