@@ -18,13 +18,15 @@
     <v-navigation-drawer temporary class="mobile-tabs" v-model="drawer">
       <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
         <v-tab
-          v-for="item in items"
-          :key="item"
-          :value="item"
+          v-for="item in this.getApplicationPickListOptions?.[
+            'iosas_portalapplicationstep'
+          ]"
+          :key="item.value"
+          :value="item.value"
           @click.stop="drawer = !drawer"
-          :disabled="isTabDisabled(item)"
+          :disabled="isTabDisabled(item.value)"
         >
-          {{ item }}
+          {{ item.label }}
         </v-tab>
       </v-tabs>
     </v-navigation-drawer>
@@ -37,12 +39,14 @@
       <div class="flex-1 no-mobile-tabs">
         <v-tabs v-model="tab" bg-color="transparent" direction="vertical">
           <v-tab
-            v-for="item in items"
-            :key="item"
-            :value="item"
-            :disabled="isTabDisabled(item)"
+            v-for="item in this.getApplicationPickListOptions?.[
+              'iosas_portalapplicationstep'
+            ]"
+            :key="item.value"
+            :value="item.value"
+            :disabled="isTabDisabled(item.value)"
           >
-            {{ item }}
+            {{ item.label }}
           </v-tab>
         </v-tabs>
       </div>
@@ -73,7 +77,7 @@
                     <component
                       :is="t.component"
                       :formData="formData"
-                      :draftCode="draftCode"
+                      :draftCode="draftStatusCode"
                       :isEditing="isEditing"
                       :isDocumentsLoading="isDocumentsLoading"
                       @validateAndPopulate="validateAndPopulateRadioButtons"
@@ -82,7 +86,7 @@
                     />
                   </keep-alive>
                 </v-window-item>
-                <v-row v-if="isSubmissionTab()">
+                <v-row v-if="isTab(100000011)">
                   <v-col cols="12" sm="12" md="12" xs="12">
                     <v-checkbox
                       v-model="applicationConfirmation"
@@ -92,7 +96,7 @@
                   </v-col>
                 </v-row>
 
-                <v-row v-if="isPreCertTab()">
+                <v-row v-if="isTab(100000012)">
                   <v-col cols="12" sm="12" md="12" xs="12">
                     <v-checkbox
                       v-model="formData.iosas_precertdocumentssubmitted"
@@ -104,7 +108,7 @@
               </v-window>
 
               <v-container
-                v-if="isEditing || (isPreCertEditable && isPreCertTab())"
+                v-if="isEditing || (isPreCertEditable && isTab(100000012))"
               >
                 <v-row justify="center" align="center" v-if="showError">
                   <v-col>
@@ -129,7 +133,7 @@
                   />
 
                   <v-btn
-                    v-if="isSubmissionTab()"
+                    v-if="isTab(100000011)"
                     type="submit"
                     primary
                     class="mt-2 submit-button"
@@ -138,7 +142,7 @@
                     >Submit</v-btn
                   >
                   <v-btn
-                    v-if="isPreCertTab()"
+                    v-if="isTab(100000012)"
                     type="submit"
                     primary
                     class="mt-2 submit-button"
@@ -163,7 +167,7 @@
             <v-container>
               <v-row class="d-flex justify-space-between">
                 <PrimaryButton
-                  :disabled="isGeneralTab()"
+                  :disabled="isTab(100000000)"
                   type="submit"
                   secondary
                   text="Previous"
@@ -250,12 +254,11 @@ export default {
   },
   data() {
     return {
-      draftCode: 100000001,
-      preCertCode: 100000009,
+      draftStatusCode: 100000001,
+      preCertStatusCode: 100000009,
       isPreCertDisabled: true,
       isPreCertEditable: false,
       drawer: false,
-      disabledTabs: [],
       isEditing: false,
       isFormValid: true,
       showError: false,
@@ -265,60 +268,45 @@ export default {
       rules: Rules,
       tabContent: [
         {
-          tab: 'General',
+          tab: 100000000,
           component: 'SchoolGeneralTab',
         },
         {
-          tab: 'School Information',
+          tab: 100000001,
           component: 'SchoolInformationTab',
         },
         {
-          tab: 'School Authority',
+          tab: 100000002,
           component: 'SchoolAuthorityInformationTab',
         },
         {
-          tab: 'Student Enrolment',
+          tab: 100000003,
           component: 'StudentEnrolmentTab',
         },
         {
-          tab: 'School Semester',
+          tab: 100000004,
           component: 'SchoolSemesterTab',
         },
         {
-          tab: 'Group Certification',
+          tab: 100000005,
           component: 'GroupCertificationTab',
         },
-        { tab: 'School Facility', component: 'SchoolFacilityTab' },
-        { tab: 'School Policies', component: 'SchoolPoliciesTab' },
-        { tab: 'Educational Program', component: 'EducationalProgramTab' },
-        { tab: 'Teacher Certification', component: 'TeacherCertificationTab' },
-        { tab: 'Documents', component: 'DocumentTab' },
-        { tab: 'Submission', component: 'SubmissionTab' },
+        { tab: 100000006, component: 'SchoolFacilityTab' },
+        { tab: 100000007, component: 'SchoolPoliciesTab' },
+        { tab: 100000008, component: 'EducationalProgramTab' },
+        { tab: 100000009, component: 'TeacherCertificationTab' },
+        { tab: 100000010, component: 'DocumentTab' },
+        { tab: 100000011, component: 'SubmissionTab' },
         {
-          tab: 'Pre-Certification Submission',
+          tab: 100000012,
           component: 'PreCertificationTab',
         },
       ],
-      tab: 'General',
+      tab: 100000000,
       currentTab: 100000000,
       generalTabValue: 100000000,
       submissionTabValue: 100000011,
       isNextDisabled: false,
-      items: [
-        'General',
-        'School Information',
-        'School Authority',
-        'Student Enrolment',
-        'School Semester',
-        'Group Certification',
-        'School Facility',
-        'School Policies',
-        'Educational Program',
-        'Teacher Certification',
-        'Documents',
-        'Submission',
-        'Pre-Certification Submission',
-      ],
       isDocumentsLoading: false,
       schoolYearLabel: null,
     };
@@ -326,11 +314,11 @@ export default {
   watch: {
     $route(to, from) {
       if (to.params.tab !== from.params.tab) {
-        this.setTabLabel(to.params.tab);
+        this.tab = Number(to.params.tab);
         if (
           (Number(to.params.tab) === this.submissionTabValue &&
             this.isPreCertDisabled) ||
-          this.isPreCertTab()
+          this.isTab(100000012)
         ) {
           this.isNextDisabled = true;
         } else {
@@ -341,13 +329,9 @@ export default {
     tab: {
       handler(val, prevVal) {
         if (val !== prevVal) {
-          const nextTab = this.getApplicationPickListOptions?.[
-            'iosas_portalapplicationstep'
-          ].find((t) => t.label === val).value;
-
           return this.$router.replace({
             name: 'schoolApplicationPage',
-            params: { id: this.formData.iosas_applicationid, tab: nextTab },
+            params: { id: this.formData.iosas_applicationid, tab: val },
           });
         }
       },
@@ -444,16 +428,16 @@ export default {
 
     console.log('CREATED??');
     this.isEditing =
-      this.formData && this.formData?.statuscode === this.draftCode;
+      this.formData && this.formData?.statuscode === this.draftStatusCode;
 
     this.isPreCertDisabled =
       this.formData &&
-      this.formData?.statuscode !== this.preCertCode &&
+      this.formData?.statuscode !== this.preCertStatusCode &&
       !this.formData.iosas_precertdocumentssubmitted;
 
     this.isPreCertEditable =
       this.formData &&
-      this.formData?.statuscode === this.preCertCode &&
+      this.formData?.statuscode === this.preCertStatusCode &&
       !this.formData?.iosas_precertdocumentssubmitted;
     // Display confirmation message as disabled/populated in viewOnly mode
     this.applicationConfirmation = !this.isEditing;
@@ -461,52 +445,7 @@ export default {
       this.setSchoolYearLabel(this.formData._iosas_edu_year_value);
     }
 
-    // TODO: update tab logic
-    console.log(
-      'iosas_portalapplicationstep',
-      this.formData.iosas_portalapplicationstep
-    );
-
-    if (this.isEditing) {
-      if (!this.formData?.iosas_portalapplicationstep) {
-        this.setTabLabel(this.generalTabValue);
-      } else if (this.$route.params.tab) {
-        console.log(this.isTabDisabled('Educational Program'));
-
-        // check if tab is disabled redirect to portal step
-        this.setTabLabel(this.formData?.iosas_portalapplicationstep);
-      } else {
-        this.setTabLabel(this.$route.params.tab);
-      }
-    } else {
-      if (
-        this.isPreCertDisabled &&
-        Number(this.$route.params.tab) === 100000012
-      ) {
-        this.setTabLabel(this.generalTabValue);
-      } else if (this.isPreCertEditable) {
-        this.setTabLabel(100000012);
-      } else {
-        this.setTabLabel(this.$route.params.tab);
-      }
-    }
-    // if (this.formData?.iosas_portalapplicationstep && this.isEditing) {
-    //   this.setTabLabel(this.formData?.iosas_portalapplicationstep);
-    //   this.currentTab = this.formData?.iosas_portalapplicationstep;
-    // } else if (
-    //   !this.formData?.iosas_portalapplicationstep &&
-    //   this.$route.params.tab
-    // ) {
-    //   this.currentTab = this.$route.params.tab;
-    //   this.setTabLabel(this.$route.params.tab);
-    // } else if (
-    //   this.formData?.iosas_portalapplicationstep === 100000011 &&
-    //   this.isPreCertEditable
-    // ) {
-    //   this.setTabLabel(100000012);
-    // } else {
-    //   this.setTabLabel(this.generalTabValue);
-    // }
+    this.setTabValue();
   },
   methods: {
     ...mapActions(applicationsStore, ['setConfirmationMessage']),
@@ -516,7 +455,7 @@ export default {
     ]),
 
     isTabDisabled(tab) {
-      if (tab === 'Pre-Certification Submission') {
+      if (Number(tab) === 100000012) {
         if (
           this.isPreCertEditable ||
           this.formData.iosas_precertdocumentssubmitted
@@ -526,9 +465,8 @@ export default {
           return true;
         }
       }
-
       if (this.isEditing) {
-        return this.disabledTabs.includes(tab);
+        return Number(tab) > Number(this.formData.iosas_portalapplicationstep);
       } else {
         return false;
       }
@@ -539,27 +477,28 @@ export default {
       );
       this.schoolYearLabel = matchedSchoolYear?.year?.iosas_label;
     },
-    setTabLabel(tabValue) {
-      this.tab = this.getApplicationPickListOptions?.[
-        'iosas_portalapplicationstep'
-      ].find((t) => t.value === Number(tabValue)).label;
-      const highestTab = Math.max(...[this.currentTab, Number(tabValue)]);
-      let labels = [];
-      const tabsNotTracked = this.getApplicationPickListOptions?.[
-        'iosas_portalapplicationstep'
-      ]
-        .filter((t) => t.value > highestTab)
-        .map(({ label }) => labels.push(label));
-      this.disabledTabs = labels;
+    setTabValue() {
+      const routeTabValue = Number(this.$route.params.tab);
+      if (this.isEditing) {
+        if (!this.formData?.iosas_portalapplicationstep) {
+          this.tab = this.generalTabValue;
+        } else if (!this.isTabDisabled(routeTabValue)) {
+          this.tab = routeTabValue;
+        } else {
+          this.tab = this.formData?.iosas_portalapplicationstep;
+        }
+      } else {
+        if (this.isPreCertDisabled && routeTabValue === 100000012) {
+          this.tab = this.generalTabValue;
+        } else if (this.isPreCertEditable) {
+          this.tab = 100000012;
+        } else {
+          this.tab = routeTabValue;
+        }
+      }
     },
-    isPreCertTab() {
-      return this.tab === 'Pre-Certification Submission';
-    },
-    isSubmissionTab() {
-      return this.tab === 'Submission';
-    },
-    isGeneralTab() {
-      return this.tab === 'General';
+    isTab(tabValue) {
+      return this.tab === tabValue;
     },
     async removeDocument(document) {
       const documentName = document.iosas_documentid
@@ -705,45 +644,38 @@ export default {
       }
     },
     prevTab() {
-      const currentTabIndex = this.items.indexOf(this.tab);
-      const prevTab = this.items[currentTabIndex - 1];
-      const prevTabValue = this.getApplicationPickListOptions[
-        'iosas_portalapplicationstep'
-      ].find((t) => t.label === prevTab).value;
-
+      const prevTab = Number(this.$route.params.tab) - 1;
       return this.$router.replace({
         name: 'schoolApplicationPage',
-        params: { id: this.formData.iosas_applicationid, tab: prevTabValue },
+        params: { id: this.formData.iosas_applicationid, tab: prevTab },
       });
     },
     async nextTab() {
-      const currentTabIndex = this.items.indexOf(this.tab);
-      const nextTab = this.items[currentTabIndex + 1];
+      // const currentTabIndex = this.items.indexOf(this.tab);
+      // const nextTab = this.items[currentTabIndex + 1];
 
-      const nextTabUnlocked = !this.disabledTabs.filter(
-        (t) => t.value === nextTab
-      );
-      const nextTabValue = this.getApplicationPickListOptions[
-        'iosas_portalapplicationstep'
-      ].find((t) => t.label === nextTab).value;
+      // const nextTabUnlocked = !this.disabledTabs.filter(
+      //   (t) => t.value === nextTab
+      // );
+      // const nextTabValue = this.getApplicationPickListOptions[
+      //   'iosas_portalapplicationstep'
+      // ].find((t) => t.label === nextTab).value;
+      const nextTab = Number(this.$route.params.tab) + 1;
       return this.$router.replace({
         name: 'schoolApplicationPage',
-        params: { id: this.formData.iosas_applicationid, tab: nextTabValue },
+        params: { id: this.formData.iosas_applicationid, tab: nextTab },
       });
     },
     async nextAndSaveTab() {
-      const currentTabIndex = this.items.indexOf(this.tab);
-      const nextTab = this.items[currentTabIndex + 1];
+      // const currentTabIndex = this.items.indexOf(this.tab);
+      // const nextTab = this.items[currentTabIndex + 1];
 
-      const nextTabUnlocked = !this.disabledTabs.filter(
-        (t) => t.value === nextTab
-      );
-      const nextTabValue = this.getApplicationPickListOptions[
-        'iosas_portalapplicationstep'
-      ].find((t) => t.label === nextTab).value;
+      // const nextTabValue = this.getApplicationPickListOptions[
+      //   'iosas_portalapplicationstep'
+      // ].find((t) => t.label === nextTab).value;
 
       // if (nextTabValue > this.currentTab) {
-      //   this.currentTab = nextTabValue;
+
       // }
       const valid = await this.$refs.schoolApplicationForm.validate();
       this.showError = !valid.valid;

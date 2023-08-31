@@ -1,4 +1,3 @@
-import { formatStringToArray } from './format';
 const generalTabBoolFields = [
   'iosas_nopromotionofinappropriatedoctrines',
   'iosas_willcomplywithenactmentsofbc',
