@@ -168,10 +168,6 @@ const requiredRadio = (message = 'Required') => {
  */
 const requiredCheckbox = (message = 'Required') => {
   return (v) => v.length > 0 || message;
-  // return (v) => {
-  //   console.log(v);
-  //   return v.length > 0 || message;
-  // };
 };
 
 /**
