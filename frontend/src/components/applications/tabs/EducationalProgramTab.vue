@@ -13,9 +13,7 @@
             id="iosas_describefamiliaritywithbcscurriculum"
             v-model="formData.iosas_describefamiliaritywithbcscurriculum"
             :rules="[rules.required()]"
-            :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -61,9 +59,15 @@
             v-if="isEditing"
             id="iosas_additionalprogramsother"
             v-model="formData.iosas_additionalprogramsother"
-            :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"
+            :rules="
+              formData.iosas_additionalprograms.includes(
+                ADDITIONAL_PROGRAM_CODES.other
+              )
+                ? [rules.required()]
+                : []
+            "
           />
           <div v-else>
             {{ formData.iosas_additionalprogramsother || NULL_STRING }}
@@ -79,6 +83,7 @@ import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import * as Rules from '../../../utils/institute/formRules';
 import { NULL_STRING } from '../../../utils/constants';
+import { ADDITIONAL_PROGRAM_CODES } from '../../../utils/application';
 export default {
   name: 'EducationalProgramTab',
   components: {},
@@ -94,6 +99,7 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    ADDITIONAL_PROGRAM_CODES,
     rules: Rules,
   }),
   computed: {

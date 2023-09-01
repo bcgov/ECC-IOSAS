@@ -79,7 +79,7 @@ const required = (message = 'Required') => {
 const requiredNumber = (message = 'Required') => {
   return (v) => {
     if (v || v === 0) {
-      return false;
+      return true;
     } else {
       return message;
     }
@@ -177,6 +177,7 @@ const requiredCheckbox = (message = 'Required') => {
  * @param {Array} fields
  * @returns Function
  */
+// TODO: fix logic
 const requiredIfNo = (data, fields, message = 'Required') => {
   return (v) => {
     let response = true;
@@ -186,7 +187,7 @@ const requiredIfNo = (data, fields, message = 'Required') => {
       }
     });
 
-    return response;
+    return v ? true : response;
   };
 };
 

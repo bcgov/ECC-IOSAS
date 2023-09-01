@@ -47,6 +47,7 @@
             color="rgb(59, 153, 252)"
             item-title="label"
             item-value="value"
+            :rules="[rules.requiredSelect()]"
             :items="this.getApplicationPickListOptions['iosas_startgrade']"
           >
           </v-select>
@@ -61,6 +62,13 @@
             color="rgb(59, 153, 252)"
             item-title="label"
             item-value="value"
+            :rules="[
+              rules.requiredSelect(),
+              rules.gradeRangeRule(
+                formData.iosas_startgrade,
+                formData.iosas_endgrade
+              ),
+            ]"
             :items="this.getApplicationPickListOptions['iosas_endgrade']"
           ></v-select>
         </v-col>
@@ -328,16 +336,18 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
-          <v-checkbox
-            id="iosas_schoolaffiliation"
+          <div
             v-for="item in getApplicationMultiPickListOptions[
               'iosas_schoolaffiliation'
             ]"
             :key="item.value"
-            v-model="formData.iosas_schoolaffiliation"
-            :value="item.value"
-            :label="item.label"
-          />
+          >
+            <v-checkbox
+              v-model="formData.iosas_schoolaffiliation"
+              :value="item.value"
+              :label="item.label"
+            />
+          </div>
         </v-col>
       </v-row>
       <br />
@@ -563,7 +573,7 @@
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-label>Other</v-label>
-          <p>{{ formData.iosas_schoolaffiliationother || NULL_STRING }}</p>
+          <p>{{ formData.iosas_schoolassociationother || NULL_STRING }}</p>
         </v-col>
       </v-row>
     </div>

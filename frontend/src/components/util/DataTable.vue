@@ -82,7 +82,7 @@ export default {
   props: {
     data: {
       type: Array,
-      required: true,
+      required: false,
     },
     title: {
       type: String,
@@ -107,9 +107,9 @@ export default {
   methods: {
     getNullMessage() {
       if (this.title === 'New School Applications') {
-        return 'You dont currently have any active school applications. Your new school application will show up here after your Expression of Interest is approved.';
+        return "You don't currently have any active school applications. Your new school application will show up here after your Expression of Interest is approved.";
       }
-      return 'You dont currently have any active Expression of Interests. Click `Create new EOI` button to get started.';
+      return "You don't currently have any active Expression of Interests. Click `Create new EOI` button to get started.";
     },
     getTableHeaders() {
       const firstItem = this.data?.[0];

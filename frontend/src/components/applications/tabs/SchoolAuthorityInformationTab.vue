@@ -230,7 +230,6 @@
             <v-text-field
               id="iosas_schoolauthoritycontactphone"
               v-model="formData.iosas_schoolauthoritycontactphone"
-              :rules="[rules.required()]"
               variant="outlined"
               label="Phone"
               color="rgb(59, 153, 252)"
@@ -305,10 +304,9 @@
             disabled
             id="iosas_authorityheadphone"
             v-model="formData.iosas_authorityheadphone"
-            :rules="[rules.required()]"
             :maxlength="255"
             variant="outlined"
-            label="E-mail"
+            label="Phone"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -343,7 +341,7 @@
         </v-col>
         <v-col cols="4">
           <v-radio-group
-            id="iosas_proponentspreviouslyinvolvedinisbc "
+            id="iosas_proponentspreviouslyinvolvedinisbc"
             v-model="formData.iosas_proponentspreviouslyinvolvedinisbc"
             color="#003366"
             class="mt-4"
@@ -528,7 +526,9 @@
         </v-col>
         <v-col cols="4">
           {{
-            formatBooleanToYesNoString(iosas_proponentspreviouslyinvolvedinisbc)
+            formatBooleanToYesNoString(
+              formData.iosas_proponentspreviouslyinvolvedinisbc
+            )
           }}
         </v-col>
       </v-row>

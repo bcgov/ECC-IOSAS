@@ -105,6 +105,10 @@ export const AFFILIATION_CODES = {
   other: 100000006,
 };
 
+export const ADDITIONAL_PROGRAM_CODES = {
+  other: 100000004,
+};
+
 export const STATUS_MAP = {
   'New (Submitted)': 'New',
   'In Progress (Send Confirmation of Receipt Email)': 'In Progress',

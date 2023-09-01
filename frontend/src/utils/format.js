@@ -82,7 +82,11 @@ export function formatSnakeCaseToString(key) {
 }
 
 export function formatBooleanToYesNoString(bool) {
-  return bool ? 'Yes' : 'No';
+  if (bool === null) {
+    return NULL_STRING;
+  } else {
+    return bool ? 'Yes' : 'No';
+  }
 }
 
 export function formatLongName(string) {

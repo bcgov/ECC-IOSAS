@@ -1022,7 +1022,7 @@ export default {
     },
     isFormValid: {
       handler(val) {
-        if (val) {
+        if (val || val === null) {
           this.showError = false;
         } else if (val === false) {
           this.showError = true;

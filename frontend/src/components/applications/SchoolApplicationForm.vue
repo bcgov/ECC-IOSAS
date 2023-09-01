@@ -274,7 +274,7 @@ export default {
       applicationConfirmation: false,
       confirmDeleteDocument: false,
       rules: Rules,
-      tab: TAB_CODES.general,
+      tab: null,
       isNextDisabled: false,
       isDocumentsLoading: false,
       schoolYearLabel: null,
@@ -307,7 +307,7 @@ export default {
     },
     isFormValid: {
       handler(val) {
-        if (val) {
+        if (val || val === null) {
           this.showError = false;
         } else if (val === false) {
           this.showError = true;
@@ -429,8 +429,18 @@ export default {
           return true;
         }
       }
+
       if (this.isEditing) {
-        return Number(tab) > Number(this.formData.iosas_portalapplicationstep);
+        if (
+          !this.formData.iosas_portalapplicationstep &&
+          Number(tab) !== this.TAB_CODES.general
+        ) {
+          return true;
+        } else {
+          return (
+            Number(tab) > Number(this.formData.iosas_portalapplicationstep)
+          );
+        }
       } else {
         return false;
       }
@@ -557,7 +567,6 @@ export default {
     },
     handleDraftSubmit() {
       const isSubmitted = this.isPreCertEditable ? null : false;
-      // Only update portalStep if its less than the currently saved step
       const portalStep =
         Number(this.formData.iosas_portalapplicationstep) >
         Number(this.$route.params.tab)
@@ -591,7 +600,6 @@ export default {
             `Thank you for submitting your pre-certification documents for ${this.formData.iosas_proposedschoolname}. You will be contacted once your pre-certification submission has been reviewed.`
           );
         }
-        // Only update portalStep if its less than the currently saved step
         const portalStep =
           Number(this.formData.iosas_portalapplicationstep) >
           Number(this.$route.params.tab)
@@ -618,15 +626,6 @@ export default {
       });
     },
     async nextTab() {
-      // const currentTabIndex = this.items.indexOf(this.tab);
-      // const nextTab = this.items[currentTabIndex + 1];
-
-      // const nextTabUnlocked = !this.disabledTabs.filter(
-      //   (t) => t.value === nextTab
-      // );
-      // const nextTabValue = this.getApplicationPickListOptions[
-      //   'iosas_portalapplicationstep'
-      // ].find((t) => t.label === nextTab).value;
       const nextTab = Number(this.$route.params.tab) + 1;
       return this.$router.replace({
         name: 'schoolApplicationPage',
@@ -634,22 +633,17 @@ export default {
       });
     },
     async nextAndSaveTab() {
-      // const currentTabIndex = this.items.indexOf(this.tab);
-      // const nextTab = this.items[currentTabIndex + 1];
-
-      // const nextTabValue = this.getApplicationPickListOptions[
-      //   'iosas_portalapplicationstep'
-      // ].find((t) => t.label === nextTab).value;
-
-      // if (nextTabValue > this.currentTab) {
-
-      // }
+      const nextTab = Number(this.$route.params.tab) + 1;
+      const portalStep =
+        Number(this.formData.iosas_portalapplicationstep) > nextTab
+          ? this.formData.iosas_portalapplicationstep
+          : nextTab;
       const valid = await this.$refs.schoolApplicationForm.validate();
       this.showError = !valid.valid;
       if (this.isFormValid) {
         const payload = {
           ...this.formData,
-          iosas_portalapplicationstep: nextTabValue,
+          iosas_portalapplicationstep: portalStep,
         };
         await this.$emit(
           'updateData',

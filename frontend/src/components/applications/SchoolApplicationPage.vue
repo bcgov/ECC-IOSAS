@@ -95,7 +95,6 @@ export default {
           this.applicationData = this.getSchoolApplication;
 
           this.isLoading = false;
-          return this.applicationData;
         });
     },
     async handleUploadDocuments(appID, documents) {
@@ -145,6 +144,14 @@ export default {
             });
           } else {
             this.isLoading = false;
+            this.$router.replace({
+              name: 'schoolApplicationPage',
+              params: {
+                id: this.$route.params.id,
+                tab: payload.iosas_portalapplicationstep,
+              },
+            });
+
             await this.fetchAppData();
 
             this.setSuccessAlert(
@@ -155,7 +162,7 @@ export default {
       } catch (error) {
         this.isLoading = false;
         this.setFailureAlert(
-          `An error occurred while trying to update the school ppplication ${payload.iosas_applicationnumber}. Please try again later.`
+          `An error occurred while trying to update the school application ${payload.iosas_applicationnumber}. Please try again later.`
         );
         throw error;
       }
