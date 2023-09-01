@@ -162,6 +162,19 @@ const requiredRadio = (message = 'Required') => {
 };
 
 /**
+ * Rule for checkbox
+ * @param {String} message
+ * @returns Function
+ */
+const requiredCheckbox = (message = 'Required') => {
+  return (v) => v.length > 0 || message;
+  // return (v) => {
+  //   console.log(v);
+  //   return v.length > 0 || message;
+  // };
+};
+
+/**
  * Rule for for requiring a field if previous fields have been set to false
  * @param {String} message
  * @param {Object} data
@@ -223,4 +236,5 @@ export {
   gradeRangeRule,
   enrolmentTotalGreaterThanTen,
   requiredIfNo,
+  requiredCheckbox,
 };

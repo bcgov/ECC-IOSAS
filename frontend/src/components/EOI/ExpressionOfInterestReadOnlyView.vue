@@ -181,7 +181,12 @@
             </p>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row
+          v-if="
+            eoi.iosas_groupclassification ===
+            GROUP_CLASSIFICATION_CODES.groupTwo
+          "
+        >
           <v-col cols="12">
             <v-label
               >Plans to seek Group 1 classification in the second or subsequest
@@ -296,7 +301,10 @@
 import EOIFormHeader from './EOIFormHeader.vue';
 import { formatBooleanToYesNoString } from '../../utils/format';
 import { NULL_STRING } from '../../utils/constants';
-import { EOI_DOC_CODES } from '../../utils/application';
+import {
+  EOI_DOC_CODES,
+  GROUP_CLASSIFICATION_CODES,
+} from '../../utils/application';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
   components: {
@@ -315,11 +323,12 @@ export default {
   mounted() {},
   data() {
     return {
+      NULL_STRING,
+      EOI_DOC_CODES,
+      GROUP_CLASSIFICATION_CODES,
       incorporationDocument: null,
       certificateOfGoodStandingDocument: null,
       otherDocuments: null,
-      NULL_STRING,
-      EOI_DOC_CODES,
     };
   },
   created() {

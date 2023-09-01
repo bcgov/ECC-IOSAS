@@ -520,7 +520,12 @@
               </v-radio-group>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row
+            v-if="
+              data.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupTwo
+            "
+          >
             <v-col cols="12">
               <v-label class="no-mb"
                 >For authorities applying for Group 2 classification, are there
@@ -535,7 +540,8 @@
                 inline
                 @change="validateAndPopulate"
                 :rules="
-                  data.iosas_groupclassification === groupTwoCode
+                  data.iosas_groupclassification ===
+                  GROUP_CLASSIFICATION_CODES.groupTwo
                     ? [rules.requiredRadio()]
                     : []
                 "
@@ -851,7 +857,10 @@ import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
 import { GOV_URL } from '../../utils/constants';
-import { EOI_DOC_CODES } from '../../utils/application';
+import {
+  EOI_DOC_CODES,
+  GROUP_CLASSIFICATION_CODES,
+} from '../../utils/application';
 import { formatLongName } from '../../utils/format';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
@@ -1064,7 +1073,7 @@ export default {
       rules: Rules,
       GOV_URL,
       EOI_DOC_CODES,
-      groupTwoCode: 100000000,
+      GROUP_CLASSIFICATION_CODES,
       // Used to populate confirmation Message
       authorityName: null,
       schoolYearLabel: null,

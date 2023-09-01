@@ -47,7 +47,7 @@
                   v-if="routeName && value === Object.values(item)[0]"
                   :to="{
                     name: routeName,
-                    params: { ...getRouteParams(value) },
+                    params: { id: value.split(' ')[1] },
                   }"
                   :target="'_self'"
                   class="router-link-exact-active"
@@ -77,7 +77,6 @@ export default {
     return {
       NULL_STRING,
       tableHeaders: [],
-      generalTabCode: 100000000,
     };
   },
   props: {
@@ -106,13 +105,6 @@ export default {
     this.getTableHeaders();
   },
   methods: {
-    getRouteParams(value) {
-      if (this.title === 'New School Applications') {
-        return { id: value.split(' ')[1], tab: this.generalTabCode };
-      } else {
-        return { id: value.split(' ')[1] };
-      }
-    },
     getNullMessage() {
       if (this.title === 'New School Applications') {
         return 'You dont currently have any active school applications. Your new school application will show up here after your Expression of Interest is approved.';

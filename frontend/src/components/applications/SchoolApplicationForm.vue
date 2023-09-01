@@ -387,11 +387,6 @@ export default {
     },
   },
   created() {
-    console.log(
-      this.getApplicationPickListOptions?.['iosas_portalapplicationstep']
-    );
-
-    console.log('CREATED??');
     this.isEditing =
       this.formData && this.formData?.statuscode === this.STATUS_CODES.draft;
 
@@ -418,7 +413,6 @@ export default {
       'addApplicationDocument',
       'setApplicationDocuments',
     ]),
-
     isTabDisabled(tab) {
       if (Number(tab) === this.TAB_CODES.preCertSubmission) {
         if (
@@ -445,9 +439,9 @@ export default {
     setTabValue() {
       const routeTabValue = Number(this.$route.params.tab);
       if (this.isEditing) {
-        if (!this.formData?.iosas_portalapplicationstep) {
+        if (!this.formData?.iosas_portalapplicationstep && !routeTabValue) {
           this.tab = this.TAB_CODES.general;
-        } else if (!this.isTabDisabled(routeTabValue)) {
+        } else if (routeTabValue && !this.isTabDisabled(routeTabValue)) {
           this.tab = routeTabValue;
         } else {
           this.tab = this.formData?.iosas_portalapplicationstep;

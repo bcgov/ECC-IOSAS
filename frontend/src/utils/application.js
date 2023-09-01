@@ -92,6 +92,15 @@ export const SCHOOL_APP_CODE_CODES = {
   creditOrSurityBondCode: 100000016,
 };
 
+export const GROUP_CLASSIFICATION_CODES = {
+  groupTwo: 100000000,
+  groupFour: 100000002,
+};
+
+export const AFFILIATION_CODES = {
+  other: 100000006,
+};
+
 export const STATUS_MAP = {
   'New (Submitted)': 'New',
   'In Progress (Send Confirmation of Receipt Email)': 'In Progress',

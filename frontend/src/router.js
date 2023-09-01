@@ -109,7 +109,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/school-application/:id/:tab',
+      path: '/school-application/:id/:tab?',
       name: 'schoolApplicationPage',
       component: SchoolApplicationPage,
       props: {},

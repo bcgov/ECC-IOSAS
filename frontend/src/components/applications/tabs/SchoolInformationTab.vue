@@ -283,7 +283,12 @@
           </v-radio-group>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row
+        v-if="
+          formData.iosas_groupclassification ===
+          GROUP_CLASSIFICATION_CODES.groupTwo
+        "
+      >
         <v-col cols="12">
           <v-label
             >For authorities applying for Group 2 classification, are there
@@ -297,7 +302,8 @@
             direction="horizontal"
             inline
             :rules="
-              formData.iosas_groupclassification === groupTwoCode
+              formData.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupTwo
                 ? [rules.requiredRadio()]
                 : []
             "
@@ -322,19 +328,16 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
-          <div
+          <v-checkbox
+            id="iosas_schoolaffiliation"
             v-for="item in getApplicationMultiPickListOptions[
               'iosas_schoolaffiliation'
             ]"
             :key="item.value"
-          >
-            <v-checkbox
-              v-model="formData.iosas_schoolaffiliation"
-              :value="item.value"
-              :label="item.label"
-              :rules="[rules.required()]"
-            />
-          </div>
+            v-model="formData.iosas_schoolaffiliation"
+            :value="item.value"
+            :label="item.label"
+          />
         </v-col>
       </v-row>
       <br />
@@ -348,7 +351,7 @@
             :maxlength="255"
             variant="outlined"
             :rules="
-              formData.iosas_schoolaffiliation.includes(otherAffiliationCode)
+              formData.iosas_schoolaffiliation.includes(AFFILIATION_CODES.other)
                 ? [rules.required()]
                 : []
             "
@@ -505,7 +508,12 @@
           </p>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row
+        v-if="
+          formData.iosas_groupclassification ===
+          GROUP_CLASSIFICATION_CODES.groupTwo
+        "
+      >
         <v-col cols="12">
           <v-label
             >For authorities applying for Group 2 classification, are there
@@ -568,6 +576,10 @@ import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
+import {
+  GROUP_CLASSIFICATION_CODES,
+  AFFILIATION_CODES,
+} from '../../../utils/application';
 export default {
   name: 'SchoolInformationTab',
   components: {},
@@ -585,9 +597,9 @@ export default {
   data: () => ({
     NULL_STRING,
     GOV_URL,
+    GROUP_CLASSIFICATION_CODES,
+    AFFILIATION_CODES,
     rules: Rules,
-    groupTwoCode: 100000000,
-    otherAffiliationCode: 100000006,
   }),
   mounted() {},
   computed: {

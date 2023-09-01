@@ -350,7 +350,10 @@ import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
 import { formatLongName } from '../../../utils/format';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
-import { SCHOOL_APP_CODE_CODES } from '../../../utils/application';
+import {
+  SCHOOL_APP_CODE_CODES,
+  GROUP_CLASSIFICATION_CODES,
+} from '../../../utils/application';
 
 export default {
   name: 'PreCertificationTab',
@@ -401,7 +404,7 @@ export default {
     NULL_STRING,
     rules: Rules,
     SCHOOL_APP_CODE_CODES,
-    groupFourCode: 100000002,
+    GROUP_CLASSIFICATION_CODES,
     preCertDocumentUpload: false,
     selectedDocumentOption: null,
 
@@ -448,7 +451,10 @@ export default {
       this.addApplicationDocument(document);
     },
     isGroupFour() {
-      return this.formData.iosas_groupclassification === this.groupFourCode;
+      return (
+        this.formData.iosas_groupclassification ===
+        this.GROUP_CLASSIFICATION_CODES.groupFour
+      );
     },
   },
 };
