@@ -168,37 +168,3 @@ export const GOV_URL = {
 };
 
 export const NULL_STRING = '-';
-
-export const EOI_DOC_CODES = {
-  incorporation: 100000000,
-  goodStanding: 100000001,
-  other: 100000002,
-};
-
-export const SCHOOL_APP_CODE_CODES = {
-  // DocumentTab documents
-  otherDocCode: 100000001,
-  schoolPolicyCode: 100000002,
-  businessPlanCode: 100000003,
-  confirmationOfEligibilityCode: 100000004,
-  tuitionRefundPolicyCode: 100000005,
-  businessReferencesCode: 100000006,
-  // Pre-CertificationTab documents
-  preCertOther: 100000013,
-  proofOfPurchaseCode: 100000010,
-  mulicipalComplianceCode: 100000011,
-  confimationWaterTestingCode: 100000012,
-  creditOrSurityBondCode: 100000016,
-};
-
-export const STATUS_MAP = {
-  'New (Submitted)': 'New',
-  'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
-  '1 - New App': 'New',
-  '2 - Draft App': 'Draft',
-  '3 - App Submitted': 'Submitted',
-  '4 - App Review': 'In Review',
-  '5 - Interview': 'Interview',
-  '6 - Pre-Certification': 'Pre-Certification',
-  '7 - Interim Certification': 'Interim Certification',
-};

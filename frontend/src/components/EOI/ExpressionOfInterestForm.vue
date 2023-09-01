@@ -850,7 +850,8 @@ import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
-import { GOV_URL, EOI_DOC_CODES } from '../../utils/constants';
+import { GOV_URL } from '../../utils/constants';
+import { EOI_DOC_CODES } from '../../utils/application';
 import { formatLongName } from '../../utils/format';
 
 import PrimaryButton from './../util/PrimaryButton.vue';

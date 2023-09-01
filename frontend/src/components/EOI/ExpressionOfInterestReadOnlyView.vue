@@ -295,7 +295,8 @@
 <script>
 import EOIFormHeader from './EOIFormHeader.vue';
 import { formatBooleanToYesNoString } from '../../utils/format';
-import { NULL_STRING, EOI_DOC_CODES } from '../../utils/constants';
+import { NULL_STRING } from '../../utils/constants';
+import { EOI_DOC_CODES } from '../../utils/application';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
   components: {

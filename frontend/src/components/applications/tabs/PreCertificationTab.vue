@@ -349,11 +349,8 @@ import { documentStore } from '../../../store/modules/document';
 import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
 import { formatLongName } from '../../../utils/format';
-import {
-  GOV_URL,
-  SCHOOL_APP_CODE_CODES,
-  NULL_STRING,
-} from '../../../utils/constants';
+import { GOV_URL, NULL_STRING } from '../../../utils/constants';
+import { SCHOOL_APP_CODE_CODES } from '../../../utils/application';
 
 export default {
   name: 'PreCertificationTab',

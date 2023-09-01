@@ -571,7 +571,7 @@ import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolInformationTab',
   components: {},
-  emits: ['validateAndPopulate'],
+
   props: {
     formData: {
       type: Object,

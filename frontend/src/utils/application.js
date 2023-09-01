@@ -1,3 +1,109 @@
+export const TAB_CODES = {
+  general: 100000000,
+  schoolInfo: 100000001,
+  schoolAuthority: 100000002,
+  studentEnrolment: 100000003,
+  schoolSemester: 100000004,
+  groupCertification: 100000005,
+  schoolFacility: 100000006,
+  schoolPolicies: 100000007,
+  educationalProgram: 100000008,
+  teacherCertification: 100000009,
+  documents: 100000010,
+  submission: 100000011,
+  preCertSubmission: 100000012,
+};
+
+export const STATUS_CODES = {
+  draft: 100000001,
+  preCert: 100000009,
+};
+
+/**
+ * @type {Array} TAB_CONTENT is used to render Vuetify Tab/Window in SchoolApplicationForm.vue 
+ * @property {number} tab - value that matches tab.value
+ * @property {string} component - matches the name of the component imported, 
+ * 
+ *  <v-window-item
+        v-for="t in TAB_CONTENT"
+        :key="t.tab"
+        :value="t.tab"
+        :transition="false"
+    >
+        <component :is="t.component"/>
+    </v-window-item>
+ * 
+ * 
+ * */
+export const TAB_CONTENT = [
+  {
+    tab: TAB_CODES.general,
+    component: 'SchoolGeneralTab',
+  },
+  {
+    tab: TAB_CODES.schoolInfo,
+    component: 'SchoolInformationTab',
+  },
+  {
+    tab: TAB_CODES.schoolAuthority,
+    component: 'SchoolAuthorityInformationTab',
+  },
+  {
+    tab: TAB_CODES.studentEnrolment,
+    component: 'StudentEnrolmentTab',
+  },
+  {
+    tab: TAB_CODES.schoolSemester,
+    component: 'SchoolSemesterTab',
+  },
+  {
+    tab: TAB_CODES.groupCertification,
+    component: 'GroupCertificationTab',
+  },
+  { tab: TAB_CODES.schoolFacility, component: 'SchoolFacilityTab' },
+  { tab: TAB_CODES.schoolPolicies, component: 'SchoolPoliciesTab' },
+  { tab: TAB_CODES.educationalProgram, component: 'EducationalProgramTab' },
+  { tab: TAB_CODES.teacherCertification, component: 'TeacherCertificationTab' },
+  { tab: TAB_CODES.documents, component: 'DocumentTab' },
+  { tab: TAB_CODES.submission, component: 'SubmissionTab' },
+  {
+    tab: TAB_CODES.preCertSubmission,
+    component: 'PreCertificationTab',
+  },
+];
+
+export const EOI_DOC_CODES = {
+  incorporation: 100000000,
+  goodStanding: 100000001,
+  other: 100000002,
+};
+
+export const SCHOOL_APP_CODE_CODES = {
+  otherDocCode: 100000001,
+  schoolPolicyCode: 100000002,
+  businessPlanCode: 100000003,
+  confirmationOfEligibilityCode: 100000004,
+  tuitionRefundPolicyCode: 100000005,
+  businessReferencesCode: 100000006,
+  preCertOther: 100000013,
+  proofOfPurchaseCode: 100000010,
+  mulicipalComplianceCode: 100000011,
+  confimationWaterTestingCode: 100000012,
+  creditOrSurityBondCode: 100000016,
+};
+
+export const STATUS_MAP = {
+  'New (Submitted)': 'New',
+  'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
+  '1 - New App': 'New',
+  '2 - Draft App': 'Draft',
+  '3 - App Submitted': 'Submitted',
+  '4 - App Review': 'In Review',
+  '5 - Interview': 'Interview',
+  '6 - Pre-Certification': 'Pre-Certification',
+  '7 - Interim Certification': 'Interim Certification',
+};
+
 const generalTabBoolFields = [
   'iosas_nopromotionofinappropriatedoctrines',
   'iosas_willcomplywithenactmentsofbc',
@@ -66,11 +172,17 @@ const schoolPolicyTabPickListFields = [
   'iosas_specialeducationpolicy',
 ];
 
-export const allPolicyTabFields = [
+export const POLICY_TAB_FIELDS = [
   ...schoolPolicyTabBoolFields,
   ...schoolPolicyTabPickListFields,
 ];
 
+/**
+ * By default, when a School application is created, and booleans are defaulted to false.
+ * This method deletes selected booleans, which forces the user to pupulate them as they
+ * progress through the school application form
+ * @param {*} formData
+ */
 export async function setChoiceFieldsToNull(formData) {
   let updatedData = formData;
 

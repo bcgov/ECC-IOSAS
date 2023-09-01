@@ -68,7 +68,7 @@
               <v-divider></v-divider>
               <v-window v-model="tab">
                 <v-window-item
-                  v-for="t in tabContent"
+                  v-for="t in TAB_CONTENT"
                   :key="t.tab"
                   :value="t.tab"
                   :transition="false"
@@ -77,7 +77,7 @@
                     <component
                       :is="t.component"
                       :formData="formData"
-                      :draftCode="draftStatusCode"
+                      :draftCode="STATUS_CODES.draft"
                       :isEditing="isEditing"
                       :isDocumentsLoading="isDocumentsLoading"
                       @validateAndPopulate="validateAndPopulateRadioButtons"
@@ -86,7 +86,7 @@
                     />
                   </keep-alive>
                 </v-window-item>
-                <v-row v-if="isTab(100000011)">
+                <v-row v-if="isTab(TAB_CODES.submission)">
                   <v-col cols="12" sm="12" md="12" xs="12">
                     <v-checkbox
                       v-model="applicationConfirmation"
@@ -96,7 +96,7 @@
                   </v-col>
                 </v-row>
 
-                <v-row v-if="isTab(100000012)">
+                <v-row v-if="isTab(TAB_CODES.preCertSubmission)">
                   <v-col cols="12" sm="12" md="12" xs="12">
                     <v-checkbox
                       v-model="formData.iosas_precertdocumentssubmitted"
@@ -108,7 +108,10 @@
               </v-window>
 
               <v-container
-                v-if="isEditing || (isPreCertEditable && isTab(100000012))"
+                v-if="
+                  isEditing ||
+                  (isPreCertEditable && isTab(TAB_CODES.preCertSubmission))
+                "
               >
                 <v-row justify="center" align="center" v-if="showError">
                   <v-col>
@@ -133,7 +136,7 @@
                   />
 
                   <v-btn
-                    v-if="isTab(100000011)"
+                    v-if="isTab(TAB_CODES.submission)"
                     type="submit"
                     primary
                     class="mt-2 submit-button"
@@ -142,7 +145,7 @@
                     >Submit</v-btn
                   >
                   <v-btn
-                    v-if="isTab(100000012)"
+                    v-if="isTab(TAB_CODES.preCertSubmission)"
                     type="submit"
                     primary
                     class="mt-2 submit-button"
@@ -167,7 +170,7 @@
             <v-container>
               <v-row class="d-flex justify-space-between">
                 <PrimaryButton
-                  :disabled="isTab(100000000)"
+                  :disabled="isTab(TAB_CODES.general)"
                   type="submit"
                   secondary
                   text="Previous"
@@ -201,6 +204,7 @@ import { applicationsStore } from './../../store/modules/applications';
 import { documentStore } from './../../store/modules/document';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
+import { TAB_CODES, STATUS_CODES, TAB_CONTENT } from '../../utils/application';
 
 import DocumentUpload from '../common/DocumentUpload.vue';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
@@ -254,58 +258,19 @@ export default {
   },
   data() {
     return {
-      draftStatusCode: 100000001,
-      preCertStatusCode: 100000009,
+      TAB_CODES,
+      STATUS_CODES,
+      TAB_CONTENT,
       isPreCertDisabled: true,
       isPreCertEditable: false,
       drawer: false,
       isEditing: false,
       isFormValid: true,
       showError: false,
-      defaultStatus: 'Submitted',
       applicationConfirmation: false,
       confirmDeleteDocument: false,
       rules: Rules,
-      tabContent: [
-        {
-          tab: 100000000,
-          component: 'SchoolGeneralTab',
-        },
-        {
-          tab: 100000001,
-          component: 'SchoolInformationTab',
-        },
-        {
-          tab: 100000002,
-          component: 'SchoolAuthorityInformationTab',
-        },
-        {
-          tab: 100000003,
-          component: 'StudentEnrolmentTab',
-        },
-        {
-          tab: 100000004,
-          component: 'SchoolSemesterTab',
-        },
-        {
-          tab: 100000005,
-          component: 'GroupCertificationTab',
-        },
-        { tab: 100000006, component: 'SchoolFacilityTab' },
-        { tab: 100000007, component: 'SchoolPoliciesTab' },
-        { tab: 100000008, component: 'EducationalProgramTab' },
-        { tab: 100000009, component: 'TeacherCertificationTab' },
-        { tab: 100000010, component: 'DocumentTab' },
-        { tab: 100000011, component: 'SubmissionTab' },
-        {
-          tab: 100000012,
-          component: 'PreCertificationTab',
-        },
-      ],
-      tab: 100000000,
-      currentTab: 100000000,
-      generalTabValue: 100000000,
-      submissionTabValue: 100000011,
+      tab: TAB_CODES.general,
       isNextDisabled: false,
       isDocumentsLoading: false,
       schoolYearLabel: null,
@@ -316,9 +281,9 @@ export default {
       if (to.params.tab !== from.params.tab) {
         this.tab = Number(to.params.tab);
         if (
-          (Number(to.params.tab) === this.submissionTabValue &&
+          (Number(to.params.tab) === this.TAB_CODES.submission &&
             this.isPreCertDisabled) ||
-          this.isTab(100000012)
+          this.isTab(this.TAB_CODES.preCertSubmission)
         ) {
           this.isNextDisabled = true;
         } else {
@@ -428,16 +393,16 @@ export default {
 
     console.log('CREATED??');
     this.isEditing =
-      this.formData && this.formData?.statuscode === this.draftStatusCode;
+      this.formData && this.formData?.statuscode === this.STATUS_CODES.draft;
 
     this.isPreCertDisabled =
       this.formData &&
-      this.formData?.statuscode !== this.preCertStatusCode &&
+      this.formData?.statuscode !== this.STATUS_CODES.preCert &&
       !this.formData.iosas_precertdocumentssubmitted;
 
     this.isPreCertEditable =
       this.formData &&
-      this.formData?.statuscode === this.preCertStatusCode &&
+      this.formData?.statuscode === this.STATUS_CODES.preCert &&
       !this.formData?.iosas_precertdocumentssubmitted;
     // Display confirmation message as disabled/populated in viewOnly mode
     this.applicationConfirmation = !this.isEditing;
@@ -455,7 +420,7 @@ export default {
     ]),
 
     isTabDisabled(tab) {
-      if (Number(tab) === 100000012) {
+      if (Number(tab) === this.TAB_CODES.preCertSubmission) {
         if (
           this.isPreCertEditable ||
           this.formData.iosas_precertdocumentssubmitted
@@ -481,17 +446,20 @@ export default {
       const routeTabValue = Number(this.$route.params.tab);
       if (this.isEditing) {
         if (!this.formData?.iosas_portalapplicationstep) {
-          this.tab = this.generalTabValue;
+          this.tab = this.TAB_CODES.general;
         } else if (!this.isTabDisabled(routeTabValue)) {
           this.tab = routeTabValue;
         } else {
           this.tab = this.formData?.iosas_portalapplicationstep;
         }
       } else {
-        if (this.isPreCertDisabled && routeTabValue === 100000012) {
-          this.tab = this.generalTabValue;
+        if (
+          this.isPreCertDisabled &&
+          routeTabValue === this.TAB_CODES.preCertSubmission
+        ) {
+          this.tab = this.TAB_CODES.general;
         } else if (this.isPreCertEditable) {
-          this.tab = 100000012;
+          this.tab = this.TAB_CODES.preCertSubmission;
         } else {
           this.tab = routeTabValue;
         }

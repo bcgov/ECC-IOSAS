@@ -4,7 +4,7 @@ import { documentStore } from './document';
 import { formatStringToNumericArray } from '../../utils/format';
 import { setChoiceFieldsToNull } from '../../utils/application';
 import { defineStore } from 'pinia';
-import { STATUS_MAP } from '../../utils/constants';
+import { STATUS_MAP } from '../../utils/application';
 
 const updateStatusName = (status) => {
   return STATUS_MAP[status] ? STATUS_MAP[status] : status;

@@ -688,7 +688,7 @@
             v-model="formData.iosas_ifnotoanyschoolpolicyexplainwhy"
             variant="outlined"
             color="rgb(59, 153, 252)"
-            :rules="[rules.requiredIfNo(formData, allPolicyTabFields)]"
+            :rules="[rules.requiredIfNo(formData, POLICY_TAB_FIELDS)]"
           />
         </v-col>
       </v-row>
@@ -1108,7 +1108,7 @@ import * as Rules from '../../../utils/institute/formRules';
 import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
-import { allPolicyTabFields } from '../../../utils/application';
+import { POLICY_TAB_FIELDS } from '../../../utils/application';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {
   name: 'SchoolPoliciesTab',
@@ -1126,7 +1126,7 @@ export default {
   data: () => ({
     NULL_STRING,
     GOV_URL,
-    allPolicyTabFields,
+    POLICY_TAB_FIELDS,
     rules: Rules,
   }),
   computed: {
