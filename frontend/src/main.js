@@ -4,7 +4,7 @@ import { createMetaManager } from 'vue-meta';
 import App from './App.vue';
 import router from './router';
 import 'regenerator-runtime/runtime';
-import {createPinia} from 'pinia';
+import { createPinia } from 'pinia';
 import moment from 'moment';
 import * as colors from 'vuetify/lib/util/colors';
 import styles from 'vuetify/styles';
@@ -21,26 +21,26 @@ const myCustomLightTheme = {
     primary: '#003366',
   },
   variables: {
-   'tab-max-width': '100%'
-  }
+    'tab-max-width': '100%',
+  },
 };
 
 const vuetify = createVuetify({
   icons: {
-    defaultSet: 'mdi'
+    defaultSet: 'mdi',
   },
   theme: {
     defaultTheme: 'myCustomLightTheme',
     themes: {
       myCustomLightTheme,
-    }
+    },
   },
   components: {
     ...labs,
     ...components,
     ...directives,
     ...styles,
-    ...colors
+    ...colors,
   },
 });
 const pinia = createPinia();
@@ -48,4 +48,10 @@ const pinia = createPinia();
 const newApp = createApp(App);
 
 newApp.provide('$moment', moment);
-newApp.use(router).use(createMetaManager()).use(pinia).use(vuetify).use(component).mount('#app');
+newApp
+  .use(router)
+  .use(createMetaManager())
+  .use(pinia)
+  .use(vuetify)
+  .use(component)
+  .mount('#app');

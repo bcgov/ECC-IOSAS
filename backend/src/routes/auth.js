@@ -88,6 +88,8 @@ addBaseRouterGet(
 
 //removes tokens and destroys session
 router.get('/logout', async (req, res, next) => {
+  console.log('!@#%!#$^!#$^ LOGOUT CALLED ^%@$%&@%&@$%');
+  console.log('!#$^!#$^@$%^ req.query $#^!#$^!@%^', req.query);
   req.logout(function (err) {
     if (err) {
       return next(err);

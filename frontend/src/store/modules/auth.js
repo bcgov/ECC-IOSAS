@@ -97,18 +97,17 @@ export const authStore = defineStore('auth', {
     async getJwtToken() {
       await this.setError(false);
       if (isFollowUpVisit(this.jwtToken)) {
-        if (isExpiredToken(this.jwtToken)) {
-          await this.logout();
-          return;
-        }
-
-        const response = await AuthService.refreshAuthToken(this.jwtToken);
-        if (response.jwtFrontend) {
-          await this.setJwtToken(response.jwtFrontend);
-          ApiService.setAuthHeader(response.jwtFrontend);
-        } else {
-          throw 'No jwtFrontend';
-        }
+        // if (isExpiredToken(this.jwtToken)) {
+        //   await this.logout();
+        //   return;
+        // }
+        // const response = await AuthService.refreshAuthToken(this.jwtToken);
+        // if (response.jwtFrontend) {
+        //   await this.setJwtToken(response.jwtFrontend);
+        //   ApiService.setAuthHeader(response.jwtFrontend);
+        // } else {
+        //   throw 'No jwtFrontend';
+        // }
       } else {
         //inital login and redirect
         const response = await AuthService.getAuthToken();
