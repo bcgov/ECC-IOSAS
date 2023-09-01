@@ -14,9 +14,13 @@ export const TAB_CODES = {
   preCertSubmission: 100000012,
 };
 
-export const STATUS_CODES = {
+export const APP_STATUS_CODES = {
   draft: 100000001,
   preCert: 100000009,
+};
+
+export const EOI_STATUS_CODES = {
+  draft: 100000006,
 };
 
 /**

@@ -24,10 +24,7 @@
           <v-col cols="12" sm="12" md="12" lg="9" xs="12">
             <div class="form-container">
               <div v-if="isViewOnly">
-                <ExpressionOfInterestReadOnlyView
-                  :eoi="eoi"
-                  :draftStatusCode="draftStatusCode"
-                />
+                <ExpressionOfInterestReadOnlyView :eoi="eoi" />
               </div>
               <div v-else>
                 <ExpressionOfInterestForm
@@ -35,7 +32,6 @@
                   :eoi="eoi"
                   @updateEOIData="updateEOIData"
                   :isLoading="isLoading"
-                  :draftStatusCode="draftStatusCode"
                   @setIsLoading="setIsLoading"
                 />
               </div>
@@ -58,6 +54,7 @@ import ContactCard from '../common/ContactCard.vue';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 import ApiService from '../../common/apiService';
 import alertMixin from './../../mixins/alertMixin';
+import { EOI_STATUS_CODES } from '../../utils/application';
 import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 import { documentStore } from '../../store/modules/document';
@@ -78,7 +75,7 @@ export default {
       handler(val, oldVal) {
         if (val) {
           this.eoi = val;
-          if (val.iosas_reviewstatus === this.draftStatusCode) {
+          if (val.iosas_reviewstatus === this.EOI_STATUS_CODES.draft) {
             this.isViewOnly = false;
           }
         }
@@ -88,7 +85,7 @@ export default {
   data: () => ({
     isViewOnly: false,
     isLoading: true,
-    draftStatusCode: 100000006,
+    EOI_STATUS_CODES,
     eoi: null,
     items: [
       {
@@ -111,7 +108,8 @@ export default {
   async created() {
     await applicationsStore().getEOIApplicationById(this.$route.params.id);
     this.eoi = this.getEOI;
-    this.isViewOnly = this.eoi.iosas_reviewstatus !== this.draftStatusCode;
+    this.isViewOnly =
+      this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
     this.isLoading = false;
   },
   methods: {
@@ -128,7 +126,7 @@ export default {
         .then((res) => {
           this.eoi = this.getEOI;
           this.isViewOnly =
-            this.eoi.iosas_reviewstatus !== this.draftStatusCode;
+            this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
 
           return this.eoi;
         });

@@ -7,7 +7,7 @@
       <br />
       <v-divider></v-divider>
       <div>
-        <EOIFormHeader :eoi="eoi" :draftStatusCode="draftStatusCode" />
+        <EOIFormHeader :eoi="eoi" />
         <v-divider></v-divider>
         <h4>School Authority Information</h4>
         <br />
@@ -313,10 +313,6 @@ export default {
   props: {
     eoi: {
       type: Object,
-      required: true,
-    },
-    draftStatusCode: {
-      type: Number,
       required: true,
     },
   },

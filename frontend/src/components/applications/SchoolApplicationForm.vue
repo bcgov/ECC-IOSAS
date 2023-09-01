@@ -77,7 +77,7 @@
                     <component
                       :is="t.component"
                       :formData="formData"
-                      :draftCode="STATUS_CODES.draft"
+                      :draftCode="APP_STATUS_CODES.draft"
                       :isEditing="isEditing"
                       :isDocumentsLoading="isDocumentsLoading"
                       @validateAndPopulate="validateAndPopulateRadioButtons"
@@ -204,7 +204,11 @@ import { applicationsStore } from './../../store/modules/applications';
 import { documentStore } from './../../store/modules/document';
 import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
-import { TAB_CODES, STATUS_CODES, TAB_CONTENT } from '../../utils/application';
+import {
+  TAB_CODES,
+  APP_STATUS_CODES,
+  TAB_CONTENT,
+} from '../../utils/application';
 
 import DocumentUpload from '../common/DocumentUpload.vue';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
@@ -259,7 +263,7 @@ export default {
   data() {
     return {
       TAB_CODES,
-      STATUS_CODES,
+      APP_STATUS_CODES,
       TAB_CONTENT,
       isPreCertDisabled: true,
       isPreCertEditable: false,
@@ -388,16 +392,17 @@ export default {
   },
   created() {
     this.isEditing =
-      this.formData && this.formData?.statuscode === this.STATUS_CODES.draft;
+      this.formData &&
+      this.formData?.statuscode === this.APP_STATUS_CODES.draft;
 
     this.isPreCertDisabled =
       this.formData &&
-      this.formData?.statuscode !== this.STATUS_CODES.preCert &&
+      this.formData?.statuscode !== this.APP_STATUS_CODES.preCert &&
       !this.formData.iosas_precertdocumentssubmitted;
 
     this.isPreCertEditable =
       this.formData &&
-      this.formData?.statuscode === this.STATUS_CODES.preCert &&
+      this.formData?.statuscode === this.APP_STATUS_CODES.preCert &&
       !this.formData?.iosas_precertdocumentssubmitted;
     // Display confirmation message as disabled/populated in viewOnly mode
     this.applicationConfirmation = !this.isEditing;

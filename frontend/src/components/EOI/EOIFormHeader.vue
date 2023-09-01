@@ -25,6 +25,7 @@
 
 <script>
 import { NULL_STRING } from '../../utils/constants';
+import { EOI_STATUS_CODES } from '../../utils/application';
 export default {
   name: 'EOIFormHeader',
   props: {
@@ -32,17 +33,14 @@ export default {
       type: Object,
       required: true,
     },
-    draftStatusCode: {
-      type: Number,
-      required: true,
-    },
   },
   data: () => ({
+    EOI_STATUS_CODES,
     NULL_STRING,
   }),
   methods: {
     getCorrectDate() {
-      return this.eoi.iosas_reviewstatus === this.draftStatusCode
+      return this.eoi.iosas_reviewstatus === this.EOI_STATUS_CODES.draft
         ? {
             label: 'Created Date',
             date:
