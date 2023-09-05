@@ -29,7 +29,7 @@
         <v-divider></v-divider>
         <div>
           <div v-if="!isNew && data">
-            <EOIFormHeader :eoi="data" :draftStatusCode="draftStatusCode" />
+            <EOIFormHeader :eoi="data" />
             <v-divider></v-divider>
           </div>
           <h4>School Authority Information</h4>
@@ -520,7 +520,12 @@
               </v-radio-group>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row
+            v-if="
+              data.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupTwo
+            "
+          >
             <v-col cols="12">
               <v-label class="no-mb"
                 >For authorities applying for Group 2 classification, are there
@@ -535,7 +540,8 @@
                 inline
                 @change="validateAndPopulate"
                 :rules="
-                  data.iosas_groupclassification === groupTwoCode
+                  data.iosas_groupclassification ===
+                  GROUP_CLASSIFICATION_CODES.groupTwo
                     ? [rules.requiredRadio()]
                     : []
                 "
@@ -591,7 +597,7 @@
                 :width="7"
                 color="primary"
                 indeterminate
-                :active="isLoading"
+                :active="isDocumentsLoading"
               />
             </v-col>
           </v-row>
@@ -850,7 +856,12 @@ import alertMixin from './../../mixins/alertMixin';
 import * as Rules from './../../utils/institute/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
-import { GOV_URL, EOI_DOC_CODES } from '../../utils/constants';
+import { GOV_URL } from '../../utils/constants';
+import {
+  EOI_DOC_CODES,
+  GROUP_CLASSIFICATION_CODES,
+  EOI_STATUS_CODES,
+} from '../../utils/application';
 import { formatLongName } from '../../utils/format';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
@@ -877,10 +888,6 @@ export default {
     },
     isLoading: {
       type: Boolean,
-      required: true,
-    },
-    draftStatusCode: {
-      type: Number,
       required: true,
     },
     isNew: {
@@ -916,7 +923,7 @@ export default {
     'data._iosas_edu_year_value': {
       handler(val) {
         if (!this.schoolYearLabel && val) {
-          const matchedSchoolYear = this.getActiveSchoolYearSelect.find(
+          const matchedSchoolYear = this.getSchoolYears.find(
             ({ value }) => value === val
           );
           this.schoolYearLabel = matchedSchoolYear.year?.iosas_label;
@@ -997,11 +1004,7 @@ export default {
     },
     'data.iosas_existingauthority': {
       handler(val) {
-        if (
-          !val &&
-          this.data._iosas_edu_schoolauthority_value &&
-          this.populateAndDisableAuthorityAddress
-        ) {
+        if (!val) {
           this.populateAndDisableAuthorityAddress = false;
           return (this.data = {
             ...this.data,
@@ -1019,7 +1022,7 @@ export default {
     },
     isFormValid: {
       handler(val) {
-        if (val) {
+        if (val || val === null) {
           this.showError = false;
         } else if (val === false) {
           this.showError = true;
@@ -1067,7 +1070,8 @@ export default {
       rules: Rules,
       GOV_URL,
       EOI_DOC_CODES,
-      groupTwoCode: 100000000,
+      EOI_STATUS_CODES,
+      GROUP_CLASSIFICATION_CODES,
       // Used to populate confirmation Message
       authorityName: null,
       schoolYearLabel: null,
@@ -1104,6 +1108,7 @@ export default {
       'getEOIPickListOptions',
       'getDocumentPickListOptions',
       'getSchoolAuthorityListOptions',
+      'getSchoolYears',
     ]),
     ...mapState(applicationsStore, ['setConfirmationMessage']),
     ...mapState(authStore, ['isAuthenticated', 'contactInfo', 'userInfo']),
@@ -1123,7 +1128,8 @@ export default {
   created() {
     this.data = this.isNew ? this.data : this.eoi;
     this.isEditing =
-      this.isNew || this.eoi?.iosas_reviewstatus === this.draftStatusCode;
+      this.isNew ||
+      this.eoi?.iosas_reviewstatus === this.EOI_STATUS_CODES.draft;
 
     if (this.data?.documents?.length > 0) {
       this.documents = [...this.data.documents];
@@ -1256,7 +1262,6 @@ export default {
             );
             this.$router.push({
               name: 'applicationConfirmation',
-              params: { type: 'EOI' },
             });
           })
           .catch((error) => {
@@ -1324,7 +1329,6 @@ export default {
             );
             this.$router.push({
               name: 'applicationConfirmation',
-              params: { type: 'EOI' },
             });
           })
           .catch((error) => {
@@ -1410,9 +1414,6 @@ export default {
               );
             });
         } else {
-          // const filteredDocuments = this.documents.filter(({ id }) => {
-          //   return id !== document.id;
-          // });
           this.documents = filteredDocuments;
           this.isDocumentsLoading = false;
           return this.documents;
@@ -1477,9 +1478,6 @@ export default {
 }
 .sm {
   font-size: 14px;
-}
-.block {
-  display: block;
 }
 .error {
   :deep(.dp__input) {

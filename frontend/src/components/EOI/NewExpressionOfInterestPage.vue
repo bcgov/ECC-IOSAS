@@ -28,7 +28,6 @@
                 <ExpressionOfInterestForm
                   :isNew="true"
                   :isLoading="isLoading"
-                  :draftStatusCode="draftStatusCode"
                   @setIsLoading="setIsLoading"
                 />
               </div>
@@ -60,7 +59,6 @@ export default {
   },
   data: () => ({
     isLoading: false,
-    draftStatusCode: 100000006,
     items: [
       {
         title: 'Dashboard',

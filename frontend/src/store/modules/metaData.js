@@ -22,6 +22,11 @@ export const metaDataStore = defineStore('metaData', {
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
+      return state.activeSchoolYears.filter(
+        ({ year }) => year.iosas_currentapplicationsyear
+      );
+    },
+    getSchoolYears: (state) => {
       return state.activeSchoolYears;
     },
     getEOIPickListOptions: (state) => state.EOIPickListOptions,
@@ -52,17 +57,11 @@ export const metaDataStore = defineStore('metaData', {
       return list;
     },
     async setActiveSchoolYears(response) {
-      this.activeSchoolYears = response
-        .filter(
-          (code) =>
-            code['statuscode@OData.Community.Display.V1.FormattedValue'] ===
-            'Current'
-        )
-        .map((element) => ({
-          value: element.edu_yearid,
-          label: element.edu_name,
-          year: element,
-        }));
+      this.activeSchoolYears = response.map((element) => ({
+        value: element.edu_yearid,
+        label: element.edu_name,
+        year: element,
+      }));
     },
     async setEOIPickListOptions(response) {
       this.EOIPickListOptions = await this.formatPickLists(response);

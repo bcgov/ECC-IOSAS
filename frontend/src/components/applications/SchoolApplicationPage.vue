@@ -24,6 +24,7 @@
         :isLoading="isLoading"
         @setIsLoading="setIsLoading"
         @updateData="updateData"
+        @handleUploadDocuments="handleUploadDocuments"
       />
     </div>
   </v-container>
@@ -32,9 +33,11 @@
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
 import ApplicationService from '../../common/applicationService';
+import ApiService from '../../common/ApiService';
 import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
+import { formatArrayToString } from '../../utils/format';
 
 export default {
   name: 'SchoolApplicationPage',
@@ -65,21 +68,21 @@ export default {
     this.fetchAppData();
   },
   methods: {
+    formatArrayToString,
     setIsLoading(value) {
       this.isLoading = value;
-    },
-    convertToString(data) {
-      return data.length > 0 ? data.toString() : null;
     },
     formatPayload(payload) {
       // Convert array to comma seperated string
       return {
         ...payload,
-        iosas_schoolaffiliation: this.convertToString(
+        iosas_schoolaffiliation: this.formatArrayToString(
           payload.iosas_schoolaffiliation
         ),
-        iosas_semestertype: this.convertToString(payload.iosas_semestertype),
-        iosas_additionalprograms: this.convertToString(
+        iosas_semestertype: this.formatArrayToString(
+          payload.iosas_semestertype
+        ),
+        iosas_additionalprograms: this.formatArrayToString(
           payload.iosas_additionalprograms
         ),
       };
@@ -92,10 +95,32 @@ export default {
           this.applicationData = this.getSchoolApplication;
 
           this.isLoading = false;
-          return this.applicationData;
         });
     },
-    async updateData(id, payload, isSubmitted) {
+    async handleUploadDocuments(appID, documents) {
+      const documentsNotUploaded = documents.filter((doc) => doc.content);
+      Promise.all(
+        documentsNotUploaded.map(async (document) => {
+          const payload = {
+            ...document,
+            regardingId: appID,
+            regardingType: 'iosas_application',
+          };
+          await ApiService.uploadFile(payload)
+            .then((response) => {
+              return response;
+            })
+            .catch((error) => {
+              this.setFailureAlert(
+                error?.response?.data?.message
+                  ? error?.response?.data?.message
+                  : 'An error occurred while saving the expression of Interest. Please try again later.'
+              );
+            });
+        })
+      );
+    },
+    async updateData(id, payload, documents, isSubmitted = null) {
       try {
         this.isLoading = true;
         const updateResponse = await ApplicationService.updateSchoolApplication(
@@ -104,13 +129,29 @@ export default {
           isSubmitted
         );
         if (updateResponse.data) {
-          if (isSubmitted) {
+          if (documents.length) {
+            await this.handleUploadDocuments(
+              payload.iosas_applicationid,
+              documents
+            );
+          }
+          if (
+            isSubmitted ||
+            (isSubmitted === null && payload.iosas_precertdocumentssubmitted)
+          ) {
             this.$router.push({
               name: 'applicationConfirmation',
-              params: { type: 'APP' },
             });
           } else {
             this.isLoading = false;
+            this.$router.replace({
+              name: 'schoolApplicationPage',
+              params: {
+                id: this.$route.params.id,
+                tab: payload.iosas_portalapplicationstep,
+              },
+            });
+
             await this.fetchAppData();
 
             this.setSuccessAlert(
@@ -121,7 +162,7 @@ export default {
       } catch (error) {
         this.isLoading = false;
         this.setFailureAlert(
-          `An error occurred while trying to update the school ppplication ${payload.iosas_applicationnumber}. Please try again later.`
+          `An error occurred while trying to update the school application ${payload.iosas_applicationnumber}. Please try again later.`
         );
         throw error;
       }

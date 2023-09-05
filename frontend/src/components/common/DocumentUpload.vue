@@ -36,14 +36,7 @@
         <!--^^^ @click event to solve issue when adding 2 files with the same name back to back-->
         <!--https://stackoverflow.com/questions/54124977/vuejs-input-file-selection-event-not-firing-upon-selecting-the-same-file-->
       </v-form>
-      <v-alert
-        v-model="alert"
-        dense
-        outlined
-        dismissible
-        :class="alertType"
-        class="mb-3"
-      >
+      <v-alert type="error" dense variant="outlined" v-if="alertType">
         {{ alertMessage }}
       </v-alert>
     </v-card-text>

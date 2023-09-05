@@ -2,25 +2,23 @@
   <v-container>
     <h4>General</h4>
     <br />
+    <v-row>
+      <v-col cols="12" sm="12" md="4" xs="12">
+        <v-label>Application Number </v-label>
+        <p>{{ formData.iosas_applicationnumber }}</p>
+      </v-col>
+      <v-col cols="12" sm="12" md="4" xs="12">
+        <v-label>{{ getCorrectDate().label }}</v-label>
+        <p>{{ getCorrectDate().date }}</p>
+      </v-col>
+      <v-col cols="12" sm="12" md="4" xs="12">
+        <v-label>Status </v-label>
+        <p>
+          {{ formData['statuscode@OData.Community.Display.V1.FormattedValue'] }}
+        </p>
+      </v-col>
+    </v-row>
     <div v-if="isEditing">
-      <v-row>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          <v-label>Application Number </v-label>
-          <p>{{ formData.iosas_applicationnumber }}</p>
-        </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          <v-label>Status </v-label>
-          <p>
-            {{
-              formData['statuscode@OData.Community.Display.V1.FormattedValue']
-            }}
-          </p>
-        </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          <v-label>{{ getCorrectDate().label }}</v-label>
-          <p>{{ getCorrectDate().date }}</p>
-        </v-col>
-      </v-row>
       <br />
       <v-label
         ><strong
@@ -113,24 +111,6 @@
       </v-row>
     </div>
     <div v-else>
-      <v-row>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          <v-label>Application Number </v-label>
-          <p>{{ formData.iosas_applicationnumber }}</p>
-        </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          <v-label>Status </v-label>
-          <p>
-            {{
-              formData['statuscode@OData.Community.Display.V1.FormattedValue']
-            }}
-          </p>
-        </v-col>
-        <v-col cols="12" sm="12" md="4" xs="12">
-          <v-label>{{ getCorrectDate().label }}</v-label>
-          <p>{{ getCorrectDate().date }}</p>
-        </v-col>
-      </v-row>
       <br />
       <v-label
         ><strong
@@ -215,6 +195,7 @@ import * as Rules from '../../../utils/institute/formRules';
 import { GOV_URL } from '../../../utils/constants';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
+import { APP_STATUS_CODES } from '../../../utils/application';
 export default {
   name: 'SchoolGeneralTab',
   emits: ['validateAndPopulate'],
@@ -227,20 +208,17 @@ export default {
       type: Boolean,
       required: true,
     },
-    draftCode: {
-      type: Number,
-      required: true,
-    },
   },
   data: () => ({
     NULL_STRING,
+    APP_STATUS_CODES,
     GOV_URL,
     rules: Rules,
   }),
   methods: {
     formatBooleanToYesNoString,
     getCorrectDate() {
-      return this.formData?.statuscode === this.draftCode
+      return this.formData?.statuscode === this.APP_STATUS_CODES.draft
         ? {
             label: 'Created Date',
             date: this.formData[

@@ -34,7 +34,7 @@ const email = (message = 'E-mail must be valid') => {
  * @param {String} message
  * @returns Function
  */
-const number = (message = 'Must be a number') => {
+const number = (message = 'Must be a positive number') => {
   return (v) => !v || /^\d+$/.test(v) || message;
 };
 
@@ -77,7 +77,13 @@ const required = (message = 'Required') => {
  * @returns Function
  */
 const requiredNumber = (message = 'Required') => {
-  return (v) => !v || v !== 0 || message;
+  return (v) => {
+    if (v || v === 0) {
+      return true;
+    } else {
+      return message;
+    }
+  };
 };
 
 /**
@@ -156,6 +162,36 @@ const requiredRadio = (message = 'Required') => {
 };
 
 /**
+ * Rule for checkbox
+ * @param {String} message
+ * @returns Function
+ */
+const requiredCheckbox = (message = 'Required') => {
+  return (v) => v.length > 0 || message;
+};
+
+/**
+ * Rule for for requiring a field if previous fields have been set to false
+ * @param {String} message
+ * @param {Object} data
+ * @param {Array} fields
+ * @returns Function
+ */
+// TODO: fix logic
+const requiredIfNo = (data, fields, message = 'Required') => {
+  return (v) => {
+    let response = true;
+    fields.forEach((fieldName) => {
+      if (data[fieldName] === false || data[fieldName] === 2) {
+        response = message;
+      }
+    });
+
+    return v ? true : response;
+  };
+};
+
+/**
  * Custom confirmation email Rule! Forces user to confirm the email address being saved with the record
  * @param {String} contactEmail
  * @param {String} confirmationEmail
@@ -179,7 +215,7 @@ const emailConfirmation = (
 const enrolmentTotalGreaterThanTen = (
   message = 'A new school must have 10 or more students enrolled'
 ) => {
-  return (v) => v > 10 || message;
+  return (v) => v >= 10 || message;
 };
 
 export {
@@ -196,4 +232,6 @@ export {
   emailConfirmation,
   gradeRangeRule,
   enrolmentTotalGreaterThanTen,
+  requiredIfNo,
+  requiredCheckbox,
 };

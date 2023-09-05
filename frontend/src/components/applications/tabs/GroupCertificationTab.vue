@@ -36,6 +36,12 @@
             color="#003366"
             class="mt-4"
             inline
+            :rules="
+              formData.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupTwo
+                ? [rules.requiredRadio()]
+                : []
+            "
             @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
@@ -57,6 +63,12 @@
             color="#003366"
             class="mt-4"
             inline
+            :rules="
+              formData.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupTwo
+                ? [rules.requiredRadio()]
+                : []
+            "
             @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
@@ -85,6 +97,12 @@
             color="#003366"
             class="mt-4"
             inline
+            :rules="
+              formData.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupFour
+                ? [rules.requiredRadio()]
+                : []
+            "
             @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
@@ -131,6 +149,12 @@
             color="#003366"
             class="mt-4"
             inline
+            :rules="
+              formData.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupFour
+                ? [rules.requiredRadio()]
+                : []
+            "
             @change="$emit('validateAndPopulate', $event)"
           >
             <v-radio label="Yes" color="#003366" :value="true" />
@@ -156,7 +180,12 @@
             class="mt-4"
             inline
             @change="$emit('validateAndPopulate', $event)"
-            :rules="[rules.requiredSelect()]"
+            :rules="
+              formData.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupFour
+                ? [rules.requiredSelect()]
+                : []
+            "
           >
             <v-radio
               v-for="item in getApplicationPickListOptions?.[
@@ -303,6 +332,7 @@ import * as Rules from '../../../utils/institute/formRules';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
+import { GROUP_CLASSIFICATION_CODES } from '../../../utils/application';
 export default {
   name: 'GroupCertificationTab',
   emits: ['validateAndPopulate'],
@@ -320,6 +350,7 @@ export default {
   data: () => ({
     GOV_URL,
     NULL_STRING,
+    GROUP_CLASSIFICATION_CODES,
     rules: Rules,
   }),
   mounted() {},

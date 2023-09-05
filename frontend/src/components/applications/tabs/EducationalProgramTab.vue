@@ -13,9 +13,7 @@
             id="iosas_describefamiliaritywithbcscurriculum"
             v-model="formData.iosas_describefamiliaritywithbcscurriculum"
             :rules="[rules.required()]"
-            :maxlength="255"
             variant="outlined"
-            label=""
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -29,10 +27,11 @@
       </v-row>
       <br />
       <h4>Additional Programs</h4>
-      <v-label
+      <v-label class="no-mb"
         >At this time does the proposed school intend on enrolling any of the
-        following students? (Check all that apply)</v-label
-      >
+        following students?
+      </v-label>
+      <v-label class="sm">Check all that apply</v-label>
       <v-row>
         <v-col cols="6" sm="6" md="6" xs="6">
           <div
@@ -60,9 +59,15 @@
             v-if="isEditing"
             id="iosas_additionalprogramsother"
             v-model="formData.iosas_additionalprogramsother"
-            :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"
+            :rules="
+              formData.iosas_additionalprograms.includes(
+                ADDITIONAL_PROGRAM_CODES.other
+              )
+                ? [rules.required()]
+                : []
+            "
           />
           <div v-else>
             {{ formData.iosas_additionalprogramsother || NULL_STRING }}
@@ -77,8 +82,8 @@
 import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import * as Rules from '../../../utils/institute/formRules';
-import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
+import { ADDITIONAL_PROGRAM_CODES } from '../../../utils/application';
 export default {
   name: 'EducationalProgramTab',
   components: {},
@@ -94,14 +99,11 @@ export default {
   },
   data: () => ({
     NULL_STRING,
+    ADDITIONAL_PROGRAM_CODES,
     rules: Rules,
   }),
-  mounted() {},
   computed: {
     ...mapState(metaDataStore, ['getApplicationMultiPickListOptions']),
-  },
-  methods: {
-    formatBooleanToYesNoString,
   },
 };
 </script>

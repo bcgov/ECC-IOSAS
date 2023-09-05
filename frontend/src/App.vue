@@ -222,6 +222,8 @@ h1 {
 }
 
 .form-container {
+  min-height: 60vh;
+  position: relative;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 3px 1px 6px rgba(186, 181, 181, 0.75);
@@ -333,5 +335,9 @@ h1 {
 
 .sm {
   font-size: 14px !important;
+}
+
+.block {
+  display: block !important;
 }
 </style>

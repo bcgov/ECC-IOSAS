@@ -82,11 +82,15 @@ export function formatSnakeCaseToString(key) {
 }
 
 export function formatBooleanToYesNoString(bool) {
-  return bool ? 'Yes' : 'No';
+  if (bool === null) {
+    return NULL_STRING;
+  } else {
+    return bool ? 'Yes' : 'No';
+  }
 }
 
 export function formatLongName(string) {
-  if (string.length > 35) {
+  if (string?.length > 35) {
     return `${string.substring(0, 35)}...`;
   } else {
     return string;
@@ -100,3 +104,9 @@ export function displayDefaultNumberValue(data) {
 
 export const formatStringToNumericArray = (string) =>
   string ? string.split(',').map((value) => Number(value)) : [];
+
+export const formatStringToArray = (string) =>
+  string ? string.split(',').map((value) => value) : [];
+
+export const formatArrayToString = (array) =>
+  array.length > 0 ? array.toString() : null;

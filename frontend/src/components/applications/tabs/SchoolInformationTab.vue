@@ -24,7 +24,7 @@
             label="School Year"
             variant="outlined"
             color="rgb(59, 153, 252)"
-            :items="getActiveSchoolYearSelect"
+            :items="getSchoolYears"
             item-title="label"
             item-value="value"
             :rules="[rules.requiredSelect()]"
@@ -47,6 +47,7 @@
             color="rgb(59, 153, 252)"
             item-title="label"
             item-value="value"
+            :rules="[rules.requiredSelect()]"
             :items="this.getApplicationPickListOptions['iosas_startgrade']"
           >
           </v-select>
@@ -61,6 +62,13 @@
             color="rgb(59, 153, 252)"
             item-title="label"
             item-value="value"
+            :rules="[
+              rules.requiredSelect(),
+              rules.gradeRangeRule(
+                formData.iosas_startgrade,
+                formData.iosas_endgrade
+              ),
+            ]"
             :items="this.getApplicationPickListOptions['iosas_endgrade']"
           ></v-select>
         </v-col>
@@ -267,7 +275,7 @@
             color="#003366"
             class="mt-4"
             inline
-            @change="validateAndPopulate"
+            @change="$emit('validateAndPopulate', $event)"
             :rules="[rules.requiredSelect()]"
           >
             <v-radio
@@ -283,7 +291,12 @@
           </v-radio-group>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row
+        v-if="
+          formData.iosas_groupclassification ===
+          GROUP_CLASSIFICATION_CODES.groupTwo
+        "
+      >
         <v-col cols="12">
           <v-label
             >For authorities applying for Group 2 classification, are there
@@ -297,7 +310,8 @@
             direction="horizontal"
             inline
             :rules="
-              formData.iosas_groupclassification === groupTwoCode
+              formData.iosas_groupclassification ===
+              GROUP_CLASSIFICATION_CODES.groupTwo
                 ? [rules.requiredRadio()]
                 : []
             "
@@ -347,7 +361,7 @@
             :maxlength="255"
             variant="outlined"
             :rules="
-              formData.iosas_schoolaffiliation.includes(otherAffiliationCode)
+              formData.iosas_schoolaffiliation.includes(AFFILIATION_CODES.other)
                 ? [rules.required()]
                 : []
             "
@@ -504,7 +518,12 @@
           </p>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row
+        v-if="
+          formData.iosas_groupclassification ===
+          GROUP_CLASSIFICATION_CODES.groupTwo
+        "
+      >
         <v-col cols="12">
           <v-label
             >For authorities applying for Group 2 classification, are there
@@ -554,7 +573,7 @@
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-label>Other</v-label>
-          <p>{{ formData.iosas_schoolaffiliationother || NULL_STRING }}</p>
+          <p>{{ formData.iosas_schoolassociationother || NULL_STRING }}</p>
         </v-col>
       </v-row>
     </div>
@@ -567,6 +586,10 @@ import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
+import {
+  GROUP_CLASSIFICATION_CODES,
+  AFFILIATION_CODES,
+} from '../../../utils/application';
 export default {
   name: 'SchoolInformationTab',
   components: {},
@@ -584,14 +607,14 @@ export default {
   data: () => ({
     NULL_STRING,
     GOV_URL,
+    GROUP_CLASSIFICATION_CODES,
+    AFFILIATION_CODES,
     rules: Rules,
-    groupTwoCode: 100000000,
-    otherAffiliationCode: 100000006,
   }),
   mounted() {},
   computed: {
     ...mapState(metaDataStore, [
-      'getActiveSchoolYearSelect',
+      'getSchoolYears',
       'getApplicationPickListOptions',
       'getApplicationMultiPickListOptions',
     ]),

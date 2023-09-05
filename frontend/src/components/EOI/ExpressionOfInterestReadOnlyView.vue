@@ -7,7 +7,7 @@
       <br />
       <v-divider></v-divider>
       <div>
-        <EOIFormHeader :eoi="eoi" :draftStatusCode="draftStatusCode" />
+        <EOIFormHeader :eoi="eoi" />
         <v-divider></v-divider>
         <h4>School Authority Information</h4>
         <br />
@@ -181,7 +181,12 @@
             </p>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row
+          v-if="
+            eoi.iosas_groupclassification ===
+            GROUP_CLASSIFICATION_CODES.groupTwo
+          "
+        >
           <v-col cols="12">
             <v-label
               >Plans to seek Group 1 classification in the second or subsequest
@@ -222,7 +227,7 @@
                 <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ incorporationDocument.iosas_file_name }}
+                {{ incorporationDocument.fileName }}
               </div>
               <div v-else>{{ NULL_STRING }}</div>
             </v-col>
@@ -245,7 +250,7 @@
                 <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ certificateOfGoodStandingDocument.iosas_file_name }}
+                {{ certificateOfGoodStandingDocument.fileName }}
               </div>
               <div v-else>{{ NULL_STRING }}</div>
             </v-col>
@@ -271,12 +276,13 @@
                 <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ document.iosas_file_name }}
+                {{ document.fileName }}
               </div>
               <div v-else>{{ NULL_STRING }}</div>
             </v-col>
           </v-row>
         </div>
+        <div v-else>{{ NULL_STRING }}</div>
 
         <br />
         <v-divider></v-divider>
@@ -294,7 +300,11 @@
 <script>
 import EOIFormHeader from './EOIFormHeader.vue';
 import { formatBooleanToYesNoString } from '../../utils/format';
-import { NULL_STRING, EOI_DOC_CODES } from '../../utils/constants';
+import { NULL_STRING } from '../../utils/constants';
+import {
+  EOI_DOC_CODES,
+  GROUP_CLASSIFICATION_CODES,
+} from '../../utils/application';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
   components: {
@@ -305,19 +315,16 @@ export default {
       type: Object,
       required: true,
     },
-    draftStatusCode: {
-      type: Number,
-      required: true,
-    },
   },
   mounted() {},
   data() {
     return {
+      NULL_STRING,
+      EOI_DOC_CODES,
+      GROUP_CLASSIFICATION_CODES,
       incorporationDocument: null,
       certificateOfGoodStandingDocument: null,
       otherDocuments: null,
-      NULL_STRING,
-      EOI_DOC_CODES,
     };
   },
   created() {

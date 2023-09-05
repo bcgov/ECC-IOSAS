@@ -7,6 +7,10 @@
       <p>{{ eoi.iosas_eoinumber }}</p>
     </v-col>
     <v-col cols="12" sm="12" md="4" xs="12">
+      <v-label>{{ getCorrectDate().label }}</v-label>
+      <p>{{ getCorrectDate().date }}</p>
+    </v-col>
+    <v-col cols="12" sm="12" md="4" xs="12">
       <v-label>Status </v-label>
       <p>
         {{
@@ -15,16 +19,13 @@
         }}
       </p>
     </v-col>
-    <v-col cols="12" sm="12" md="4" xs="12">
-      <v-label>{{ getCorrectDate().label }}</v-label>
-      <p>{{ getCorrectDate().date }}</p>
-    </v-col>
   </v-row>
   <br />
 </template>
 
 <script>
 import { NULL_STRING } from '../../utils/constants';
+import { EOI_STATUS_CODES } from '../../utils/application';
 export default {
   name: 'EOIFormHeader',
   props: {
@@ -32,17 +33,14 @@ export default {
       type: Object,
       required: true,
     },
-    draftStatusCode: {
-      type: Number,
-      required: true,
-    },
   },
   data: () => ({
+    EOI_STATUS_CODES,
     NULL_STRING,
   }),
   methods: {
     getCorrectDate() {
-      return this.eoi.iosas_reviewstatus === this.draftStatusCode
+      return this.eoi.iosas_reviewstatus === this.EOI_STATUS_CODES.draft
         ? {
             label: 'Created Date',
             date:

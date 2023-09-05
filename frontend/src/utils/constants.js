@@ -72,7 +72,10 @@ export const ApiRoutes = Object.freeze({
     APPLICATION: (id) => dynamicRoot + `/Application/GetById?id=${id}`,
     CANCEL_APPLICATION: (id) => dynamicRoot + `/Application/Cancel?id=${id}`,
     UPDATE_APPLICATION: (id, submitted) =>
-      dynamicRoot + `/Application/Update?id=${id}&submitted=${submitted}`,
+      submitted !== null
+        ? dynamicRoot + `/Application/Update?id=${id}&submitted=${submitted}`
+        : dynamicRoot + `/Application/Update?id=${id}`,
+    CONTACT: (id) => dynamicRoot + `/Contact/GetbyId?contactId=${id}`,
   },
 });
 
@@ -165,9 +168,3 @@ export const GOV_URL = {
 };
 
 export const NULL_STRING = '-';
-
-export const EOI_DOC_CODES = {
-  incorporation: 100000000,
-  goodStanding: 100000001,
-  other: 100000002,
-};
