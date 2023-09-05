@@ -33,7 +33,7 @@
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
 import ApplicationService from '../../common/applicationService';
-import ApiService from '../../common/ApiService';
+import ApiService from '../../common/apiService';
 import alertMixin from './../../mixins/alertMixin';
 import { mapState } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
