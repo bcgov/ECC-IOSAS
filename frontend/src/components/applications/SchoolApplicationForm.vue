@@ -77,7 +77,6 @@
                     <component
                       :is="t.component"
                       :formData="formData"
-                      :draftCode="APP_STATUS_CODES.draft"
                       :isEditing="isEditing"
                       :isDocumentsLoading="isDocumentsLoading"
                       @validateAndPopulate="validateAndPopulateRadioButtons"

@@ -195,6 +195,7 @@ import * as Rules from '../../../utils/institute/formRules';
 import { GOV_URL } from '../../../utils/constants';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';
+import { APP_STATUS_CODES } from '../../../utils/application';
 export default {
   name: 'SchoolGeneralTab',
   emits: ['validateAndPopulate'],
@@ -207,20 +208,17 @@ export default {
       type: Boolean,
       required: true,
     },
-    draftCode: {
-      type: Number,
-      required: true,
-    },
   },
   data: () => ({
     NULL_STRING,
+    APP_STATUS_CODES,
     GOV_URL,
     rules: Rules,
   }),
   methods: {
     formatBooleanToYesNoString,
     getCorrectDate() {
-      return this.formData?.statuscode === this.draftCode
+      return this.formData?.statuscode === this.APP_STATUS_CODES.draft
         ? {
             label: 'Created Date',
             date: this.formData[
