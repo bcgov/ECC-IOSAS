@@ -324,7 +324,7 @@
 </template>
 
 <script>
-import * as Rules from '../../../utils/institute/formRules';
+import * as Rules from '../../../utils/formRules';
 import { displayDefaultNumberValue } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';
 export default {

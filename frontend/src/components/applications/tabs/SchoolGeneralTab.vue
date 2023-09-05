@@ -191,7 +191,7 @@
 </template>
 
 <script>
-import * as Rules from '../../../utils/institute/formRules';
+import * as Rules from '../../../utils/formRules';
 import { GOV_URL } from '../../../utils/constants';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING } from '../../../utils/constants';

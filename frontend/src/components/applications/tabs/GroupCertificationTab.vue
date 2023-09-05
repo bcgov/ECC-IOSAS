@@ -328,7 +328,7 @@
 
 <script>
 import { mapState } from 'pinia';
-import * as Rules from '../../../utils/institute/formRules';
+import * as Rules from '../../../utils/formRules';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { formatBooleanToYesNoString } from '../../../utils/format';
 import { NULL_STRING, GOV_URL } from '../../../utils/constants';

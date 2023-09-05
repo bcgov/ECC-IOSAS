@@ -64,7 +64,7 @@
 <script>
 import { getFileNameWithMaxNameLength, humanFileSize } from '../../utils/file';
 import { generateRandomNumber } from '../../utils/common';
-import * as Rules from './../../utils/institute/formRules';
+import * as Rules from './../../utils/formRules';
 import PrimaryButton from '../util/PrimaryButton.vue';
 
 export default {

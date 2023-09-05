@@ -81,7 +81,7 @@
 <script>
 import { mapState } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
-import * as Rules from '../../../utils/institute/formRules';
+import * as Rules from '../../../utils/formRules';
 import { NULL_STRING } from '../../../utils/constants';
 import { ADDITIONAL_PROGRAM_CODES } from '../../../utils/application';
 export default {

@@ -202,7 +202,7 @@ import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import { documentStore } from './../../store/modules/document';
 import alertMixin from './../../mixins/alertMixin';
-import * as Rules from './../../utils/institute/formRules';
+import * as Rules from './../../utils/formRules';
 import {
   TAB_CODES,
   APP_STATUS_CODES,
