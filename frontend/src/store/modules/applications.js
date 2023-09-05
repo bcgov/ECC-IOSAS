@@ -118,7 +118,7 @@ export const applicationsStore = defineStore('applications', {
         ...response.data.value[0],
         documents: documentResponse.data.value
           ? documentResponse.data.value.map((doc) => ({
-              fileName: doc.iosas_file_name,
+              fileName: doc.iosas_file_name || doc.iosas_name,
               documentType: doc.iosas_eoidocumenttype,
               id: doc.iosas_documentid,
               ...doc,
