@@ -1,4 +1,6 @@
 <template>
+  <!-- <div class="hover" @mousemove="mouseMove">
+  </div> -->
   <ConfirmationDialog ref="userIdle">
     <template #message>
       <p>
@@ -33,6 +35,7 @@ export default {
     return {
       userIdle: false,
       countdown: 120,
+      // mouseMove:
       routes: AuthRoutes,
     };
   },
@@ -40,6 +43,7 @@ export default {
     ...mapState(authStore, ['isAuthenticated', 'tokenLife']),
   },
   async mounted() {
+    // this.$el.addEventListener('mousemove', this.mouseMove, false);
     await this.handleIdleDialog();
     await this.checkAndLogoutUserOnSessionExpiry();
   },
@@ -82,7 +86,7 @@ export default {
       }
     },
     redirectToLogout() {
-      return (window.location = document.getElementById('logout_href').href);
+      // return (window.location = document.getElementById('logout_href').href);
     },
 
     async checkAndLogoutUserOnSessionExpiry() {
@@ -104,6 +108,19 @@ export default {
       //       window.location = document.getElementById('logout_href').href;
       //     }
       //   }
+    },
+    // mouseEnter(event) {
+    //   console.log('mouseneter');
+    //   // this.popup = true;
+    //   this.$el.addEventListener('mousemove', this.mouseMove(), false);
+    // },
+    // mouseLeave(event) {
+    //   // this.popup = false;
+    //   this.$el.removeEventListener('mousemove', this.mouseMove());
+    // },
+    mouseMove(event) {
+      console.log('MOUSE MOVING???', event);
+      console.log(event.clientX, event.clientY);
     },
   },
 };
