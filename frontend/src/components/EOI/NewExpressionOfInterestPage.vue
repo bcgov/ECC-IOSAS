@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="full-height">
-    <v-breadcrumbs :items="items" v-if="authStore().isAuthenticated"
+    <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
@@ -47,7 +47,6 @@
 import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ContactCard from '../common/ContactCard.vue';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
-import { mapState } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 
 export default {
@@ -72,10 +71,6 @@ export default {
       },
     ],
   }),
-  computed: {
-    ...mapState(authStore, ['isAuthenticated']),
-  },
-  async created() {},
   methods: {
     authStore,
     setIsLoading() {

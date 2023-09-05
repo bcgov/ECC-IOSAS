@@ -3,7 +3,19 @@
     <MsieBanner v-if="isIE" />
     <Header />
     <SnackBar />
-    <v-main fluid class="align-start">
+    <v-row v-if="isLoading" class="mt-10">
+      <v-col class="d-flex justify-center">
+        <v-progress-circular
+          class="mt-10"
+          :size="70"
+          :width="7"
+          color="primary"
+          indeterminate
+          :active="isLoading"
+        />
+      </v-col>
+    </v-row>
+    <v-main fluid class="align-start" v-else>
       <ModalIdle v-if="authStore().isAuthenticated" />
       <router-view />
     </v-main>
@@ -48,11 +60,12 @@ export default {
   },
   async created() {
     await this.getEnvironment();
-    await this.fetchDynamicsMetaData();
 
     this.setLoading(true);
     await this.getJwtToken()
-      .then(() => Promise.all([this.getUserInfo()]))
+      .then(() =>
+        Promise.all([this.getUserInfo(), this.fetchDynamicsMetaData()])
+      )
       .catch((e) => {
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
           this.logout();

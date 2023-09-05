@@ -10,15 +10,13 @@ const log = require('../components/logger');
 
 const router = express.Router();
 
-const allowedPulicPaths = [
+const allowedPulicPaths = ['Health'];
+const allowedProtectedPaths = [
   'Document',
   'EOI',
   'SchoolAuthority',
   'SchoolYear',
   'Metdata',
-  'Health',
-];
-const allowedProtectedPaths = [
   'Application',
   'Contact/GetbyExternalId',
   'Contact/GetbyId',
