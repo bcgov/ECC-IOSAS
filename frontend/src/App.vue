@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" @mousemove="mouseMove">
     <MsieBanner v-if="isIE" />
     <Header />
     <SnackBar />
@@ -35,6 +35,11 @@ export default {
     SnackBar,
     Loader,
   },
+  // watch: {
+  //   mouseMove(val) {
+  //     console.log(val);
+  //   },
+  // },
   metaInfo: {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
@@ -53,6 +58,7 @@ export default {
         Promise.all([this.getUserInfo(), this.fetchDynamicsMetaData()])
       )
       .catch((e) => {
+        console.log('Error', e);
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
           this.logout();
           this.$router.replace({
@@ -82,6 +88,9 @@ export default {
       'getApplicationMultiPickLists',
       'getApplicationPickLists',
     ]),
+    mouseMove(event) {
+      // console.log('MOUSEE', event);
+    },
     async fetchDynamicsMetaData() {
       const dynamicResponses = await Promise.all([
         this.getActiveSchoolYear(),
