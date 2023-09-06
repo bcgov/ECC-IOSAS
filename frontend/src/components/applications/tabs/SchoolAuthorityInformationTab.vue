@@ -51,7 +51,11 @@
             inline
             :disabled="formData.iosas_preexistingauthority"
             @change="$emit('validateAndPopulate', $event)"
-            :rules="[rules.requiredSelect()]"
+            :rules="
+              formData.iosas_preexistingauthority
+                ? []
+                : [rules.requiredSelect()]
+            "
           >
             <v-radio
               v-for="item in getApplicationPickListOptions[
@@ -84,7 +88,9 @@
             :disabled="formData.iosas_preexistingauthority"
             id="iosas_officialregistrationnumber"
             v-model="formData.iosas_officialregistrationnumber"
-            :rules="[rules.required()]"
+            :rules="
+              formData.iosas_preexistingauthority ? [] : [rules.required()]
+            "
             :maxlength="255"
             variant="outlined"
             label="Official Registration Number"

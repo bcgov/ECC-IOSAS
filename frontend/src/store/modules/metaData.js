@@ -22,7 +22,7 @@ export const metaDataStore = defineStore('metaData', {
   }),
   getters: {
     getActiveSchoolYearSelect: (state) => {
-      return state.activeSchoolYears.filter(
+      return state.activeSchoolYears?.filter(
         ({ year }) => year.iosas_currentapplicationsyear
       );
     },

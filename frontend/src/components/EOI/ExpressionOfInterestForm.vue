@@ -182,10 +182,18 @@
           <div>
             <v-label class="no-mb">Designated Authority Contact</v-label>
             <v-label class="sm"
-              >The designated contact is the person submitting the application,
-              and the person who will receive follow-up emails and contact by
-              the ministry.</v-label
+              >The designated contact is the person who will receive follow-up
+              emails and contact by the ministry regarding this
+              application.</v-label
             >
+            <v-row class="mb-5">
+              <v-col cols="12" sm="12" md="12" xs="12">
+                <v-checkbox
+                  v-model="isDesignatedContactSameAsSubmitter"
+                  label="I am the Designated Contact for this application."
+                ></v-checkbox>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
@@ -226,40 +234,7 @@
                 />
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12">
-                <!-- Force email confirmation for new unauthenticated EOI/replace with phone field for drafts -->
                 <v-text-field
-                  v-if="isNew && !isAuthenticated"
-                  id="designatedContactEmailConfirmation"
-                  v-model="designatedContactEmailConfirmation"
-                  :rules="[
-                    rules.required(),
-                    rules.emailConfirmation(
-                      data.iosas_schoolauthoritycontactemail,
-                      designatedContactEmailConfirmation
-                    ),
-                  ]"
-                  :maxlength="255"
-                  variant="outlined"
-                  label="Confirm E-mail"
-                  color="rgb(59, 153, 252)"
-                />
-                <v-text-field
-                  v-else
-                  id="iosas_schoolauthoritycontactphone"
-                  v-model="data.iosas_schoolauthoritycontactphone"
-                  :disabled="populateAndDisableContactPhone"
-                  :rules="[rules.required()]"
-                  :maxlength="255"
-                  variant="outlined"
-                  label="Phone"
-                  color="rgb(59, 153, 252)"
-                />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" sm="12" md="6" xs="12">
-                <v-text-field
-                  v-if="isNew && !isAuthenticated"
                   id="iosas_schoolauthoritycontactphone"
                   v-model="data.iosas_schoolauthoritycontactphone"
                   :disabled="populateAndDisableContactPhone"
@@ -809,7 +784,6 @@
               <v-row align="end">
                 <v-spacer />
                 <PrimaryButton
-                  v-if="authStore().isAuthenticated"
                   secondary
                   text="Save Draft"
                   class="mr-2"
@@ -896,6 +870,15 @@ export default {
     },
   },
   watch: {
+    isDesignatedContactSameAsSubmitter: {
+      handler(val) {
+        if (!val) {
+          this.populatedAndDisableDesignatedContact = false;
+          this.populateAndDisableContactPhone = false;
+          this.data._iosas_authortiycontact_value = null;
+        }
+      },
+    },
     'data.iosas_existingcontact': {
       handler(val, oldVal) {
         if (oldVal === undefined && val && !this.isNew) {
@@ -1087,6 +1070,7 @@ export default {
       // UI conditions
       isEditing: false,
       schoolAddressKnown: null,
+      isDesignatedContactSameAsSubmitter: true,
       isDocumentsLoading: false,
       populateAndDisableAuthorityAddress: false,
       populatedAndDisableDesignatedContact: false,
@@ -1148,25 +1132,24 @@ export default {
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
       this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;
-
-      if (this.isAuthenticated) {
-        // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
-        const user = this.contactInfo ? this.contactInfo : this.userInfo;
-
-        // Set the Designated Contact to authenticated user data
-        this.populatedAndDisableDesignatedContact = true;
-        const designatedContact = {
-          iosas_existingcontact: true,
-          iosas_designatedcontactfirstname: user.firstname || user.firstName,
-          iosas_schoolauthoritycontactname: user.lastname || user.lastName,
-          iosas_schoolauthoritycontactemail: user.emailaddress1 || user.email,
-          iosas_schoolauthoritycontactphone: user?.telephone1 || null,
-        };
-        if (user?.telephone1) {
-          this.populateAndDisableContactPhone = true;
-        }
-        this.data = { ...this.data, ...designatedContact };
+      this.populateDACWithSubmitterInfo();
+    },
+    populateDACWithSubmitterInfo() {
+      // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
+      const user = this.contactInfo ? this.contactInfo : this.userInfo;
+      // Set the Designated Contact to authenticated user data
+      this.populatedAndDisableDesignatedContact = true;
+      const designatedContact = {
+        iosas_designatedcontactfirstname: user.firstname || user.firstName,
+        _iosas_authortiycontact_value: user.contactid || null,
+        iosas_schoolauthoritycontactname: user.lastname || user.lastName,
+        iosas_schoolauthoritycontactemail: user.emailaddress1 || user.email,
+        iosas_schoolauthoritycontactphone: user?.telephone1 || null,
+      };
+      if (user?.telephone1) {
+        this.populateAndDisableContactPhone = true;
       }
+      this.data = { ...this.data, ...designatedContact };
     },
     handlePopulateExistingForm() {
       if (this.data?.iosas_designatedcontactsameasauthorityhead) {
@@ -1179,6 +1162,13 @@ export default {
         this.schoolAddressKnown = true;
       } else {
         this.schoolAddressKnown = false;
+      }
+
+      if (
+        this.data?._iosas_authortiycontact_value !==
+        this.data?._iosas_submitter_value
+      ) {
+        this.isDesignatedContactSameAsSubmitter = false;
       }
       if (this.data?.iosas_schoolauthoritycontactphone) {
         this.populateAndDisableContactPhone = true;

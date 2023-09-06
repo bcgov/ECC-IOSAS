@@ -57,7 +57,8 @@
             </v-col>
           </v-row>
         </div>
-        <v-row class="mt-5">
+        <!-- TODO: enable when the ministry decides to allow unauthenticated submissions -->
+        <!-- <v-row class="mt-5">
           <v-col cols="12">
             <v-card title="Submit an Expression of Interest as a Guest">
               <div class="card-content submission">
@@ -86,7 +87,7 @@
               </v-card-actions></v-card
             >
           </v-col>
-        </v-row>
+        </v-row> -->
       </v-col>
 
       <v-col cols="12" sm="12" md="4" xs="12">
@@ -116,7 +117,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'envGet']),
+    ...mapState(authStore, ['envGet']),
   },
   methods: {
     clearStorage() {

@@ -84,7 +84,7 @@ const router = createRouter({
       props: {},
       meta: {
         pageTitle: 'New Expression of Interest',
-        requiresAuth: false,
+        requiresAuth: true,
       },
     },
     {
@@ -94,7 +94,7 @@ const router = createRouter({
       props: {},
       meta: {
         pageTitle: 'Application Confirmation',
-        requiresAuth: false,
+        requiresAuth: true,
       },
       beforeEnter: (to, from) => {
         const isRedirected =
@@ -153,7 +153,6 @@ router.beforeEach((to, _from, next) => {
   document.title = defaultTitle;
   const aStore = authStore();
   const apStore = appStore();
-  // this section is to set page title in vue store
   if (to.meta.requiresAuth) {
     aStore
       .getJwtToken()
