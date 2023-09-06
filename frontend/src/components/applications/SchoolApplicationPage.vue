@@ -91,9 +91,30 @@ export default {
       this.isLoading = true;
       return applicationsStore()
         .getApplicationById(this.$route.params.id)
-        .then(() => {
+        .then(async () => {
+          let contactResponse;
           this.applicationData = this.getSchoolApplication;
 
+          contactResponse = await ApplicationService.getContactById(
+            this.applicationData._iosas_designatedcontact_value
+          );
+
+          if (contactResponse.data) {
+            this.applicationData = {
+              ...this.applicationData,
+              iosas_designatedcontactfirstname: contactResponse.data.firstname,
+              iosas_schoolauthoritycontactname: contactResponse.data.lastname,
+              iosas_schoolauthoritycontactemail:
+                contactResponse.data.emailaddress1,
+              iosas_schoolauthoritycontactphone:
+                contactResponse.data.telephone1,
+            };
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
           this.isLoading = false;
         });
     },
