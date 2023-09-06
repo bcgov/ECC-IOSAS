@@ -876,6 +876,9 @@ export default {
           this.populatedAndDisableDesignatedContact = false;
           this.populateAndDisableContactPhone = false;
           this.data._iosas_authortiycontact_value = null;
+          this.data.iosas_existingcontact = false;
+        } else {
+          this.populateDACWithSubmitterInfo();
         }
       },
     },
@@ -1140,6 +1143,7 @@ export default {
       // Set the Designated Contact to authenticated user data
       this.populatedAndDisableDesignatedContact = true;
       const designatedContact = {
+        iosas_existingcontact: true,
         iosas_designatedcontactfirstname: user.firstname || user.firstName,
         _iosas_authortiycontact_value: user.contactid || null,
         iosas_schoolauthoritycontactname: user.lastname || user.lastName,
