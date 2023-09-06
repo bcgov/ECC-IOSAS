@@ -1142,6 +1142,7 @@ export default {
       // Set the Designated Contact to authenticated user data
       this.populatedAndDisableDesignatedContact = true;
       const designatedContact = {
+        iosas_existingcontact: true,
         iosas_designatedcontactfirstname: user.firstname || user.firstName,
         _iosas_authortiycontact_value: user.contactid || null,
         iosas_schoolauthoritycontactname: user.lastname || user.lastName,
