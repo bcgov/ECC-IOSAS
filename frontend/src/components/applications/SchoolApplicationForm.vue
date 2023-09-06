@@ -738,8 +738,9 @@ li {
 }
 
 .v-window-item {
-  max-height: 400px;
-  overflow: scroll !important;
+  min-height: 400px;
+  /* max-height: 400px;
+  overflow: scroll !important; */
 }
 
 .v-window {
