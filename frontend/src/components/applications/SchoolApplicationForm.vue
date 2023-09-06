@@ -85,6 +85,7 @@
                     />
                   </keep-alive>
                 </v-window-item>
+
                 <v-row v-if="isTab(TAB_CODES.submission)">
                   <v-col cols="12" sm="12" md="12" xs="12">
                     <v-checkbox
@@ -737,7 +738,8 @@ li {
 }
 
 .v-window-item {
-  min-height: 400px;
+  max-height: 400px;
+  overflow: scroll !important;
 }
 
 .v-window {
