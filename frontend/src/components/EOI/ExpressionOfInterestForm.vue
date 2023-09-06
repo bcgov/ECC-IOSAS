@@ -876,6 +876,7 @@ export default {
           this.populatedAndDisableDesignatedContact = false;
           this.populateAndDisableContactPhone = false;
           this.data._iosas_authortiycontact_value = null;
+          this.data.iosas_existingcontact = false;
         } else {
           this.populateDACWithSubmitterInfo();
         }
