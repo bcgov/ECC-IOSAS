@@ -853,7 +853,7 @@ import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import alertMixin from './../../mixins/alertMixin';
-import * as Rules from './../../utils/institute/formRules';
+import * as Rules from './../../utils/formRules';
 import ConfirmationDialog from '../../components/util/ConfirmationDialog.vue';
 import DocumentUpload from '../common/DocumentUpload.vue';
 import { GOV_URL } from '../../utils/constants';

@@ -18,7 +18,6 @@ export const authStore = defineStore('auth', {
   namespaced: true,
   state: () => ({
     env: null,
-    acronyms: [],
     isAuthenticated: false,
     userInfo: null,
     contactInfo: null,
@@ -29,7 +28,6 @@ export const authStore = defineStore('auth', {
   }),
   getters: {
     envGet: (state) => state.env,
-    acronymsGet: (state) => state.acronyms,
     isAuthenticatedGet: (state) => state.isAuthenticated,
     jwtTokenGet: (state) => state.jwtToken,
     userInfoGet: (state) => state.userInfo,

@@ -421,7 +421,7 @@
 </template>
 
 <script>
-import * as Rules from '../../../utils/institute/formRules';
+import * as Rules from '../../../utils/formRules';
 import { mapState, mapActions } from 'pinia';
 import { metaDataStore } from '../../../store/modules/metaData';
 import { documentStore } from '../../../store/modules/document';

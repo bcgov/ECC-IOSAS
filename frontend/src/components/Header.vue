@@ -11,7 +11,6 @@
       'pr-10': $vuetify.display.mdAndUp,
     }"
   >
-    <!-- Navbar content -->
     <a tabindex="-1" href="/">
       <img
         tabindex="-1"

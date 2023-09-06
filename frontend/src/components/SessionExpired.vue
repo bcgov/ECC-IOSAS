@@ -1,32 +1,14 @@
 <template>
-  <v-container
-    fluid
-    class="full-height"
-  >
-    <!-- login article -->
-    <article
-      name="session-expired-banner"
-      class="top-banner"
-    >
-      <v-row
-        align="center"
-        justify="center"
-      >
-        <v-col
-          xs="10"
-          sm="10"
-          md="8"
-          lg="4"
-          xl="3"
-        >
+  <v-container fluid class="full-height">
+    <article name="session-expired-banner" class="top-banner">
+      <v-row align="center" justify="center">
+        <v-col xs="10" sm="10" md="8" lg="4" xl="3">
           <v-card class="session-expired-card">
             <v-card-title class="gov-header">
-              <h4 id="session-expired-text">
-                Session Expired
-              </h4>
+              <h4 id="session-expired-text">Session Expired</h4>
             </v-card-title>
             <v-card-text id="session-expired-descriptor">
-              <v-row style="margin: .3rem">
+              <v-row style="margin: 0.3rem">
                 Your secure session has ended as a result of inactivity.
               </v-row>
               <a
@@ -36,7 +18,8 @@
                 dark
                 color="#003366"
                 @click="clearStorage"
-              >Log In</a><span>again to continue.</span>
+                >Log In</a
+              ><span>again to continue.</span>
             </v-card-text>
           </v-card>
         </v-col>
@@ -46,7 +29,7 @@
 </template>
 
 <script>
-import {AuthRoutes} from '../utils/constants';
+import { AuthRoutes } from '../utils/constants';
 import { authStore } from '../store/modules/auth';
 
 export default {
@@ -54,7 +37,7 @@ export default {
 
   data() {
     return {
-      routes: AuthRoutes
+      routes: AuthRoutes,
     };
   },
   mounted() {
@@ -63,41 +46,41 @@ export default {
   methods: {
     clearStorage() {
       authStore().setJwtToken();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-  .full-height{
-    height: 100%;
-  }
-  .session-expired-card{
-    margin-top: 15rem;
-    width: 100%;
-    background: #F2E8D5;
-  }
+.full-height {
+  height: 100%;
+}
+.session-expired-card {
+  margin-top: 15rem;
+  width: 100%;
+  background: #f2e8d5;
+}
 
-  @media screen and (max-width: 300px) {
-    .session-expired-card{
-      margin-top: 2rem;
-      height: 50%;
-      width: 100%;
-      background: #F2E8D5;
-    }
+@media screen and (max-width: 300px) {
+  .session-expired-card {
+    margin-top: 2rem;
+    height: 50%;
+    width: 100%;
+    background: #f2e8d5;
   }
-  @media screen and (min-width: 301px) and (max-width: 350px) {
-    .session-expired-card{
-      margin-top: 1rem;
-      width: 100%;
-      background: #F2E8D5;
-    }
+}
+@media screen and (min-width: 301px) and (max-width: 350px) {
+  .session-expired-card {
+    margin-top: 1rem;
+    width: 100%;
+    background: #f2e8d5;
   }
-  @media screen and (min-width: 351px) and (max-width: 450px) {
-    .session-expired-card{
-      margin-top: 8rem;
-      width: 100%;
-      background: #F2E8D5;
-    }
+}
+@media screen and (min-width: 351px) and (max-width: 450px) {
+  .session-expired-card {
+    margin-top: 8rem;
+    width: 100%;
+    background: #f2e8d5;
   }
+}
 </style>

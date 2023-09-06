@@ -1,12 +1,9 @@
 const baseRoot = '/api';
 const authRoot = baseRoot + '/auth';
-
-// Dynamic
 const dynamicRoot = baseRoot + '/dynamic';
 
-let object;
-
-object = {
+//Authentication endpoints
+export const AuthRoutes = Object.freeze({
   LOGIN: authRoot + '/login',
   DASHBOARD: '/',
   LOGIN_BCEID: authRoot + '/logout?loginBceid=true',
@@ -20,15 +17,12 @@ object = {
   NEW_EOI: '/expression-of-interest/new',
   APPLICATION: '/school-application',
   PROFILE: '/user-profile',
-};
-//Authentication endpoints
-export const AuthRoutes = Object.freeze(object);
+});
 
 export const ApiRoutes = Object.freeze({
   USER: baseRoot + '/user',
   CONFIG: baseRoot + '/config',
   ENV: baseRoot + '/environment',
-  // ** Dynamic **/
   dynamic: {
     BASE_URL: dynamicRoot,
     HEALTH: dynamicRoot + '/Health',
@@ -36,7 +30,6 @@ export const ApiRoutes = Object.freeze({
   contact: {
     CONTACT: (id) => dynamicRoot + `/Contact/GetbyExternalId?externalId=${id}`,
   },
-  // All metadata API for EOI/Applications
   meta: {
     ACTIVE_SCHOOL_YEARS: dynamicRoot + '/SchoolYear/GetActiveYears',
     PICK_LISTS: (tableName) =>
@@ -99,10 +92,6 @@ export const PAGE_TITLES = Object.freeze({
   SLD: 'Student Level Data (1701)',
   DATA_COLLECTION: 'Data Collections',
 });
-
-export const MINISTRY_NAME = 'Ministry of Education and Child Care';
-
-export const EDX_SAGA_REQUEST_DELAY_MILLISECONDS = 2000;
 
 export const GOV_URL = {
   independentActUrl:
