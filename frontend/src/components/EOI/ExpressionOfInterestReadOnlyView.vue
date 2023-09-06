@@ -57,6 +57,19 @@
         <br />
         <div>
           <v-row>
+            <v-col cols="12">
+              <v-label
+                >Is the Designated Authority Contact the same as the person who
+                submitted the EOI?</v-label
+              >
+              <p>
+                {{
+                  formatBooleanToYesNoString(
+                    isDesignatedContactSameAsSubmitter()
+                  )
+                }}
+              </p>
+            </v-col>
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-label>Designated Authority Contact</v-label>
               <p>{{ getDesignatedHeadName() || NULL_STRING }}</p>
@@ -365,6 +378,12 @@ export default {
             ' ' +
             this.eoi.iosas_schoolauthoritycontactname
         : null;
+    },
+    isDesignatedContactSameAsSubmitter() {
+      return (
+        this.eoi?._iosas_authortiycontact_value ===
+        this.eoi?._iosas_submitter_value
+      );
     },
   },
 };
