@@ -235,7 +235,7 @@ promote-api:
 	
 
 update-dc-web:
-	@echo "+\n Testing env for Web \n+"
+	@echo "+\n Testing env for Web\n+"
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating Web-dc with tag: $(BUILD_TAG)\n+"
