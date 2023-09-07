@@ -226,6 +226,14 @@ update-dc-api:
 deploy-api: update-dc-api
 	$(call rollout_and_wait,dc/$(API))
 
+test-public-route: 
+	@echo Creating route with $(PUBLIC_HOST)
+	oc --namespace=$(NAMESPACE) process -f openshift/public-route.yml \
+	-p NAME=$(Web) \
+	-p PUBLIC_HOST=$(PUBLIC_HOST) \
+	-p CERTIFICATE="X" \
+	-p CA_CERT="Y" \
+	-p PRIVATE_KEY="Z" | oc --namespace=$(NAMESPACE) apply -f - --dry-run=client
 promote-api:
 	test -n "$(BUILD_NAMESPACE)"
 	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"

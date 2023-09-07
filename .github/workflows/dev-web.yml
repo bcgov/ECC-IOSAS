@@ -56,8 +56,6 @@ jobs:
           filters: |
             src:
               - 'frontend/**'
-              - 'tools/**'
-              - '.github/**'
           base: ${{ github.ref }}
       - name: Deploy changes
         if: steps.changes_tools.outputs.src == 'true'
@@ -67,10 +65,13 @@ jobs:
           make print-status 
           make promote-web 
           make deploy-web
+      - name: Create Route
+        working-directory: './tools'
+        run: |
           echo Creating route with ${{ env.PUBLIC_HOST }}
           oc --namespace=${{ env.NAMESPACE_DEV }} process -f openshift/public-route.yml \
           -p NAME=web-ecc-iosas \
           -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
-          -p CERTIFICATE="X" \ 
-          -p CA_CERT="Y" \   
-          -p PRIVATE_KEY="Z" | oc --namespace=${{ env.NAMESPACE_DEV }} apply -f -
+          -p CERTIFICATE="${{ secrets.CERT }}" \
+          -p CA_CERT="${{ secrets.CA_CERT }}" \
+          -p PRIVATE_KEY="${{ secrets.PRIV_KEY }}" | oc --namespace=${{ env.NAMESPACE_DEV }} apply -f -
