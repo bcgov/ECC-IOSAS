@@ -238,9 +238,6 @@ update-dc-web:
 	@echo "+\n Testing env for Web \n+"
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
-	test -n "$(CERTIFICATE)"
-	test -n "$(CA_CERT)"
-	test -n "$(PRIVATE_KEY)"
 	@echo "+\n++ Updating Web-dc with tag: $(BUILD_TAG)\n+"
 	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml \
 		-p NAME=$(Web) \
