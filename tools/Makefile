@@ -19,6 +19,9 @@ export UI_PRIVATE_KEY := $(or $(UI_PRIVATE_KEY), None)
 export UI_PUBLIC_KEY := $(or $(UI_PUBLIC_KEY), None)
 export LAST_COMMIT := $(shell git log -1 --oneline --decorate=full --no-color --format="%h, %cn, %f, %D" | sed 's/->/:/')
 export COMMIT_SHA:=$(shell git rev-parse --short=7 HEAD)
+export CERTIFICATE:=$(or $(CERTIFICATE),)
+export CA_CERT:=$(or $(CA_CERT),)
+export PRIVATE_KEY:=$(or $(PRIVATE_KEY),)
 
 HOST_PREFIX= $(ENV_PREFIX)
 
