@@ -92,52 +92,37 @@ router.get('/logout', async (req, res, next) => {
     if (err) {
       return next(err);
     }
+    const logoutURL = config.get('logoutEndpoint');
     req.session.destroy();
     let retUrl;
     if (req.query && req.query.sessionExpired) {
-      retUrl = encodeURIComponent(
-        config.get('logoutEndpoint') +
-          '?post_logout_redirect_uri=' +
-          config.get('server:frontend') +
-          '/session-expired'
-      );
+      retUrl =
+        logoutURL +
+        '?post_logout_redirect_uri=' +
+        config.get('server:frontend') +
+        '/session-expired';
     } else if (req.query && req.query.loginError) {
-      retUrl = encodeURIComponent(
-        config.get('logoutEndpoint') +
-          '?post_logout_redirect_uri=' +
-          config.get('server:frontend') +
-          '/login-error'
-      );
+      retUrl =
+        logoutURL +
+        '?post_logout_redirect_uri=' +
+        config.get('server:frontend') +
+        '/login-error';
     } else if (req.query && req.query.loginBceid) {
-      retUrl = encodeURIComponent(
-        config.get('logoutEndpoint') +
-          '?post_logout_redirect_uri=' +
-          config.get('server:frontend') +
-          '/api/auth/login_bceid'
-      );
-    } else if (req.query && req.query.loginBceidActivateUser) {
-      retUrl = encodeURIComponent(
-        config.get('logoutEndpoint') +
-          '?post_logout_redirect_uri=' +
-          config.get('server:frontend') +
-          '/api/auth/login_bceid_activate_user'
-      );
-    } else if (req.query && req.query.loginBceidActivateDistrictUser) {
-      retUrl = encodeURIComponent(
-        config.get('logoutEndpoint') +
-          '?post_logout_redirect_uri=' +
-          config.get('server:frontend') +
-          '/api/auth/login_bceid_activate_district_user'
-      );
+      retUrl =
+        logoutURL +
+        '?post_logout_redirect_uri=' +
+        config.get('server:frontend') +
+        '/api/auth/login_bceid';
     } else {
-      retUrl = encodeURIComponent(
-        config.get('logoutEndpoint') +
-          '?post_logout_redirect_uri=' +
-          config.get('server:frontend') +
-          '/logout'
-      );
+      retUrl =
+        logoutURL +
+        '?post_logout_redirect_uri=' +
+        config.get('server:frontend') +
+        '/logout';
     }
-    res.redirect(config.get('siteMinder_logout_endpoint') + retUrl);
+    log.info('Logout redirection: ', retUrl);
+    const redirectURL = encodeURIComponent(retUrl);
+    res.redirect(config.get('siteMinder_logout_endpoint') + redirectURL);
   });
 });
 
@@ -159,7 +144,7 @@ router.post('/refresh', [body('refreshToken').exists()], async (req, res) => {
     log.info('Refresh | No user connected');
     res.status(401).json(UnauthorizedRsp);
   } else {
-    if (true || auth.isTokenExpired(jwt, 'access-token')) {
+    if (auth.isTokenExpired(jwt, 'access-token')) {
       log.info('Refresh | Token Expired');
       const refreshToken =
         req.user.refreshToken || req.session?.passport?.user?.refreshToken;

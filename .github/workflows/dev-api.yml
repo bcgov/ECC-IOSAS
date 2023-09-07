@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: ci-build-api
     timeout-minutes: 20
+    environment:
+      name: dev
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -25,12 +25,14 @@ HOST_PREFIX= $(ENV_PREFIX)
 # Seeting up Name space as per env prefix
 ifeq ($(ENV_PREFIX), dev)
 NAMESPACE=$(NAMESPACE_DEV)
+#/clp-cgi/logoff.cgi?returl=`
 SITE_MINDER_LOGOUT_URL="https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_DEV)
 SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_DEV)
 SOAM_DISCOVERY=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
 SOAM_URL=https://soam-dev.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
+PUBLIC_HOST=dev.independentschoolservices.gov.bc.ca
 endif
 
 ifeq ($(ENV_PREFIX), test)
@@ -41,6 +43,7 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_TEST)
 SOAM_DISCOVERY=https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
 SOAM_URL=https://soam-test.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
+PUBLIC_HOST=test.independentschoolservices.gov.bc.ca
 endif
 
 ifeq ($(ENV_PREFIX), prod)
@@ -51,6 +54,7 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_PROD)
 SOAM_DISCOVERY=
 SOAM_URL=
 bceid_reg_url=
+PUBLIC_HOST=independentschoolservices.gov.bc.ca
 endif
 
 define BUILD_TAG
@@ -213,9 +217,11 @@ update-dc-api:
 		-p IMAGE_STREAM_TAG="$(API):$(ENV_PREFIX)" \
 		-p VERSION="$(LAST_COMMIT)" \
 		-p BUILD_ID=$(BUILD_TAG) \
-		-p ENV_PREFIX=$(ENV_PREFIX) | oc -n $(NAMESPACE) apply -f -
+		-p ENV_PREFIX=$(ENV_PREFIX) \
+		-p PUBLIC_HOST=$(PUBLIC_HOST) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
+	@oc -n $(NAMESPACE) rollout cancel dc/$(API) || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(API))
 
 promote-api:
@@ -227,15 +233,23 @@ promote-api:
 update-dc-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
+	test -n "$(CERTIFICATE)"
+	test -n "$(CA_CERT)"
+	test -n "$(PRIVATE_KEY)"
 	@echo "+\n++ Updating Web-dc with tag: $(BUILD_TAG)\n+"
 	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml \
 		-p NAME=$(Web) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(Web):$(ENV_PREFIX)" \
-		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
+		-p BUILD_ID=$(BUILD_TAG) \
+		-p PUBLIC_HOST=$(PUBLIC_HOST) \
+		-p CERTIFICATE=$(CERTIFICATE) \
+		-p CA_CERT=$(CA_CERT) \
+		-p PRIVATE_KEY=$(PRIVATE_KEY) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
+	@oc -n $(NAMESPACE) rollout cancel dc/$(web) || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(Web))
 
 promote-web:
