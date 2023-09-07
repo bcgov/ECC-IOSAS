@@ -73,4 +73,4 @@ jobs:
           -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
           -p CERTIFICATE="${{ env.CERTIFICATE }}" \
           -p CA_CERT="${{ env.CA_CERT }}"" \   
-          -p PRIVATE_KEY="${{ env.PRIVATE_KEY }}" | oc --namespace=${{ env.NAMESPACE_DEV }} -f -
+          -p PRIVATE_KEY="${{ env.PRIVATE_KEY }}" | oc --namespace=${{ env.NAMESPACE_DEV }} apply -f -
