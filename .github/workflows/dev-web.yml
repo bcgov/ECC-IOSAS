@@ -69,7 +69,7 @@ jobs:
           make deploy-web
           echo Creating route
           oc --namespace=${{ env.NAMESPACE_DEV }} process -f openshift/public-route.yml \
-          -p NAME="web-${{ env.PROJECT_NAME }}" \
+          -p NAME=web-${{ env.PROJECT_NAME }} \
           -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
           -p CERTIFICATE="${{ env.CERTIFICATE }}" \
           -p CA_CERT="${{ env.CA_CERT }}" \   
