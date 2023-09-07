@@ -1,0 +1,38 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: ${NAME}-route
+labels:
+  project: ${PROJECT}
+  service: ${SERVICE_NAME}
+objects:
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      name: ${NAME}-public
+    spec:
+      host: ${PUBLIC_HOST}
+      tls:
+        caCertificate: "${CA_CERT}"
+        certificate: "${CERTIFICATE}"
+        key: "${PRIVATE_KEY}"
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge
+      to:
+        kind: Service
+        name: ${NAME}
+parameters:
+  - name: NAME
+    required: true
+  - name: PROJECT 
+    value: iosas
+  - name: SERVICE_NAME
+    value: web
+  - name: PUBLIC_HOST
+    require: true
+  - name: CERTIFICATE
+    require: true
+  - name: CA_CERT
+    require: true
+  - name: PRIVATE_KEY
+    require: true

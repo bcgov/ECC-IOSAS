@@ -108,21 +108,6 @@ objects:
       to:
         kind: Service
         name: ${NAME}
-  - apiVersion: route.openshift.io/v1
-    kind: Route
-    metadata:
-      name: ${NAME}-public
-    spec:
-      host: ${PUBLIC_HOST}
-      tls:
-        caCertificate: "${CA_CERT}"
-        certificate: "${CERTIFICATE}"
-        key: "${PRIVATE_KEY}"
-        insecureEdgeTerminationPolicy: Redirect
-        termination: edge
-      to:
-        kind: Service
-        name: ${NAME}
 parameters:
   - name: BUILD_ID
     value: "dev:0"
@@ -156,11 +141,3 @@ parameters:
     value: "production"
   - name: HOST_NAME
     required: true
-  - name: PUBLIC_HOST
-    require: true
-  - name: CERTIFICATE
-    require: true
-  - name: CA_CERT
-    require: true
-  - name: PRIVATE_KEY
-    require: true
