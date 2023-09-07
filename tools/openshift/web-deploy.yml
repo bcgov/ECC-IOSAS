@@ -114,12 +114,11 @@ objects:
       name: ${NAME}-public
     spec:
       host: ${PUBLIC_HOST}
-      path: ${PATH}
       tls:
-        caCertificate: ${CA_CERT}
-        certificate: ${CERTIFICATE}
+        caCertificate: "${CA_CERT}"
+        certificate: "${CERTIFICATE}"
+        key: "${PRIVATE_KEY}"
         insecureEdgeTerminationPolicy: Redirect
-        key: ${PRIVATE_KEY}
         termination: edge
       to:
         kind: Service
