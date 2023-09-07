@@ -117,6 +117,7 @@ print-status:
 	@echo " | BUILD_ID: 								$(COMMIT_SHA) "
 	@echo " | BUILD_TAG: 								$(BUILD_TAG) "
 	@echo " | HOST NAME: 								$(HOST) "
+	@echo " | PUBLIC HOST NAME: 				$(PUBLIC_HOST) "
 	@echo " | SITEMINDER URL:						$(SITE_MINDER_LOGOUT_URL)"
 	@echo " | SOAM DISCOVERY: 					$(SOAM_DISCOVERY)"
 	@echo " | SOAM URL: 								$(SOAM_URL)"
@@ -244,15 +245,12 @@ update-dc-web:
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(Web):$(ENV_PREFIX)" \
-		-p BUILD_ID=$(BUILD_TAG) \
-		-p PUBLIC_HOST=$(PUBLIC_HOST) \
-		-p CERTIFICATE=$(CERTIFICATE) \
-		-p CA_CERT=$(CA_CERT) \
-		-p PRIVATE_KEY=$(PRIVATE_KEY) | oc -n $(NAMESPACE) apply -f -
+		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
 	@oc -n $(NAMESPACE) rollout cancel dc/$(web) || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(Web))
+	sh config/create-route.sh $(NAMESPACE) $(NAME) $(PUBLIC_HOST) $(CERTIFICATE) $(CA_CERT) $(PRIVATE_KEY) 
 
 promote-web:
 	test -n "$(BUILD_NAMESPACE)"
