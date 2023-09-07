@@ -61,6 +61,6 @@ jobs:
         working-directory: './tools'
         run: |
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
-          make print-status
-          make promote-web
+          make print-status CERTIFICATE=${{ secrets.CERT }} CA_CERT=${{ secrets.CA_CERT}} PRIVATE_KEY=${{ secrets.PRIV_KEY}}
+          make promote-web 
           make deploy-web
