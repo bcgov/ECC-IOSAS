@@ -10,11 +10,11 @@ echo The Host URL is $PUBLIC_HOST || true
 echo Certifcate $CERTIFICATE || true
 echo CA_CERT $CA_CERT || true
 echo PK $PRIVATE_KEY || true
-pwd
 oc --namespace=$NAMESPACE process -f ./openshift/public-route.yml \
  -p NAME=$NAME \
  -p PUBLIC_HOST=$PUBLIC_HOST \
  -p CERTIFICATE="$CERTIFICATE" \
  -p PRIVATE_KEY="$PRIVATE_KEY" | oc --namespace=$NAMESPACE apply -f -
+echo Process complete
 
 

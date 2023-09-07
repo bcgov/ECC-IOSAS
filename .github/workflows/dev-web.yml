@@ -66,4 +66,12 @@ jobs:
           make print-status 
           make promote-web 
           make deploy-web
-          sh config/create-route.sh ${{ env.NAMESPACE_DEV }} web-${{ env.PROJECT_NAME }} ${{ env.PUBLIC_HOST}} ${{ secrets.CERT}} ${{secrets.CA_CERT}} ${{ secrets.PRIV_KEY }}
+          echo Cert: ${{ env.CERTIFICATE }}
+          echo Ca-cert: ${{ env.CA_CERT }}
+          eech PubKey: ${{ env.PRIVATE_KEY }}
+          oc --namespace=${{ env.NAMESPACE_DEV }} process -f ./openshift/public-route.yml \
+          -p NAME=web-${{ env.PROJECT_NAME }} \
+          -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
+          -p CERTIFICATE=${{ env.CERTIFICATE}} \
+          -p CA_CERT=${{ env.CA_CERT }} \   
+          -p PRIVATE_KEY="$PRIVATE_KEY" | oc --namespace=${{ env.NAMESPACE_DEV }} -f -

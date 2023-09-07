@@ -224,7 +224,6 @@ update-dc-api:
 		-p PUBLIC_HOST=$(PUBLIC_HOST) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
-	@oc -n $(NAMESPACE) rollout cancel dc/$(API) || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(API))
 
 promote-api:
