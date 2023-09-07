@@ -245,12 +245,15 @@ update-dc-web:
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(Web):$(ENV_PREFIX)" \
-		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
+		-p BUILD_ID=$(BUILD_TAG) \
+		-p PUBLIC_HOST=$(PUBLIC_HOST) \
+		-p CERTIFICATE="$(CERTIFICATE)" \
+		-p CA_CERT="$(CA_CERT)" \
+		-p PRIVATE_KEY="$(PRIVATE_KEY)" | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
-	@oc -n $(NAMESPACE) rollout cancel dc/$(web) || true && echo "No rollout in progress"
+	@oc -n $(NAMESPACE) rollout cancel dc/$(Web) || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(Web))
-	sh config/create-route.sh $(NAMESPACE) $(Web) $(PUBLIC_HOST) $(CERTIFICATE) $(CA_CERT) $(PRIVATE_KEY) 
 
 promote-web:
 	test -n "$(BUILD_NAMESPACE)"
