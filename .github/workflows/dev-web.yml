@@ -68,6 +68,7 @@ jobs:
       - name: Create Route
         working-directory: './tools'
         run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           echo Creating route with ${{ env.PUBLIC_HOST }}
           oc --namespace=${{ env.NAMESPACE_DEV }} process -f openshift/public-route.yml \
           -p NAME=web-ecc-iosas \
