@@ -67,7 +67,7 @@ jobs:
           make print-status 
           make promote-web 
           make deploy-web
-          echo Creating route
+          echo Creating route with ${{ env.PUBLIC_HOST }}
           oc --namespace=${{ env.NAMESPACE_DEV }} process -f openshift/public-route.yml \
           -p NAME=web-ecc-iosas \
           -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
