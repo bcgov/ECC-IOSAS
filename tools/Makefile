@@ -250,7 +250,7 @@ update-dc-web:
 deploy-web: update-dc-web
 	@oc -n $(NAMESPACE) rollout cancel dc/$(web) || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(Web))
-	sh config/create-route.sh $(NAMESPACE) $(NAME) $(PUBLIC_HOST) $(CERTIFICATE) $(CA_CERT) $(PRIVATE_KEY) 
+	sh config/create-route.sh $(NAMESPACE) $(Web) $(PUBLIC_HOST) $(CERTIFICATE) $(CA_CERT) $(PRIVATE_KEY) 
 
 promote-web:
 	test -n "$(BUILD_NAMESPACE)"
