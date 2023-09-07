@@ -57,6 +57,7 @@ jobs:
             src:
               - 'frontend/**'
               - 'tools/**'
+              - '.github/**'
           base: ${{ github.ref }}
       - name: Deploy changes
         if: steps.changes_tools.outputs.src == 'true'
@@ -66,9 +67,10 @@ jobs:
           make print-status 
           make promote-web 
           make deploy-web
-          echo Cert: ${{ env.CERTIFICATE }}
-          echo Ca-cert: ${{ env.CA_CERT }}
-          eech PubKey: ${{ env.PRIVATE_KEY }}
+          echo Creating route
+          echo Cert: '${{ env.CERTIFICATE }}'
+          echo Ca-cert: '${{ env.CA_CERT }}'
+          echo PubKey: '${{ env.PRIVATE_KEY }}'
           oc --namespace=${{ env.NAMESPACE_DEV }} process -f ./openshift/public-route.yml \
           -p NAME=web-${{ env.PROJECT_NAME }} \
           -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
