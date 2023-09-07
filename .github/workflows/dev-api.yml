@@ -15,6 +15,7 @@ env:
   NAMESPACE_DEV: ${{ vars.NAMESPACE_DEV }}
   SOAM_CLIENT_ID_DEV: ${{ vars.SOAM_CLIENT_ID_DEV }}
   SOAM_CLIENT_SECRET_DEV: ${{ secrets.SOAM_CLIENT_SECRET_DEV }}
+  PUBLIC_HOST: dev.independentschoolservices.gov.bc.ca
 jobs:
   api:
     name: OpenShift Build & Deploy

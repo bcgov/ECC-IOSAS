@@ -22,6 +22,7 @@ export COMMIT_SHA:=$(shell git rev-parse --short=7 HEAD)
 export CERTIFICATE:=$(or $(CERTIFICATE),)
 export CA_CERT:=$(or $(CA_CERT),)
 export PRIVATE_KEY:=$(or $(PRIVATE_KEY),)
+export PUBLIC_HOST := $(or $(PUBLIC_HOST), dev.independentschoolservices.gov.bc.ca) 
 
 HOST_PREFIX= $(ENV_PREFIX)
 
@@ -35,7 +36,6 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_DEV)
 SOAM_DISCOVERY=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
 SOAM_URL=https://soam-dev.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
-PUBLIC_HOST=dev.independentschoolservices.gov.bc.ca
 endif
 
 ifeq ($(ENV_PREFIX), test)
@@ -46,7 +46,6 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_TEST)
 SOAM_DISCOVERY=https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
 SOAM_URL=https://soam-test.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
-PUBLIC_HOST=test.independentschoolservices.gov.bc.ca
 endif
 
 ifeq ($(ENV_PREFIX), prod)
@@ -57,7 +56,6 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_PROD)
 SOAM_DISCOVERY=
 SOAM_URL=
 bceid_reg_url=
-PUBLIC_HOST=independentschoolservices.gov.bc.ca
 endif
 
 define BUILD_TAG
@@ -246,7 +244,6 @@ update-dc-web:
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(Web):$(ENV_PREFIX)" \
 		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
-	sh config/create-route.sh $(NAMESPACE) $(Web) $(PUBLIC_HOST) $(CERTIFICATE) $(CA_CERT) $(PRIVATE_KEY)
 
 deploy-web: update-dc-web
 	$(call rollout_and_wait,dc/$(Web))

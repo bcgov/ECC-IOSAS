@@ -18,6 +18,8 @@ env:
   NAMESPACE_DEV: ${{ vars.NAMESPACE_DEV }}
   SOAM_CLIENT_ID_DEV: ${{ vars.SOAM_CLIENT_ID_DEV }}
   SOAM_CLIENT_SECRET_DEV: ${{ secrets.SOAM_CLIENT_SECRET_DEV }}
+  PUBLIC_HOST: dev.independentschoolservices.gov.bc.ca
+  PROJECT_NAME: ecc-iosas
 jobs:
   web:
     name: OpenShift Build & Deploy
@@ -63,4 +65,5 @@ jobs:
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make print-status 
           make promote-web 
-          make deploy-web CERTIFICATE=${{ secrets.CERT }} CA_CERT=${{ secrets.CA_CERT}} PRIVATE_KEY=${{ secrets.PRIV_KEY}}
+          make deploy-web
+          sh config/create-route.sh ${{ env.NAMESPACE_DEV }} web-${{ env.PROJECT_NAME }} ${{ env.PUBLIC_HOST}} ${{ secrets.CERT}} ${{secrets.CA_CERT}} ${{ secrets.PRIV_KEY }}
