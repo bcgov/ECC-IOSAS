@@ -207,6 +207,7 @@ build-web:
 
 
 update-dc-api:
+	@echo "+\n Testing env for API \n+"
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating API-dc with tag: $(BUILD_TAG)\n+"
@@ -234,6 +235,7 @@ promote-api:
 	
 
 update-dc-web:
+	@echo "+\n Testing env for Web \n+"
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	test -n "$(CERTIFICATE)"
