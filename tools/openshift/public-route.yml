@@ -13,9 +13,9 @@ objects:
     spec:
       host: ${PUBLIC_HOST}
       tls:
-        caCertificate: "${CA_CERT}"
-        certificate: "${CERTIFICATE}"
-        key: "${PRIVATE_KEY}"
+        caCertificate: ${CA_CERT}
+        certificate: ${CERTIFICATE}
+        key: ${PRIVATE_KEY}
         insecureEdgeTerminationPolicy: Redirect
         termination: edge
       to:
