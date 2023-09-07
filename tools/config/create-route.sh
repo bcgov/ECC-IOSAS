@@ -15,6 +15,6 @@ oc --namespace=$NAMESPACE process -f ./openshift/public-route.yml \
  -p NAME=$NAME \
  -p PUBLIC_HOST=$PUBLIC_HOST \
  -p CERTIFICATE="$CERTIFICATE" \
- -p PRIVATE_KEY="$PRIVATE_KEY" | oc --namespace=$NAMESPACE apply -f
+ -p PRIVATE_KEY="$PRIVATE_KEY" | oc --namespace=$NAMESPACE apply -f -
 
 
