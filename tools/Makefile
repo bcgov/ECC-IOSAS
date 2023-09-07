@@ -122,8 +122,8 @@ print-status:
 	@echo " | SOAM URL: 								$(SOAM_URL)"
 	@echo " | SOAM CLIENT ID: 					$(SOAM_CLIENT_ID)"
 	@echo " +---------------------------------------------------------+ "
-	@echo " | CERTIFICATE: $(CERTIFICATE)"
-	@echo " | CA_CERT: $(CA_CERT)"
+	@echo ' | CERTIFICATE: $(CERTIFICATE)'
+	@echo ' | CA_CERT: $(CA_CERT)'
 	@echo " +---------------------------------------------------------+ "
 
 init-project: print-status
