@@ -249,7 +249,6 @@ update-dc-web:
 	sh config/create-route.sh $(NAMESPACE) $(Web) $(PUBLIC_HOST) $(CERTIFICATE) $(CA_CERT) $(PRIVATE_KEY)
 
 deploy-web: update-dc-web
-	@oc -n $(NAMESPACE) rollout cancel dc/$(Web) || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(Web))
 
 promote-web:
