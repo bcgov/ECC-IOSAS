@@ -268,7 +268,9 @@
             </v-col>
           </v-row>
           <div>
-            <v-label>School Authority Head</v-label>
+            <v-label class="no-mb">School Authority Head</v-label>
+            <br />
+            <v-label class="sm">(ie board chair or lead director)</v-label>
             <div>
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
@@ -516,7 +518,9 @@
               </v-radio-group>
             </v-col>
           </v-row>
-          <v-label>Proposed grade range in first year of operation</v-label>
+          <v-label
+            >Proposed contiguous grade range in first year of operation</v-label
+          >
           <v-row>
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-select
