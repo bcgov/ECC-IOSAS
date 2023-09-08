@@ -4,8 +4,8 @@
     <Header />
     <SnackBar />
     <Loader />
-    <v-main fluid class="align-start" v-if="!isLoading">
-      <ModalIdle v-if="authStore().isAuthenticated" />
+    <v-main fluid class="align-start">
+      <ModalIdle v-if="isAuthenticated" />
       <router-view />
     </v-main>
     <Footer />
@@ -39,12 +39,7 @@ export default {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
   computed: {
-    ...mapState(authStore, [
-      'isAuthenticated',
-      'loginError',
-      'isLoading',
-      'envGet',
-    ]),
+    ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
     },
@@ -117,10 +112,6 @@ a {
 
 a:hover {
   cursor: pointer;
-}
-
-.envBanner {
-  font-size: 0.8rem;
 }
 
 .v-application {
