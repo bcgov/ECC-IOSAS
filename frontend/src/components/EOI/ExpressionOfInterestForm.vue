@@ -495,12 +495,7 @@
               </v-radio-group>
             </v-col>
           </v-row>
-          <v-row
-            v-if="
-              data.iosas_groupclassification ===
-              GROUP_CLASSIFICATION_CODES.groupTwo
-            "
-          >
+          <v-row v-if="isGroupTwo()">
             <v-col cols="12">
               <v-label class="no-mb"
                 >For authorities applying for Group 2 classification, are there
@@ -514,12 +509,7 @@
                 class="mt-4"
                 inline
                 @change="validateAndPopulate"
-                :rules="
-                  data.iosas_groupclassification ===
-                  GROUP_CLASSIFICATION_CODES.groupTwo
-                    ? [rules.requiredRadio()]
-                    : []
-                "
+                :rules="[rules.requiredRadio()]"
               >
                 <v-radio label="Yes" color="#003366" :value="true" />
                 <v-radio label="No" color="#003366" :value="false" />
@@ -823,7 +813,7 @@ import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import IndependentSchoolDisclaimer from '../IndependentSchoolDisclaimer.vue';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import alertMixin from './../../mixins/alertMixin';
@@ -853,16 +843,12 @@ export default {
     EOIFormHeader,
     RequiredMessage,
   },
-  emits: ['setIsLoading', 'updateEOIData'],
+  emits: ['updateEOIData'],
   mixins: [alertMixin],
   props: {
     eoi: {
       type: Object,
       required: false,
-    },
-    isLoading: {
-      type: Boolean,
-      required: true,
     },
     isNew: {
       type: Boolean,
@@ -994,11 +980,6 @@ export default {
           this.populateAndDisableAuthorityAddress = false;
           return (this.data = {
             ...this.data,
-            iosas_authorityaddressline1: null,
-            iosas_authorityaddressline2: null,
-            iosas_authorityprovince: null,
-            iosas_authoritycity: null,
-            iosas_authoritypostalcode: null,
             _iosas_edu_schoolauthority_value: null,
             iosas_authoritycountry: 'Canada',
             iosas_authorityprovince: 'British Columbia',
@@ -1131,6 +1112,7 @@ export default {
   methods: {
     authStore,
     applicationsStore,
+    ...mapActions(authStore, ['setLoading']),
     formatLongName,
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
@@ -1248,7 +1230,7 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.$emit('setIsLoading', true);
+        this.setLoading(true);
         ApiService.cancelEOI(this.data.iosas_expressionofinterestid)
           .then(async () => {
             await applicationsStore().setConfirmationMessage(
@@ -1273,7 +1255,7 @@ export default {
       if (!this.isNew) {
         return this.handleUpdate();
       }
-      this.$emit('setIsLoading', true);
+      this.setLoading(true);
       ApiService.createEOI(this.data, this.isSubmitted)
         .then((response) => {
           if (this.documents.length > 0) {
@@ -1311,7 +1293,7 @@ export default {
         !this.certificateIssueDateRequired &&
         !this.goodStandingIssueDateRequired
       ) {
-        this.$emit('setIsLoading', true);
+        this.setLoading(true);
         ApiService.createEOI(this.data, this.isSubmitted)
           .then(async (response) => {
             if (this.documents.length > 0) {
@@ -1413,6 +1395,12 @@ export default {
           return this.documents;
         }
       }
+    },
+    isGroupTwo() {
+      return (
+        this.data.iosas_groupclassification ===
+        this.GROUP_CLASSIFICATION_CODES.groupTwo
+      );
     },
     validateAndPopulate(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,
