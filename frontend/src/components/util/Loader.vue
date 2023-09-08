@@ -5,11 +5,10 @@
         class="mt-10"
         :size="70"
         :width="7"
-        color="deep-orange-lighten-2"
+        color="primary"
         indeterminate
         :active="isLoading"
       />
-      <!-- color="primary" -->
     </v-col>
   </v-row>
 </template>

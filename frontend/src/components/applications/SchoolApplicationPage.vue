@@ -49,12 +49,13 @@ export default {
     ...mapState(applicationsStore, ['getSchoolApplication']),
     ...mapState(authStore, ['isLoading']),
   },
-  created() {
-    this.fetchAppData();
+  async created() {
+    await this.fetchAppData();
   },
   methods: {
     formatArrayToString,
     ...mapActions(authStore, ['setLoading']),
+    ...mapActions(applicationsStore, ['getApplicationById']),
     formatPayload(payload) {
       // Convert array to comma seperated string
       return {
@@ -71,9 +72,8 @@ export default {
       };
     },
     async fetchAppData() {
-      this.setLoading(true);
-      return applicationsStore()
-        .getApplicationById(this.$route.params.id)
+      await this.setLoading(true);
+      this.getApplicationById(this.$route.params.id)
         .then(async () => {
           let contactResponse;
           this.applicationData = this.getSchoolApplication;
@@ -93,12 +93,10 @@ export default {
                 contactResponse.data.telephone1,
             };
           }
+          await this.setLoading(false);
         })
         .catch((error) => {
           console.log(error);
-        })
-        .finally(() => {
-          this.setLoading(false);
         });
     },
     async handleUploadDocuments(appID, documents) {

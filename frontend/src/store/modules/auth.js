@@ -26,7 +26,6 @@ export const authStore = defineStore('auth', {
     loginError: false,
     jwtToken: localStorage.getItem('jwtToken'),
   }),
-  getters: {},
   actions: {
     //sets Json web token and determines whether user is authenticated
     async setJwtToken(token = null) {

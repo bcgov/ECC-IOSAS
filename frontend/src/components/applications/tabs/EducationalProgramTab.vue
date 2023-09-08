@@ -27,7 +27,7 @@
       </v-row>
       <br />
       <h4>Additional Programs</h4>
-      <v-label class="no-mb"
+      <v-label
         >At this time does the proposed school intend on enrolling any of the
         following students?
       </v-label>
@@ -53,9 +53,7 @@
             }}
           </p>
         </v-col>
-        <v-spacer />
       </v-row>
-      <br />
       <v-label>Other</v-label>
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">

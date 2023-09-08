@@ -124,9 +124,7 @@ export default {
   async created() {
     await this.setLoading(true);
     await this.getAllEOI();
-    this.eoiApplications = this.getEOIApplicationsFormatted
-      ? this.getEOIApplicationsFormatted
-      : [];
+    this.eoiApplications = this.getEOIApplicationsFormatted;
     await this.getAllSchoolApplications();
     this.schoolApplications = this.getSchoolApplicationsFormatted;
     await this.setLoading(false);
