@@ -38,9 +38,10 @@
           <v-text-field
             id="iosas_numberofteachers"
             v-model="formData.iosas_numberofteachers"
-            :maxlength="255"
             variant="outlined"
+            type="number"
             color="rgb(59, 153, 252)"
+            :rules="[rules.wholeNumber(), rules.required()]"
           />
         </v-col>
       </v-row>
@@ -94,6 +95,8 @@
             v-model="formData.iosas_awareoftherequirementsforcrchecks"
             color="#003366"
             class="mt-4"
+            @change="$emit('validateAndPopulate', $event)"
+            :rules="[rules.requiredRadio()]"
             inline
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />

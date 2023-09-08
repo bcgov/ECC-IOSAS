@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="!authStore().isAuthenticated" fluid>
+  <v-container v-if="!isAuthenticated" fluid>
     <article name="login-banner">
       <v-row
         align="center"
@@ -11,7 +11,7 @@
     </article>
   </v-container>
 
-  <v-container v-else-if="isLoading" fluid class="full-height">
+  <!-- <v-container v-else-if="isLoading" fluid class="full-height">
     <article id="progress-display-container">
       <v-row align="center" justify="center">
         <v-col class="d-flex justify-center">
@@ -25,9 +25,9 @@
         </v-col>
       </v-row>
     </article>
-  </v-container>
+  </v-container> -->
 
-  <v-container v-else fluid class="dashboard-container">
+  <v-container v-if="!isLoading" fluid class="dashboard-container">
     <!-- TODO: re-add alerts once they are dynamic and not hardcoded -->
     <!-- <v-row
       align="center"
@@ -103,7 +103,7 @@ import Login from './Login.vue';
 import { authStore } from '../store/modules/auth';
 import { applicationsStore } from '../store/modules/applications';
 import { AuthRoutes } from '../utils/constants';
-import { mapState } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { GOV_URL } from '../utils/constants';
 import PrimaryButton from './util/PrimaryButton.vue';
 import DataTable from './util/DataTable.vue';
@@ -123,9 +123,9 @@ export default {
     return {
       AuthRoutes,
       GOV_URL,
-      isLoading: true,
+      // isLoading: true,
       schoolApplications: [],
-      eioApplications: [],
+      eoiApplications: [],
       routes: {
         EOI: 'expressionOfInterestPage',
         APP: 'schoolApplicationPage',
@@ -133,27 +133,26 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated']),
+    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
     ...mapState(applicationsStore, [
       'getEOIApplicationsFormatted',
-      'getAllEOI',
+      'getSchoolApplicationsFormatted',
     ]),
   },
-  mounted() {},
-  async created() {
-    await applicationsStore().getAllEOI();
+  // mounted() {},
+  async mounted() {
+    // await this.setLoading(true);
+    await this.getAllEOI();
     this.eoiApplications = this.getEOIApplicationsFormatted
       ? this.getEOIApplicationsFormatted
       : [];
-    await applicationsStore().getAllSchoolApplications();
-    this.schoolApplications =
-      applicationsStore().getSchoolApplicationsFormatted;
-
-    this.isLoading = false;
+    await this.getAllSchoolApplications();
+    this.schoolApplications = this.getSchoolApplicationsFormatted;
+    // await this.setLoading(false);
   },
   methods: {
-    authStore,
-    applicationsStore,
+    ...mapActions(authStore, ['setLoading']),
+    ...mapActions(applicationsStore, ['getAllEOI', 'getAllSchoolApplications']),
     redirectToEOIForm() {
       this.$router.push({ path: AuthRoutes.NEW_EOI });
     },

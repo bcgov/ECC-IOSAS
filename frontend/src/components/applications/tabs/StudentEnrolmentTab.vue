@@ -197,7 +197,12 @@
             disabled
             id="iosas_totalenrolment"
             v-model="formData.iosas_totalenrolment"
-            :rules="[rules.enrolmentTotalGreaterThanTen()]"
+            :rules="[
+              rules.numberGreaterThanOrEqualMinimum(
+                10,
+                'A new school must have 10 or more students enrolled'
+              ),
+            ]"
             variant="outlined"
             type="number"
             label="Total of A and B enrolment"

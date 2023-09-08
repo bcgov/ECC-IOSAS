@@ -98,6 +98,7 @@ export const SCHOOL_APP_CODE_CODES = {
 
 export const GROUP_CLASSIFICATION_CODES = {
   groupTwo: 100000000,
+  groupThree: 100000001,
   groupFour: 100000002,
 };
 
