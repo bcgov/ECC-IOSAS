@@ -56,6 +56,7 @@ export default {
     }
   },
   async getContactById(id) {
+    console.log('CALLED>>>');
     try {
       return await APIService.apiAxios.get(ApiRoutes.app.CONTACT(id));
     } catch (e) {

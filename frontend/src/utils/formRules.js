@@ -86,17 +86,13 @@ const requiredNumber = (message = 'Required') => {
 };
 
 /**
- * Rule required number allows 0 to be valid
+ * Rule require that the number does not have a decimal or negative
  * @param {String} message
  * @returns {String|Boolean}
  */
 const wholeNumber = (message = 'Must be a whole number') => {
   return (v) => {
-    if (v || v === 0) {
-      return true;
-    } else {
-      return message;
-    }
+    return v % 1 === 0 || message;
   };
 };
 
