@@ -19,17 +19,13 @@
       </v-col>
     </v-row>
 
-    <div v-else class="d-flex justify-space-between">
+    <div v-if="!isLoading" class="d-flex justify-space-between">
       <v-container fluid class="content-container d-flex">
         <v-row no-gutter>
           <v-col cols="12" sm="12" md="12" lg="9" xs="12">
             <div class="form-container">
               <div>
-                <ExpressionOfInterestForm
-                  :isNew="true"
-                  :isLoading="isLoading"
-                  @setIsLoading="setIsLoading"
-                />
+                <ExpressionOfInterestForm :isNew="true" />
               </div>
             </div>
           </v-col>
@@ -57,7 +53,6 @@ export default {
     ExpressionOfInterestForm,
   },
   data: () => ({
-    isLoading: false,
     items: [
       {
         title: 'Dashboard',
@@ -73,9 +68,6 @@ export default {
   }),
   methods: {
     authStore,
-    setIsLoading() {
-      this.isLoading = !this.isLoading;
-    },
   },
 };
 </script>

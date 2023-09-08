@@ -5,7 +5,7 @@
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-    <v-row v-if="isLoading">
+    <!-- <v-row v-if="isLoading">
       <v-col class="d-flex justify-center">
         <v-progress-circular
           class="mt-16"
@@ -16,9 +16,9 @@
           :active="isLoading"
         />
       </v-col>
-    </v-row>
+    </v-row> -->
 
-    <div v-else class="d-flex justify-space-between">
+    <div v-if="!isLoading" class="d-flex justify-space-between">
       <v-container fluid class="content-container d-flex">
         <v-row no-gutter>
           <v-col cols="12" sm="12" md="12" lg="9" xs="12">
@@ -31,9 +31,8 @@
                   :isNew="false"
                   :eoi="eoi"
                   @updateEOIData="updateEOIData"
-                  :isLoading="isLoading"
-                  @setIsLoading="setIsLoading"
                 />
+                <!-- :isLoading="isLoading" -->
               </div>
             </div>
           </v-col>
@@ -55,7 +54,7 @@ import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 import ApiService from '../../common/apiService';
 import alertMixin from './../../mixins/alertMixin';
 import { EOI_STATUS_CODES } from '../../utils/application';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 import { documentStore } from '../../store/modules/document';
 import { applicationsStore } from '../../store/modules/applications';
@@ -72,7 +71,7 @@ export default {
   mixins: [alertMixin],
   watch: {
     eoi: {
-      handler(val, oldVal) {
+      handler(val) {
         if (val) {
           this.eoi = val;
           if (val.iosas_reviewstatus === this.EOI_STATUS_CODES.draft) {
@@ -84,7 +83,6 @@ export default {
   },
   data: () => ({
     isViewOnly: false,
-    isLoading: true,
     EOI_STATUS_CODES,
     eoi: null,
     items: [
@@ -102,32 +100,32 @@ export default {
   }),
   mounted() {},
   computed: {
-    ...mapState(authStore, ['isAuthenticated']),
+    ...mapState(authStore, ['isLoading']),
     ...mapState(applicationsStore, ['getEOIApplicationById', 'getEOI']),
   },
   async created() {
+    this.setLoading(true);
     await applicationsStore().getEOIApplicationById(this.$route.params.id);
     this.eoi = this.getEOI;
     this.isViewOnly =
       this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
-    this.isLoading = false;
+    this.setLoading(false);
   },
   methods: {
     authStore,
     metaDataStore,
     documentStore,
-    setIsLoading(value) {
-      return (this.isLoading = value);
-    },
+    ...mapActions(authStore, ['setLoading']),
     async fetchEOIData() {
-      this.isLoading = true;
+      this.setLoading(true);
+
       return applicationsStore()
         .getEOIApplicationById(this.$route.params.id)
-        .then((res) => {
+        .then(() => {
           this.eoi = this.getEOI;
           this.isViewOnly =
             this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
-
+          this.setLoading(false);
           return this.eoi;
         });
     },
@@ -156,7 +154,7 @@ export default {
     },
     async updateEOIData(id, payload, isSubmitted, documents) {
       try {
-        this.isLoading = true;
+        this.setLoading(true);
         const updateResponse = await ApiService.updateEOI(
           id,
           payload,
@@ -177,7 +175,7 @@ export default {
               params: { type: 'EOI' },
             });
           } else {
-            this.isLoading = false;
+            this.setLoading(false);
             this.setSuccessAlert(
               `Success! Expression of Interest ${payload.iosas_eoinumber} has been updated.`
             );

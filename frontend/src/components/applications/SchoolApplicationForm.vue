@@ -418,6 +418,7 @@ export default {
       'addApplicationDocument',
       'setApplicationDocuments',
     ]),
+    ...mapActions(authStore, ['setLoading']),
     isTabDisabled(tab) {
       if (Number(tab) === this.TAB_CODES.preCertSubmission) {
         if (
@@ -543,7 +544,8 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.$emit('setIsLoading', true);
+        // this.$emit('setIsLoading', true);
+        this.setLoading(true);
         ApplicationService.cancelSchoolApplication(
           this.formData.iosas_applicationid
         )
