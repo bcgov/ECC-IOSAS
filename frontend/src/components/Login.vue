@@ -46,7 +46,7 @@
                 <v-card-actions>
                   <v-btn
                     id="register-button"
-                    :href="envGet?.beceidRegURL"
+                    :href="env?.beceidRegURL"
                     target="_blank"
                     class="ma-2"
                   >
@@ -117,7 +117,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ['envGet']),
+    ...mapState(authStore, ['env']),
   },
   methods: {
     clearStorage() {

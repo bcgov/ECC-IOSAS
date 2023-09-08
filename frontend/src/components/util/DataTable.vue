@@ -101,8 +101,8 @@ export default {
       required: true,
     },
   },
-  created() {
-    this.getTableHeaders();
+  async created() {
+    await this.getTableHeaders();
   },
   methods: {
     getNullMessage() {
@@ -111,12 +111,12 @@ export default {
       }
       return "You don't currently have any active Expression of Interests. Click `Create new EOI` button to get started.";
     },
-    getTableHeaders() {
+    async getTableHeaders() {
       const firstItem = this.data?.[0];
       if (firstItem) {
-        this.tableHeaders = Object.keys(firstItem).map((key) => ({
+        return (this.tableHeaders = Object.keys(firstItem).map((key) => ({
           value: key,
-        }));
+        })));
       }
     },
     formatSnakeCaseToString,
