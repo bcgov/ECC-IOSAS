@@ -264,6 +264,15 @@ d365-api-tunnel:
 	@echo "+\n++ Port Forwarding to D365 stack"
 	@oc -n $(NAMESPACE) port-forward svc/$(API)-d365 5091
 
+deploy-redis:
+	@echo "+\n Installing redis in env +\n"
+	@oc -n $(NAMESPACE) process -f openshift/redis-deploy.yml \
+	-p NAME=$(API) |  oc -n $(NAMESPACE) apply -f -
+	@oc -n $(NAMESPACE) rollout status dc/redis
+
+redis-tunnel:
+	@echo "+\n++ Port Forwarding to redis"
+	@oc -n $(NAMESPACE) port-forward svc/redis 6379
 # Tagging env
 tag-test:
 ifdef ticket

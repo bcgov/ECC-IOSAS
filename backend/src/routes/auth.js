@@ -92,8 +92,8 @@ router.get('/logout', async (req, res, next) => {
     if (err) {
       return next(err);
     }
-    const logoutURL = config.get('logoutEndpoint');
     req.session.destroy();
+    const logoutURL = config.get('logoutEndpoint');
     let retUrl;
     if (req.query && req.query.sessionExpired) {
       retUrl =
