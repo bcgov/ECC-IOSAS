@@ -1,3 +1,9 @@
+export const NULL_MESSAGES = {
+  applications:
+    "You don't currently have any active school applications. Your new school application will show up here after your Expression of Interest is approved.",
+  eoi: "You don't currently have any active Expression of Interests. Click `Create new EOI` button to get started.",
+};
+
 export const TAB_CODES = {
   general: 100000000,
   schoolInfo: 100000001,

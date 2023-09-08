@@ -27,7 +27,9 @@
           <thead>
             <tr>
               <th
-                v-for="headers in tableHeaders"
+                v-for="headers in Object.keys(this.data?.[0]).map((key) => ({
+                  value: key,
+                }))"
                 :key="headers.value"
                 class="text-left"
               >
@@ -66,6 +68,7 @@
 
 <script>
 import { NULL_STRING } from '../../utils/constants';
+import { NULL_MESSAGES } from '../../utils/application';
 import { formatSnakeCaseToString } from '../../utils/format';
 import TertiaryButton from '../util/TertiaryButton.vue';
 export default {
@@ -76,7 +79,7 @@ export default {
   data() {
     return {
       NULL_STRING,
-      tableHeaders: [],
+      NULL_MESSAGES,
     };
   },
   props: {
@@ -101,23 +104,12 @@ export default {
       required: true,
     },
   },
-  async created() {
-    await this.getTableHeaders();
-  },
   methods: {
     getNullMessage() {
       if (this.title === 'New School Applications') {
-        return "You don't currently have any active school applications. Your new school application will show up here after your Expression of Interest is approved.";
+        return NULL_MESSAGES.applications;
       }
-      return "You don't currently have any active Expression of Interests. Click `Create new EOI` button to get started.";
-    },
-    async getTableHeaders() {
-      const firstItem = this.data?.[0];
-      if (firstItem) {
-        return (this.tableHeaders = Object.keys(firstItem).map((key) => ({
-          value: key,
-        })));
-      }
+      return NULL_MESSAGES.eoi;
     },
     formatSnakeCaseToString,
   },

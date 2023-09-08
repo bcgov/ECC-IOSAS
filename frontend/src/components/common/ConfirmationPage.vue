@@ -22,7 +22,7 @@ export default {
   name: 'ConfirmationPage',
   computed: {
     ...mapState(applicationsStore, ['getConfirmationMessage']),
-    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
+    ...mapState(authStore, ['isLoading']),
   },
   mounted() {
     this.setLoading(false);

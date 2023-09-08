@@ -284,13 +284,6 @@ export default {
     GROUP_CLASSIFICATION_CODES,
     rules: Rules,
   }),
-  mounted() {
-    console.log(
-      this.formData.iosas_fulldaykindergartenproposedhoursperday ||
-        this.formData.iosas_fulldaykindergartenproposeddaysinsession ||
-        this.formData.iosas_fulldaykindergartenproposedhoursperyear
-    );
-  },
   computed: {
     ...mapState(metaDataStore, ['getApplicationMultiPickListOptions']),
   },
