@@ -1,6 +1,6 @@
 <template>
   <v-row v-if="isLoading" class="mt-10">
-    <v-col class="d-flex justify-center">
+    <v-col class="d-flex justify-center" align-self="center">
       <v-progress-circular
         class="mt-10"
         :size="70"
@@ -15,9 +15,8 @@
 </template>
 
 <script>
-import { appStore } from '../../store/modules/app';
 import { authStore } from '../../store/modules/auth';
-import { mapActions, mapState } from 'pinia';
+import { mapState } from 'pinia';
 
 export default {
   name: 'Loader',
@@ -32,11 +31,5 @@ export default {
   computed: {
     ...mapState(authStore, ['isLoading']),
   },
-  watch: {},
-  //   methods: {
-  //     ...mapActions(authStore, ['setLoading']),
-  //   },
 };
 </script>
-
-<style></style>

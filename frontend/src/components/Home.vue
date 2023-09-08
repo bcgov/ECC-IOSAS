@@ -10,23 +10,6 @@
       </v-row>
     </article>
   </v-container>
-
-  <!-- <v-container v-else-if="isLoading" fluid class="full-height">
-    <article id="progress-display-container">
-      <v-row align="center" justify="center">
-        <v-col class="d-flex justify-center">
-          <v-progress-circular
-            class="mt-16"
-            :size="70"
-            :width="7"
-            color="primary"
-            indeterminate
-          />
-        </v-col>
-      </v-row>
-    </article>
-  </v-container> -->
-
   <v-container v-if="!isLoading" fluid class="dashboard-container">
     <!-- TODO: re-add alerts once they are dynamic and not hardcoded -->
     <!-- <v-row
@@ -123,7 +106,6 @@ export default {
     return {
       AuthRoutes,
       GOV_URL,
-      // isLoading: true,
       schoolApplications: [],
       eoiApplications: [],
       routes: {
@@ -139,16 +121,15 @@ export default {
       'getSchoolApplicationsFormatted',
     ]),
   },
-  // mounted() {},
-  async mounted() {
-    // await this.setLoading(true);
+  async created() {
+    await this.setLoading(true);
     await this.getAllEOI();
     this.eoiApplications = this.getEOIApplicationsFormatted
       ? this.getEOIApplicationsFormatted
       : [];
     await this.getAllSchoolApplications();
     this.schoolApplications = this.getSchoolApplicationsFormatted;
-    // await this.setLoading(false);
+    await this.setLoading(false);
   },
   methods: {
     ...mapActions(authStore, ['setLoading']),

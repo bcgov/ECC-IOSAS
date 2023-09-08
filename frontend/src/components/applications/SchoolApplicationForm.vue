@@ -248,16 +248,12 @@ export default {
     DocumentTab,
     PreCertificationTab,
   },
-  emits: ['setIsLoading', 'updateData', 'handleUploadDocuments'],
+  emits: ['updateData', 'handleUploadDocuments'],
   mixins: [alertMixin],
   props: {
     formData: {
       type: Object,
       required: false,
-    },
-    isLoading: {
-      type: Boolean,
-      required: true,
     },
   },
   data() {
@@ -355,7 +351,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo', 'isLoading']),
     ...mapState(metaDataStore, [
       'getApplicationPickListOptions',
       'getSchoolYears',
@@ -544,7 +540,6 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        // this.$emit('setIsLoading', true);
         this.setLoading(true);
         ApplicationService.cancelSchoolApplication(
           this.formData.iosas_applicationid

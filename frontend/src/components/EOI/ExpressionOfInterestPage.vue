@@ -1,24 +1,12 @@
 <template>
-  <v-container fluid class="full-height">
+  <v-container fluid class="full-height" v-if="!isLoading">
     <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-    <!-- <v-row v-if="isLoading">
-      <v-col class="d-flex justify-center">
-        <v-progress-circular
-          class="mt-16"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-          :active="isLoading"
-        />
-      </v-col>
-    </v-row> -->
 
-    <div v-if="!isLoading" class="d-flex justify-space-between">
+    <div class="d-flex justify-space-between">
       <v-container fluid class="content-container d-flex">
         <v-row no-gutter>
           <v-col cols="12" sm="12" md="12" lg="9" xs="12">
@@ -32,7 +20,6 @@
                   :eoi="eoi"
                   @updateEOIData="updateEOIData"
                 />
-                <!-- :isLoading="isLoading" -->
               </div>
             </div>
           </v-col>
@@ -174,6 +161,7 @@ export default {
               name: 'applicationConfirmation',
               params: { type: 'EOI' },
             });
+            this.setLoading(false);
           } else {
             this.setLoading(false);
             this.setSuccessAlert(
