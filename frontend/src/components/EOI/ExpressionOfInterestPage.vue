@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid class="full-height" v-if="!isLoading">
+  <div v-if="isLoading" />
+  <v-container fluid class="full-height" v-else>
     <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
@@ -88,33 +89,33 @@ export default {
   mounted() {},
   computed: {
     ...mapState(authStore, ['isLoading']),
-    ...mapState(applicationsStore, ['getEOIApplicationById', 'getEOI']),
+    ...mapState(applicationsStore, ['getEOI']),
   },
   async created() {
-    this.setLoading(true);
-    await applicationsStore().getEOIApplicationById(this.$route.params.id);
-    this.eoi = this.getEOI;
-    this.isViewOnly =
-      this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
-    this.setLoading(false);
+    await this.fetchEOIData();
+    // await this.setLoading(true);
+    // await this.getEOIApplicationById(this.$route.params.id);
+    // this.eoi = this.getEOI;
+    // this.isViewOnly =
+    //   this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
+    // await this.setLoading(false);
   },
   methods: {
     authStore,
     metaDataStore,
     documentStore,
     ...mapActions(authStore, ['setLoading']),
+    ...mapActions(applicationsStore, ['getEOIApplicationById']),
     async fetchEOIData() {
       this.setLoading(true);
 
-      return applicationsStore()
-        .getEOIApplicationById(this.$route.params.id)
-        .then(() => {
-          this.eoi = this.getEOI;
-          this.isViewOnly =
-            this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
-          this.setLoading(false);
-          return this.eoi;
-        });
+      return this.getEOIApplicationById(this.$route.params.id).then(() => {
+        this.eoi = this.getEOI;
+        this.isViewOnly =
+          this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
+        this.setLoading(false);
+        return this.eoi;
+      });
     },
     async handleUpladDocuments(eoiID, documents) {
       const documentsNotUploaded = documents.filter((doc) => doc.content);
