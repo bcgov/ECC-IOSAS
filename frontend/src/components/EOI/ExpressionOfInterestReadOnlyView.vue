@@ -210,7 +210,10 @@
         <br />
         <v-row>
           <v-col cols="12" sm="12" md="6" xs="12">
-            <v-label>Proposed grade range in first year of operation</v-label>
+            <v-label
+              >Proposed contiguous grade range in first year of
+              operation</v-label
+            >
             <p>
               {{
                 eoi[
