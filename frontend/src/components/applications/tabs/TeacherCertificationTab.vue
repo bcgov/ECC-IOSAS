@@ -47,7 +47,7 @@
               variant="outlined"
               type="number"
               color="rgb(59, 153, 252)"
-              :rules="[rules.wholeNumber(), rules.required()]"
+              :rules="[rules.wholeNumber(), rules.requiredNumber()]"
             />
           </v-col>
         </v-row>
