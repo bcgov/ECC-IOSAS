@@ -32,8 +32,6 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: ci-config-${{ inputs.oc_env_suffix }}
     timeout-minutes: 20
-    env:
-      ENV_PREFIX: dev
     steps:
       - name: Checkout
         uses: actions/checkout@v2
