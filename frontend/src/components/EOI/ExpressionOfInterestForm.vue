@@ -268,7 +268,9 @@
             </v-col>
           </v-row>
           <div>
-            <v-label>School Authority Head</v-label>
+            <v-label class="no-mb">School Authority Head</v-label>
+            <br />
+            <v-label class="sm">(ie board chair or lead director)</v-label>
             <div>
               <v-row>
                 <v-col cols="12" sm="12" md="6" xs="12">
@@ -495,12 +497,7 @@
               </v-radio-group>
             </v-col>
           </v-row>
-          <v-row
-            v-if="
-              data.iosas_groupclassification ===
-              GROUP_CLASSIFICATION_CODES.groupTwo
-            "
-          >
+          <v-row v-if="isGroupTwo()">
             <v-col cols="12">
               <v-label class="no-mb"
                 >For authorities applying for Group 2 classification, are there
@@ -514,19 +511,16 @@
                 class="mt-4"
                 inline
                 @change="validateAndPopulate"
-                :rules="
-                  data.iosas_groupclassification ===
-                  GROUP_CLASSIFICATION_CODES.groupTwo
-                    ? [rules.requiredRadio()]
-                    : []
-                "
+                :rules="[rules.requiredRadio()]"
               >
                 <v-radio label="Yes" color="#003366" :value="true" />
                 <v-radio label="No" color="#003366" :value="false" />
               </v-radio-group>
             </v-col>
           </v-row>
-          <v-label>Proposed grade range in first year of operation</v-label>
+          <v-label
+            >Proposed contiguous grade range in first year of operation</v-label
+          >
           <v-row>
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-select
@@ -860,11 +854,11 @@ export default {
       type: Object,
       required: false,
     },
-    isLoading: {
+    isNew: {
       type: Boolean,
       required: true,
     },
-    isNew: {
+    isLoading: {
       type: Boolean,
       required: true,
     },
@@ -994,11 +988,6 @@ export default {
           this.populateAndDisableAuthorityAddress = false;
           return (this.data = {
             ...this.data,
-            iosas_authorityaddressline1: null,
-            iosas_authorityaddressline2: null,
-            iosas_authorityprovince: null,
-            iosas_authoritycity: null,
-            iosas_authoritypostalcode: null,
             _iosas_edu_schoolauthority_value: null,
             iosas_authoritycountry: 'Canada',
             iosas_authorityprovince: 'British Columbia',
@@ -1170,9 +1159,16 @@ export default {
 
       if (
         this.data?._iosas_authortiycontact_value !==
-        this.data?._iosas_submitter_value
+          this.data?._iosas_submitter_value &&
+        this.data?._iosas_authortiycontact_value
       ) {
         this.isDesignatedContactSameAsSubmitter = false;
+      } else if (
+        this.data?._iosas_submitter_value &&
+        !this.data?._iosas_authortiycontact_value
+      ) {
+        this.populatedAndDisableDesignatedContact = true;
+        this.isDesignatedContactSameAsSubmitter = true;
       }
       if (this.data?.iosas_schoolauthoritycontactphone) {
         this.populateAndDisableContactPhone = true;
@@ -1413,6 +1409,12 @@ export default {
           return this.documents;
         }
       }
+    },
+    isGroupTwo() {
+      return (
+        this.data.iosas_groupclassification ===
+        this.GROUP_CLASSIFICATION_CODES.groupTwo
+      );
     },
     validateAndPopulate(e) {
       // RadioGroup does not update the form to trigger validation refresh if the error is already being displayed on the UI,

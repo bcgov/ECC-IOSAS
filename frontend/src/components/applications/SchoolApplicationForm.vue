@@ -31,7 +31,7 @@
       </v-tabs>
     </v-navigation-drawer>
 
-    <div class="d-flex justify-space-between" v-if="!isLoading">
+    <div class="d-flex justify-space-between fixed-container">
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         class="mobile-tabs"
@@ -51,7 +51,7 @@
         </v-tabs>
       </div>
 
-      <div class="flex-4">
+      <div class="flex-4 scroll">
         <v-form
           ref="schoolApplicationForm"
           @submit.prevent="handleSubmit"
@@ -287,6 +287,7 @@ export default {
         if (
           (Number(to.params.tab) === this.TAB_CODES.submission &&
             this.isPreCertDisabled) ||
+          (this.isTab(this.TAB_CODES.submission) && this.isPreCertDisabled) ||
           this.isTab(this.TAB_CODES.preCertSubmission)
         ) {
           this.isNextDisabled = true;
@@ -360,6 +361,7 @@ export default {
       'getApplicationPickListOptions',
       'getSchoolYears',
     ]),
+    ...mapState(applicationsStore, ['getSchoolApplication']),
     ...mapState(documentStore, ['getApplicationDocuments']),
     // Student Enrolment values are calculated on the BE, the FE will enforce that enrolment is > 10
     sumA() {
@@ -739,8 +741,14 @@ li {
 
 .v-window-item {
   min-height: 400px;
-  /* max-height: 400px;
-  overflow: scroll !important; */
+}
+
+.fixed-container {
+  height: 80vh;
+}
+
+.scroll {
+  overflow: scroll;
 }
 
 .v-window {

@@ -1,32 +1,21 @@
 <template>
-  <v-container fluid class="full-height">
+  <span v-if="isLoading">
+    <Loader :loading="isLoading" />
+  </span>
+  <v-container fluid class="full-height" v-else>
     <v-breadcrumbs :items="breadcrumbs"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
     <br />
-    <v-row v-if="isLoading">
-      <v-col class="d-flex justify-center">
-        <v-progress-circular
-          class="mt-16"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-          :active="isLoading"
-        />
-      </v-col>
-    </v-row>
-    <div v-else>
-      <SchoolApplicationForm
-        :formData="applicationData"
-        :isLoading="isLoading"
-        @setIsLoading="setIsLoading"
-        @updateData="updateData"
-        @handleUploadDocuments="handleUploadDocuments"
-      />
-    </div>
+    <SchoolApplicationForm
+      :formData="applicationData"
+      :isLoading="isLoading"
+      @setIsLoading="setIsLoading"
+      @updateData="updateData"
+      @handleUploadDocuments="handleUploadDocuments"
+    />
   </v-container>
 </template>
 
@@ -35,18 +24,21 @@ import SchoolApplicationForm from './SchoolApplicationForm.vue';
 import ApplicationService from '../../common/applicationService';
 import ApiService from '../../common/apiService';
 import alertMixin from './../../mixins/alertMixin';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
+import { authStore } from '../../store/modules/auth';
 import { formatArrayToString } from '../../utils/format';
+import Loader from './../util/Loader.vue';
 
 export default {
   name: 'SchoolApplicationPage',
   mixins: [alertMixin],
   components: {
     SchoolApplicationForm,
+    Loader,
   },
   data: () => ({
-    isLoading: true,
+    isLoading: false,
     applicationData: {},
     breadcrumbs: [
       {
@@ -64,11 +56,12 @@ export default {
   computed: {
     ...mapState(applicationsStore, ['getSchoolApplication']),
   },
-  created() {
-    this.fetchAppData();
+  async created() {
+    await this.fetchAppData();
   },
   methods: {
     formatArrayToString,
+    ...mapActions(applicationsStore, ['getApplicationById']),
     setIsLoading(value) {
       this.isLoading = value;
     },
@@ -88,9 +81,8 @@ export default {
       };
     },
     async fetchAppData() {
-      this.isLoading = true;
-      return applicationsStore()
-        .getApplicationById(this.$route.params.id)
+      await this.setIsLoading(true);
+      this.getApplicationById(this.$route.params.id)
         .then(async () => {
           let contactResponse;
           this.applicationData = this.getSchoolApplication;
@@ -110,12 +102,10 @@ export default {
                 contactResponse.data.telephone1,
             };
           }
+          await this.setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
-        })
-        .finally(() => {
-          this.isLoading = false;
         });
     },
     async handleUploadDocuments(appID, documents) {
@@ -143,7 +133,7 @@ export default {
     },
     async updateData(id, payload, documents, isSubmitted = null) {
       try {
-        this.isLoading = true;
+        this.setIsLoading(true);
         const updateResponse = await ApplicationService.updateSchoolApplication(
           id,
           this.formatPayload(payload),
@@ -164,7 +154,7 @@ export default {
               name: 'applicationConfirmation',
             });
           } else {
-            this.isLoading = false;
+            this.setIsLoading(false);
             this.$router.replace({
               name: 'schoolApplicationPage',
               params: {
@@ -181,7 +171,7 @@ export default {
           }
         }
       } catch (error) {
-        this.isLoading = false;
+        this.setIsLoading(false);
         this.setFailureAlert(
           `An error occurred while trying to update the school application ${payload.iosas_applicationnumber}. Please try again later.`
         );

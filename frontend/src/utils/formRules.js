@@ -9,16 +9,15 @@
 // Example SchoolContact.vue
 //
 // REMEMBER to do the following in your .vue file
-//  import * as Rule from @/utils/institute/form
+//  import * as Rule from @/utils/formRules
 //  under data do rules: Rules <- allows you to use in <template>.
 
-import { LocalDate } from '@js-joda/core';
 import { isNil } from 'lodash';
 
 /**
  * Rule for emails
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const email = (message = 'E-mail must be valid') => {
   return (v) =>
@@ -32,7 +31,7 @@ const email = (message = 'E-mail must be valid') => {
 /**
  * Rule to check input is a number
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const number = (message = 'Must be a positive number') => {
   return (v) => !v || /^\d+$/.test(v) || message;
@@ -41,7 +40,7 @@ const number = (message = 'Must be a positive number') => {
 /**
  * Rule for phone numbers also works for fax numbers too
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const phoneNumber = (message = 'Phone Number must be valid') => {
   return (v) =>
@@ -53,7 +52,7 @@ const phoneNumber = (message = 'Phone Number must be valid') => {
 /**
  * Rule for postalCodes
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const postalCode = (message = 'Postal code must be valid') => {
   return (v) =>
@@ -65,7 +64,7 @@ const postalCode = (message = 'Postal code must be valid') => {
 /**
  * Rule required v.trim prevents ' ' from being valid
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const required = (message = 'Required') => {
   return (v) => !!(v && v.trim()) || message;
@@ -74,7 +73,7 @@ const required = (message = 'Required') => {
 /**
  * Rule required number allows 0 to be valid
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const requiredNumber = (message = 'Required') => {
   return (v) => {
@@ -87,25 +86,14 @@ const requiredNumber = (message = 'Required') => {
 };
 
 /**
- * Custom endDate Rule! Checks that we have start date and that end date
- * happens after start date. Date format should be 2022-12-10 YYYY-MM-DD.
- * @param {String} effectiveDate
- * @param {String} expiryDate
+ * Rule require that the number does not have a decimal or negative
+ * @param {String} message
  * @returns {String|Boolean}
  */
-const endDateRule = (
-  effectiveDate,
-  expiryDate,
-  message = 'End date cannot be before start date'
-) => {
-  if (effectiveDate && expiryDate) {
-    const effDate = LocalDate.parse(effectiveDate.substring(0, 10));
-    const expDate = LocalDate.parse(expiryDate.substring(0, 10));
-
-    return expDate.isAfter(effDate) || expDate.isEqual(effDate) || message;
-  }
-
-  return true;
+const wholeNumber = (message = 'Must be a whole number') => {
+  return (v) => {
+    return v % 1 === 0 || message;
+  };
 };
 
 /**
@@ -130,7 +118,7 @@ const gradeRangeRule = (
 /**
  * Rule for website url
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const website = (message = 'Website must be valid') => {
   return (v) =>
@@ -144,7 +132,7 @@ const website = (message = 'Website must be valid') => {
 /**
  * Rule for Select - also works for radioGroups without Boolean values
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const requiredSelect = (message = 'Required') => {
   return (v) => {
@@ -153,9 +141,20 @@ const requiredSelect = (message = 'Required') => {
 };
 
 /**
+ * Rule for Multi Select
+ * @param {String} message
+ * @returns {String|Boolean}
+ */
+const requiredMultiSelect = (message = 'Required') => {
+  return (v) => {
+    return v.length !== 0 || message;
+  };
+};
+
+/**
  * Rule for RadioGroups with Boolean values
  * @param {String} message
- * @returns Function
+ *@returns {String|Boolean}
  */
 const requiredRadio = (message = 'Required') => {
   return (v) => !isNil(v) || message;
@@ -164,7 +163,7 @@ const requiredRadio = (message = 'Required') => {
 /**
  * Rule for checkbox
  * @param {String} message
- * @returns Function
+ * @returns {String|Boolean}
  */
 const requiredCheckbox = (message = 'Required') => {
   return (v) => v.length > 0 || message;
@@ -175,9 +174,8 @@ const requiredCheckbox = (message = 'Required') => {
  * @param {String} message
  * @param {Object} data
  * @param {Array} fields
- * @returns Function
+ * @returns {String|Boolean}
  */
-// TODO: fix logic
 const requiredIfNo = (data, fields, message = 'Required') => {
   return (v) => {
     let response = true;
@@ -209,29 +207,30 @@ const emailConfirmation = (
 };
 
 /**
- * Custom validation to ensure student enrolment is > 10
+ * Custom validation to ensure hours per year is >= the minimum requirements
  * @returns {String|Boolean}
  */
-const enrolmentTotalGreaterThanTen = (
-  message = 'A new school must have 10 or more students enrolled'
+const numberGreaterThanOrEqualMinimum = (
+  number,
+  message = `Input must be at least ${number}`
 ) => {
-  return (v) => v >= 10 || message;
+  return (v) => v >= number || message;
 };
 
 export {
   email,
-  endDateRule,
   number,
   phoneNumber,
   postalCode,
   required,
   website,
   requiredSelect,
+  requiredMultiSelect,
   requiredRadio,
   requiredNumber,
+  wholeNumber,
   emailConfirmation,
   gradeRangeRule,
-  enrolmentTotalGreaterThanTen,
   requiredIfNo,
-  requiredCheckbox,
+  numberGreaterThanOrEqualMinimum,
 };

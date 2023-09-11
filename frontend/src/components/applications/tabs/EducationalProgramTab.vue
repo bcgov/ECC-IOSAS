@@ -27,31 +27,33 @@
       </v-row>
       <br />
       <h4>Additional Programs</h4>
-      <v-label class="no-mb"
+      <v-label
         >At this time does the proposed school intend on enrolling any of the
         following students?
       </v-label>
-      <v-label class="sm">Check all that apply</v-label>
       <v-row>
-        <v-col cols="6" sm="6" md="6" xs="6">
-          <div
-            v-for="item in getApplicationMultiPickListOptions[
-              'iosas_additionalprograms'
-            ]"
-            :key="item.value"
-          >
-            <v-checkbox
-              v-model="formData.iosas_additionalprograms"
-              :label="item.label"
-              :value="item.value"
-              :disabled="!isEditing"
-            >
-            </v-checkbox>
-          </div>
+        <v-col cols="12" sm="12" md="12" xs="12">
+          <v-select
+            v-if="isEditing"
+            v-model="formData.iosas_additionalprograms"
+            :items="
+              getApplicationMultiPickListOptions['iosas_additionalprograms']
+            "
+            multiple
+            :rules="[rules.requiredMultiSelect()]"
+            item-title="label"
+            item-value="value"
+            placeholder="Select all that apply"
+          ></v-select>
+          <p v-else>
+            {{
+              formData[
+                'iosas_additionalprograms@OData.Community.Display.V1.FormattedValue'
+              ]
+            }}
+          </p>
         </v-col>
-        <v-spacer />
       </v-row>
-      <br />
       <v-label>Other</v-label>
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">

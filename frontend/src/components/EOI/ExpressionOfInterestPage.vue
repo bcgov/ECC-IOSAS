@@ -1,24 +1,15 @@
 <template>
-  <v-container fluid class="full-height">
+  <span v-if="isLoading">
+    <Loader :loading="isLoading" />
+  </span>
+  <v-container v-else fluid class="full-height">
     <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-    <v-row v-if="isLoading">
-      <v-col class="d-flex justify-center">
-        <v-progress-circular
-          class="mt-16"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-          :active="isLoading"
-        />
-      </v-col>
-    </v-row>
 
-    <div v-else class="d-flex justify-space-between">
+    <div class="d-flex justify-space-between">
       <v-container fluid class="content-container d-flex">
         <v-row no-gutter>
           <v-col cols="12" sm="12" md="12" lg="9" xs="12">
@@ -55,11 +46,12 @@ import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 import ApiService from '../../common/apiService';
 import alertMixin from './../../mixins/alertMixin';
 import { EOI_STATUS_CODES } from '../../utils/application';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 import { documentStore } from '../../store/modules/document';
 import { applicationsStore } from '../../store/modules/applications';
 import { metaDataStore } from '../../store/modules/metaData';
+import Loader from './../util/Loader.vue';
 
 export default {
   name: 'ExpressionOfInterestPage',
@@ -68,11 +60,12 @@ export default {
     RelatedLinksCard,
     ExpressionOfInterestForm,
     ExpressionOfInterestReadOnlyView,
+    Loader,
   },
   mixins: [alertMixin],
   watch: {
     eoi: {
-      handler(val, oldVal) {
+      handler(val) {
         if (val) {
           this.eoi = val;
           if (val.iosas_reviewstatus === this.EOI_STATUS_CODES.draft) {
@@ -102,34 +95,35 @@ export default {
   }),
   mounted() {},
   computed: {
-    ...mapState(authStore, ['isAuthenticated']),
-    ...mapState(applicationsStore, ['getEOIApplicationById', 'getEOI']),
+    ...mapState(applicationsStore, ['getEOI']),
   },
   async created() {
-    await applicationsStore().getEOIApplicationById(this.$route.params.id);
-    this.eoi = this.getEOI;
-    this.isViewOnly =
-      this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
-    this.isLoading = false;
+    await this.fetchEOIData();
+    // await this.setLoading(true);
+    // await this.getEOIApplicationById(this.$route.params.id);
+    // this.eoi = this.getEOI;
+    // this.isViewOnly =
+    //   this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
+    // await this.setLoading(false);
   },
   methods: {
     authStore,
     metaDataStore,
     documentStore,
+    ...mapActions(applicationsStore, ['getEOIApplicationById']),
     setIsLoading(value) {
       return (this.isLoading = value);
     },
     async fetchEOIData() {
-      this.isLoading = true;
-      return applicationsStore()
-        .getEOIApplicationById(this.$route.params.id)
-        .then((res) => {
-          this.eoi = this.getEOI;
-          this.isViewOnly =
-            this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
+      this.setIsLoading(true);
 
-          return this.eoi;
-        });
+      return this.getEOIApplicationById(this.$route.params.id).then(() => {
+        this.eoi = this.getEOI;
+        this.isViewOnly =
+          this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
+        this.setIsLoading(false);
+        return this.eoi;
+      });
     },
     async handleUpladDocuments(eoiID, documents) {
       const documentsNotUploaded = documents.filter((doc) => doc.content);
@@ -156,7 +150,7 @@ export default {
     },
     async updateEOIData(id, payload, isSubmitted, documents) {
       try {
-        this.isLoading = true;
+        this.setIsLoading(true);
         const updateResponse = await ApiService.updateEOI(
           id,
           payload,
@@ -177,7 +171,7 @@ export default {
               params: { type: 'EOI' },
             });
           } else {
-            this.isLoading = false;
+            this.setIsLoading(false);
             this.setSuccessAlert(
               `Success! Expression of Interest ${payload.iosas_eoinumber} has been updated.`
             );

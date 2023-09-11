@@ -3,7 +3,7 @@
     <div class="header">
       <img
         tabindex="-1"
-        src="../assets/images/IOSAS-Banner.png"
+        src="../assets/images/IOSASBackground.png"
         alt="Independent School Logo"
       />
       <h1>Welcome to the Independent School BC Portal</h1>
@@ -46,7 +46,7 @@
                 <v-card-actions>
                   <v-btn
                     id="register-button"
-                    :href="envGet?.beceidRegURL"
+                    :href="env?.beceidRegURL"
                     target="_blank"
                     class="ma-2"
                   >
@@ -117,7 +117,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ['envGet']),
+    ...mapState(authStore, ['env']),
   },
   methods: {
     clearStorage() {
@@ -153,7 +153,7 @@ export default {
 
 .header {
   width: 100%;
-  top: -30px;
+  top: -50px;
   position: relative;
 
   p {
@@ -164,7 +164,6 @@ export default {
     width: inherit !important;
   }
 }
-
 .no-margin {
   margin-top: 0;
 }

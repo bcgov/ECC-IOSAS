@@ -26,16 +26,6 @@ export const authStore = defineStore('auth', {
     loginError: false,
     jwtToken: localStorage.getItem('jwtToken'),
   }),
-  getters: {
-    envGet: (state) => state.env,
-    isAuthenticatedGet: (state) => state.isAuthenticated,
-    jwtTokenGet: (state) => state.jwtToken,
-    userInfoGet: (state) => state.userInfo,
-    loginErrorGet: (state) => state.loginError,
-    errorGet: (state) => state.error,
-    isLoadingGet: (state) => state.isLoading,
-    contactInfoGet: (state) => state.contactInfo,
-  },
   actions: {
     //sets Json web token and determines whether user is authenticated
     async setJwtToken(token = null) {

@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="!authStore().isAuthenticated" fluid>
+  <v-container v-if="!isAuthenticated" fluid>
     <article name="login-banner">
       <v-row
         align="center"
@@ -10,23 +10,9 @@
       </v-row>
     </article>
   </v-container>
-
-  <v-container v-else-if="isLoading" fluid class="full-height">
-    <article id="progress-display-container">
-      <v-row align="center" justify="center">
-        <v-col class="d-flex justify-center">
-          <v-progress-circular
-            class="mt-16"
-            :size="70"
-            :width="7"
-            color="primary"
-            indeterminate
-          />
-        </v-col>
-      </v-row>
-    </article>
-  </v-container>
-
+  <span v-if="isLoading">
+    <Loader :loading="isLoading" />
+  </span>
   <v-container v-else fluid class="dashboard-container">
     <!-- TODO: re-add alerts once they are dynamic and not hardcoded -->
     <!-- <v-row
@@ -103,12 +89,13 @@ import Login from './Login.vue';
 import { authStore } from '../store/modules/auth';
 import { applicationsStore } from '../store/modules/applications';
 import { AuthRoutes } from '../utils/constants';
-import { mapState } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { GOV_URL } from '../utils/constants';
 import PrimaryButton from './util/PrimaryButton.vue';
 import DataTable from './util/DataTable.vue';
 import ContactCard from './common/ContactCard.vue';
 import RelatedLinksCard from './common/RelatedLinksCard.vue';
+import Loader from './util/Loader.vue';
 
 export default {
   name: 'Home',
@@ -118,6 +105,7 @@ export default {
     DataTable,
     ContactCard,
     RelatedLinksCard,
+    Loader,
   },
   data() {
     return {
@@ -125,7 +113,7 @@ export default {
       GOV_URL,
       isLoading: true,
       schoolApplications: [],
-      eioApplications: [],
+      eoiApplications: [],
       routes: {
         EOI: 'expressionOfInterestPage',
         APP: 'schoolApplicationPage',
@@ -136,24 +124,18 @@ export default {
     ...mapState(authStore, ['isAuthenticated']),
     ...mapState(applicationsStore, [
       'getEOIApplicationsFormatted',
-      'getAllEOI',
+      'getSchoolApplicationsFormatted',
     ]),
   },
-  mounted() {},
   async created() {
-    await applicationsStore().getAllEOI();
-    this.eoiApplications = this.getEOIApplicationsFormatted
-      ? this.getEOIApplicationsFormatted
-      : [];
-    await applicationsStore().getAllSchoolApplications();
-    this.schoolApplications =
-      applicationsStore().getSchoolApplicationsFormatted;
-
+    await this.getAllEOI();
+    this.eoiApplications = this.getEOIApplicationsFormatted;
+    await this.getAllSchoolApplications();
+    this.schoolApplications = this.getSchoolApplicationsFormatted;
     this.isLoading = false;
   },
   methods: {
-    authStore,
-    applicationsStore,
+    ...mapActions(applicationsStore, ['getAllEOI', 'getAllSchoolApplications']),
     redirectToEOIForm() {
       this.$router.push({ path: AuthRoutes.NEW_EOI });
     },

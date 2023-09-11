@@ -1,25 +1,14 @@
 <template>
-  <v-container fluid class="full-height">
+  <span v-if="isLoading">
+    <Loader :loading="isLoading" />
+  </span>
+  <v-container fluid class="full-height" v-else>
     <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
-
-    <v-row v-if="isLoading">
-      <v-col class="d-flex justify-center">
-        <v-progress-circular
-          class="mt-16"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-          :active="isLoading"
-        />
-      </v-col>
-    </v-row>
-
-    <div v-else class="d-flex justify-space-between">
+    <div class="d-flex justify-space-between">
       <v-container fluid class="content-container d-flex">
         <v-row no-gutter>
           <v-col cols="12" sm="12" md="12" lg="9" xs="12">
@@ -48,6 +37,7 @@ import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ContactCard from '../common/ContactCard.vue';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 import { authStore } from '../../store/modules/auth';
+import Loader from './../util/Loader.vue';
 
 export default {
   name: 'NewExpressionOfInterestPage',
@@ -55,6 +45,7 @@ export default {
     ContactCard,
     RelatedLinksCard,
     ExpressionOfInterestForm,
+    Loader,
   },
   data: () => ({
     isLoading: false,
@@ -73,8 +64,8 @@ export default {
   }),
   methods: {
     authStore,
-    setIsLoading() {
-      this.isLoading = !this.isLoading;
+    setIsLoading(value) {
+      this.isLoading = value;
     },
   },
 };

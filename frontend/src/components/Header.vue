@@ -26,9 +26,9 @@
           {{ appTitle }}
           <span
             v-if="isNotProd()"
-            :style="{ color: envGet?.bannerColor }"
+            :style="{ color: env?.bannerColor }"
             class="environment-flag"
-            >({{ envGet?.env.toUpperCase() }})</span
+            >({{ env?.env.toUpperCase() }})</span
           >
         </h3>
       </v-toolbar-title>
@@ -99,14 +99,14 @@ export default {
     },
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'userInfo', 'envGet']),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo', 'env']),
     dataReady: function () {
       return this.userInfo;
     },
   },
   methods: {
     isNotProd() {
-      return this.envGet?.env !== 'prod';
+      return this.env?.env !== 'prod';
     },
     getName() {
       return this.userInfo?.displayName;

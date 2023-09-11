@@ -3,20 +3,9 @@
     <MsieBanner v-if="isIE" />
     <Header />
     <SnackBar />
-    <v-row v-if="isLoading" class="mt-10">
-      <v-col class="d-flex justify-center">
-        <v-progress-circular
-          class="mt-10"
-          :size="70"
-          :width="7"
-          color="primary"
-          indeterminate
-          :active="isLoading"
-        />
-      </v-col>
-    </v-row>
-    <v-main fluid class="align-start" v-else>
-      <ModalIdle v-if="authStore().isAuthenticated" />
+    <Loader />
+    <v-main fluid class="align-start" v-if="!isLoading">
+      <ModalIdle v-if="isAuthenticated" />
       <router-view />
     </v-main>
     <Footer />
@@ -34,6 +23,7 @@ import ModalIdle from './components/ModalIdle.vue';
 import MsieBanner from './components/MsieBanner.vue';
 import StaticConfig from './common/staticConfig';
 import SnackBar from './components/util/SnackBar.vue';
+import Loader from './components/util/Loader.vue';
 
 export default {
   name: 'App',
@@ -43,17 +33,13 @@ export default {
     ModalIdle,
     MsieBanner,
     SnackBar,
+    Loader,
   },
   metaInfo: {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
   computed: {
-    ...mapState(authStore, [
-      'isAuthenticated',
-      'loginError',
-      'isLoading',
-      'envGet',
-    ]),
+    ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
     isIE() {
       return /Trident\/|MSIE/.test(window.navigator.userAgent);
     },
@@ -126,10 +112,6 @@ a {
 
 a:hover {
   cursor: pointer;
-}
-
-.envBanner {
-  font-size: 0.8rem;
 }
 
 .v-application {
@@ -277,6 +259,10 @@ h1 {
 .v-label {
   white-space: break-spaces !important;
   margin-bottom: 10px;
+}
+
+.v-field-label {
+  font-size: 14px !important;
 }
 
 .v-input--disabled {

@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid class="full-height">
-    <v-breadcrumbs :items="items" v-if="authStore().isAuthenticated"
+  <v-container fluid class="full-height" v-if="!isLoading">
+    <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
@@ -15,14 +15,17 @@
 </template>
 
 <script>
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import { authStore } from '../../store/modules/auth';
 import { applicationsStore } from '../../store/modules/applications';
 export default {
   name: 'ConfirmationPage',
   computed: {
     ...mapState(applicationsStore, ['getConfirmationMessage']),
-    ...mapState(authStore, ['isAuthenticated']),
+    ...mapState(authStore, ['isLoading']),
+  },
+  mounted() {
+    this.setLoading(false);
   },
   data: () => ({
     items: [
@@ -39,7 +42,7 @@ export default {
     ],
   }),
   methods: {
-    authStore,
+    ...mapActions(authStore, ['setLoading']),
   },
 };
 </script>

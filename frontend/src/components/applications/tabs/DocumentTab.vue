@@ -38,19 +38,24 @@
               >
             </v-label>
 
-            <div v-if="schoolPolicyDoc" class="d-flex justify-space-between">
+            <div
+              v-if="schoolPolicyDoc.length !== 0"
+              class="d-flex justify-space-between"
+              v-for="document in schoolPolicyDoc"
+              :key="document.id"
+            >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(schoolPolicyDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
               <v-btn
                 secondary
                 class="ml-15"
                 variant="flat"
                 size="sm"
-                @click.stop="this.$emit('removeDocument', schoolPolicyDoc)"
+                @click.stop="this.$emit('removeDocument', document)"
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
                 </v-icon></v-btn
@@ -77,19 +82,24 @@
               >
             </v-label>
 
-            <div v-if="businessPlanDoc" class="d-flex justify-space-between">
+            <div
+              v-if="businessPlanDoc.length !== 0"
+              class="d-flex justify-space-between"
+              v-for="document in businessPlanDoc"
+              :key="document.id"
+            >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(businessPlanDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
               <v-btn
                 secondary
                 class="ml-15"
                 variant="flat"
                 size="sm"
-                @click.stop="this.$emit('removeDocument', businessPlanDoc)"
+                @click.stop="this.$emit('removeDocument', document)"
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
                 </v-icon></v-btn
@@ -162,23 +172,23 @@
                 >Written confirmation of eligibility</v-label
               >
               <div
-                v-if="confirmationOfEligibilityDoc"
+                v-if="confirmationOfEligibilityDoc.length !== 0"
                 class="d-flex justify-space-between"
+                v-for="document in confirmationOfEligibilityDoc"
+                :key="document.id"
               >
                 <div>
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
+                  {{ formatLongName(document.fileName) }}
                 </div>
                 <v-btn
                   secondary
                   class="ml-15"
                   variant="flat"
                   size="sm"
-                  @click.stop="
-                    this.$emit('removeDocument', confirmationOfEligibilityDoc)
-                  "
+                  @click.stop="this.$emit('removeDocument', document)"
                   ><v-icon aria-hidden="false" color="#b00020" size="20">
                     mdi-delete-forever-outline
                   </v-icon></v-btn
@@ -204,23 +214,23 @@
                 >Completed Free/Tuition Refund Policy</v-label
               >
               <div
-                v-if="tuitionRefundPolicyDoc"
+                v-if="tuitionRefundPolicyDoc.length !== 0"
+                v-for="document in tuitionRefundPolicyDoc"
+                :key="document.id"
                 class="d-flex justify-space-between"
               >
                 <div>
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
+                  {{ formatLongName(document.fileName) }}
                 </div>
                 <v-btn
                   secondary
                   class="ml-15"
                   variant="flat"
                   size="sm"
-                  @click.stop="
-                    this.$emit('removeDocument', tuitionRefundPolicyDoc)
-                  "
+                  @click.stop="this.$emit('removeDocument', document)"
                   ><v-icon aria-hidden="false" color="#b00020" size="20">
                     mdi-delete-forever-outline
                   </v-icon></v-btn
@@ -244,23 +254,23 @@
                 >Contact Information for two business references</v-label
               >
               <div
-                v-if="businessReferencesDoc"
+                v-if="businessReferencesDoc.length !== 0"
+                v-for="document in businessReferencesDoc"
+                :key="document.id"
                 class="d-flex justify-space-between"
               >
                 <div>
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(businessReferencesDoc.fileName) }}
+                  {{ formatLongName(document.fileName) }}
                 </div>
                 <v-btn
                   secondary
                   class="ml-15"
                   variant="flat"
                   size="sm"
-                  @click.stop="
-                    this.$emit('removeDocument', businessReferencesDoc)
-                  "
+                  @click.stop="this.$emit('removeDocument', document)"
                   ><v-icon aria-hidden="false" color="#b00020" size="20">
                     mdi-delete-forever-outline
                   </v-icon></v-btn
@@ -292,11 +302,18 @@
               >Interview Checklist (PDF)</a
             >
           </v-label>
-          <div v-if="schoolPolicyDoc">
-            <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
-              mdi-file-document-check-outline
-            </v-icon>
-            {{ formatLongName(schoolPolicyDoc.fileName) }}
+          <div
+            v-if="schoolPolicyDoc.length !== 0"
+            class="d-flex justify-space-between"
+            v-for="document in schoolPolicyDoc"
+            :key="document.id"
+          >
+            <div>
+              <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
+                mdi-file-document-check-outline
+              </v-icon>
+              {{ formatLongName(document.fileName) }}
+            </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
         </v-col>
@@ -312,12 +329,17 @@
             >
           </v-label>
 
-          <div v-if="businessPlanDoc" class="d-flex justify-space-between">
+          <div
+            v-if="businessPlanDoc.length !== 0"
+            class="d-flex justify-space-between"
+            v-for="document in businessPlanDoc"
+            :key="document.id"
+          >
             <div>
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(businessPlanDoc.fileName) }}
+              {{ formatLongName(document.fileName) }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -368,14 +390,16 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Written confirmation of eligibility</v-label>
             <div
-              v-if="confirmationOfEligibilityDoc"
+              v-if="confirmationOfEligibilityDoc.length !== 0"
               class="d-flex justify-space-between"
+              v-for="document in confirmationOfEligibilityDoc"
+              :key="document.id"
             >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(confirmationOfEligibilityDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -385,14 +409,16 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Completed Free/Tuition Refund Policy</v-label>
             <div
-              v-if="tuitionRefundPolicyDoc"
+              v-if="tuitionRefundPolicyDoc.length !== 0"
+              v-for="document in tuitionRefundPolicyDoc"
+              :key="document.id"
               class="d-flex justify-space-between"
             >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(tuitionRefundPolicyDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -402,14 +428,16 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Contact Information for two business references</v-label>
             <div
-              v-if="businessReferencesDoc"
+              v-if="businessReferencesDoc.length !== 0"
+              v-for="document in businessReferencesDoc"
+              :key="document.id"
               class="d-flex justify-space-between"
             >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(businessReferencesDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -457,24 +485,24 @@ export default {
   watch: {
     getApplicationDocuments: {
       handler(val) {
-        this.schoolPolicyDoc = val.find(
+        this.schoolPolicyDoc = val.filter(
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_CODE_CODES.schoolPolicyCode
         );
-        this.businessPlanDoc = val.find(
+        this.businessPlanDoc = val.filter(
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_CODE_CODES.businessPlanCode
         );
-        this.confirmationOfEligibilityDoc = val.find(
+        this.confirmationOfEligibilityDoc = val.filter(
           ({ documentType }) =>
             documentType ===
             this.SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
         );
-        this.tuitionRefundPolicyDoc = val.find(
+        this.tuitionRefundPolicyDoc = val.filter(
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode
         );
-        this.businessReferencesDoc = val.find(
+        this.businessReferencesDoc = val.filter(
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_CODE_CODES.businessReferencesCode
         );
@@ -499,24 +527,24 @@ export default {
   }),
   mounted() {},
   created() {
-    this.schoolPolicyDoc = this.getApplicationDocuments?.find(
+    this.schoolPolicyDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.schoolPolicyCode
     );
-    this.businessPlanDoc = this.getApplicationDocuments?.find(
+    this.businessPlanDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.businessPlanCode
     );
-    this.confirmationOfEligibilityDoc = this.getApplicationDocuments?.find(
+    this.confirmationOfEligibilityDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType ===
         this.SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
     );
-    this.tuitionRefundPolicyDoc = this.getApplicationDocuments?.find(
+    this.tuitionRefundPolicyDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode
     );
-    this.businessReferencesDoc = this.getApplicationDocuments?.find(
+    this.businessReferencesDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.businessReferencesCode
     );

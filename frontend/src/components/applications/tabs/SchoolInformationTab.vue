@@ -291,12 +291,7 @@
           </v-radio-group>
         </v-col>
       </v-row>
-      <v-row
-        v-if="
-          formData.iosas_groupclassification ===
-          GROUP_CLASSIFICATION_CODES.groupTwo
-        "
-      >
+      <v-row v-if="isGroupTwo()">
         <v-col cols="12">
           <v-label
             >For authorities applying for Group 2 classification, are there
@@ -309,12 +304,7 @@
             class="mt-4"
             direction="horizontal"
             inline
-            :rules="
-              formData.iosas_groupclassification ===
-              GROUP_CLASSIFICATION_CODES.groupTwo
-                ? [rules.requiredRadio()]
-                : []
-            "
+            :rules="isGroupTwo() ? [rules.requiredRadio()] : []"
             :disabled="!isEditing"
           >
             <v-radio label="Yes" color="#003366" v-bind:value="true" />
@@ -336,18 +326,17 @@
       >
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
-          <div
-            v-for="item in getApplicationMultiPickListOptions[
-              'iosas_schoolaffiliation'
-            ]"
-            :key="item.value"
-          >
-            <v-checkbox
-              v-model="formData.iosas_schoolaffiliation"
-              :value="item.value"
-              :label="item.label"
-            />
-          </div>
+          <v-select
+            v-model="formData.iosas_schoolaffiliation"
+            :items="
+              getApplicationMultiPickListOptions['iosas_schoolaffiliation']
+            "
+            multiple
+            :rules="[rules.requiredMultiSelect()]"
+            item-title="label"
+            item-value="value"
+            placeholder="Select all that apply"
+          ></v-select>
         </v-col>
       </v-row>
       <br />
@@ -518,12 +507,7 @@
           </p>
         </v-col>
       </v-row>
-      <v-row
-        v-if="
-          formData.iosas_groupclassification ===
-          GROUP_CLASSIFICATION_CODES.groupTwo
-        "
-      >
+      <v-row v-if="isGroupTwo()">
         <v-col cols="12">
           <v-label
             >For authorities applying for Group 2 classification, are there
@@ -554,19 +538,13 @@
             applicable)</v-label
           >
           <v-col cols="12" sm="12" md="12" xs="12">
-            <div
-              v-for="item in getApplicationMultiPickListOptions[
-                'iosas_schoolaffiliation'
-              ]"
-              :key="item.value"
-            >
-              <v-checkbox
-                v-model="formData.iosas_schoolaffiliation"
-                :value="item.value"
-                :label="item.label"
-                disabled
-              />
-            </div>
+            <p>
+              {{
+                formData[
+                  'iosas_schoolaffiliation@OData.Community.Display.V1.FormattedValue'
+                ]
+              }}
+            </p>
           </v-col>
         </v-col>
       </v-row>
@@ -621,6 +599,12 @@ export default {
   },
   methods: {
     formatBooleanToYesNoString,
+    isGroupTwo() {
+      return (
+        this.formData.iosas_groupclassification ===
+        this.GROUP_CLASSIFICATION_CODES.groupTwo
+      );
+    },
   },
 };
 </script>

@@ -21,13 +21,18 @@
             ></v-select>
             <v-file-input
               id="selectFileInput"
+              :show-size="1000"
               v-model="uploadFileValue"
               color="#003366"
               variant="underlined"
               :accept="fileAccept"
               hint="JPEG, PNG, and PDF files supported"
               :error-messages="fileInputError"
-              placeholder="Select your file"
+              :label="
+                uploadFileValue && uploadFileValue.length
+                  ? ''
+                  : 'Click here to select your file or drag and drop.'
+              "
               :rules="fileRules"
             />
           </v-col>
@@ -56,7 +61,6 @@
         width="7rem"
         :click-action="submitRequest"
       />
-      <!-- :disabled="!dataReady" -->
     </v-card-actions>
   </v-card>
 </template>

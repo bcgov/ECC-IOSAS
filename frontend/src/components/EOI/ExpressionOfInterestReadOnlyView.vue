@@ -194,12 +194,7 @@
             </p>
           </v-col>
         </v-row>
-        <v-row
-          v-if="
-            eoi.iosas_groupclassification ===
-            GROUP_CLASSIFICATION_CODES.groupTwo
-          "
-        >
+        <v-row v-if="isGroupTwo()">
           <v-col cols="12">
             <v-label
               >Plans to seek Group 1 classification in the second or subsequest
@@ -215,7 +210,10 @@
         <br />
         <v-row>
           <v-col cols="12" sm="12" md="6" xs="12">
-            <v-label>Proposed grade range in first year of operation</v-label>
+            <v-label
+              >Proposed contiguous grade range in first year of
+              operation</v-label
+            >
             <p>
               {{
                 eoi[
@@ -383,6 +381,12 @@ export default {
       return (
         this.eoi?._iosas_authortiycontact_value ===
         this.eoi?._iosas_submitter_value
+      );
+    },
+    isGroupTwo() {
+      return (
+        this.eoi.iosas_groupclassification ===
+        this.GROUP_CLASSIFICATION_CODES.groupTwo
       );
     },
   },
