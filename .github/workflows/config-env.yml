@@ -11,7 +11,7 @@ on:
         options:
           - dev
           - test
-          - prod
+          - production
 env:
   CLUSTER: https://api.silver.devops.gov.bc.ca:6443
   AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_OCP4 }}
@@ -51,3 +51,4 @@ jobs:
           make init-project
           make init-api-sec
           make init-api-config
+          make deploy-redis

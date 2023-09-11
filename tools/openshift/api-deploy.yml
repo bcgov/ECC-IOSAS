@@ -77,6 +77,10 @@ objects:
                       name: iosas-ui-sec
                 - name: ENV_PREFIX
                   value: ${ENV_PREFIX}
+                - name: REDIS_HOST
+                  value: redis
+                - name: REDIS_PORT
+                  value: "6379"
               image: ${IMAGE_REGISTRY}/${BUILD_NAMESPACE}/${IMAGE_STREAM_TAG}
               imagePullPolicy: Always
               name: ${NAME}
@@ -170,13 +174,13 @@ parameters:
   - name: SERVICE_NAME
     value: api
   - name: CPU_LIMIT
-    value: "0.1"
+    value: "100m"
   - name: MEMORY_LIMIT
-    value: "500M"
+    value: "512Mi"
   - name: CPU_REQUEST
-    value: "0.1"
+    value: "50m"
   - name: MEMORY_REQUEST
-    value: "500M"
+    value: "256Mi"
   - name: REPLICAS
     value: "1"
   - name: PORT
@@ -206,11 +210,5 @@ parameters:
   - name: ENV_PREFIX
     require: true
   - name: PUBLIC_HOST
-    require: true
-  - name: CERTIFICATE
-    require: true
-  - name: CA_CERT
-    require: true
-  - name: PRIVATE_KEY
     require: true
   

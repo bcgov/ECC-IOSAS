@@ -11,7 +11,7 @@ on:
         options:
           - dev
           - test
-          - prod
+          - production
 env:
   CLUSTER: https://api.silver.devops.gov.bc.ca:6443
   AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_OCP4 }}
@@ -32,9 +32,16 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: ci-config-${{ inputs.oc_env_suffix }}
     timeout-minutes: 20
+    environment:
+      name: ${{ inputs.oc_env_suffix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Setup Dynamic env vars
+        working-directory: './tools'
+        run: |
+          echo "PUBLIC_HOST=$(make get-ui-url)" >> $GITHUB_ENV
+          echo "OC_NAMESPACE=$(make get-oc-namespace)" >> $GITHUB_ENV
       - name: Tag build and deploy application
         working-directory: './tools'
         run: |
@@ -48,3 +55,14 @@ jobs:
           make init-web
           make promote-web
           make deploy-web
+      - name: Create Route
+        working-directory: './tools'
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
+          echo Creating route with ${{ env.PUBLIC_HOST }}
+          oc --namespace=${{ env.OC_NAMESPACE }} process -f openshift/public-route.yml \
+          -p NAME=web-ecc-iosas \
+          -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
+          -p CERTIFICATE="${{ secrets.CERT }}" \
+          -p CA_CERT="${{ secrets.CA_CERT }}" \
+          -p PRIVATE_KEY="${{ secrets.PRIV_KEY }}" | oc --namespace=${{ env.OC_NAMESPACE }} apply -f -
