@@ -1,4 +1,4 @@
-<template v-if="!isLoading">
+<template>
   <div>
     <ConfirmationDialog ref="confirmDelete">
       <template #message>
@@ -248,12 +248,16 @@ export default {
     DocumentTab,
     PreCertificationTab,
   },
-  emits: ['updateData', 'handleUploadDocuments'],
+  emits: ['setIsLoading', 'updateData', 'handleUploadDocuments'],
   mixins: [alertMixin],
   props: {
     formData: {
       type: Object,
       required: false,
+    },
+    isLoading: {
+      type: Boolean,
+      required: true,
     },
   },
   data() {
@@ -352,7 +356,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'userInfo', 'isLoading']),
+    ...mapState(authStore, ['isAuthenticated', 'userInfo']),
     ...mapState(metaDataStore, [
       'getApplicationPickListOptions',
       'getSchoolYears',
@@ -389,7 +393,6 @@ export default {
     },
   },
   created() {
-    console.log('getSchoolApplication', this.getSchoolApplication);
     this.isEditing =
       this.formData &&
       this.formData?.statuscode === this.APP_STATUS_CODES.draft;
@@ -417,7 +420,6 @@ export default {
       'addApplicationDocument',
       'setApplicationDocuments',
     ]),
-    ...mapActions(authStore, ['setLoading']),
     isTabDisabled(tab) {
       if (Number(tab) === this.TAB_CODES.preCertSubmission) {
         if (
@@ -543,7 +545,7 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.setLoading(true);
+        this.$emit('setIsLoading', true);
         ApplicationService.cancelSchoolApplication(
           this.formData.iosas_applicationid
         )

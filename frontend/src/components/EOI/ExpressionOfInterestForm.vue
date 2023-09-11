@@ -817,7 +817,7 @@ import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import IndependentSchoolDisclaimer from '../IndependentSchoolDisclaimer.vue';
-import { mapState, mapActions } from 'pinia';
+import { mapState } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import alertMixin from './../../mixins/alertMixin';
@@ -847,7 +847,7 @@ export default {
     EOIFormHeader,
     RequiredMessage,
   },
-  emits: ['updateEOIData'],
+  emits: ['setIsLoading', 'updateEOIData'],
   mixins: [alertMixin],
   props: {
     eoi: {
@@ -855,6 +855,10 @@ export default {
       required: false,
     },
     isNew: {
+      type: Boolean,
+      required: true,
+    },
+    isLoading: {
       type: Boolean,
       required: true,
     },
@@ -1116,7 +1120,6 @@ export default {
   methods: {
     authStore,
     applicationsStore,
-    ...mapActions(authStore, ['setLoading']),
     formatLongName,
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
@@ -1234,7 +1237,7 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.setLoading(true);
+        this.$emit('setIsLoading', true);
         ApiService.cancelEOI(this.data.iosas_expressionofinterestid)
           .then(async () => {
             await applicationsStore().setConfirmationMessage(
@@ -1259,7 +1262,7 @@ export default {
       if (!this.isNew) {
         return this.handleUpdate();
       }
-      this.setLoading(true);
+      this.$emit('setIsLoading', true);
       ApiService.createEOI(this.data, this.isSubmitted)
         .then((response) => {
           if (this.documents.length > 0) {
@@ -1297,7 +1300,7 @@ export default {
         !this.certificateIssueDateRequired &&
         !this.goodStandingIssueDateRequired
       ) {
-        this.setLoading(true);
+        this.$emit('setIsLoading', true);
         ApiService.createEOI(this.data, this.isSubmitted)
           .then(async (response) => {
             if (this.documents.length > 0) {
