@@ -86,6 +86,8 @@ jobs:
       CA_CERT: ${{ secrets.CA_CERT }}
       PRIVATE_KEY: ${{ secrets.PRIV_KEY }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Check changes on dir
         uses: dorny/paths-filter@v2
         id: changes_tools
