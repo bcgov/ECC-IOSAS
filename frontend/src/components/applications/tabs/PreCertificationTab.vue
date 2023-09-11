@@ -30,19 +30,24 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Proof of lease/purchase of facility</v-label>
-            <div v-if="proofOfPurchaseDoc" class="d-flex justify-space-between">
+            <div
+              v-if="proofOfPurchaseDoc.length !== 0"
+              v-for="document in proofOfPurchaseDoc"
+              :key="document.id"
+              class="d-flex justify-space-between"
+            >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(proofOfPurchaseDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
               <v-btn
                 secondary
                 class="ml-15"
                 variant="flat"
                 size="sm"
-                @click.stop="this.$emit('removeDocument', proofOfPurchaseDoc)"
+                @click.stop="this.$emit('removeDocument', document)"
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
                 </v-icon></v-btn
@@ -61,25 +66,24 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Municipal compliance letter</v-label>
-
             <div
-              v-if="mulicipalComplianceDoc"
+              v-if="mulicipalComplianceDoc.length !== 0"
+              v-for="document in mulicipalComplianceDoc"
+              :key="document.id"
               class="d-flex justify-space-between"
             >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(mulicipalComplianceDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
               <v-btn
                 secondary
                 class="ml-15"
                 variant="flat"
                 size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', mulicipalComplianceDoc)
-                "
+                @click.stop="this.$emit('removeDocument', document)"
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
                 </v-icon></v-btn
@@ -101,23 +105,23 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Confirmation of water testing</v-label>
             <div
-              v-if="confimationWaterTestingDoc"
+              v-if="confimationWaterTestingDoc.length !== 0"
+              v-for="document in confimationWaterTestingDoc"
+              :key="document.id"
               class="d-flex justify-space-between"
             >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(confimationWaterTestingDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
               <v-btn
                 secondary
                 class="ml-15"
                 variant="flat"
                 size="sm"
-                @click.stop="
-                  this.$emit('removeDocument', confimationWaterTestingDoc)
-                "
+                @click.stop="this.$emit('removeDocument', document)"
                 ><v-icon aria-hidden="false" color="#b00020" size="20">
                   mdi-delete-forever-outline
                 </v-icon></v-btn
@@ -193,23 +197,23 @@
                 >Irrevocable letter of credit or surety bond</v-label
               >
               <div
-                v-if="creditOrSurityBondDoc"
+                v-if="creditOrSurityBondDoc.length !== 0"
+                v-for="document in creditOrSurityBondDoc"
+                :key="document.id"
                 class="d-flex justify-space-between"
               >
                 <div>
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(creditOrSurityBondDoc.fileName) }}
+                  {{ formatLongName(document.fileName) }}
                 </div>
                 <v-btn
                   secondary
                   class="ml-15"
                   variant="flat"
                   size="sm"
-                  @click.stop="
-                    this.$emit('removeDocument', creditOrSurityBondDoc)
-                  "
+                  @click.stop="this.$emit('removeDocument', document)"
                   ><v-icon aria-hidden="false" color="#b00020" size="20">
                     mdi-delete-forever-outline
                   </v-icon></v-btn
@@ -234,11 +238,18 @@
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-label>Proof of lease/purchase of facility</v-label>
-          <div v-if="proofOfPurchaseDoc">
-            <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
-              mdi-file-document-check-outline
-            </v-icon>
-            {{ formatLongName(proofOfPurchaseDoc.fileName) }}
+          <div
+            v-if="proofOfPurchaseDoc.length !== 0"
+            v-for="document in proofOfPurchaseDoc"
+            :key="document.id"
+            class="d-flex justify-space-between"
+          >
+            <div>
+              <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
+                mdi-file-document-check-outline
+              </v-icon>
+              {{ formatLongName(document.fileName) }}
+            </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
         </v-col>
@@ -247,14 +258,16 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Municipal compliance letter</v-label>
           <div
-            v-if="mulicipalComplianceDoc"
+            v-if="mulicipalComplianceDoc.length !== 0"
+            v-for="document in mulicipalComplianceDoc"
+            :key="document.id"
             class="d-flex justify-space-between"
           >
             <div>
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(mulicipalComplianceDoc.fileName) }}
+              {{ formatLongName(document.fileName) }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -265,14 +278,16 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Confirmation of water testing</v-label>
           <div
-            v-if="confimationWaterTestingDoc"
+            v-if="confimationWaterTestingDoc.length !== 0"
+            v-for="document in confimationWaterTestingDoc"
+            :key="document.id"
             class="d-flex justify-space-between"
           >
             <div>
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(confimationWaterTestingDoc.fileName) }}
+              {{ formatLongName(document.fileName) }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -323,14 +338,16 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Irrevocable letter of credit or surety bond</v-label>
             <div
-              v-if="creditOrSurityBondDoc"
+              v-if="creditOrSurityBondDoc.length !== 0"
+              v-for="document in creditOrSurityBondDoc"
+              :key="document.id"
               class="d-flex justify-space-between"
             >
               <div>
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(creditOrSurityBondDoc.fileName) }}
+                {{ formatLongName(document.fileName) }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -379,20 +396,20 @@ export default {
   watch: {
     getApplicationDocuments: {
       handler(val) {
-        this.proofOfPurchaseDoc = val.find(
+        this.proofOfPurchaseDoc = val.filter(
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
         );
-        this.mulicipalComplianceDoc = val.find(
+        this.mulicipalComplianceDoc = val.filter(
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
         );
-        this.confimationWaterTestingDoc = val.find(
+        this.confimationWaterTestingDoc = val.filter(
           ({ documentType }) =>
             documentType ===
             this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
         );
-        this.creditOrSurityBondDoc = val.find(
+        this.creditOrSurityBondDoc = val.filter(
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
         );
@@ -420,19 +437,19 @@ export default {
   },
   mounted() {},
   created() {
-    this.proofOfPurchaseDoc = this.getApplicationDocuments?.find(
+    this.proofOfPurchaseDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
     );
-    this.mulicipalComplianceDoc = this.getApplicationDocuments?.find(
+    this.mulicipalComplianceDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
     );
-    this.confimationWaterTestingDoc = this.getApplicationDocuments?.find(
+    this.confimationWaterTestingDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
     );
-    this.creditOrSurityBondDoc = this.getApplicationDocuments?.find(
+    this.creditOrSurityBondDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
     );
