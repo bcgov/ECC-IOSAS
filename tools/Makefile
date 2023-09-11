@@ -280,7 +280,7 @@ update-dc-web:
 		-p CPU_REQUEST=$(MIN_CPU) \
 		-p MEMORY_REQUEST=$(MIN_MEMORY) \
 		-p MEMORY_LIMIT=$(MAX_MEMORY) \
-		-p REPLICAS=$(MIN_REPLICA_API) | oc -n $(NAMESPACE) apply -f -
+		-p REPLICAS=$(MIN_REPLICA_WEB) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
 	$(call rollout_and_wait,dc/$(Web))
