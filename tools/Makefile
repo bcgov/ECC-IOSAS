@@ -298,7 +298,7 @@ deploy-redis:
 	@echo "+\n Installing redis in env +\n"
 	@oc -n $(NAMESPACE) process -f openshift/redis-deploy.yml \
 	-p NAME=$(API) |  oc -n $(NAMESPACE) apply -f -
-	@oc -n $(NAMESPACE) rollout status dc/redis
+	@oc -n $(NAMESPACE) rollout latest dc/redis
 
 redis-tunnel:
 	@echo "+\n++ Port Forwarding to redis"
