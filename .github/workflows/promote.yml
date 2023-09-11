@@ -27,7 +27,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Set env
-        run: echo "ENV_PREFIX=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: |
+          echo "ENV_PREFIX=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo "PUBLIC_HOST=$(make get-ui-url)" >> $GITHUB_ENV
+          echo "OC_NAMESPACE=$(make get-oc-namespace)" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
       - name: Tag build and deploy application
