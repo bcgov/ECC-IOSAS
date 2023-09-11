@@ -95,16 +95,16 @@ const auth = {
   async refreshJWT(req, _res, next) {
     try {
       if (!!req && !!req.user && !!req.user.jwt) {
-        log.log('refreshJWT', 'User & JWT exists');
+        log.info('refreshJWT', 'User & JWT exists');
 
         if (auth.isTokenExpired(req.user.jwt, 'access-token')) {
-          log.log('refreshJWT', 'JWT has expired');
+          log.info('refreshJWT', 'JWT has expired');
 
           if (
             !!req.user.refreshToken &&
             auth.isRenewable(req.user.refreshToken, 'refresh-token')
           ) {
-            log.log('refreshJWT', 'Can refresh JWT token');
+            log.info('refreshJWT', 'Can refresh JWT token');
 
             // Get new JWT and Refresh Tokens and update the request
             const result = await auth.renew(req.user.refreshToken);
@@ -123,12 +123,14 @@ const auth = {
               delete req.user;
             }
           } else {
-            log.verbose('refreshJWT', 'Cannot refresh JWT token');
+            log.info('refreshJWT', 'Cannot refresh JWT token');
             delete req.user;
           }
         }
       } else {
-        log.log('refreshJWT', 'No existing User or JWT');
+        log.info('refreshJWT', 'No existing User or JWT');
+        log.info('refreshJWT: user: ', req.user);
+        log.info('refreshJWT: user: ', req.session);
         delete req.user;
       }
     } catch (error) {

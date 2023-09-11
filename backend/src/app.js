@@ -14,7 +14,7 @@ const utils = require('./components/utils');
 const auth = require('./components/auth');
 const dynamicIntegrationService = require('./components/dynamics-integration');
 const bodyParser = require('body-parser');
-// const connectRedis = require('connect-redis');
+const connectRedis = require('connect-redis');
 dotenv.config();
 
 const JWTStrategy = require('passport-jwt').Strategy;
@@ -29,6 +29,22 @@ const dynamicRouter = require('./routes/dynamics');
 const environmentRouter = require('./routes/environment');
 // const promMid = require('express-prometheus-middleware');
 //initialize app
+const isLocal = 'local' === config.get('environment');
+const saveSession =
+  isLocal == false || config.get('server:saveSession') == 'true';
+
+const dbSession = saveSession
+  ? (() => {
+      const Redis = require('./util/redis/redis-client');
+      Redis.init();
+      const RedisStore = connectRedis(session);
+      return new RedisStore({
+        client: Redis.getRedisClient(),
+        prefix: 'iosas:',
+      });
+    })()
+  : undefined;
+
 const app = express();
 app.set('trust proxy', 1);
 app.use(cors());
@@ -59,7 +75,8 @@ const cookie = {
   httpOnly: true,
   maxAge: 1800000, //30 minutes in ms. this is same as session time. DO NOT MODIFY, IF MODIFIED, MAKE SURE SAME AS SESSION TIME OUT VALUE.
 };
-if ('local' === config.get('environment')) {
+
+if (isLocal) {
   cookie.secure = false;
 }
 //sets cookies for security purposes (prevent cookie access, allow secure connections only, etc)
@@ -67,9 +84,10 @@ app.use(
   session({
     name: 'iosas_cookie',
     secret: config.get('oidc:clientSecret'),
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: cookie,
+    store: dbSession,
   })
 );
 healthCheck.configure();

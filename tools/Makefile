@@ -22,9 +22,14 @@ export COMMIT_SHA:=$(shell git rev-parse --short=7 HEAD)
 export CERTIFICATE:=$(or $(CERTIFICATE),)
 export CA_CERT:=$(or $(CA_CERT),)
 export PRIVATE_KEY:=$(or $(PRIVATE_KEY),)
-export PUBLIC_HOST := $(or $(PUBLIC_HOST), dev.independentschoolservices.gov.bc.ca) 
+export PUBLIC_HOST := $(or $(PUBLIC_HOST), dev.independentschoolservices.gov.bc.ca)
 
 HOST_PREFIX= $(ENV_PREFIX)
+
+MAX_CPU=100m
+MIN_CPU=50m
+MAX_MEMORY=512Mi
+MIN_MEMORY=256Mi
 
 # Seeting up Name space as per env prefix
 ifeq ($(ENV_PREFIX), dev)
@@ -36,6 +41,11 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_DEV)
 SOAM_DISCOVERY=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
 SOAM_URL=https://soam-dev.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
+UI_URL=dev.independentschoolservices.gov.bc.ca
+MAX_REPLICA_WEB=2
+MAX_REPLICA_API=2
+MIN_REPLICA_WEB=2
+MIN_REPLICA_API=2
 endif
 
 ifeq ($(ENV_PREFIX), test)
@@ -46,9 +56,14 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_TEST)
 SOAM_DISCOVERY=https://soam-test.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
 SOAM_URL=https://soam-test.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
+UI_URL=test.independentschoolservices.gov.bc.ca
+MAX_REPLICA_WEB=6
+MAX_REPLICA_API=4
+MIN_REPLICA_WEB=3
+MIN_REPLICA_API=2
 endif
 
-ifeq ($(ENV_PREFIX), prod)
+ifeq ($(ENV_PREFIX), production)
 NAMESPACE=$(NAMESPACE_PROD)
 SITE_MINDER_LOGOUT_URL="https://logon7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_PROD)
@@ -56,6 +71,11 @@ SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_PROD)
 SOAM_DISCOVERY=
 SOAM_URL=
 bceid_reg_url=
+UI_URL=independentschoolservices.gov.bc.ca
+MAX_REPLICA_WEB=6
+MAX_REPLICA_API=4
+MIN_REPLICA_WEB=3
+MIN_REPLICA_API=3
 endif
 
 define BUILD_TAG
@@ -221,7 +241,12 @@ update-dc-api:
 		-p VERSION="$(LAST_COMMIT)" \
 		-p BUILD_ID=$(BUILD_TAG) \
 		-p ENV_PREFIX=$(ENV_PREFIX) \
-		-p PUBLIC_HOST=$(PUBLIC_HOST) | oc -n $(NAMESPACE) apply -f -
+		-p PUBLIC_HOST=$(PUBLIC_HOST) \
+		-p CPU_LIMIT=$(MAX_CPU) \
+		-p CPU_REQUEST=$(MIN_CPU) \
+		-p MEMORY_REQUEST=$(MIN_MEMORY) \
+		-p MEMORY_LIMIT=$(MAX_MEMORY) \
+		-p REPLICAS=$(MIN_REPLICA_WEB) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
 	$(call rollout_and_wait,dc/$(API))
@@ -250,7 +275,12 @@ update-dc-web:
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
 		-p IMAGE_STREAM_TAG="$(Web):$(ENV_PREFIX)" \
-		-p BUILD_ID=$(BUILD_TAG) | oc -n $(NAMESPACE) apply -f -
+		-p BUILD_ID=$(BUILD_TAG) \
+		-p CPU_LIMIT=$(MAX_CPU) \
+		-p CPU_REQUEST=$(MIN_CPU) \
+		-p MEMORY_REQUEST=$(MIN_MEMORY) \
+		-p MEMORY_LIMIT=$(MAX_MEMORY) \
+		-p REPLICAS=$(MIN_REPLICA_API) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
 	$(call rollout_and_wait,dc/$(Web))
@@ -263,6 +293,22 @@ promote-web:
 d365-api-tunnel:
 	@echo "+\n++ Port Forwarding to D365 stack"
 	@oc -n $(NAMESPACE) port-forward svc/$(API)-d365 5091
+
+deploy-redis:
+	@echo "+\n Installing redis in env +\n"
+	@oc -n $(NAMESPACE) process -f openshift/redis-deploy.yml \
+	-p NAME=$(API) |  oc -n $(NAMESPACE) apply -f -
+	@oc -n $(NAMESPACE) rollout status dc/redis
+
+redis-tunnel:
+	@echo "+\n++ Port Forwarding to redis"
+	@oc -n $(NAMESPACE) port-forward svc/redis 6379
+
+get-ui-url:
+	@echo $(UI_URL)
+
+get-oc-namespace:
+	@echo $(NAMESPACE)
 
 # Tagging env
 tag-test:

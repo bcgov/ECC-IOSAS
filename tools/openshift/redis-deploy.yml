@@ -1,0 +1,122 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: ${NAME}-redis
+labels:
+  project: ${PROJECT}
+  service: api
+objects:
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: redis-data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 512Mi
+        limits:
+          storage: 1Gi
+  - kind: DeploymentConfig
+    apiVersion: apps.openshift.io/v1
+    metadata:
+      annotations:
+        template.alpha.openshift.io/wait-for-ready: 'true'
+      name: redis
+      labels:
+        app: redis
+        app.openshift.io/runtime: redis
+    spec:
+      strategy:
+        type: Recreate
+        recreateParams:
+          timeoutSeconds: 600
+        resources: {}
+        activeDeadlineSeconds: 21600
+      triggers: []
+      replicas: 1
+      revisionHistoryLimit: 10
+      test: false
+      selector:
+        name: redis
+        app: redis
+      template:
+        metadata:
+          labels:
+            name: redis
+            app: redis
+        spec:
+          volumes:
+            - name: redis-data
+              persistentVolumeClaim:
+                claimName: redis-data
+          containers:
+            - resources:
+                limits:
+                  memory: 512Mi
+                  cpu: 150m
+                requests:
+                  memory: 256Mi
+                  cpu: 100m
+              readinessProbe:
+                exec:
+                  command:
+                    - /bin/sh
+                    - '-i'
+                    - '-c'
+                    - >-
+                      test "$(redis-cli -h 127.0.0.1 ping)" ==
+                      "PONG"
+                initialDelaySeconds: 5
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              terminationMessagePath: /dev/termination-log
+              name: redis
+              livenessProbe:
+                tcpSocket:
+                  port: 6379
+                initialDelaySeconds: 30
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              securityContext:
+                capabilities: {}
+                privileged: false
+              ports:
+                - containerPort: 6379
+                  protocol: TCP
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - name: redis-data
+                  mountPath: /data
+              terminationMessagePolicy: File
+              image: artifacts.developer.gov.bc.ca/docker-remote/redis:6.0.9-alpine
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+          securityContext: {}
+          schedulerName: default-scheduler
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: redis
+        deploymentconfig: redis
+      name: redis
+    spec:
+      ports:
+        - name: tcp-6379
+          port: 6379
+          targetPort: 6379
+      selector:
+        deploymentconfig: redis
+      type: ClusterIP
+parameters:
+  - name: NAME
+    required: true
+  - name: PROJECT 
+    value: iosas

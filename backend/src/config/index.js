@@ -52,6 +52,7 @@ nconf.defaults({
     logLevel: process.env.LOG_LEVEL,
     morganFormat: 'dev',
     port: process.env.API_PORT || 8080,
+    saveSession: process.env.SAVE_SESSION,
   },
   oidc: {
     publicKey: process.env.SOAM_PUBLIC_KEY,
