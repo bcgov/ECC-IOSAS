@@ -249,6 +249,7 @@ update-dc-api:
 		-p REPLICAS=$(MIN_REPLICA_API) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
+	
 	$(call rollout_and_wait,dc/$(API))
 
 test-public-route: 
@@ -283,6 +284,7 @@ update-dc-web:
 		-p REPLICAS=$(MIN_REPLICA_WEB) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
+	@oc rollout cancel dc/$(Web) 2> /dev/null || true && echo "No rollout in progress"
 	$(call rollout_and_wait,dc/$(Web))
 
 promote-web:
