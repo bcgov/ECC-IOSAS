@@ -1,15 +1,15 @@
 <template>
-  <v-row v-if="isLoading" class="mt-10">
+  <v-row v-if="isLoading || loading" class="mt-10">
     <v-col class="d-flex justify-center" align-self="center">
       <v-progress-circular
         class="mt-10"
         :size="70"
         :width="7"
-        color="primary"
+        color="deep-orange-lighten-2"
         indeterminate
-        :active="isLoading"
       />
     </v-col>
+    <!-- color="primary" -->
   </v-row>
 </template>
 
@@ -19,6 +19,13 @@ import { mapState } from 'pinia';
 
 export default {
   name: 'Loader',
+  props: {
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
   data() {
     return {
       colour: '',

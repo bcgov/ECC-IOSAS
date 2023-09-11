@@ -10,7 +10,10 @@
       </v-row>
     </article>
   </v-container>
-  <v-container v-if="!isLoading" fluid class="dashboard-container">
+  <span v-if="isLoading">
+    <Loader :loading="isLoading" />
+  </span>
+  <v-container v-else fluid class="dashboard-container">
     <!-- TODO: re-add alerts once they are dynamic and not hardcoded -->
     <!-- <v-row
       align="center"
@@ -92,6 +95,7 @@ import PrimaryButton from './util/PrimaryButton.vue';
 import DataTable from './util/DataTable.vue';
 import ContactCard from './common/ContactCard.vue';
 import RelatedLinksCard from './common/RelatedLinksCard.vue';
+import Loader from './util/Loader.vue';
 
 export default {
   name: 'Home',
@@ -101,11 +105,13 @@ export default {
     DataTable,
     ContactCard,
     RelatedLinksCard,
+    Loader,
   },
   data() {
     return {
       AuthRoutes,
       GOV_URL,
+      isLoading: true,
       schoolApplications: [],
       eoiApplications: [],
       routes: {
@@ -115,22 +121,20 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'isLoading']),
+    ...mapState(authStore, ['isAuthenticated']),
     ...mapState(applicationsStore, [
       'getEOIApplicationsFormatted',
       'getSchoolApplicationsFormatted',
     ]),
   },
   async created() {
-    await this.setLoading(true);
     await this.getAllEOI();
     this.eoiApplications = this.getEOIApplicationsFormatted;
     await this.getAllSchoolApplications();
     this.schoolApplications = this.getSchoolApplicationsFormatted;
-    await this.setLoading(false);
+    this.isLoading = false;
   },
   methods: {
-    ...mapActions(authStore, ['setLoading']),
     ...mapActions(applicationsStore, ['getAllEOI', 'getAllSchoolApplications']),
     redirectToEOIForm() {
       this.$router.push({ path: AuthRoutes.NEW_EOI });
