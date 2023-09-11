@@ -4,7 +4,7 @@
     <Header />
     <SnackBar />
     <Loader />
-    <v-main fluid class="align-start">
+    <v-main fluid class="align-start" v-if="!isLoading">
       <ModalIdle v-if="isAuthenticated" />
       <router-view />
     </v-main>

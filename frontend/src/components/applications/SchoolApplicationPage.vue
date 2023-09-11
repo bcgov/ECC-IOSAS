@@ -1,5 +1,8 @@
 <template>
-  <v-container fluid class="full-height" v-if="!isLoading">
+  <span v-if="isLoading">
+    <Loader :loading="isLoading" />
+  </span>
+  <v-container fluid class="full-height" v-else>
     <v-breadcrumbs :items="breadcrumbs"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
@@ -8,6 +11,8 @@
     <br />
     <SchoolApplicationForm
       :formData="applicationData"
+      :isLoading="isLoading"
+      @setIsLoading="setIsLoading"
       @updateData="updateData"
       @handleUploadDocuments="handleUploadDocuments"
     />
@@ -23,14 +28,17 @@ import { mapState, mapActions } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
 import { authStore } from '../../store/modules/auth';
 import { formatArrayToString } from '../../utils/format';
+import Loader from './../util/Loader.vue';
 
 export default {
   name: 'SchoolApplicationPage',
   mixins: [alertMixin],
   components: {
     SchoolApplicationForm,
+    Loader,
   },
   data: () => ({
+    isLoading: false,
     applicationData: {},
     breadcrumbs: [
       {
@@ -47,15 +55,16 @@ export default {
   }),
   computed: {
     ...mapState(applicationsStore, ['getSchoolApplication']),
-    ...mapState(authStore, ['isLoading']),
   },
   async created() {
     await this.fetchAppData();
   },
   methods: {
     formatArrayToString,
-    ...mapActions(authStore, ['setLoading']),
     ...mapActions(applicationsStore, ['getApplicationById']),
+    setIsLoading(value) {
+      this.isLoading = value;
+    },
     formatPayload(payload) {
       // Convert array to comma seperated string
       return {
@@ -72,7 +81,7 @@ export default {
       };
     },
     async fetchAppData() {
-      await this.setLoading(true);
+      await this.setIsLoading(true);
       this.getApplicationById(this.$route.params.id)
         .then(async () => {
           let contactResponse;
@@ -93,7 +102,7 @@ export default {
                 contactResponse.data.telephone1,
             };
           }
-          await this.setLoading(false);
+          await this.setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
@@ -124,7 +133,7 @@ export default {
     },
     async updateData(id, payload, documents, isSubmitted = null) {
       try {
-        this.setLoading(true);
+        this.setIsLoading(true);
         const updateResponse = await ApplicationService.updateSchoolApplication(
           id,
           this.formatPayload(payload),
@@ -145,7 +154,7 @@ export default {
               name: 'applicationConfirmation',
             });
           } else {
-            this.setLoading(false);
+            this.setIsLoading(false);
             this.$router.replace({
               name: 'schoolApplicationPage',
               params: {
@@ -162,7 +171,7 @@ export default {
           }
         }
       } catch (error) {
-        this.setLoading(false);
+        this.setIsLoading(false);
         this.setFailureAlert(
           `An error occurred while trying to update the school application ${payload.iosas_applicationnumber}. Please try again later.`
         );

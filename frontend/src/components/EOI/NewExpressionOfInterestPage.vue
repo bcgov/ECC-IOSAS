@@ -1,5 +1,8 @@
 <template>
-  <v-container fluid class="full-height" v-if="!isLoading">
+  <span v-if="isLoading">
+    <Loader :loading="isLoading" />
+  </span>
+  <v-container fluid class="full-height" v-else>
     <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
@@ -11,7 +14,11 @@
           <v-col cols="12" sm="12" md="12" lg="9" xs="12">
             <div class="form-container">
               <div>
-                <ExpressionOfInterestForm :isNew="true" />
+                <ExpressionOfInterestForm
+                  :isNew="true"
+                  :isLoading="isLoading"
+                  @setIsLoading="setIsLoading"
+                />
               </div>
             </div>
           </v-col>
@@ -30,6 +37,7 @@ import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ContactCard from '../common/ContactCard.vue';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 import { authStore } from '../../store/modules/auth';
+import Loader from './../util/Loader.vue';
 
 export default {
   name: 'NewExpressionOfInterestPage',
@@ -37,8 +45,10 @@ export default {
     ContactCard,
     RelatedLinksCard,
     ExpressionOfInterestForm,
+    Loader,
   },
   data: () => ({
+    isLoading: false,
     items: [
       {
         title: 'Dashboard',
@@ -54,6 +64,9 @@ export default {
   }),
   methods: {
     authStore,
+    setIsLoading(value) {
+      this.isLoading = value;
+    },
   },
 };
 </script>
