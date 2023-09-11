@@ -1,11 +1,12 @@
 # Build and Deploy to dev env.
 # Trigger with tag dev
 # Connected with repo environment 'dev'
-name: OpenShift Build and Deploy to Web
+name: OpenShift Build and Deploy to api and web
 
 on:
-  workflow_dispatch:
-
+  push:
+    branches:
+      - main-dev
 env:
   CLUSTER: https://api.silver.devops.gov.bc.ca:6443
   AUTH_TOKEN: ${{ secrets.AUTH_TOKEN_OCP4 }}
@@ -15,9 +16,34 @@ env:
   SOAM_CLIENT_ID_DEV: ${{ vars.SOAM_CLIENT_ID_DEV }}
   SOAM_CLIENT_SECRET_DEV: ${{ secrets.SOAM_CLIENT_SECRET_DEV }}
   PUBLIC_HOST: dev.independentschoolservices.gov.bc.ca
-  PROJECT_NAME: ecc-iosas
 jobs:
-  web:
+  # Api build
+  api-build:
+    name: OpenShift Build & Deploy
+    runs-on: ubuntu-latest
+    concurrency: ci-build-api
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Check changes on backend code
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'backend/**'
+          base: ${{ github.ref}}
+      - name: Build changes
+        if: steps.changes.outputs.src == 'true'
+        working-directory: './tools'
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
+          make print-status
+          make build-api
+          make promote-api
+  # Web build
+  web-build:
     name: OpenShift Build & Deploy
     runs-on: ubuntu-latest
     concurrency: ci-build-web
@@ -45,16 +71,48 @@ jobs:
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make print-status
           make build-web
+          make promote-web
+  app-promote:
+    name: Prmoting application
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs:
+      - api-build
+      - web-build
+    environment:
+      name: dev
+    env:
+      CERTIFICATE: ${{ secrets.CERT }}
+      CA_CERT: ${{ secrets.CA_CERT }}
+      PRIVATE_KEY: ${{ secrets.PRIV_KEY }}
+    steps:
       - name: Check changes on dir
         uses: dorny/paths-filter@v2
         id: changes_tools
         with:
           filters: |
             src:
-              - 'frontend/**'
-          base: ${{ github.ref }}
-      - name: Deploy changes
+              - 'backend/**'
+              - 'tools/**'
+          base: ${{ github.ref}}
+      - name: Deploy changes api
         if: steps.changes_tools.outputs.src == 'true'
+        working-directory: './tools'
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
+          make print-status
+          make deploy-api
+      - name: Check changes on dir
+        uses: dorny/paths-filter@v2
+        id: changes_tools_web
+        with:
+          filters: |
+            src:
+              - 'frontend/**'
+              - 'tools/**'
+          base: ${{ github.ref }}
+      - name: Deploy changes of web
+        if: steps.changes_tools_web.outputs.src == 'true'
         working-directory: './tools'
         run: |
           oc login --token="$AUTH_TOKEN" --server="$CLUSTER"

@@ -321,12 +321,12 @@ else
 endif
 	@git push --force origin refs/tags/test:refs/tags/test
 
-tag-prod:
+tag-production:
 ifdef ticket
-	@git tag -fa prod -m "Deploy $(ticket) to PROD Openshift env"
+	@git tag -fa production -m "Deploy $(ticket) to PROD Openshift env"
 else
 	@echo -e '\nTicket name missing - Example :: make tag-test ticket=HCAP-ABC \n'
 	@echo -e 'Falling Back to using branch name\n'
-	@git tag -fa prod -m "Deploy $(git rev-parse --abbrev-ref HEAD) to PROD env"
+	@git tag -fa production -m "Deploy $(git rev-parse --abbrev-ref HEAD) to PROD env"
 endif
-	@git push --force origin refs/tags/prod:refs/tags/prod
+	@git push --force origin refs/tags/prod:refs/tags/production
