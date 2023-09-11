@@ -1159,9 +1159,16 @@ export default {
 
       if (
         this.data?._iosas_authortiycontact_value !==
-        this.data?._iosas_submitter_value
+          this.data?._iosas_submitter_value &&
+        this.data?._iosas_authortiycontact_value
       ) {
         this.isDesignatedContactSameAsSubmitter = false;
+      } else if (
+        this.data?._iosas_submitter_value &&
+        !this.data?._iosas_authortiycontact_value
+      ) {
+        this.populatedAndDisableDesignatedContact = true;
+        this.isDesignatedContactSameAsSubmitter = true;
       }
       if (this.data?.iosas_schoolauthoritycontactphone) {
         this.populateAndDisableContactPhone = true;
