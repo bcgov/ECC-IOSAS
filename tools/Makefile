@@ -59,7 +59,7 @@ bceid_reg_url=
 UI_URL=test.independentschoolservices.gov.bc.ca
 MAX_REPLICA_WEB=6
 MAX_REPLICA_API=4
-MIN_REPLICA_WEB=3
+MIN_REPLICA_WEB=2
 MIN_REPLICA_API=2
 endif
 
@@ -246,7 +246,7 @@ update-dc-api:
 		-p CPU_REQUEST=$(MIN_CPU) \
 		-p MEMORY_REQUEST=$(MIN_MEMORY) \
 		-p MEMORY_LIMIT=$(MAX_MEMORY) \
-		-p REPLICAS=$(MIN_REPLICA_WEB) | oc -n $(NAMESPACE) apply -f -
+		-p REPLICAS=$(MIN_REPLICA_API) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
 	$(call rollout_and_wait,dc/$(API))
