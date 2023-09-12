@@ -26,9 +26,9 @@ export PUBLIC_HOST := $(or $(PUBLIC_HOST), dev.independentschoolservices.gov.bc.
 
 HOST_PREFIX= $(ENV_PREFIX)
 
-MAX_CPU=150m
+MAX_CPU=100m
 MIN_CPU=50m
-MAX_MEMORY=128Mi
+MAX_MEMORY=200Mi
 MIN_MEMORY=128Mi
 
 # Seeting up Name space as per env prefix
@@ -42,7 +42,7 @@ SOAM_DISCOVERY=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.
 SOAM_URL=https://soam-dev.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
 UI_URL=dev.independentschoolservices.gov.bc.ca
-MAX_REPLICA_WEB=2
+MAX_REPLICA_WEB=3
 MAX_REPLICA_API=3
 MIN_REPLICA_WEB=3
 MIN_REPLICA_API=3
