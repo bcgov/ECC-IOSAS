@@ -249,9 +249,8 @@ update-dc-api:
 		-p REPLICAS=$(MIN_REPLICA_API) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
-	
-	$(call rollout_and_wait,dc/$(API))
-
+	@oc rollout cancel dc/$(API) 2> /dev/null || true && echo "No rollout in progress"
+	@oc -n $(NAMESPACE) rollout status dc/$(API) --watch=true
 test-public-route: 
 	@echo Creating route with $(PUBLIC_HOST)
 	oc --namespace=$(NAMESPACE) process -f openshift/public-route.yml \
@@ -285,7 +284,7 @@ update-dc-web:
 
 deploy-web: update-dc-web
 	@oc rollout cancel dc/$(Web) 2> /dev/null || true && echo "No rollout in progress"
-	$(call rollout_and_wait,dc/$(Web))
+	@oc -n $(NAMESPACE) rollout status dc/$(Web) --watch=true
 
 promote-web:
 	test -n "$(BUILD_NAMESPACE)"
