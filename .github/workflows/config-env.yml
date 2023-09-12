@@ -49,4 +49,8 @@ jobs:
           make init-project
           make init-api-sec
           make init-api-config
+      - name: Deploy redis
+        working-directory: './tools'
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
           make deploy-redis

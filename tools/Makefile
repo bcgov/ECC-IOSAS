@@ -26,10 +26,10 @@ export PUBLIC_HOST := $(or $(PUBLIC_HOST), dev.independentschoolservices.gov.bc.
 
 HOST_PREFIX= $(ENV_PREFIX)
 
-MAX_CPU=100m
+MAX_CPU=150m
 MIN_CPU=50m
 MAX_MEMORY=512Mi
-MIN_MEMORY=256Mi
+MIN_MEMORY=150i
 
 # Seeting up Name space as per env prefix
 ifeq ($(ENV_PREFIX), dev)
@@ -43,9 +43,9 @@ SOAM_URL=https://soam-dev.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
 UI_URL=dev.independentschoolservices.gov.bc.ca
 MAX_REPLICA_WEB=2
-MAX_REPLICA_API=2
-MIN_REPLICA_WEB=2
-MIN_REPLICA_API=2
+MAX_REPLICA_API=3
+MIN_REPLICA_WEB=3
+MIN_REPLICA_API=3
 endif
 
 ifeq ($(ENV_PREFIX), test)
@@ -59,8 +59,8 @@ bceid_reg_url=
 UI_URL=test.independentschoolservices.gov.bc.ca
 MAX_REPLICA_WEB=6
 MAX_REPLICA_API=4
-MIN_REPLICA_WEB=2
-MIN_REPLICA_API=2
+MIN_REPLICA_WEB=3
+MIN_REPLICA_API=3
 endif
 
 ifeq ($(ENV_PREFIX), production)
