@@ -28,7 +28,7 @@ HOST_PREFIX= $(ENV_PREFIX)
 
 MAX_CPU=150m
 MIN_CPU=50m
-MAX_MEMORY=256Mi
+MAX_MEMORY=128Mi
 MIN_MEMORY=128Mi
 
 # Seeting up Name space as per env prefix
