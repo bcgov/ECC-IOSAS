@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <h4>Documents</h4>
+    <v-label class="sm"
+      >Please see
+      <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl">Checklist</a>
+      for details</v-label
+    >
+    <br />
     <br />
     <v-dialog v-model="documentUpload" width="auto">
       <DocumentUpload
@@ -31,13 +37,6 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">School Policy/Procedure Manual</v-label>
             <br />
-            <v-label class="sm"
-              >Complete set of policies/procedures as outlined in the
-              <a :href="GOV_URL.interviewChecklistPDFUrl"
-                >Interview Checklist (PDF)</a
-              >
-            </v-label>
-
             <div
               v-if="schoolPolicyDoc.length !== 0"
               class="d-flex justify-space-between"
@@ -72,7 +71,6 @@
           </v-col>
         </v-row>
         <v-text-field
-          v-model="schoolPolicyDocRequired"
           class="hidden-field"
           type="hidden"
           :rules="schoolPolicyDoc.length === 0 ? [rules.required()] : []"
@@ -80,13 +78,6 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Business Plan</v-label>
-            <br />
-            <v-label class="sm"
-              >Business Plan with required financial information (Part A and B)
-              <a :href="GOV_URL.interviewChecklistPDFUrl"
-                >Interview Checklist (PDF)</a
-              >
-            </v-label>
 
             <div
               v-if="businessPlanDoc.length !== 0"
@@ -182,14 +173,6 @@
               <v-label class="no-mb"
                 >Written confirmation of eligibility</v-label
               >
-              <br />
-              <v-label class="sm"
-                >Written confirmation from a financial institution or surety
-                provider of their eligibility to obtain a bond in the form of an
-                irrevocable letter of credit or surety bond in the amount of
-                $100,000, consistent with requirements of the Independent School
-                Regulation.
-              </v-label>
               <div
                 v-if="confirmationOfEligibilityDoc.length !== 0"
                 class="d-flex justify-space-between"
@@ -337,13 +320,6 @@
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-label class="no-mb">School Policy/Procedure Manual</v-label>
-          <br />
-          <v-label class="sm"
-            >Complete set of policies/procedures as outlined in the
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >Interview Checklist (PDF)</a
-            >
-          </v-label>
           <div
             v-if="schoolPolicyDoc.length !== 0"
             class="d-flex justify-space-between"
@@ -363,13 +339,6 @@
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label class="no-mb">Business Plan</v-label>
-          <br />
-          <v-label class="sm"
-            >Business Plan with required financial information (Part A and B)
-            <a :href="GOV_URL.interviewChecklistPDFUrl"
-              >Interview Checklist (PDF)</a
-            >
-          </v-label>
 
           <div
             v-if="businessPlanDoc.length !== 0"

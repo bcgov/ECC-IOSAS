@@ -31,6 +31,7 @@
             label="Proposed Hours Per Day"
             color="rgb(59, 153,
             252)"
+            type="number"
             @change="
               roundUp($event, 'iosas_halfdaykindergartenproposedhoursperday_d')
             "
@@ -44,6 +45,7 @@
             variant="outlined"
             label="Proposed Number of Days in Session"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="roundUp($event, 'iosas_halfdaykgtproposeddaysinsession_d')"
           />
         </v-col>
@@ -55,6 +57,7 @@
             variant="outlined"
             label="Proposed Hours Per Year"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="
               roundUp($event, 'iosas_halfdaykindergartenproposedhoursperyear_d')
             "
@@ -83,6 +86,7 @@
             variant="outlined"
             label="Proposed Hours Per Day"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="roundUp($event, 'iosas_fulldaykgtproposedhoursperday_d')"
           />
         </v-col>
@@ -94,6 +98,7 @@
             variant="outlined"
             label="Proposed Number of Days in Session"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="
               roundUp($event, 'iosas_fulldaykgtproposeddaysinsesssion_d')
             "
@@ -107,6 +112,7 @@
             variant="outlined"
             label="Proposed Hours Per Year"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="roundUp($event, 'iosas_fulldaykgtproposedhoursperyear_d')"
             :rules="
               validateFullDayHours()
@@ -133,6 +139,7 @@
             variant="outlined"
             label="Proposed Hours Per Day"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="roundUp($event, 'iosas_grades112proposedhoursperday_d')"
           />
         </v-col>
@@ -144,6 +151,7 @@
             variant="outlined"
             label="Proposed Number of Days in Session"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="roundUp($event, 'iosas_grades112proposeddaysinsession_d')"
           />
         </v-col>
@@ -155,6 +163,7 @@
             variant="outlined"
             label="Proposed Hours Per Year"
             color="rgb(59, 153, 252)"
+            type="number"
             @change="roundUp($event, 'iosas_grades112proposedhoursperyear_d')"
             :rules="
               validateGradeHours()
@@ -325,11 +334,10 @@ export default {
       );
     },
     roundUp(event, field) {
-      const number = parseFloat(event.target.value);
       if (!event.target.value) {
         this.formData[field] = null;
       } else {
-        this.formData[field] = Number(number.toFixed(2));
+        this.formData[field] = Number(Number(event.target.value).toFixed(2));
       }
     },
   },
