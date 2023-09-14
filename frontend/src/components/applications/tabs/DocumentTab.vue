@@ -4,7 +4,7 @@
     <v-label class="sm"
       >Please see
       <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl">Checklist</a>
-      for details</v-label
+      for information.</v-label
     >
     <br />
     <br />
@@ -165,8 +165,6 @@
           <v-divider></v-divider>
           <br />
           <h4>Group 4 Documents</h4>
-          <v-label class="sm">Schools seeking Group 4 only</v-label>
-          <br />
           <br />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
@@ -394,8 +392,6 @@
         <v-divider></v-divider>
         <br />
         <h4>Group 4 Documents</h4>
-        <v-label class="sm">Schools seeking Group 4 only</v-label>
-        <br />
         <br />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
