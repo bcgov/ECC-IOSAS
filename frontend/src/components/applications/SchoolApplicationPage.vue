@@ -1,7 +1,9 @@
 <template>
-  <span v-if="isLoading">
-    <Loader :loading="isLoading" />
-  </span>
+  <v-row v-if="isLoading">
+    <v-col class="d-flex justify-center" align-self="center">
+      <Loader :loading="isLoading" />
+    </v-col>
+  </v-row>
   <v-container fluid class="full-height" v-else>
     <v-breadcrumbs :items="breadcrumbs"
       ><template v-slot:divider>

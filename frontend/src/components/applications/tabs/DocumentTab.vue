@@ -66,11 +66,17 @@
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="toggleUpload(SCHOOL_APP_CODE_CODES.schoolPolicyCode)"
+              @click="toggleUpload(SCHOOL_APP_DOC_CODES.schoolPolicyCode)"
               >Upload</v-btn
             >
           </v-col>
         </v-row>
+        <v-text-field
+          v-model="schoolPolicyDocRequired"
+          class="hidden-field"
+          type="hidden"
+          :rules="schoolPolicyDoc.length === 0 ? [rules.required()] : []"
+        />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Business Plan</v-label>
@@ -110,11 +116,16 @@
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="toggleUpload(SCHOOL_APP_CODE_CODES.businessPlanCode)"
+              @click="toggleUpload(SCHOOL_APP_DOC_CODES.businessPlanCode)"
               >Upload</v-btn
             >
           </v-col>
         </v-row>
+        <v-text-field
+          class="hidden-field"
+          type="hidden"
+          :rules="businessPlanDoc.length === 0 ? [rules.required()] : []"
+        />
         <br />
         <v-divider></v-divider>
         <br />
@@ -126,7 +137,7 @@
             <div
               v-for="document in getApplicationDocuments.filter(
                 ({ documentType }) =>
-                  documentType === SCHOOL_APP_CODE_CODES.otherDocCode
+                  documentType === SCHOOL_APP_DOC_CODES.otherDocCode
               )"
               :key="document.id"
             >
@@ -153,7 +164,7 @@
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="toggleUpload(SCHOOL_APP_CODE_CODES.otherDocCode)"
+              @click="toggleUpload(SCHOOL_APP_DOC_CODES.otherDocCode)"
               >Upload</v-btn
             >
           </v-col>
@@ -171,6 +182,14 @@
               <v-label class="no-mb"
                 >Written confirmation of eligibility</v-label
               >
+              <br />
+              <v-label class="sm"
+                >Written confirmation from a financial institution or surety
+                provider of their eligibility to obtain a bond in the form of an
+                irrevocable letter of credit or surety bond in the amount of
+                $100,000, consistent with requirements of the Independent School
+                Regulation.
+              </v-label>
               <div
                 v-if="confirmationOfEligibilityDoc.length !== 0"
                 class="d-flex justify-space-between"
@@ -201,13 +220,22 @@
                 variant="outlined"
                 @click="
                   toggleUpload(
-                    SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
+                    SCHOOL_APP_DOC_CODES.confirmationOfEligibilityCode
                   )
                 "
                 >Upload</v-btn
               >
             </v-col>
           </v-row>
+          <v-text-field
+            class="hidden-field"
+            type="hidden"
+            :rules="
+              confirmationOfEligibilityDoc.length === 0
+                ? [rules.required()]
+                : []
+            "
+          />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-label class="no-mb"
@@ -242,12 +270,19 @@
                 class="mt-2 block"
                 variant="outlined"
                 @click="
-                  toggleUpload(SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode)
+                  toggleUpload(SCHOOL_APP_DOC_CODES.tuitionRefundPolicyCode)
                 "
                 >Upload</v-btn
               >
             </v-col>
           </v-row>
+          <v-text-field
+            class="hidden-field"
+            type="hidden"
+            :rules="
+              tuitionRefundPolicyDoc.length === 0 ? [rules.required()] : []
+            "
+          />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-label class="no-mb"
@@ -282,12 +317,19 @@
                 class="mt-2 block"
                 variant="outlined"
                 @click="
-                  toggleUpload(SCHOOL_APP_CODE_CODES.businessReferencesCode)
+                  toggleUpload(SCHOOL_APP_DOC_CODES.businessReferencesCode)
                 "
                 >Upload</v-btn
               >
             </v-col>
           </v-row>
+          <v-text-field
+            class="hidden-field"
+            type="hidden"
+            :rules="
+              businessReferencesDoc.length === 0 ? [rules.required()] : []
+            "
+          />
         </div>
       </div>
     </div>
@@ -356,13 +398,13 @@
           <div
             v-for="document in getApplicationDocuments.filter(
               ({ documentType }) =>
-                documentType === SCHOOL_APP_CODE_CODES.otherDocCode
+                documentType === SCHOOL_APP_DOC_CODES.otherDocCode
             )"
             :key="document.id"
             v-if="
               getApplicationDocuments.filter(
                 ({ documentType }) =>
-                  documentType === SCHOOL_APP_CODE_CODES.otherDocCode
+                  documentType === SCHOOL_APP_DOC_CODES.otherDocCode
               ).length > 0
             "
           >
@@ -458,12 +500,12 @@ import DocumentUpload from '../../common/DocumentUpload.vue';
 import { formatLongName } from '../../../utils/format';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
-  SCHOOL_APP_CODE_CODES,
+  SCHOOL_APP_DOC_CODES,
   GROUP_CLASSIFICATION_CODES,
 } from '../../../utils/application';
 export default {
   name: 'DocumentTab',
-  emit: ['validateAndPopulate', 'removeDocument'],
+  emit: ['validateForm', 'removeDocument'],
   mixins: [alertMixin],
   components: {
     DocumentUpload,
@@ -481,31 +523,39 @@ export default {
       type: Boolean,
       required: true,
     },
+    isFormValid: {
+      type: Boolean,
+      required: true,
+    },
   },
   watch: {
     getApplicationDocuments: {
       handler(val) {
         this.schoolPolicyDoc = val.filter(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.schoolPolicyCode
+            documentType === this.SCHOOL_APP_DOC_CODES.schoolPolicyCode
         );
         this.businessPlanDoc = val.filter(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.businessPlanCode
+            documentType === this.SCHOOL_APP_DOC_CODES.businessPlanCode
         );
         this.confirmationOfEligibilityDoc = val.filter(
           ({ documentType }) =>
             documentType ===
-            this.SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
+            this.SCHOOL_APP_DOC_CODES.confirmationOfEligibilityCode
         );
         this.tuitionRefundPolicyDoc = val.filter(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode
+            documentType === this.SCHOOL_APP_DOC_CODES.tuitionRefundPolicyCode
         );
         this.businessReferencesDoc = val.filter(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.businessReferencesCode
+            documentType === this.SCHOOL_APP_DOC_CODES.businessReferencesCode
         );
+
+        if (val.length > 0 && this.isFormValid === false) {
+          this.$emit('validateForm');
+        }
       },
     },
   },
@@ -513,7 +563,7 @@ export default {
     GOV_URL,
     NULL_STRING,
     rules: Rules,
-    SCHOOL_APP_CODE_CODES,
+    SCHOOL_APP_DOC_CODES,
     GROUP_CLASSIFICATION_CODES,
     documentUpload: false,
     selectedDocumentOption: null,
@@ -529,24 +579,23 @@ export default {
   created() {
     this.schoolPolicyDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.schoolPolicyCode
+        documentType === this.SCHOOL_APP_DOC_CODES.schoolPolicyCode
     );
     this.businessPlanDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.businessPlanCode
+        documentType === this.SCHOOL_APP_DOC_CODES.businessPlanCode
     );
     this.confirmationOfEligibilityDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType ===
-        this.SCHOOL_APP_CODE_CODES.confirmationOfEligibilityCode
+        documentType === this.SCHOOL_APP_DOC_CODES.confirmationOfEligibilityCode
     );
     this.tuitionRefundPolicyDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.tuitionRefundPolicyCode
+        documentType === this.SCHOOL_APP_DOC_CODES.tuitionRefundPolicyCode
     );
     this.businessReferencesDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.businessReferencesCode
+        documentType === this.SCHOOL_APP_DOC_CODES.businessReferencesCode
     );
   },
   computed: {
@@ -576,8 +625,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .v-label {
   display: inline;
+}
+
+.hidden-field {
+  :deep(.v-input__control) {
+    grid-area: none !important;
+  }
 }
 </style>

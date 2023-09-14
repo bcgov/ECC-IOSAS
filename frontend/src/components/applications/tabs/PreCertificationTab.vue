@@ -58,11 +58,16 @@
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="toggleUpload(SCHOOL_APP_CODE_CODES.proofOfPurchaseCode)"
+              @click="toggleUpload(SCHOOL_APP_DOC_CODES.proofOfPurchaseCode)"
               >Upload</v-btn
             >
           </v-col>
         </v-row>
+        <v-text-field
+          class="hidden-field"
+          type="hidden"
+          :rules="proofOfPurchaseDoc.length === 0 ? [rules.required()] : []"
+        />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Municipal compliance letter</v-label>
@@ -95,12 +100,17 @@
               class="mt-2 block"
               variant="outlined"
               @click="
-                toggleUpload(SCHOOL_APP_CODE_CODES.mulicipalComplianceCode)
+                toggleUpload(SCHOOL_APP_DOC_CODES.mulicipalComplianceCode)
               "
               >Upload</v-btn
             >
           </v-col>
         </v-row>
+        <v-text-field
+          class="hidden-field"
+          type="hidden"
+          :rules="mulicipalComplianceDoc.length === 0 ? [rules.required()] : []"
+        />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Confirmation of water testing</v-label>
@@ -133,12 +143,19 @@
               class="mt-2 block"
               variant="outlined"
               @click="
-                toggleUpload(SCHOOL_APP_CODE_CODES.confimationWaterTestingCode)
+                toggleUpload(SCHOOL_APP_DOC_CODES.confimationWaterTestingCode)
               "
               >Upload</v-btn
             >
           </v-col>
         </v-row>
+        <v-text-field
+          class="hidden-field"
+          type="hidden"
+          :rules="
+            confimationWaterTestingDoc.length === 0 ? [rules.required()] : []
+          "
+        />
         <br />
         <v-divider></v-divider>
         <br />
@@ -150,7 +167,7 @@
             <div
               v-for="document in getApplicationDocuments.filter(
                 ({ documentType }) =>
-                  documentType === SCHOOL_APP_CODE_CODES.preCertOther
+                  documentType === SCHOOL_APP_DOC_CODES.preCertOther
               )"
               :key="document.id"
             >
@@ -177,7 +194,7 @@
               secondary
               class="mt-2 block"
               variant="outlined"
-              @click="toggleUpload(SCHOOL_APP_CODE_CODES.preCertOther)"
+              @click="toggleUpload(SCHOOL_APP_DOC_CODES.preCertOther)"
               >Upload</v-btn
             >
           </v-col>
@@ -225,12 +242,19 @@
                 class="mt-2 block"
                 variant="outlined"
                 @click="
-                  toggleUpload(SCHOOL_APP_CODE_CODES.creditOrSurityBondCode)
+                  toggleUpload(SCHOOL_APP_DOC_CODES.creditOrSurityBondCode)
                 "
                 >Upload</v-btn
               >
             </v-col>
           </v-row>
+          <v-text-field
+            class="hidden-field"
+            type="hidden"
+            :rules="
+              creditOrSurityBondDoc.length === 0 ? [rules.required()] : []
+            "
+          />
         </div>
       </div>
     </div>
@@ -304,13 +328,13 @@
           <div
             v-for="document in getApplicationDocuments.filter(
               ({ documentType }) =>
-                documentType === SCHOOL_APP_CODE_CODES.preCertOther
+                documentType === SCHOOL_APP_DOC_CODES.preCertOther
             )"
             :key="document.id"
             v-if="
               getApplicationDocuments.filter(
                 ({ documentType }) =>
-                  documentType === SCHOOL_APP_CODE_CODES.preCertOther
+                  documentType === SCHOOL_APP_DOC_CODES.preCertOther
               ).length > 0
             "
           >
@@ -368,13 +392,13 @@ import DocumentUpload from '../../common/DocumentUpload.vue';
 import { formatLongName } from '../../../utils/format';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
-  SCHOOL_APP_CODE_CODES,
+  SCHOOL_APP_DOC_CODES,
   GROUP_CLASSIFICATION_CODES,
 } from '../../../utils/application';
 
 export default {
   name: 'PreCertificationTab',
-  emit: ['removeDocument'],
+  emit: ['validateForm', 'removeDocument'],
   mixins: [alertMixin],
   components: {
     DocumentUpload,
@@ -392,27 +416,35 @@ export default {
       type: Boolean,
       required: true,
     },
+    isFormValid: {
+      type: Boolean,
+      required: true,
+    },
   },
   watch: {
     getApplicationDocuments: {
       handler(val) {
         this.proofOfPurchaseDoc = val.filter(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
+            documentType === this.SCHOOL_APP_DOC_CODES.proofOfPurchaseCode
         );
         this.mulicipalComplianceDoc = val.filter(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
+            documentType === this.SCHOOL_APP_DOC_CODES.mulicipalComplianceCode
         );
         this.confimationWaterTestingDoc = val.filter(
           ({ documentType }) =>
             documentType ===
-            this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
+            this.SCHOOL_APP_DOC_CODES.confimationWaterTestingCode
         );
         this.creditOrSurityBondDoc = val.filter(
           ({ documentType }) =>
-            documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
+            documentType === this.SCHOOL_APP_DOC_CODES.creditOrSurityBondCode
         );
+
+        if (val.length > 0 && this.isFormValid === false) {
+          this.$emit('validateForm');
+        }
       },
     },
   },
@@ -420,7 +452,7 @@ export default {
     GOV_URL,
     NULL_STRING,
     rules: Rules,
-    SCHOOL_APP_CODE_CODES,
+    SCHOOL_APP_DOC_CODES,
     GROUP_CLASSIFICATION_CODES,
     preCertDocumentUpload: false,
     selectedDocumentOption: null,
@@ -439,19 +471,19 @@ export default {
   created() {
     this.proofOfPurchaseDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.proofOfPurchaseCode
+        documentType === this.SCHOOL_APP_DOC_CODES.proofOfPurchaseCode
     );
     this.mulicipalComplianceDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.mulicipalComplianceCode
+        documentType === this.SCHOOL_APP_DOC_CODES.mulicipalComplianceCode
     );
     this.confimationWaterTestingDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.confimationWaterTestingCode
+        documentType === this.SCHOOL_APP_DOC_CODES.confimationWaterTestingCode
     );
     this.creditOrSurityBondDoc = this.getApplicationDocuments?.filter(
       ({ documentType }) =>
-        documentType === this.SCHOOL_APP_CODE_CODES.creditOrSurityBondCode
+        documentType === this.SCHOOL_APP_DOC_CODES.creditOrSurityBondCode
     );
   },
   methods: {
@@ -477,8 +509,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .v-label {
   display: inline;
+}
+
+.hidden-field {
+  :deep(.v-input__control) {
+    grid-area: none !important;
+  }
 }
 </style>
