@@ -3,7 +3,9 @@
     <h4>Documents</h4>
     <v-label class="sm"
       >Please see
-      <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl">Checklist</a>
+      <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl"
+        >Interview Checklist</a
+      >
       for information.</v-label
     >
     <br />

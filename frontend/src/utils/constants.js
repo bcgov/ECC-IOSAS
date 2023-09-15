@@ -154,6 +154,8 @@ export const GOV_URL = {
     'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/15018_01#section1',
   BCLawBusinessActUrl:
     'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/02057_00',
+  munLetterDocx:
+    'https://www2.gov.bc.ca/assets/gov/education/administration/kindergarten-to-grade-12/independent-schools/mun_letter.doc',
 };
 
 export const NULL_STRING = '-';

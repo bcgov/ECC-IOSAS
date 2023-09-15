@@ -2,11 +2,12 @@
   <v-container>
     <h4>Pre-Certification Documents</h4>
     <v-label class="sm"
-      >Please see
-      <a target="_blank" :href="GOV_URL.establishingSchoolURL">Step 4</a>
+      >Please see Step 4 of
+      <a target="_blank" :href="GOV_URL.establishingSchoolURL"
+        >Establishing an Independent School</a
+      >
       for more information.</v-label
     >
-    <br />
     <br />
     <br />
     <v-dialog v-model="preCertDocumentUpload" width="auto">
@@ -78,6 +79,13 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Municipal compliance letter</v-label>
+            <br />
+            <v-label class="sm"
+              >Please see
+              <a target="_blank" :href="GOV_URL.munLetterDocx"
+                >Local Government/Municipal Compliance Letter (DOCX)</a
+              >
+            </v-label>
             <div
               v-if="mulicipalComplianceDoc.length !== 0"
               v-for="document in mulicipalComplianceDoc"
@@ -121,6 +129,15 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Confirmation of water testing</v-label>
+            <br />
+            <v-label class="sm"
+              >Please see
+              <a target="_blank" :href="GOV_URL.leadTestingUrl"
+                >Testing Lead Content in Drinking Water of Independent
+                Schools.</a
+              >
+            </v-label>
+            <br />
             <div
               v-if="confimationWaterTestingDoc.length !== 0"
               v-for="document in confimationWaterTestingDoc"
@@ -286,6 +303,14 @@
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Municipal compliance letter</v-label>
+          <br />
+          <v-label class="sm"
+            >Please see
+            <a target="_blank" :href="GOV_URL.munLetterDocx"
+              >Local Government/Municipal Compliance Letter (DOCX)</a
+            >
+          </v-label>
+          <br />
           <div
             v-if="mulicipalComplianceDoc.length !== 0"
             v-for="document in mulicipalComplianceDoc"
@@ -306,6 +331,14 @@
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Confirmation of water testing</v-label>
+          <br />
+          <v-label class="sm"
+            >Please see
+            <a target="_blank" :href="GOV_URL.leadTestingUrl"
+              >Testing Lead Content in Drinking Water of Independent Schools.</a
+            >
+          </v-label>
+          <br />
           <div
             v-if="confimationWaterTestingDoc.length !== 0"
             v-for="document in confimationWaterTestingDoc"
