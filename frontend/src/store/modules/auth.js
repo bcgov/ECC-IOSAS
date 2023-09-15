@@ -3,8 +3,7 @@ import AuthService from '../../common/authService';
 import StaticConfig from '../../common/staticConfig';
 import { defineStore } from 'pinia';
 
-const THIRTY_MINUTES = 1800;
-const THIRTY_SECONDS = 30;
+const TWENTY_FIVE_MINUTES = 1500;
 
 function isFollowUpVisit(jwtToken) {
   return !!jwtToken;
@@ -38,7 +37,7 @@ export const authStore = defineStore('auth', {
     isLoading: true,
     loginError: false,
     jwtToken: localStorage.getItem('jwtToken'),
-    inactivityTimer: THIRTY_SECONDS,
+    inactivityTimer: TWENTY_FIVE_MINUTES,
   }),
   actions: {
     //sets Json web token and determines whether user is authenticated
@@ -101,6 +100,15 @@ export const authStore = defineStore('auth', {
         });
       }
     },
+    async refreshJWT() {
+      const response = await AuthService.refreshAuthToken(this.jwtToken);
+      if (response.jwtFrontend) {
+        await this.setJwtToken(response.jwtFrontend);
+        ApiService.setAuthHeader(response.jwtFrontend);
+      } else {
+        throw 'No jwtFrontend';
+      }
+    },
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
     async getJwtToken() {
       await this.setError(false);
@@ -109,13 +117,7 @@ export const authStore = defineStore('auth', {
           await this.logout();
           return;
         }
-        const response = await AuthService.refreshAuthToken(this.jwtToken);
-        if (response.jwtFrontend) {
-          await this.setJwtToken(response.jwtFrontend);
-          ApiService.setAuthHeader(response.jwtFrontend);
-        } else {
-          throw 'No jwtFrontend';
-        }
+        await this.refreshJWT();
       } else {
         const response = await AuthService.getAuthToken();
 
@@ -134,7 +136,7 @@ export const authStore = defineStore('auth', {
       }, 1000);
     },
     resetTimer() {
-      this.inactivityTimer = THIRTY_SECONDS;
+      this.inactivityTimer = TWENTY_FIVE_MINUTES;
     },
   },
 });
