@@ -31,7 +31,6 @@ export default {
   watch: {
     inactivityTimer: {
       handler(val) {
-        console.log(val);
         if (val === 0) {
           this.handleIdleDialog();
         }
@@ -52,7 +51,7 @@ export default {
     this.startTimer();
   },
   methods: {
-    ...mapActions(authStore, ['resetTimer', 'startTimer']),
+    ...mapActions(authStore, ['resetTimer', 'startTimer', 'refreshJWT']),
     async handleIdleDialog() {
       this.handleCountdown();
       const confirmation = await this.$refs.userIdleDialog.open(
@@ -70,13 +69,11 @@ export default {
         }
       );
 
-      setTimeout(async () => {}, 1000);
-
       if (!confirmation) {
         return;
       } else {
-        this.resetTimer();
         this.countdown = 120;
+        this.refreshJWT();
       }
     },
     handleCountdown() {
