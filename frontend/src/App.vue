@@ -53,7 +53,6 @@ export default {
         Promise.all([this.getUserInfo(), this.fetchDynamicsMetaData()])
       )
       .catch((e) => {
-        console.log('Error', e);
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
           this.logout();
           this.$router.replace({
