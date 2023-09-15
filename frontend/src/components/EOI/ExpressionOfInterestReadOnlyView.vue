@@ -209,7 +209,7 @@
         </v-row>
         <br />
         <v-row>
-          <v-col cols="12" sm="12" md="6" xs="12">
+          <v-col cols="12" sm="12" md="12" xs="12">
             <v-label
               >Proposed contiguous grade range in first year of
               operation</v-label

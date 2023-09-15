@@ -26,7 +26,6 @@ import ApiService from '../../common/apiService';
 import alertMixin from './../../mixins/alertMixin';
 import { mapState, mapActions } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';
-import { authStore } from '../../store/modules/auth';
 import { formatArrayToString } from '../../utils/format';
 import Loader from './../util/Loader.vue';
 

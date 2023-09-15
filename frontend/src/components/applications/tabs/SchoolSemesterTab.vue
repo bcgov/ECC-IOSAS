@@ -25,31 +25,42 @@
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_halfdaykindergartenproposedhoursperday"
-            v-model="formData.iosas_halfdaykindergartenproposedhoursperday"
+            id="iosas_halfdaykindergartenproposedhoursperday_d"
+            v-model="formData.iosas_halfdaykindergartenproposedhoursperday_d"
             variant="outlined"
             label="Proposed Hours Per Day"
-            color="rgb(59, 153, 252)"
+            color="rgb(59, 153,
+            252)"
+            type="number"
+            @change="
+              roundUp($event, 'iosas_halfdaykindergartenproposedhoursperday_d')
+            "
           />
         </v-col>
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_halfdaykindergartenproposeddaysinsession"
-            v-model="formData.iosas_halfdaykindergartenproposeddaysinsession"
+            id="iosas_halfdaykgtproposeddaysinsession_d"
+            v-model="formData.iosas_halfdaykgtproposeddaysinsession_d"
             variant="outlined"
             label="Proposed Number of Days in Session"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="roundUp($event, 'iosas_halfdaykgtproposeddaysinsession_d')"
           />
         </v-col>
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_halfdaykindergartenproposedhoursperyear"
-            v-model="formData.iosas_halfdaykindergartenproposedhoursperyear"
+            id="iosas_halfdaykindergartenproposedhoursperyear_d"
+            v-model="formData.iosas_halfdaykindergartenproposedhoursperyear_d"
             variant="outlined"
             label="Proposed Hours Per Year"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="
+              roundUp($event, 'iosas_halfdaykindergartenproposedhoursperyear_d')
+            "
             :rules="
               validateHalfDayHours()
                 ? [
@@ -70,31 +81,39 @@
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_fulldaykindergartenproposedhoursperday"
-            v-model="formData.iosas_fulldaykindergartenproposedhoursperday"
+            id="iosas_fulldaykgtproposedhoursperday_d"
+            v-model="formData.iosas_fulldaykgtproposedhoursperday_d"
             variant="outlined"
             label="Proposed Hours Per Day"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="roundUp($event, 'iosas_fulldaykgtproposedhoursperday_d')"
           />
         </v-col>
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_fulldaykindergartenproposeddaysinsession"
-            v-model="formData.iosas_fulldaykindergartenproposeddaysinsession"
+            id="iosas_fulldaykgtproposeddaysinsesssion_d"
+            v-model="formData.iosas_fulldaykgtproposeddaysinsesssion_d"
             variant="outlined"
             label="Proposed Number of Days in Session"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="
+              roundUp($event, 'iosas_fulldaykgtproposeddaysinsesssion_d')
+            "
           />
         </v-col>
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_fulldaykindergartenproposedhoursperyear"
-            v-model="formData.iosas_fulldaykindergartenproposedhoursperyear"
+            id="iosas_fulldaykgtproposedhoursperyear_d"
+            v-model="formData.iosas_fulldaykgtproposedhoursperyear_d"
             variant="outlined"
             label="Proposed Hours Per Year"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="roundUp($event, 'iosas_fulldaykgtproposedhoursperyear_d')"
             :rules="
               validateFullDayHours()
                 ? [
@@ -115,31 +134,37 @@
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_grades112proposedhoursperday"
-            v-model="formData.iosas_grades112proposedhoursperday"
+            id="iosas_grades112proposedhoursperday_d"
+            v-model="formData.iosas_grades112proposedhoursperday_d"
             variant="outlined"
             label="Proposed Hours Per Day"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="roundUp($event, 'iosas_grades112proposedhoursperday_d')"
           />
         </v-col>
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_grades112proposeddaysinsession"
-            v-model="formData.iosas_grades112proposeddaysinsession"
+            id="iosas_grades112proposeddaysinsession_d"
+            v-model="formData.iosas_grades112proposeddaysinsession_d"
             variant="outlined"
             label="Proposed Number of Days in Session"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="roundUp($event, 'iosas_grades112proposeddaysinsession_d')"
           />
         </v-col>
         <v-col cols="12" sm="12" lg="4" md="12">
           <v-text-field
             :disabled="!isEditing"
-            id="iosas_grades112proposedhoursperyear"
-            v-model="formData.iosas_grades112proposedhoursperyear"
+            id="iosas_grades112proposedhoursperyear_d"
+            v-model="formData.iosas_grades112proposedhoursperyear_d"
             variant="outlined"
             label="Proposed Hours Per Year"
             color="rgb(59, 153, 252)"
+            type="number"
+            @change="roundUp($event, 'iosas_grades112proposedhoursperyear_d')"
             :rules="
               validateGradeHours()
                 ? [
@@ -174,7 +199,7 @@
           <v-label>Proposed Hours Per Day</v-label>
           <p>
             {{
-              formData.iosas_halfdaykindergartenproposedhoursperday ||
+              formData.iosas_halfdaykindergartenproposedhoursperday_d ||
               NULL_STRING
             }}
           </p>
@@ -183,8 +208,7 @@
           <v-label>Proposed Number of Days in Session</v-label>
           <p>
             {{
-              formData.iosas_halfdaykindergartenproposeddaysinsession ||
-              NULL_STRING
+              formData.iosas_halfdaykgtproposeddaysinsession_d || NULL_STRING
             }}
           </p>
         </v-col>
@@ -192,7 +216,7 @@
           <v-label>Proposed Hours Per Year</v-label>
           <p>
             {{
-              formData.iosas_halfdaykindergartenproposedhoursperyear ||
+              formData.iosas_halfdaykindergartenproposedhoursperyear_d ||
               NULL_STRING
             }}
           </p>
@@ -206,28 +230,21 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
           <p>
-            {{
-              formData.iosas_fulldaykindergartenproposedhoursperday ||
-              NULL_STRING
-            }}
+            {{ formData.iosas_fulldaykgtproposedhoursperday_d || NULL_STRING }}
           </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Number of Days in Session</v-label>
           <p>
             {{
-              formData.iosas_fulldaykindergartenproposeddaysinsession ||
-              NULL_STRING
+              formData.iosas_fulldaykgtproposeddaysinsesssion_d || NULL_STRING
             }}
           </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Year</v-label>
           <p>
-            {{
-              formData.iosas_fulldaykindergartenproposedhoursperday ||
-              NULL_STRING
-            }}
+            {{ formData.iosas_fulldaykgtproposedhoursperday_d || NULL_STRING }}
           </p>
         </v-col>
       </v-row>
@@ -239,19 +256,19 @@
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Day</v-label>
           <p>
-            {{ formData.iosas_grades112proposedhoursperday || NULL_STRING }}
+            {{ formData.iosas_grades112proposedhoursperday_d || NULL_STRING }}
           </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Number of Days in Session</v-label>
           <p>
-            {{ formData.iosas_grades112proposeddaysinsession || NULL_STRING }}
+            {{ formData.iosas_grades112proposeddaysinsession_d || NULL_STRING }}
           </p>
         </v-col>
         <v-col cols="12" sm="12" md="4" xs="12">
           <v-label>Proposed Hours Per Year</v-label>
           <p>
-            {{ formData.iosas_grades112proposedhoursperyear || NULL_STRING }}
+            {{ formData.iosas_grades112proposedhoursperyear_d || NULL_STRING }}
           </p>
         </v-col>
       </v-row>
@@ -297,24 +314,31 @@ export default {
     },
     validateHalfDayHours() {
       return (
-        this.formData.iosas_halfdaykindergartenproposedhoursperday ||
-        this.formData.iosas_halfdaykindergartenproposeddaysinsession ||
-        this.formData.iosas_halfdaykindergartenproposedhoursperyear
+        this.formData.iosas_halfdaykindergartenproposedhoursperday_d ||
+        this.formData.iosas_halfdaykgtproposeddaysinsession_d ||
+        this.formData.iosas_halfdaykindergartenproposedhoursperyear_d
       );
     },
     validateFullDayHours() {
       return (
-        this.formData.iosas_fulldaykindergartenproposedhoursperday ||
-        this.formData.iosas_fulldaykindergartenproposeddaysinsession ||
-        this.formData.iosas_fulldaykindergartenproposedhoursperyear
+        this.formData.iosas_fulldaykgtproposedhoursperday_d ||
+        this.formData.iosas_fulldaykgtproposeddaysinsesssion_d ||
+        this.formData.iosas_fulldaykgtproposedhoursperyear_d
       );
     },
     validateGradeHours() {
       return (
-        this.formData.iosas_grades112proposedhoursperday ||
-        this.formData.iosas_grades112proposeddaysinsession ||
-        this.formData.iosas_grades112proposedhoursperyear
+        this.formData.iosas_grades112proposedhoursperday_d ||
+        this.formData.iosas_grades112proposeddaysinsession_d ||
+        this.formData.iosas_grades112proposedhoursperyear_d
       );
+    },
+    roundUp(event, field) {
+      if (!event.target.value) {
+        this.formData[field] = null;
+      } else {
+        this.formData[field] = Number(Number(event.target.value).toFixed(2));
+      }
     },
   },
 };

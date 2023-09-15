@@ -99,12 +99,6 @@ export default {
   },
   async created() {
     await this.fetchEOIData();
-    // await this.setLoading(true);
-    // await this.getEOIApplicationById(this.$route.params.id);
-    // this.eoi = this.getEOI;
-    // this.isViewOnly =
-    //   this.eoi.iosas_reviewstatus !== this.EOI_STATUS_CODES.draft;
-    // await this.setLoading(false);
   },
   methods: {
     authStore,

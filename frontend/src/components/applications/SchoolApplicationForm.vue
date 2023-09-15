@@ -82,6 +82,8 @@
                       @validateAndPopulate="validateAndPopulateRadioButtons"
                       @removeDocument="removeDocument"
                       :isPreCertEditable="isPreCertEditable"
+                      :isFormValid="isFormValid"
+                      @validateForm="validateForm"
                     />
                   </keep-alive>
                 </v-window-item>
@@ -420,6 +422,9 @@ export default {
       'addApplicationDocument',
       'setApplicationDocuments',
     ]),
+    async validateForm() {
+      await this.$refs.schoolApplicationForm.validate();
+    },
     isTabDisabled(tab) {
       if (Number(tab) === this.TAB_CODES.preCertSubmission) {
         if (
@@ -642,6 +647,7 @@ export default {
           : nextTab;
       const valid = await this.$refs.schoolApplicationForm.validate();
       this.showError = !valid.valid;
+
       if (this.isFormValid) {
         const payload = {
           ...this.formData,

@@ -33,7 +33,7 @@ const email = (message = 'E-mail must be valid') => {
  * @param {String} message
  * @returns {String|Boolean}
  */
-const number = (message = 'Must be a positive number') => {
+const number = (message = 'Must be a positive whole number') => {
   return (v) => !v || /^\d+$/.test(v) || message;
 };
 

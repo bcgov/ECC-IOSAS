@@ -88,7 +88,7 @@ export const EOI_DOC_CODES = {
   other: 100000002,
 };
 
-export const SCHOOL_APP_CODE_CODES = {
+export const SCHOOL_APP_DOC_CODES = {
   otherDocCode: 100000001,
   schoolPolicyCode: 100000002,
   businessPlanCode: 100000003,
