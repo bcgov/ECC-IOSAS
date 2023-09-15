@@ -686,6 +686,7 @@
           <v-textarea
             id="iosas_ifnotoanyschoolpolicyexplainwhy"
             v-model="formData.iosas_ifnotoanyschoolpolicyexplainwhy"
+            auto-grow
             variant="outlined"
             color="rgb(59, 153, 252)"
             :rules="[rules.requiredIfNo(formData, POLICY_TAB_FIELDS)]"

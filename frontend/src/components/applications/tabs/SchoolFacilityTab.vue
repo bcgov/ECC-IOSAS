@@ -8,9 +8,8 @@
           <v-text-field
             id="iosas_nameofmunicipalityorregionaldistrict"
             v-model="formData.iosas_nameofmunicipalityorregionaldistrict"
-            required
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="Name of Municipality of Regional District"
             color="rgb(59, 153, 252)"
@@ -47,13 +46,13 @@
         steps you are taking to acquire a facility for the proposed school?
       </v-label>
       <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
+        <v-col cols="12" sm="12" md="12" xs="12">
           <v-textarea
             id="iosas_whatstepsareyoutakingtoacquirethefacility"
             v-model="formData.iosas_whatstepsareyoutakingtoacquirethefacility"
-            required
+            auto-grow
+            :maxlength="2000"
             :rules="[rules.required()]"
-            :maxlength="255"
             variant="outlined"
             color="rgb(59, 153, 252)"
           />
@@ -160,7 +159,7 @@
         steps you are taking to acquire a facility for the proposed school?
       </v-label>
       <v-row>
-        <v-col cols="12" sm="12" md="8" xs="12">
+        <v-col cols="12" sm="12" md="12" xs="12">
           <p>
             {{
               formData.iosas_whatstepsareyoutakingtoacquirethefacility ||

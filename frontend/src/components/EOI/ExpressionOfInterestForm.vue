@@ -736,6 +736,7 @@
               <v-textarea
                 id="iosas_notes"
                 v-model="data.iosas_notes"
+                auto-grow
                 :maxlength="2000"
                 variant="outlined"
                 color="rgb(59, 153, 252)"
