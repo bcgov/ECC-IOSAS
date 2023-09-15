@@ -14,7 +14,9 @@
             v-model="formData.iosas_describefamiliaritywithbcscurriculum"
             :rules="[rules.required()]"
             variant="outlined"
+            :maxlength="2000"
             color="rgb(59, 153, 252)"
+            auto-grow
           />
         </v-col>
       </v-row>
@@ -63,6 +65,7 @@
             v-model="formData.iosas_additionalprogramsother"
             variant="outlined"
             color="rgb(59, 153, 252)"
+            :maxlength="100"
             :rules="
               formData.iosas_additionalprograms.includes(
                 ADDITIONAL_PROGRAM_CODES.other
