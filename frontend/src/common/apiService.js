@@ -28,26 +28,26 @@ const intercept = apiAxios.interceptors.response.use(
     }
     axios.interceptors.response.eject(intercept);
     return new Promise((resolve, reject) => {
-      // AuthService.refreshAuthToken(localStorage.getItem('jwtToken'))
-      //   .then((response) => {
-      //     if (response.jwtFrontend) {
-      //       localStorage.setItem('jwtToken', response.jwtFrontend);
-      //       apiAxios.defaults.headers.common[
-      //         'Authorization'
-      //       ] = `Bearer ${response.jwtFrontend}`;
-      //       originalRequest.headers[
-      //         'Authorization'
-      //       ] = `Bearer ${response.jwtFrontend}`;
-      //     }
-      //     processQueue(null, response.jwtFrontend);
-      //     resolve(axios(originalRequest));
-      //   })
-      //   .catch((e) => {
-      //     processQueue(e, null);
-      //     localStorage.removeItem('jwtToken');
-      //     window.location = '/token-expired';
-      //     reject(e);
-      //   });
+      AuthService.refreshAuthToken(localStorage.getItem('jwtToken'))
+        .then((response) => {
+          if (response.jwtFrontend) {
+            localStorage.setItem('jwtToken', response.jwtFrontend);
+            apiAxios.defaults.headers.common[
+              'Authorization'
+            ] = `Bearer ${response.jwtFrontend}`;
+            originalRequest.headers[
+              'Authorization'
+            ] = `Bearer ${response.jwtFrontend}`;
+          }
+          processQueue(null, response.jwtFrontend);
+          resolve(axios(originalRequest));
+        })
+        .catch((e) => {
+          processQueue(e, null);
+          localStorage.removeItem('jwtToken');
+          window.location = '/token-expired';
+          reject(e);
+        });
     });
   }
 );
