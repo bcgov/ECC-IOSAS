@@ -85,7 +85,8 @@
             id="iosas_overview"
             v-model="formData.iosas_overview"
             :rules="[rules.required()]"
-            :maxlength="255"
+            auto-grow
+            :maxlength="2000"
             variant="outlined"
             label="Overview"
             color="rgb(59, 153, 252)"

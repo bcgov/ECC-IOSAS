@@ -329,10 +329,11 @@
             id="iosas_howwillyouexercisegovernanceduties"
             v-model="formData.iosas_howwillyouexercisegovernanceduties"
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="2000"
             variant="outlined"
             label=""
             color="rgb(59, 153, 252)"
+            auto-grow
           />
         </v-col>
       </v-row>
@@ -368,12 +369,13 @@
           <v-textarea
             id="iosas_detailsofinvolvement"
             v-model="formData.iosas_detailsofinvolvement"
+            :maxlength="2000"
             :rules="
               formData.iosas_proponentspreviouslyinvolvedinisbc
                 ? [rules.required()]
                 : []
             "
-            :maxlength="255"
+            auto-grow
             variant="outlined"
             color="rgb(59, 153, 252)"
           />
