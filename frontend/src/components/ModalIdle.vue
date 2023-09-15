@@ -1,7 +1,5 @@
 <template>
-  <!-- <div class="hover" @mousemove="mouseMove">
-  </div> -->
-  <ConfirmationDialog ref="userIdle">
+  <ConfirmationDialog ref="userIdleDialog">
     <template #message>
       <p>
         Due to inactivity, you will be logged out of your current session in:
@@ -24,33 +22,40 @@
 
 <script>
 import { AuthRoutes } from '../utils/constants';
-import ApiService from '../common/apiService';
 import ConfirmationDialog from '../components/util/ConfirmationDialog.vue';
 import { authStore } from '../store/modules/auth';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 
 export default {
   components: { ConfirmationDialog },
+  watch: {
+    inactivityTimer: {
+      handler(val) {
+        console.log(val);
+        if (val === 0) {
+          this.handleIdleDialog();
+        }
+      },
+    },
+  },
   data() {
     return {
-      userIdle: false,
+      userIdleDialog: false,
       countdown: 120,
-      // mouseMove:
       routes: AuthRoutes,
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'tokenLife']),
+    ...mapState(authStore, ['isAuthenticated', 'inactivityTimer']),
   },
   async mounted() {
-    // this.$el.addEventListener('mousemove', this.mouseMove, false);
-    await this.handleIdleDialog();
-    await this.checkAndLogoutUserOnSessionExpiry();
+    this.startTimer();
   },
   methods: {
+    ...mapActions(authStore, ['resetTimer', 'startTimer']),
     async handleIdleDialog() {
       this.handleCountdown();
-      const confirmation = await this.$refs.userIdle.open(
+      const confirmation = await this.$refs.userIdleDialog.open(
         'Session Time-out for your protection: 30-minute time-out',
         null,
         {
@@ -70,8 +75,8 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        console.log('CALL REFRESH API WITH TOKEN');
-        console.log('CALL RERESH AND KEEP USER LOGGED IN');
+        this.resetTimer();
+        this.countdown = 120;
       }
     },
     handleCountdown() {
@@ -85,41 +90,7 @@ export default {
       }
     },
     redirectToLogout() {
-      // return (window.location = document.getElementById('logout_href').href);
-    },
-
-    async checkAndLogoutUserOnSessionExpiry() {
-      console.log('this.isAuthenticated', this.isAuthenticated);
-      //   if (this.isAuthenticated) {
-      //     try {
-      //       // const response = await ApiService.apiAxios.get(
-      //       //   AuthRoutes.SESSION_REMAINING_TIME
-      //       // );
-      //       if (response.data > 0) {
-      //         const timeOutValue = parseInt(response.data) + 200; // add 200 ms
-      //         setTimeout(() => {
-      //           this.checkAndLogoutUserOnSessionExpiry();
-      //         }, timeOutValue);
-      //       } else {
-      //         window.location = document.getElementById('logout_href').href;
-      //       }
-      //     } catch (e) {
-      //       window.location = document.getElementById('logout_href').href;
-      //     }
-      //   }
-    },
-    // mouseEnter(event) {
-    //   console.log('mouseneter');
-    //   // this.popup = true;
-    //   this.$el.addEventListener('mousemove', this.mouseMove(), false);
-    // },
-    // mouseLeave(event) {
-    //   // this.popup = false;
-    //   this.$el.removeEventListener('mousemove', this.mouseMove());
-    // },
-    mouseMove(event) {
-      console.log('MOUSE MOVING???', event);
-      console.log(event.clientX, event.clientY);
+      return (window.location = document.getElementById('logout_href').href);
     },
   },
 };

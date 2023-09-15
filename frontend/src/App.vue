@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app" @mousemove="mouseMove">
+  <v-app id="app" @mousemove="resetTimer" @keypress="resetTimer">
     <MsieBanner v-if="isIE" />
     <Header />
     <SnackBar />
@@ -35,11 +35,6 @@ export default {
     SnackBar,
     Loader,
   },
-  // watch: {
-  //   mouseMove(val) {
-  //     console.log(val);
-  //   },
-  // },
   metaInfo: {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
@@ -79,6 +74,7 @@ export default {
       'getJwtToken',
       'getUserInfo',
       'logout',
+      'resetTimer',
     ]),
     ...mapActions(metaDataStore, [
       'getActiveSchoolYear',
