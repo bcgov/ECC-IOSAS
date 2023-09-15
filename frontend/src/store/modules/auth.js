@@ -11,9 +11,6 @@ function isExpiredToken(jwtToken) {
   const now = Date.now().valueOf() / 1000;
   const jwtPayload = jwtToken.split('.')[1];
   const payload = JSON.parse(window.atob(jwtPayload));
-  // console.log('payload.exp', payload.exp);
-  // console.log('now', now);
-  // console.log(payload.exp <= now);
   return payload.exp <= now;
 }
 
@@ -102,32 +99,20 @@ export const authStore = defineStore('auth', {
     },
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
     async getJwtToken() {
-      console.log('this.jwtToken', this.jwtToken);
       await this.setError(false);
-      console.log(
-        'isFollowUpVisit(this.jwtToken)',
-        isFollowUpVisit(this.jwtToken)
-      );
-      // console.log(
-      //   'isExpiredToken(this.jwtToken)',
-      //   isExpiredToken(this.jwtToken)
-      // );
       if (isFollowUpVisit(this.jwtToken) && this.jwtToken) {
-        //   console.log('WHY HERE?????, ', this.jwtToken);
-        //   if (isExpiredToken(this.jwtToken)) {
-        //     await this.logout();
-        //     return;
-        //   }
-        //   const response = await AuthService.refreshAuthToken(this.jwtToken);
-        //   if (response.jwtFrontend) {
-        //     await this.setJwtToken(response.jwtFrontend);
-        //     ApiService.setAuthHeader(response.jwtFrontend);
-        //   } else {
-        //     throw 'No jwtFrontend';
-        //   }
+        if (isExpiredToken(this.jwtToken)) {
+          await this.logout();
+          return;
+        }
+        const response = await AuthService.refreshAuthToken(this.jwtToken);
+        if (response.jwtFrontend) {
+          await this.setJwtToken(response.jwtFrontend);
+          ApiService.setAuthHeader(response.jwtFrontend);
+        } else {
+          throw 'No jwtFrontend';
+        }
       } else {
-        console.log('HEREEEE');
-        //inital login and redirect
         const response = await AuthService.getAuthToken();
 
         if (response.jwtFrontend) {

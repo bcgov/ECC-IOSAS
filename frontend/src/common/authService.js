@@ -15,7 +15,6 @@ export default {
 
   //Refreshes the users auth token
   async refreshAuthToken(token) {
-    console.log('GETTING CALLED TWICE??');
     try {
       const response = await axios.post(AuthRoutes.REFRESH, {
         refreshToken: token,

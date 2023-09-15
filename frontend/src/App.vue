@@ -89,7 +89,7 @@ export default {
       'getApplicationPickLists',
     ]),
     mouseMove(event) {
-      // console.log('MOUSEE', event);
+      console.log('MOUSEE', event);
     },
     async fetchDynamicsMetaData() {
       const dynamicResponses = await Promise.all([
