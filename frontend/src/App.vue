@@ -84,9 +84,6 @@ export default {
       'getApplicationMultiPickLists',
       'getApplicationPickLists',
     ]),
-    mouseMove(event) {
-      console.log('MOUSEE', event);
-    },
     async fetchDynamicsMetaData() {
       const dynamicResponses = await Promise.all([
         this.getActiveSchoolYear(),
