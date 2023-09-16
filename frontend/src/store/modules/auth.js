@@ -132,6 +132,7 @@ export const authStore = defineStore('auth', {
     startTimer() {
       setTimeout(() => {
         this.inactivityTimer--;
+        console.log('countdown in auth:', this.inactivityTimer);
         this.startTimer();
       }, 1000);
     },

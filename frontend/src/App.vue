@@ -5,7 +5,9 @@
     <SnackBar />
     <Loader />
     <v-main fluid class="align-start" v-if="!isLoading">
-      <ModalIdle v-if="isAuthenticated" />
+      <keep-alive>
+        <ModalIdle v-if="isAuthenticated" />
+      </keep-alive>
       <router-view />
     </v-main>
     <Footer />
