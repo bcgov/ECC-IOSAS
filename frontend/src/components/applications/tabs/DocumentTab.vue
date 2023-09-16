@@ -72,11 +72,12 @@
             >
           </v-col>
         </v-row>
-        <v-text-field
+        <RequiredMessage :condition="schoolPolicyDoc.length === 0" />
+        <!-- <v-text-field
           class="hidden-field"
           type="hidden"
           :rules="schoolPolicyDoc.length === 0 ? [rules.required()] : []"
-        />
+        /> -->
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Business Plan</v-label>
@@ -114,11 +115,12 @@
             >
           </v-col>
         </v-row>
-        <v-text-field
+        <RequiredMessage :condition="businessPlanDoc.length === 0" />
+        <!-- <v-text-field
           class="hidden-field"
           type="hidden"
           :rules="businessPlanDoc.length === 0 ? [rules.required()] : []"
-        />
+        /> -->
         <br />
         <v-divider></v-divider>
         <br />
@@ -210,7 +212,10 @@
               >
             </v-col>
           </v-row>
-          <v-text-field
+          <RequiredMessage
+            :condition="confirmationOfEligibilityDoc.length === 0"
+          />
+          <!-- <v-text-field
             class="hidden-field"
             type="hidden"
             :rules="
@@ -218,7 +223,7 @@
                 ? [rules.required()]
                 : []
             "
-          />
+          /> -->
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-label class="no-mb"
@@ -464,6 +469,7 @@ import { metaDataStore } from '../../../store/modules/metaData';
 import { documentStore } from '../../../store/modules/document';
 import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
+import RequiredMessage from '../../RequiredMessage.vue';
 import { formatLongName } from '../../../utils/format';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
@@ -476,6 +482,7 @@ export default {
   mixins: [alertMixin],
   components: {
     DocumentUpload,
+    RequiredMessage,
   },
   props: {
     formData: {

@@ -611,7 +611,7 @@
                   @click="toggleUpload(EOI_DOC_CODES.incorporation)"
                   >Upload</v-btn
                 >
-                <RequiredMessage :isVisible="incorporationDocumentRequired" />
+                <RequiredMessage :condition="!incorporationDocument" />
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-label>Certificate Issue Date</v-label>
@@ -623,7 +623,9 @@
                   :class="certificateIssueDateRequired ? 'error' : ''"
                 />
 
-                <RequiredMessage :isVisible="certificateIssueDateRequired" />
+                <RequiredMessage
+                  :condition="!data.iosas_incorporationcertificateissuedate"
+                />
               </v-col>
             </v-row>
             <v-row>
@@ -686,7 +688,12 @@
                   format="yyyy-MM-dd"
                   :class="goodStandingIssueDateRequired ? 'error' : ''"
                 />
-                <RequiredMessage :isVisible="goodStandingIssueDateRequired" />
+                <RequiredMessage
+                  :condition="
+                    !data.iosas_certificateofgoodstandingissuedate &&
+                    certificateOfGoodStandingDocument
+                  "
+                />
               </v-col>
             </v-row>
             <v-row>
