@@ -1,5 +1,5 @@
-import ApiService from '../../common/apiService';
-import ApplicationService from '../../common/applicationService';
+import ApiService from '../../services/apiService';
+import ApplicationService from '../../services/applicationService';
 import { documentStore } from './document';
 import { formatStringToNumericArray } from '../../utils/format';
 import { setChoiceFieldsToNull } from '../../utils/application';

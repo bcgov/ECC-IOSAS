@@ -199,8 +199,8 @@
 <script>
 import { authStore } from './../../store/modules/auth';
 import { mapState, mapActions } from 'pinia';
-import ApplicationService from '../../common/applicationService';
-import ApiService from '../../common/apiService';
+import ApplicationService from '../../services/applicationService';
+import ApiService from '../../services/apiService';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import { documentStore } from './../../store/modules/document';

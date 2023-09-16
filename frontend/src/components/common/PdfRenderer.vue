@@ -1,10 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col>
-      <v-dialog
-        v-model="PDFRenderDialog"
-        max-width="80%"
-      >
+      <v-dialog v-model="PDFRenderDialog" max-width="80%">
         <v-card>
           <v-card-title class="px-0 pb-0 pt-5">
             <v-list-item>
@@ -20,14 +17,9 @@
                   id="closePDFRendererModalBtn"
                   text
                   icon
-                  @click="PDFRenderDialog=false"
+                  @click="PDFRenderDialog = false"
                 >
-                  <v-icon
-                    large
-                    color="#38598A"
-                  >
-                    mdi-close
-                  </v-icon>
+                  <v-icon large color="#38598A"> mdi-close </v-icon>
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
@@ -49,10 +41,7 @@
                 />
               </v-row>
               <v-spacer />
-              <v-row
-                v-if="!isLoading"
-                justify="center"
-              />
+              <v-row v-if="!isLoading" justify="center" />
             </v-card-text>
           </v-card>
         </v-card>
@@ -62,8 +51,8 @@
 </template>
 
 <script>
-import ApiService from '../../common/apiService';
-import {ApiRoutes} from '../../utils/constants';
+import ApiService from '../../services/apiService';
+import { ApiRoutes } from '../../utils/constants';
 import alertMixin from '../../mixins/alertMixin';
 
 export default {
@@ -72,16 +61,16 @@ export default {
   props: {
     dialog: {
       type: Boolean,
-      required: true
+      required: true,
     },
     requestId: {
       type: String,
-      required: true
+      required: true,
     },
     documentId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   emits: ['close-dialog'],
   // components: {
@@ -92,7 +81,7 @@ export default {
       arrayBuffer: undefined,
       isLoading: true,
       PDFRenderDialog: false,
-      documentID: ''
+      documentID: '',
     };
   },
   watch: {
@@ -100,7 +89,7 @@ export default {
       this.PDFRenderDialog = newValue;
     },
     PDFRenderDialog(newValue) {
-      if(!newValue && this.dialog) {
+      if (!newValue && this.dialog) {
         this.$emit('close-dialog');
       }
     },
@@ -109,16 +98,24 @@ export default {
       this.isLoading = true;
       this.arrayBuffer = undefined;
       if (this.documentID?.length > 0) {
-        ApiService.apiAxios.get(`${ApiRoutes.edx.EXCHANGE_URL}/${this.requestId}/documents/${this.documentID}`).then((response) => {
-          this.base64ToArrayBuffer(response.data?.documentData);
-        }).catch(e => {
-          console.error(e);
-          this.setFailureAlert('Could not load document. Please try again later.');
-        }).finally(() => {
-          this.isLoading = false;
-        });
+        ApiService.apiAxios
+          .get(
+            `${ApiRoutes.edx.EXCHANGE_URL}/${this.requestId}/documents/${this.documentID}`
+          )
+          .then((response) => {
+            this.base64ToArrayBuffer(response.data?.documentData);
+          })
+          .catch((e) => {
+            console.error(e);
+            this.setFailureAlert(
+              'Could not load document. Please try again later.'
+            );
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
       }
-    }
+    },
   },
   methods: {
     base64ToArrayBuffer(base64) {
@@ -129,13 +126,13 @@ export default {
         bytes[i] = binary_string.charCodeAt(i);
       }
       this.arrayBuffer = bytes.buffer;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
-.pdf-app #outerContainer{
+.pdf-app #outerContainer {
   position: inherit !important;
 }
 </style>
