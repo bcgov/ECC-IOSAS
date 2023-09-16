@@ -26,7 +26,7 @@ import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import ModalIdle from './components/ModalIdle.vue';
 import MsieBanner from './components/MsieBanner.vue';
-import StaticConfig from './common/staticConfig';
+import StaticConfig from './services/staticConfig';
 import SnackBar from './components/util/SnackBar.vue';
 import Loader from './components/util/Loader.vue';
 

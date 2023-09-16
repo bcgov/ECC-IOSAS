@@ -829,7 +829,7 @@
 </template>
 
 <script>
-import ApiService from '../../common/apiService';
+import ApiService from '../../services/apiService';
 import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';

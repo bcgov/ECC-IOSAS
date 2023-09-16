@@ -1,4 +1,4 @@
-import ApiService from '../../common/apiService';
+import ApiService from '../../services/apiService';
 import { defineStore } from 'pinia';
 
 const localStorageSuccess = { status: 200, statusText: 'OK' };

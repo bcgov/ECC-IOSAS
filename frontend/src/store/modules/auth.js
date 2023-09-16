@@ -1,6 +1,6 @@
-import ApiService from '../../common/apiService';
-import AuthService from '../../common/authService';
-import StaticConfig from '../../common/staticConfig';
+import ApiService from '../../services/apiService';
+import AuthService from '../../services/authService';
+import StaticConfig from '../../services/staticConfig';
 import { defineStore } from 'pinia';
 
 function isFollowUpVisit(jwtToken) {
