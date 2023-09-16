@@ -29,13 +29,19 @@ import { mapState, mapActions } from 'pinia';
 export default {
   components: { ConfirmationDialog },
   watch: {
-    inactivityTimer: {
+    timer: {
       handler(val) {
         console.log('countdown', val);
         if (val === 0) {
           this.handleIdleDialog();
         }
       },
+    },
+  },
+  props: {
+    timer: {
+      type: Number,
+      required: true,
     },
   },
   data() {
@@ -46,13 +52,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(authStore, ['isAuthenticated', 'inactivityTimer']),
-  },
-  async mounted() {
-    this.startTimer();
+    ...mapState(authStore, ['isAuthenticated']),
   },
   methods: {
-    ...mapActions(authStore, ['resetTimer', 'startTimer', 'refreshJWT']),
+    ...mapActions(authStore, ['refreshJWT']),
     async handleIdleDialog() {
       this.handleCountdown();
       const confirmation = await this.$refs.userIdleDialog.open(

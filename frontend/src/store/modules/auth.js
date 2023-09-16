@@ -3,7 +3,7 @@ import AuthService from '../../common/authService';
 import StaticConfig from '../../common/staticConfig';
 import { defineStore } from 'pinia';
 
-const TWENTY_FIVE_MINUTES = 1500;
+// const TWENTY_FIVE_MINUTES = 1500;
 
 function isFollowUpVisit(jwtToken) {
   return !!jwtToken;
@@ -37,7 +37,7 @@ export const authStore = defineStore('auth', {
     isLoading: true,
     loginError: false,
     jwtToken: localStorage.getItem('jwtToken'),
-    inactivityTimer: TWENTY_FIVE_MINUTES,
+    // inactivityTimer: TWENTY_FIVE_MINUTES,
   }),
   actions: {
     //sets Json web token and determines whether user is authenticated
@@ -129,15 +129,15 @@ export const authStore = defineStore('auth', {
         }
       }
     },
-    startTimer() {
-      setTimeout(() => {
-        this.inactivityTimer--;
-        console.log('countdown in auth:', this.inactivityTimer);
-        this.startTimer();
-      }, 1000);
-    },
-    resetTimer() {
-      this.inactivityTimer = TWENTY_FIVE_MINUTES;
-    },
+    //   startTimer() {
+    //     setTimeout(() => {
+    //       this.inactivityTimer--;
+    //       console.log('countdown in auth:', this.inactivityTimer);
+    //       this.startTimer();
+    //     }, 1000);
+    //   },
+    //   resetTimer() {
+    //     this.inactivityTimer = TWENTY_FIVE_MINUTES;
+    //   },
   },
 });
