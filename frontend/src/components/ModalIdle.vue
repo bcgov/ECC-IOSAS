@@ -31,6 +31,7 @@ export default {
   watch: {
     inactivityTimer: {
       handler(val) {
+        console.log('countdown', val);
         if (val === 0) {
           this.handleIdleDialog();
         }
