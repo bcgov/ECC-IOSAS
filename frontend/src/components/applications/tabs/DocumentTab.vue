@@ -73,11 +73,6 @@
           </v-col>
         </v-row>
         <RequiredMessage :condition="schoolPolicyDoc.length === 0" />
-        <!-- <v-text-field
-          class="hidden-field"
-          type="hidden"
-          :rules="schoolPolicyDoc.length === 0 ? [rules.required()] : []"
-        /> -->
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Business Plan</v-label>
@@ -116,11 +111,6 @@
           </v-col>
         </v-row>
         <RequiredMessage :condition="businessPlanDoc.length === 0" />
-        <!-- <v-text-field
-          class="hidden-field"
-          type="hidden"
-          :rules="businessPlanDoc.length === 0 ? [rules.required()] : []"
-        /> -->
         <br />
         <v-divider></v-divider>
         <br />
@@ -215,15 +205,6 @@
           <RequiredMessage
             :condition="confirmationOfEligibilityDoc.length === 0"
           />
-          <!-- <v-text-field
-            class="hidden-field"
-            type="hidden"
-            :rules="
-              confirmationOfEligibilityDoc.length === 0
-                ? [rules.required()]
-                : []
-            "
-          /> -->
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-label class="no-mb"
@@ -264,13 +245,7 @@
               >
             </v-col>
           </v-row>
-          <v-text-field
-            class="hidden-field"
-            type="hidden"
-            :rules="
-              tuitionRefundPolicyDoc.length === 0 ? [rules.required()] : []
-            "
-          />
+          <RequiredMessage :condition="tuitionRefundPolicyDoc.length === 0" />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-label class="no-mb"
@@ -311,13 +286,7 @@
               >
             </v-col>
           </v-row>
-          <v-text-field
-            class="hidden-field"
-            type="hidden"
-            :rules="
-              businessReferencesDoc.length === 0 ? [rules.required()] : []
-            "
-          />
+          <RequiredMessage :condition="businessReferencesDoc.length === 0" />
         </div>
       </div>
     </div>
@@ -602,11 +571,5 @@ export default {
 <style lang="scss" scoped>
 .v-label {
   display: inline;
-}
-
-.hidden-field {
-  :deep(.v-input__control) {
-    grid-area: none !important;
-  }
 }
 </style>

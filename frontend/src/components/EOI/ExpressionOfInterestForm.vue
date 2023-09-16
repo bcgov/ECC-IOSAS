@@ -620,7 +620,11 @@
                   v-model="data.iosas_incorporationcertificateissuedate"
                   :enable-time-picker="false"
                   format="yyyy-MM-dd"
-                  :class="certificateIssueDateRequired ? 'error' : ''"
+                  :class="
+                    showError && !data.iosas_incorporationcertificateissuedate
+                      ? 'error'
+                      : ''
+                  "
                 />
 
                 <RequiredMessage
@@ -686,7 +690,13 @@
                   "
                   :enable-time-picker="false"
                   format="yyyy-MM-dd"
-                  :class="goodStandingIssueDateRequired ? 'error' : ''"
+                  :class="
+                    showError &&
+                    !data.iosas_certificateofgoodstandingissuedate &&
+                    certificateOfGoodStandingDocument
+                      ? 'error'
+                      : ''
+                  "
                 />
                 <RequiredMessage
                   :condition="
@@ -1012,27 +1022,6 @@ export default {
         }
       },
     },
-    'data.iosas_incorporationcertificateissuedate': {
-      handler(val) {
-        if (val && this.certificateIssueDateRequired) {
-          this.certificateIssueDateRequired = false;
-        }
-      },
-    },
-    'data.iosas_certificateofgoodstandingissuedate': {
-      handler(val) {
-        if (val && this.goodStandingIssueDateRequired) {
-          this.goodStandingIssueDateRequired = false;
-        }
-      },
-    },
-    incorporationDocument: {
-      handler(val) {
-        if (val && this.incorporationDocumentRequired) {
-          this.incorporationDocumentRequired = false;
-        }
-      },
-    },
     formatDocumets(val) {
       if (!this.incorporationDocument) {
         this.incorporationDocument = val.find(
@@ -1061,8 +1050,6 @@ export default {
       // Validation booleans
       isFormValid: false,
       showError: false,
-      certificateIssueDateRequired: false,
-      incorporationDocumentRequired: false,
       goodStandingIssueDateRequired: false,
       isSubmitted: false,
       designatedContactEmailConfirmation: false,
@@ -1192,40 +1179,17 @@ export default {
       this.selectedDocumentOption = documentCode;
       this.documentUpload = true;
     },
-    async validateDocuments() {
-      if (!this.incorporationDocument) {
-        this.incorporationDocumentRequired = true;
-      }
-
-      if (!this.data.iosas_incorporationcertificateissuedate) {
-        this.certificateIssueDateRequired = true;
-      }
-
-      if (
-        this.certificateOfGoodStandingDocument &&
-        !this.data.iosas_certificateofgoodstandingissuedate
-      ) {
-        this.goodStandingIssueDateRequired = true;
-      }
-    },
     async handleUpdate() {
       if (this.isSubmitted) {
         const valid = await this.$refs.expressionOfInterestForm.validate();
         this.isFormValid = valid.valid;
         this.showError = !this.isFormValid;
 
-        await this.validateDocuments();
         await applicationsStore().setConfirmationMessage(
           `Thank you for submitting your Expression of Interest for ${this.authorityName} to open a new independent school, ${this.data.iosas_proposedschoolname}, in September of ${this.schoolYearLabel}.`
         );
       }
-      if (
-        (this.isFormValid &&
-          !this.incorporationDocumentRequired &&
-          !this.certificateIssueDateRequired &&
-          !this.goodStandingIssueDateRequired) ||
-        !this.isSubmitted
-      ) {
+      if (this.isFormValid || !this.isSubmitted) {
         await this.$emit(
           'updateEOIData',
           this.data.iosas_expressionofinterestid,
@@ -1309,12 +1273,7 @@ export default {
 
       this.isFormValid = valid.valid;
       this.showError = !this.isFormValid;
-      if (
-        this.isFormValid &&
-        !this.incorporationDocumentRequired &&
-        !this.certificateIssueDateRequired &&
-        !this.goodStandingIssueDateRequired
-      ) {
+      if (this.isFormValid) {
         this.$emit('setIsLoading', true);
         ApiService.createEOI(this.data, this.isSubmitted)
           .then(async (response) => {

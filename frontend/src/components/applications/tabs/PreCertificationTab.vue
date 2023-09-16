@@ -71,11 +71,7 @@
             >
           </v-col>
         </v-row>
-        <v-text-field
-          class="hidden-field"
-          type="hidden"
-          :rules="proofOfPurchaseDoc.length === 0 ? [rules.required()] : []"
-        />
+        <RequiredMessage :condition="proofOfPurchaseDoc.length === 0" />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Municipal compliance letter</v-label>
@@ -121,11 +117,8 @@
             >
           </v-col>
         </v-row>
-        <v-text-field
-          class="hidden-field"
-          type="hidden"
-          :rules="mulicipalComplianceDoc.length === 0 ? [rules.required()] : []"
-        />
+        <RequiredMessage :condition="mulicipalComplianceDoc.length === 0" />
+
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Confirmation of water testing</v-label>
@@ -173,13 +166,7 @@
             >
           </v-col>
         </v-row>
-        <v-text-field
-          class="hidden-field"
-          type="hidden"
-          :rules="
-            confimationWaterTestingDoc.length === 0 ? [rules.required()] : []
-          "
-        />
+        <RequiredMessage :condition="confimationWaterTestingDoc.length === 0" />
         <br />
         <v-divider></v-divider>
         <br />
@@ -270,13 +257,7 @@
               >
             </v-col>
           </v-row>
-          <v-text-field
-            class="hidden-field"
-            type="hidden"
-            :rules="
-              creditOrSurityBondDoc.length === 0 ? [rules.required()] : []
-            "
-          />
+          <RequiredMessage :condition="creditOrSurityBondDoc.length === 0" />
         </div>
       </div>
     </div>
@@ -425,6 +406,7 @@ import { metaDataStore } from '../../../store/modules/metaData';
 import { documentStore } from '../../../store/modules/document';
 import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
+import RequiredMessage from '../../RequiredMessage.vue';
 import { formatLongName } from '../../../utils/format';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
@@ -438,6 +420,7 @@ export default {
   mixins: [alertMixin],
   components: {
     DocumentUpload,
+    RequiredMessage,
   },
   props: {
     formData: {
@@ -548,11 +531,5 @@ export default {
 <style lang="scss" scoped>
 .v-label {
   display: inline;
-}
-
-.hidden-field {
-  :deep(.v-input__control) {
-    grid-area: none !important;
-  }
 }
 </style>
