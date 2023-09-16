@@ -3,6 +3,8 @@ import AuthService from '../../common/authService';
 import StaticConfig from '../../common/staticConfig';
 import { defineStore } from 'pinia';
 
+const TWENTY_FIVE_MINUTES = 1500;
+
 function isFollowUpVisit(jwtToken) {
   return !!jwtToken;
 }
@@ -12,6 +14,16 @@ function isExpiredToken(jwtToken) {
   const jwtPayload = jwtToken.split('.')[1];
   const payload = JSON.parse(window.atob(jwtPayload));
   return payload.exp <= now;
+}
+
+function clearLocalStorage() {
+  localStorage.removeItem('activeSchoolYears');
+  localStorage.removeItem('EOIPickLists');
+  localStorage.removeItem('documentPickLists');
+  localStorage.removeItem('applicationPickLists');
+  localStorage.removeItem('schoolAuthority');
+  localStorage.removeItem('jwtToken');
+  localStorage.removeItem('applicationMultiPickLists');
 }
 
 export const authStore = defineStore('auth', {
@@ -25,6 +37,7 @@ export const authStore = defineStore('auth', {
     isLoading: true,
     loginError: false,
     jwtToken: localStorage.getItem('jwtToken'),
+    inactivityTimer: TWENTY_FIVE_MINUTES,
   }),
   actions: {
     //sets Json web token and determines whether user is authenticated
@@ -36,13 +49,7 @@ export const authStore = defineStore('auth', {
       } else {
         this.isAuthenticated = false;
         this.jwtToken = null;
-        localStorage.removeItem('activeSchoolYears');
-        localStorage.removeItem('EOIPickLists');
-        localStorage.removeItem('documentPickLists');
-        localStorage.removeItem('applicationPickLists');
-        localStorage.removeItem('schoolAuthority');
-        localStorage.removeItem('jwtToken');
-        localStorage.removeItem('applicationMultiPickLists');
+        clearLocalStorage();
       }
     },
     async setUserInfo(userInfo) {
@@ -93,24 +100,25 @@ export const authStore = defineStore('auth', {
         });
       }
     },
+    async refreshJWT() {
+      const response = await AuthService.refreshAuthToken(this.jwtToken);
+      if (response.jwtFrontend) {
+        await this.setJwtToken(response.jwtFrontend);
+        ApiService.setAuthHeader(response.jwtFrontend);
+      } else {
+        throw 'No jwtFrontend';
+      }
+    },
     //retrieves the json web token from local storage. If not in local storage, retrieves it from API
     async getJwtToken() {
       await this.setError(false);
-      if (isFollowUpVisit(this.jwtToken)) {
+      if (isFollowUpVisit(this.jwtToken) && this.jwtToken) {
         if (isExpiredToken(this.jwtToken)) {
           await this.logout();
           return;
         }
-
-        const response = await AuthService.refreshAuthToken(this.jwtToken);
-        if (response.jwtFrontend) {
-          await this.setJwtToken(response.jwtFrontend);
-          ApiService.setAuthHeader(response.jwtFrontend);
-        } else {
-          throw 'No jwtFrontend';
-        }
+        await this.refreshJWT();
       } else {
-        //inital login and redirect
         const response = await AuthService.getAuthToken();
 
         if (response.jwtFrontend) {
@@ -120,6 +128,15 @@ export const authStore = defineStore('auth', {
           throw 'No jwtFrontend';
         }
       }
+    },
+    startTimer() {
+      setTimeout(() => {
+        this.inactivityTimer--;
+        this.startTimer();
+      }, 1000);
+    },
+    resetTimer() {
+      this.inactivityTimer = TWENTY_FIVE_MINUTES;
     },
   },
 });

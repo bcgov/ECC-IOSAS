@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" @mousemove="resetTimer" @keypress="resetTimer">
     <MsieBanner v-if="isIE" />
     <Header />
     <SnackBar />
@@ -73,6 +73,7 @@ export default {
       'getJwtToken',
       'getUserInfo',
       'logout',
+      'resetTimer',
     ]),
     ...mapActions(metaDataStore, [
       'getActiveSchoolYear',
