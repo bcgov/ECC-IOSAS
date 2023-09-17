@@ -1261,7 +1261,6 @@ export default {
         return this.handleUpdate();
       }
       const valid = await this.$refs.expressionOfInterestForm.validate();
-      await this.validateDocuments();
 
       this.isFormValid = valid.valid;
       this.showError = !this.isFormValid;

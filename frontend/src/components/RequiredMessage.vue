@@ -13,7 +13,7 @@ export default {
   props: {
     condition: {
       type: Boolean,
-      required: true,
+      default: false,
     },
   },
   data() {
