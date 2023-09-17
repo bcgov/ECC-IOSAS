@@ -120,7 +120,7 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Other</v-label>
             <div
-              v-for="document in getApplicationDocuments.filter(
+              v-for="document in applicationDocuments.filter(
                 ({ documentType }) =>
                   documentType === SCHOOL_APP_DOC_CODES.otherDocCode
               )"
@@ -339,13 +339,13 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Other</v-label>
           <div
-            v-for="document in getApplicationDocuments.filter(
+            v-for="document in applicationDocuments.filter(
               ({ documentType }) =>
                 documentType === SCHOOL_APP_DOC_CODES.otherDocCode
             )"
             :key="document.id"
             v-if="
-              getApplicationDocuments.filter(
+              applicationDocuments.filter(
                 ({ documentType }) =>
                   documentType === SCHOOL_APP_DOC_CODES.otherDocCode
               ).length > 0
@@ -472,7 +472,7 @@ export default {
     },
   },
   watch: {
-    getApplicationDocuments: {
+    applicationDocuments: {
       handler(val) {
         this.schoolPolicyDoc = val.filter(
           ({ documentType }) =>
@@ -520,30 +520,30 @@ export default {
   }),
   mounted() {},
   created() {
-    this.schoolPolicyDoc = this.getApplicationDocuments?.filter(
+    this.schoolPolicyDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.schoolPolicyCode
     );
-    this.businessPlanDoc = this.getApplicationDocuments?.filter(
+    this.businessPlanDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.businessPlanCode
     );
-    this.confirmationOfEligibilityDoc = this.getApplicationDocuments?.filter(
+    this.confirmationOfEligibilityDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.confirmationOfEligibilityCode
     );
-    this.tuitionRefundPolicyDoc = this.getApplicationDocuments?.filter(
+    this.tuitionRefundPolicyDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.tuitionRefundPolicyCode
     );
-    this.businessReferencesDoc = this.getApplicationDocuments?.filter(
+    this.businessReferencesDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.businessReferencesCode
     );
   },
   computed: {
     ...mapState(metaDataStore, ['getDocumentPickListOptions']),
-    ...mapState(documentStore, ['getApplicationDocuments']),
+    ...mapState(documentStore, ['applicationDocuments']),
   },
   methods: {
     formatLongName,

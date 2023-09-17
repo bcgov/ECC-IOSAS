@@ -5,10 +5,6 @@ export const documentStore = defineStore('document', {
     applicationDocuments: [],
     eoiDocuments: [],
   }),
-  getters: {
-    getApplicationDocuments: (state) => state.applicationDocuments,
-    getEOIDocuments: (state) => state.applicationDocuments,
-  },
   actions: {
     async addApplicationDocument(document) {
       this.applicationDocuments = [...this.applicationDocuments, document];

@@ -485,11 +485,8 @@ export default {
       return this.tab === tabValue;
     },
     async removeDocument(document) {
-      const documentName = document.iosas_documentid
-        ? document.iosas_file_name
-        : document.fileName;
       const confirmation = await this.$refs.confirmDeleteDocument.open(
-        `Remove Document - ${documentName}?`,
+        `Remove Document - ${document.fileName}?`,
         null,
         {
           color: '#fff',

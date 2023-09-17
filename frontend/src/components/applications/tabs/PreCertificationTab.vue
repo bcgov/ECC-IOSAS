@@ -176,7 +176,7 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Other</v-label>
             <div
-              v-for="document in getApplicationDocuments.filter(
+              v-for="document in applicationDocuments.filter(
                 ({ documentType }) =>
                   documentType === SCHOOL_APP_DOC_CODES.preCertOther
               )"
@@ -345,13 +345,13 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Other</v-label>
           <div
-            v-for="document in getApplicationDocuments.filter(
+            v-for="document in applicationDocuments.filter(
               ({ documentType }) =>
                 documentType === SCHOOL_APP_DOC_CODES.preCertOther
             )"
             :key="document.id"
             v-if="
-              getApplicationDocuments.filter(
+              applicationDocuments.filter(
                 ({ documentType }) =>
                   documentType === SCHOOL_APP_DOC_CODES.preCertOther
               ).length > 0
@@ -441,7 +441,7 @@ export default {
     },
   },
   watch: {
-    getApplicationDocuments: {
+    applicationDocuments: {
       handler(val) {
         this.proofOfPurchaseDoc = val.filter(
           ({ documentType }) =>
@@ -484,23 +484,23 @@ export default {
   }),
   computed: {
     ...mapState(metaDataStore, ['getDocumentPickListOptions']),
-    ...mapState(documentStore, ['getApplicationDocuments']),
+    ...mapState(documentStore, ['applicationDocuments']),
   },
   mounted() {},
   created() {
-    this.proofOfPurchaseDoc = this.getApplicationDocuments?.filter(
+    this.proofOfPurchaseDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.proofOfPurchaseCode
     );
-    this.mulicipalComplianceDoc = this.getApplicationDocuments?.filter(
+    this.mulicipalComplianceDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.mulicipalComplianceCode
     );
-    this.confimationWaterTestingDoc = this.getApplicationDocuments?.filter(
+    this.confimationWaterTestingDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.confimationWaterTestingCode
     );
-    this.creditOrSurityBondDoc = this.getApplicationDocuments?.filter(
+    this.creditOrSurityBondDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.creditOrSurityBondCode
     );
