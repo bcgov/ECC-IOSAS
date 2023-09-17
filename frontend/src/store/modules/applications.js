@@ -114,18 +114,16 @@ export const applicationsStore = defineStore('applications', {
       const response = await ApiService.getEOIById(eoiId);
 
       const documentResponse = await ApiService.getEOIDocuments(eoiId);
-      const eoi = {
-        ...response.data.value[0],
-        documents: documentResponse.data.value
-          ? documentResponse.data.value.map((doc) => ({
-              fileName: doc.iosas_file_name || doc.iosas_name,
-              documentType: doc.iosas_eoidocumenttype,
-              id: doc.iosas_documentid,
-              ...doc,
-            }))
-          : [],
-      };
-      await this.setEOIApplication(eoi);
+      const documents = documentResponse.data.value
+        ? documentResponse.data.value.map((doc) => ({
+            fileName: doc.iosas_file_name || doc.iosas_name,
+            documentType: doc.iosas_eoidocumenttype,
+            id: doc.iosas_documentid,
+            ...doc,
+          }))
+        : [];
+      await documentStore().setEOIDocuments(documents);
+      await this.setEOIApplication(response.data.value[0]);
     },
     async getAllSchoolApplications() {
       const response = await ApplicationService.getAllApplicationsByUser();
