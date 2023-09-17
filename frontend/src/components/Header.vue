@@ -25,7 +25,7 @@
         <h3 class="mainTitle" style="color: white">
           {{ appTitle }}
           <span
-            v-if="isNotProd()"
+            v-if="isNotProd() && env.env"
             :style="{ color: env?.bannerColor }"
             class="environment-flag"
             >({{ env?.env.toUpperCase() }})</span
