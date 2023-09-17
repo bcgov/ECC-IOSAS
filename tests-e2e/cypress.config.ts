@@ -13,7 +13,7 @@ export default defineConfig({
   viewportHeight: 1080,
   viewportWidth: 1920,
   e2e: {
-    baseUrl: 'https://dev.educationdataexchange.gov.bc.ca',
+    baseUrl: 'https://dev.independentschoolservices.gov.bc.ca/',
     setupNodeEvents(on, config) {
       on('task', {
         'defaults:db': async() => {

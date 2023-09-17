@@ -22,9 +22,6 @@ export class RestUtils {
         try {
             params = this.setToken(params, await this.getToken());
             const response = await axios.get(url, params);
-            // console.log('get Data Status', response.status);
-            // console.log('get Data StatusText', response.statusText);
-            // console.log('get Data Res', minify(response.data));
             return response.data;
         } catch (e: any) {
             this.logApiError(e, 'getData', 'Error during GET on ' + url);
@@ -36,8 +33,6 @@ export class RestUtils {
         try {
             params = this.setToken(params, await this.getToken());
             const response = await axios.post(url, data, params);
-            // console.log('post Data Status', response.status);
-            // console.log('post Data StatusText', response.statusText);
             return response.data;
         } catch (e: any) {
             this.logApiError(e, 'postData', 'Error during POST on ' + url);
@@ -50,8 +45,6 @@ export class RestUtils {
         try {
             params = this.setToken(params, await this.getToken());
             const response = await axios.put(url, data, params);
-            // console.log('put Data Status', response.status);
-            // console.log('put Data StatusText', response.statusText);
             return response.data;
         } catch (e: any) {
             this.logApiError(e, 'putData', 'Error during PUT on ' + url);
@@ -64,8 +57,6 @@ export class RestUtils {
         try {
             params = this.setToken(params, await this.getToken());
             const response = await axios.delete(url, params);
-            // console.log('delete Data Status', response.status);
-            // console.log('delete Data StatusText', response.statusText);
             return response.data;
         } catch (e: any) {
             this.logApiError(e, 'deleteData', 'Error during DELETE on ' + url);
