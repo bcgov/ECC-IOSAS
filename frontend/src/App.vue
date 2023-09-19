@@ -5,7 +5,7 @@
     <SnackBar />
     <Loader />
     <v-main fluid class="align-start" v-if="!isLoading">
-      <ModalIdle v-if="isAuthenticated" />
+      <ModalIdle v-if="isAuthenticated" :timer="timer" />
       <router-view />
     </v-main>
     <Footer />
@@ -38,6 +38,21 @@ export default {
   metaInfo: {
     meta: StaticConfig.VUE_APP_META_DATA,
   },
+  watch: {
+    isAuthenticated: {
+      handler(val) {
+        if (val && !this.inactivityWoker) {
+          this.createInactivityWoker();
+        }
+      },
+    },
+  },
+  data() {
+    return {
+      timer: 0,
+      inactivityWoker: null,
+    };
+  },
   computed: {
     ...mapState(authStore, ['isAuthenticated', 'loginError', 'isLoading']),
     isIE() {
@@ -50,7 +65,15 @@ export default {
     this.setLoading(true);
     await this.getJwtToken()
       .then(() =>
-        Promise.all([this.getUserInfo(), this.fetchDynamicsMetaData()])
+        Promise.all([
+          this.getUserInfo(),
+          this.getActiveSchoolYear(),
+          this.getEOIPickLists(),
+          this.getDocumentPickLists(),
+          this.getSchoolAuthority(),
+          this.getApplicationPickLists(),
+          this.getApplicationMultiPickLists(),
+        ])
       )
       .catch((e) => {
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
@@ -73,7 +96,6 @@ export default {
       'getJwtToken',
       'getUserInfo',
       'logout',
-      'resetTimer',
     ]),
     ...mapActions(metaDataStore, [
       'getActiveSchoolYear',
@@ -83,25 +105,24 @@ export default {
       'getApplicationMultiPickLists',
       'getApplicationPickLists',
     ]),
-    async fetchDynamicsMetaData() {
-      const dynamicResponses = await Promise.all([
-        this.getActiveSchoolYear(),
-        this.getEOIPickLists(),
-        this.getDocumentPickLists(),
-        this.getSchoolAuthority(),
-        this.getApplicationPickLists(),
-        this.getApplicationMultiPickLists(),
-      ]);
+    createInactivityWoker() {
+      this.inactivityWoker = new Worker('/inactivityWorker.js');
 
-      dynamicResponses.forEach((response) => {
-        if (response.status !== 200) {
-          this.$router.replace({
-            name: 'error',
-            query: { message: `500_ServerError` },
-          });
+      this.inactivityWoker.addEventListener('message', (event) => {
+        const { type, timer } = event.data;
+        if (type === 'TICK') {
+          this.timer = timer;
         }
       });
     },
+    resetTimer() {
+      if (this.inactivityWoker) {
+        this.inactivityWoker.postMessage('RESET');
+      }
+    },
+  },
+  beforeUnmount() {
+    this.inactivityWoker.terminate();
   },
 };
 </script>
