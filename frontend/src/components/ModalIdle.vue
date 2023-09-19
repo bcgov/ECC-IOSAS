@@ -59,7 +59,7 @@ export default {
     async handleIdleDialog() {
       this.handleCountdown();
       const confirmation = await this.$refs.userIdleDialog.open(
-        'Session Time-out for your protection: 30-minute time-out',
+        'Session Time-out for your protection: 25-minute time-out',
         null,
         {
           color: '#fff',
