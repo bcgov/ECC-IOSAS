@@ -572,8 +572,9 @@
           </v-row>
           <div v-else>
             <v-row>
-              <v-col cols="12" sm="12" md="6" xs="12">
+              <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label class="no-mb">Incorporation Certificate </v-label>
+                <br />
                 <v-label class="sm"
                   >Issued under the
                   <a :href="GOV_URL.BClawsUrl" target="_blank">Societies Act</a>
@@ -590,7 +591,7 @@
                     <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                       mdi-file-document-check-outline
                     </v-icon>
-                    {{ formatLongName(incorporationDocument.fileName) }}
+                    {{ incorporationDocument.fileName }}
                   </div>
                   <v-btn
                     secondary
@@ -613,7 +614,7 @@
                 >
                 <RequiredMessage :condition="!incorporationDocument" />
               </v-col>
-              <v-col cols="12" sm="12" md="6" xs="12">
+              <v-col cols="12" sm="12" md="12" lg="4" xs="12">
                 <v-label>Certificate Issue Date</v-label>
                 <VueDatePicker
                   ref="iosas_incorporationcertificateissuedate"
@@ -633,7 +634,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" sm="12" md="6" xs="12">
+              <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label class="no-mb">Certificate of Good Standing</v-label>
                 <v-label class="sm"
                   >Required if original incorporation documents are more than 6
@@ -653,9 +654,7 @@
                     <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                       mdi-file-document-check-outline
                     </v-icon>
-                    {{
-                      formatLongName(certificateOfGoodStandingDocument.fileName)
-                    }}
+                    {{ certificateOfGoodStandingDocument.fileName }}
                   </div>
                   <v-btn
                     secondary
@@ -680,7 +679,7 @@
                 >
               </v-col>
 
-              <v-col cols="12" sm="12" md="6" xs="12">
+              <v-col cols="12" sm="12" md="12" lg="4" xs="12">
                 <v-label>Certificate of Good Standing Issue Date</v-label>
                 <VueDatePicker
                   ref="iosas_certificateofgoodstandingissuedate"
@@ -707,7 +706,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" sm="12" md="6" xs="12">
+              <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label>Other (Optional)</v-label>
                 <div
                   v-for="document in eoiDocuments.filter(
@@ -720,7 +719,7 @@
                       <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                         mdi-file-document-check-outline
                       </v-icon>
-                      {{ formatLongName(document.fileName) }}
+                      {{ document.fileName }}
                     </div>
                     <v-btn
                       secondary
@@ -849,7 +848,6 @@ import {
   GROUP_CLASSIFICATION_CODES,
   EOI_STATUS_CODES,
 } from '../../utils/application';
-import { formatLongName } from '../../utils/format';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
@@ -1107,7 +1105,6 @@ export default {
     authStore,
     ...mapActions(applicationsStore, ['setConfirmationMessage']),
     ...mapActions(documentStore, ['addEOIDocument', 'setEOIDocuments']),
-    formatLongName,
     handlePopulateNewForm() {
       this.data._iosas_edu_year_value = this.getActiveSchoolYearSelect[0].value;
       this.schoolYearLabel = this.getActiveSchoolYearSelect[0].year.iosas_label;

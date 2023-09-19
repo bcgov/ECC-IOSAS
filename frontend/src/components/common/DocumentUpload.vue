@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getFileNameWithMaxNameLength, humanFileSize } from '../../utils/file';
+import { humanFileSize } from '../../utils/file';
 import { generateRandomNumber } from '../../utils/common';
 import * as Rules from './../../utils/formRules';
 import PrimaryButton from '../util/PrimaryButton.vue';
@@ -207,7 +207,7 @@ export default {
       let document = {
         // Need a unique key to remove document form list before saving to db
         id: this.generateRandomNumber(),
-        fileName: getFileNameWithMaxNameLength(this.uploadFileValue[0].name),
+        fileName: this.uploadFileValue[0].name,
         documentName: this.uploadFileValue[0].name
           .split('.')
           .slice(0, -1)

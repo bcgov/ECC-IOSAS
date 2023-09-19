@@ -48,7 +48,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
               <v-btn
                 secondary
@@ -92,7 +92,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
               <v-btn
                 secondary
@@ -141,7 +141,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
               <v-btn
                 secondary
@@ -187,7 +187,7 @@
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(document.fileName) }}
+                  {{ document.fileName }}
                 </div>
                 <v-btn
                   secondary
@@ -232,7 +232,7 @@
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(document.fileName) }}
+                  {{ document.fileName }}
                 </div>
                 <v-btn
                   secondary
@@ -275,7 +275,7 @@
               <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(document.fileName) }}
+              {{ document.fileName }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -302,7 +302,7 @@
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(document.fileName) }}
+              {{ document.fileName }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -330,7 +330,7 @@
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(document.fileName) }}
+              {{ document.fileName }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -362,7 +362,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
             </div>
           </div>
@@ -388,7 +388,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -407,7 +407,6 @@ import { documentStore } from '../../../store/modules/document';
 import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
 import RequiredMessage from '../../RequiredMessage.vue';
-import { formatLongName } from '../../../utils/format';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
   SCHOOL_APP_DOC_CODES,
@@ -506,7 +505,6 @@ export default {
     );
   },
   methods: {
-    formatLongName,
     ...mapActions(documentStore, ['addApplicationDocument']),
     closeDocumentDialog() {
       this.preCertDocumentUpload = false;
