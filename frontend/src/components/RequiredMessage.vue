@@ -1,31 +1,33 @@
 <template>
-  <div class="v-input__details" v-if="isVisible">
-    <div class="v-messages" role="alert">
-      <div class="v-messages__message" style="transform-origin: center center">
-        Required
-      </div>
-    </div>
-  </div>
+  <v-text-field
+    class="hidden-field"
+    type="hidden"
+    :rules="condition ? [rules.required()] : []"
+  />
 </template>
 
 <script>
+import * as Rules from '../utils/formRules';
 export default {
   name: 'RequiredMessage',
   props: {
-    isVisible: {
+    condition: {
       type: Boolean,
-      required: true,
+      default: false,
     },
+  },
+  data() {
+    return {
+      rules: Rules,
+    };
   },
 };
 </script>
 
-<style scoped>
-.v-messages__message {
-  color: #b00020;
-  opacity: 100% !important;
-}
-.v-messages {
-  opacity: 100%;
+<style lang="scss" scoped>
+.hidden-field {
+  :deep(.v-input__control) {
+    grid-area: none !important;
+  }
 }
 </style>

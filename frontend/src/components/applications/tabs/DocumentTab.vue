@@ -49,7 +49,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
               <v-btn
                 secondary
@@ -72,11 +72,7 @@
             >
           </v-col>
         </v-row>
-        <v-text-field
-          class="hidden-field"
-          type="hidden"
-          :rules="schoolPolicyDoc.length === 0 ? [rules.required()] : []"
-        />
+        <RequiredMessage :condition="schoolPolicyDoc.length === 0" />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Business Plan</v-label>
@@ -91,7 +87,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
               <v-btn
                 secondary
@@ -114,11 +110,7 @@
             >
           </v-col>
         </v-row>
-        <v-text-field
-          class="hidden-field"
-          type="hidden"
-          :rules="businessPlanDoc.length === 0 ? [rules.required()] : []"
-        />
+        <RequiredMessage :condition="businessPlanDoc.length === 0" />
         <br />
         <v-divider></v-divider>
         <br />
@@ -128,7 +120,7 @@
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label>Other</v-label>
             <div
-              v-for="document in getApplicationDocuments.filter(
+              v-for="document in applicationDocuments.filter(
                 ({ documentType }) =>
                   documentType === SCHOOL_APP_DOC_CODES.otherDocCode
               )"
@@ -139,7 +131,7 @@
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(document.fileName) }}
+                  {{ document.fileName }}
                 </div>
                 <v-btn
                   secondary
@@ -183,7 +175,7 @@
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(document.fileName) }}
+                  {{ document.fileName }}
                 </div>
                 <v-btn
                   secondary
@@ -210,14 +202,8 @@
               >
             </v-col>
           </v-row>
-          <v-text-field
-            class="hidden-field"
-            type="hidden"
-            :rules="
-              confirmationOfEligibilityDoc.length === 0
-                ? [rules.required()]
-                : []
-            "
+          <RequiredMessage
+            :condition="confirmationOfEligibilityDoc.length === 0"
           />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
@@ -234,7 +220,7 @@
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(document.fileName) }}
+                  {{ document.fileName }}
                 </div>
                 <v-btn
                   secondary
@@ -259,13 +245,7 @@
               >
             </v-col>
           </v-row>
-          <v-text-field
-            class="hidden-field"
-            type="hidden"
-            :rules="
-              tuitionRefundPolicyDoc.length === 0 ? [rules.required()] : []
-            "
-          />
+          <RequiredMessage :condition="tuitionRefundPolicyDoc.length === 0" />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-label class="no-mb"
@@ -281,7 +261,7 @@
                   <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                     mdi-file-document-check-outline
                   </v-icon>
-                  {{ formatLongName(document.fileName) }}
+                  {{ document.fileName }}
                 </div>
                 <v-btn
                   secondary
@@ -306,13 +286,7 @@
               >
             </v-col>
           </v-row>
-          <v-text-field
-            class="hidden-field"
-            type="hidden"
-            :rules="
-              businessReferencesDoc.length === 0 ? [rules.required()] : []
-            "
-          />
+          <RequiredMessage :condition="businessReferencesDoc.length === 0" />
         </div>
       </div>
     </div>
@@ -330,7 +304,7 @@
               <v-icon aria-hidden="false" color="rgb(0, 51, 102)" size="20">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(document.fileName) }}
+              {{ document.fileName }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -350,7 +324,7 @@
               <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                 mdi-file-document-check-outline
               </v-icon>
-              {{ formatLongName(document.fileName) }}
+              {{ document.fileName }}
             </div>
           </div>
           <div v-else>{{ NULL_STRING }}</div>
@@ -365,13 +339,13 @@
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Other</v-label>
           <div
-            v-for="document in getApplicationDocuments.filter(
+            v-for="document in applicationDocuments.filter(
               ({ documentType }) =>
                 documentType === SCHOOL_APP_DOC_CODES.otherDocCode
             )"
             :key="document.id"
             v-if="
-              getApplicationDocuments.filter(
+              applicationDocuments.filter(
                 ({ documentType }) =>
                   documentType === SCHOOL_APP_DOC_CODES.otherDocCode
               ).length > 0
@@ -382,7 +356,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
             </div>
           </div>
@@ -408,7 +382,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -427,7 +401,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -446,7 +420,7 @@
                 <v-icon color="rgb(0, 51, 102)" size="20" class="mr-1">
                   mdi-file-document-check-outline
                 </v-icon>
-                {{ formatLongName(document.fileName) }}
+                {{ document.fileName }}
               </div>
             </div>
             <div v-else>{{ NULL_STRING }}</div>
@@ -464,7 +438,7 @@ import { metaDataStore } from '../../../store/modules/metaData';
 import { documentStore } from '../../../store/modules/document';
 import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
-import { formatLongName } from '../../../utils/format';
+import RequiredMessage from '../../RequiredMessage.vue';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
   SCHOOL_APP_DOC_CODES,
@@ -476,6 +450,7 @@ export default {
   mixins: [alertMixin],
   components: {
     DocumentUpload,
+    RequiredMessage,
   },
   props: {
     formData: {
@@ -496,7 +471,7 @@ export default {
     },
   },
   watch: {
-    getApplicationDocuments: {
+    applicationDocuments: {
       handler(val) {
         this.schoolPolicyDoc = val.filter(
           ({ documentType }) =>
@@ -544,33 +519,32 @@ export default {
   }),
   mounted() {},
   created() {
-    this.schoolPolicyDoc = this.getApplicationDocuments?.filter(
+    this.schoolPolicyDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.schoolPolicyCode
     );
-    this.businessPlanDoc = this.getApplicationDocuments?.filter(
+    this.businessPlanDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.businessPlanCode
     );
-    this.confirmationOfEligibilityDoc = this.getApplicationDocuments?.filter(
+    this.confirmationOfEligibilityDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.confirmationOfEligibilityCode
     );
-    this.tuitionRefundPolicyDoc = this.getApplicationDocuments?.filter(
+    this.tuitionRefundPolicyDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.tuitionRefundPolicyCode
     );
-    this.businessReferencesDoc = this.getApplicationDocuments?.filter(
+    this.businessReferencesDoc = this.applicationDocuments?.filter(
       ({ documentType }) =>
         documentType === this.SCHOOL_APP_DOC_CODES.businessReferencesCode
     );
   },
   computed: {
     ...mapState(metaDataStore, ['getDocumentPickListOptions']),
-    ...mapState(documentStore, ['getApplicationDocuments']),
+    ...mapState(documentStore, ['applicationDocuments']),
   },
   methods: {
-    formatLongName,
     ...mapActions(documentStore, ['addApplicationDocument']),
     closeDocumentDialog() {
       this.documentUpload = false;
@@ -595,11 +569,5 @@ export default {
 <style lang="scss" scoped>
 .v-label {
   display: inline;
-}
-
-.hidden-field {
-  :deep(.v-input__control) {
-    grid-area: none !important;
-  }
 }
 </style>

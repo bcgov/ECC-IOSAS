@@ -230,7 +230,7 @@
         <br />
         <v-divider></v-divider>
         <h4>Documents</h4>
-        <div v-if="eoi?.documents.length">
+        <div v-if="eoiDocuments?.length">
           <v-row>
             <v-col cols="12" sm="12" md="6" xs="12">
               <v-label>Incorporation Certificate</v-label>
@@ -310,6 +310,8 @@
 
 <script>
 import EOIFormHeader from './EOIFormHeader.vue';
+import { documentStore } from './../../store/modules/document';
+import { mapState } from 'pinia';
 import { formatBooleanToYesNoString } from '../../utils/format';
 import { NULL_STRING } from '../../utils/constants';
 import {
@@ -338,17 +340,20 @@ export default {
       otherDocuments: null,
     };
   },
+  computed: {
+    ...mapState(documentStore, ['eoiDocuments']),
+  },
   created() {
-    if (this.eoi?.documents?.length > 0) {
-      this.incorporationDocument = this.eoi.documents.find(
+    if (this.eoiDocuments?.length > 0) {
+      this.incorporationDocument = this.eoiDocuments.find(
         ({ iosas_eoidocumenttype }) =>
           iosas_eoidocumenttype === this.EOI_DOC_CODES.incorporation
       );
-      this.certificateOfGoodStandingDocument = this.eoi.documents.find(
+      this.certificateOfGoodStandingDocument = this.eoiDocuments.find(
         ({ iosas_eoidocumenttype }) =>
           iosas_eoidocumenttype === this.EOI_DOC_CODES.goodStanding
       );
-      this.otherDocuments = this.eoi.documents.filter(
+      this.otherDocuments = this.eoiDocuments.filter(
         ({ iosas_eoidocumenttype }) =>
           iosas_eoidocumenttype === this.EOI_DOC_CODES.other
       );
