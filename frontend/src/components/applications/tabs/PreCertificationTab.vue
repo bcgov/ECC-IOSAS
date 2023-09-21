@@ -19,6 +19,7 @@
           getDocumentPickListOptions?.['iosas_newschoolapplicationdocumenttype']
         "
         :selectedOption="selectedDocumentOption"
+        :documentCategory="SCHOOL_APP_DOC_CATEGORY_CODE.preCert"
       />
     </v-dialog>
     <div v-if="isPreCertEditable">
@@ -411,6 +412,7 @@ import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
   SCHOOL_APP_DOC_CODES,
   GROUP_CLASSIFICATION_CODES,
+  SCHOOL_APP_DOC_CATEGORY_CODE,
 } from '../../../utils/application';
 
 export default {
@@ -472,6 +474,7 @@ export default {
     rules: Rules,
     SCHOOL_APP_DOC_CODES,
     GROUP_CLASSIFICATION_CODES,
+    SCHOOL_APP_DOC_CATEGORY_CODE,
     preCertDocumentUpload: false,
     selectedDocumentOption: null,
 

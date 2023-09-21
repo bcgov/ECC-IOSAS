@@ -255,7 +255,6 @@
             v-model="formData.iosas_designatedcontactsameasauthorityhead"
             color="#003366"
             class="mt-4"
-            :rules="[rules.requiredRadio()]"
             inline
             disabled
           >

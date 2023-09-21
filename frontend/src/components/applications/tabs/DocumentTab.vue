@@ -19,6 +19,7 @@
           getDocumentPickListOptions?.['iosas_newschoolapplicationdocumenttype']
         "
         :selectedOption="selectedDocumentOption"
+        :documentCategory="SCHOOL_APP_DOC_CATEGORY_CODE.shcoolApplication"
       />
     </v-dialog>
     <div v-if="isEditing">
@@ -76,6 +77,11 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="no-mb">Business Plan</v-label>
+            <br />
+            <v-label class="sm"
+              >Upload Word or PDF version of Plan here; upload Part A and Part B
+              in the “Additional Documents" section below.</v-label
+            >
 
             <div
               v-if="businessPlanDoc.length !== 0"
@@ -443,6 +449,7 @@ import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
   SCHOOL_APP_DOC_CODES,
   GROUP_CLASSIFICATION_CODES,
+  SCHOOL_APP_DOC_CATEGORY_CODE,
 } from '../../../utils/application';
 export default {
   name: 'DocumentTab',
@@ -507,6 +514,7 @@ export default {
     rules: Rules,
     SCHOOL_APP_DOC_CODES,
     GROUP_CLASSIFICATION_CODES,
+    SCHOOL_APP_DOC_CATEGORY_CODE,
     documentUpload: false,
     selectedDocumentOption: null,
 

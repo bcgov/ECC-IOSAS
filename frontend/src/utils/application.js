@@ -102,6 +102,11 @@ export const SCHOOL_APP_DOC_CODES = {
   creditOrSurityBondCode: 100000016,
 };
 
+export const SCHOOL_APP_DOC_CATEGORY_CODE = {
+  shcoolApplication: 100000000,
+  preCert: 100000002,
+};
+
 export const GROUP_CLASSIFICATION_CODES = {
   groupTwo: 100000000,
   groupThree: 100000001,
