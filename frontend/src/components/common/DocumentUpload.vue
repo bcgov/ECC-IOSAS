@@ -86,6 +86,10 @@ export default {
       type: Number,
       required: false,
     },
+    documentCategory: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ['close', 'upload'],
   data() {
@@ -213,6 +217,7 @@ export default {
           .slice(0, -1)
           .join('.'),
         documentType: this.documentTypeCode,
+        documentCategory: this.documentCategory,
         content: btoa(env.target.result),
       };
       this.$emit('upload', document);

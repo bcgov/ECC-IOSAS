@@ -364,7 +364,7 @@ export default {
       'getSchoolYears',
     ]),
     ...mapState(applicationsStore, ['getSchoolApplication']),
-    ...mapState(documentStore, ['getApplicationDocuments']),
+    ...mapState(documentStore, ['applicationDocuments']),
     // Student Enrolment values are calculated on the BE, the FE will enforce that enrolment is > 10
     sumA() {
       return (
@@ -502,11 +502,9 @@ export default {
         return;
       } else {
         this.isDocumentsLoading = true;
-        const filteredDocuments = this.getApplicationDocuments.filter(
-          ({ id }) => {
-            return id !== document.id;
-          }
-        );
+        const filteredDocuments = this.applicationDocuments.filter(({ id }) => {
+          return id !== document.id;
+        });
         if (document.iosas_documentid) {
           await ApiService.deleteDocument(document.iosas_documentid)
             .then(async () => {
@@ -584,7 +582,7 @@ export default {
         'updateData',
         this.formData.iosas_applicationid,
         payload,
-        this.getApplicationDocuments,
+        this.applicationDocuments,
         isSubmitted
       );
     },
@@ -617,7 +615,7 @@ export default {
           'updateData',
           this.formData.iosas_applicationid,
           payload,
-          this.getApplicationDocuments,
+          this.applicationDocuments,
           isSubmitted
         );
       }
@@ -654,7 +652,7 @@ export default {
           'updateData',
           this.formData.iosas_applicationid,
           payload,
-          this.getApplicationDocuments,
+          this.applicationDocuments,
           false
         );
       }

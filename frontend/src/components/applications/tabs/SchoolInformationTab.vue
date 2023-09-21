@@ -333,7 +333,6 @@
               getApplicationMultiPickListOptions['iosas_schoolaffiliation']
             "
             multiple
-            :rules="[rules.requiredMultiSelect()]"
             item-title="label"
             item-value="value"
             placeholder="Select all that apply"
