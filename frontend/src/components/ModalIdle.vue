@@ -107,7 +107,9 @@ export default {
     },
   },
   beforeUnmount() {
-    this.countdownWorker.terminate();
+    if (this.countdownWorker) {
+      this.countdownWorker.terminate();
+    }
   },
 };
 </script>
