@@ -31,7 +31,6 @@ export default {
   watch: {
     timer: {
       handler(val) {
-        console.log('countdown', val);
         if (val === 0) {
           this.handleIdleDialog();
         }
@@ -107,7 +106,9 @@ export default {
     },
   },
   beforeUnmount() {
-    this.countdownWorker.terminate();
+    if (this.countdownWorker) {
+      this.countdownWorker.terminate();
+    }
   },
 };
 </script>
