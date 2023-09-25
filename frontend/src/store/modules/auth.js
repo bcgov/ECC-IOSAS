@@ -77,13 +77,13 @@ export const authStore = defineStore('auth', {
     },
     async getUserInfo() {
       const userInfoRes = await ApiService.getUserInfo();
-      if (userInfoRes?.data.userId) {
-        const dynamicsContact = await ApiService.getContactByExternalId(
-          userInfoRes.data.userId
-        );
-        this.contactInfo = dynamicsContact.data.value[0];
-      }
       this.userInfo = userInfoRes.data;
+    },
+    async getExternalContact() {
+      const dynamicsContact = await ApiService.getContactByExternalId(
+        this.userInfo.userId
+      );
+      this.contactInfo = dynamicsContact.data.value[0];
     },
     async getEnvironment() {
       const envRes = await ApiService.getEnvironment();

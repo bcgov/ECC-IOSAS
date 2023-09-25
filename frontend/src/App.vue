@@ -64,7 +64,7 @@ export default {
 
     this.setLoading(true);
     await this.getJwtToken()
-      .then(() =>
+      .then(() => {
         Promise.all([
           this.getUserInfo(),
           this.getActiveSchoolYear(),
@@ -73,8 +73,10 @@ export default {
           this.getSchoolAuthority(),
           this.getApplicationPickLists(),
           this.getApplicationMultiPickLists(),
-        ])
-      )
+        ]).then(() => {
+          this.getExternalContact();
+        });
+      })
       .catch((e) => {
         if (!e.response || e.response.status !== HttpStatus.UNAUTHORIZED) {
           this.logout();
@@ -96,6 +98,7 @@ export default {
       'getJwtToken',
       'getUserInfo',
       'logout',
+      'getExternalContact',
     ]),
     ...mapActions(metaDataStore, [
       'getActiveSchoolYear',
