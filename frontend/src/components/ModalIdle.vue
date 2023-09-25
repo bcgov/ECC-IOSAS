@@ -28,6 +28,7 @@ import { mapState, mapActions } from 'pinia';
 
 export default {
   components: { ConfirmationDialog },
+  emits: ['resetCountdown'],
   watch: {
     timer: {
       handler(val) {
@@ -37,9 +38,20 @@ export default {
         }
       },
     },
+    countdown: {
+      handler(val) {
+        if (val === 0) {
+          this.redirectToLogout();
+        }
+      },
+    },
   },
   props: {
     timer: {
+      type: Number,
+      required: true,
+    },
+    countdown: {
       type: Number,
       required: true,
     },
@@ -47,7 +59,7 @@ export default {
   data() {
     return {
       userIdleDialog: false,
-      countdown: 120,
+      // countdown: 120,
       routes: AuthRoutes,
     };
   },
@@ -57,7 +69,7 @@ export default {
   methods: {
     ...mapActions(authStore, ['refreshJWT']),
     async handleIdleDialog() {
-      this.handleCountdown();
+      // this.handleCountdown();
       const confirmation = await this.$refs.userIdleDialog.open(
         'Session Time-out for your protection: 25-minute time-out',
         null,
@@ -76,20 +88,20 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.countdown = 120;
+        this.$emit('resetCountdown');
         this.refreshJWT();
       }
     },
-    handleCountdown() {
-      if (this.countdown > 0) {
-        setTimeout(() => {
-          this.countdown--;
-          this.handleCountdown();
-        }, 1000);
-      } else if (this.countdown === 0) {
-        this.redirectToLogout();
-      }
-    },
+    // handleCountdown() {
+    //   if (this.countdown > 0) {
+    //     setTimeout(() => {
+    //       this.countdown--;
+    //       this.handleCountdown();
+    //     }, 1000);
+    //   } else if (this.countdown === 0) {
+    //     this.redirectToLogout();
+    //   }
+    // },
     redirectToLogout() {
       return (window.location = document.getElementById('logout_href').href);
     },
