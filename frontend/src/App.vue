@@ -5,12 +5,7 @@
     <SnackBar />
     <Loader />
     <v-main fluid class="align-start" v-if="!isLoading">
-      <ModalIdle
-        v-if="isAuthenticated"
-        :timer="timer"
-        :countdown="countdown"
-        @resetCountdown="resetCountdown"
-      />
+      <ModalIdle v-if="isAuthenticated" :timer="timer" />
       <router-view />
     </v-main>
     <Footer />
@@ -55,7 +50,6 @@ export default {
   data() {
     return {
       timer: 0,
-      countdown: 0,
       inactivityWoker: null,
     };
   },
@@ -116,23 +110,14 @@ export default {
 
       this.inactivityWoker.addEventListener('message', (event) => {
         const { type, timer } = event.data;
-        console.log(event);
         if (type === 'TICK') {
           this.timer = timer;
-          // this.countdown = countdown;
         }
       });
     },
     resetTimer() {
-      console.log('getting called???');
-      console.log('this.inactivityWoker', this.inactivityWoker);
       if (this.inactivityWoker) {
         this.inactivityWoker.postMessage('RESET');
-      }
-    },
-    resetCountdown() {
-      if (this.inactivityWoker) {
-        this.inactivityWoker.postMessage('RESET_COUNTDOWN');
       }
     },
   },

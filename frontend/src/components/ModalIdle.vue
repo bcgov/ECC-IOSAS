@@ -28,11 +28,9 @@ import { mapState, mapActions } from 'pinia';
 
 export default {
   components: { ConfirmationDialog },
-  emits: ['resetCountdown'],
   watch: {
     timer: {
       handler(val) {
-        console.log('countdown', val);
         if (val === 0) {
           this.handleIdleDialog();
         }
@@ -51,16 +49,13 @@ export default {
       type: Number,
       required: true,
     },
-    countdown: {
-      type: Number,
-      required: true,
-    },
   },
   data() {
     return {
       userIdleDialog: false,
-      // countdown: 120,
+      countdown: 0,
       routes: AuthRoutes,
+      countdownWorker: null,
     };
   },
   computed: {
@@ -69,7 +64,7 @@ export default {
   methods: {
     ...mapActions(authStore, ['refreshJWT']),
     async handleIdleDialog() {
-      // this.handleCountdown();
+      this.handleCountdown();
       const confirmation = await this.$refs.userIdleDialog.open(
         'Session Time-out for your protection: 25-minute time-out',
         null,
@@ -80,7 +75,6 @@ export default {
           subtitle: false,
           dark: false,
           resolveText: 'Stay Logged In',
-          rejectText: 'Logout',
           showReject: false,
         }
       );
@@ -88,23 +82,30 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.$emit('resetCountdown');
         this.refreshJWT();
       }
     },
-    // handleCountdown() {
-    //   if (this.countdown > 0) {
-    //     setTimeout(() => {
-    //       this.countdown--;
-    //       this.handleCountdown();
-    //     }, 1000);
-    //   } else if (this.countdown === 0) {
-    //     this.redirectToLogout();
-    //   }
-    // },
+    handleCountdown() {
+      this.countdownWorker = new Worker('../countdownWorker.js');
+
+      this.countdownWorker.addEventListener('message', (event) => {
+        const { type, countdown } = event.data;
+        if (type === 'TICK') {
+          this.countdown = countdown;
+        }
+      });
+    },
+    resetCountDown() {
+      if (this.countdownWorker) {
+        this.countdownWorker.postMessage('RESET');
+      }
+    },
     redirectToLogout() {
       return (window.location = document.getElementById('logout_href').href);
     },
+  },
+  beforeUnmount() {
+    this.countdownWorker.terminate();
   },
 };
 </script>
