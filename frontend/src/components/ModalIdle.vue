@@ -37,6 +37,13 @@ export default {
         }
       },
     },
+    countdown: {
+      handler(val) {
+        if (val === 0) {
+          this.redirectToLogout();
+        }
+      },
+    },
   },
   props: {
     timer: {
@@ -47,8 +54,9 @@ export default {
   data() {
     return {
       userIdleDialog: false,
-      countdown: 120,
+      countdown: 0,
       routes: AuthRoutes,
+      countdownWorker: null,
     };
   },
   computed: {
@@ -76,23 +84,30 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.countdown = 120;
+        this.resetCountDown();
         this.refreshJWT();
       }
     },
     handleCountdown() {
-      if (this.countdown > 0) {
-        setTimeout(() => {
-          this.countdown--;
-          this.handleCountdown();
-        }, 1000);
-      } else if (this.countdown === 0) {
-        this.redirectToLogout();
+      this.countdownWorker = new Worker('../countdownWorker.js');
+      this.countdownWorker.addEventListener('message', (event) => {
+        const { type, countdown } = event.data;
+        if (type === 'TICK') {
+          this.countdown = countdown;
+        }
+      });
+    },
+    resetCountDown() {
+      if (this.countdownWorker) {
+        this.countdownWorker.postMessage('RESET');
       }
     },
     redirectToLogout() {
       return (window.location = document.getElementById('logout_href').href);
     },
+  },
+  beforeUnmount() {
+    this.countdownWorker.terminate();
   },
 };
 </script>
