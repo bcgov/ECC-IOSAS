@@ -25,6 +25,7 @@ const dynamicIntegrationService = {
   },
   async register(info) {
     const endPoint = this.host() + '/api/Contact/Login';
+
     const { given_name, family_name, email, preferred_username } = info;
     const body = {
       iosas_externaluserid: preferred_username,
