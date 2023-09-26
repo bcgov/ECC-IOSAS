@@ -131,6 +131,7 @@ export const STATUS_MAP = {
   '5 - Interview': 'Interview',
   '6 - Pre-Certification': 'Pre-Certification',
   '7 - Interim Certification': 'Interim Certification',
+  '9 - Denied': 'Denied',
 };
 
 const generalTabBoolFields = [

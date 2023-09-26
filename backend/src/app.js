@@ -139,6 +139,7 @@ function addLoginPassportUse(
         log.info(`Passport | ${strategyName} | Login success`);
         const userInfo = parseJwt(accessToken);
         //set access and refresh tokens
+
         profile.jwtFrontend = auth.generateUiToken();
         profile.jwt = accessToken;
         profile._json = userInfo;
