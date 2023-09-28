@@ -889,7 +889,6 @@ export default {
           this.data._iosas_authortiycontact_value = null;
           this.data.iosas_existingcontact = false;
         } else {
-          console.log('CALLING populateDACWithSubmitterInfo');
           this.populateDACWithSubmitterInfo();
         }
       },
@@ -1105,7 +1104,6 @@ export default {
       this.populateDACWithSubmitterInfo();
     },
     populateDACWithSubmitterInfo() {
-      console.log('CALLED?? populateDACWithSubmitterInfo');
       // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
       const user = this.contactInfo ? this.contactInfo : this.userInfo;
       // Set the Designated Contact to authenticated user data
