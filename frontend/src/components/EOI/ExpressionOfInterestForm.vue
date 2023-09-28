@@ -847,6 +847,7 @@ import {
   EOI_DOC_CODES,
   GROUP_CLASSIFICATION_CODES,
   EOI_STATUS_CODES,
+  EOI_SUBMISSION_METHOD,
 } from '../../utils/application';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
@@ -889,14 +890,8 @@ export default {
           this.data._iosas_authortiycontact_value = null;
           this.data.iosas_existingcontact = false;
         } else {
+          console.log('CALLING populateDACWithSubmitterInfo');
           this.populateDACWithSubmitterInfo();
-        }
-      },
-    },
-    'data.iosas_existingcontact': {
-      handler(val, oldVal) {
-        if (oldVal === undefined && val && !this.isNew) {
-          this.populatedAndDisableDesignatedContact = true;
         }
       },
     },
@@ -1045,6 +1040,7 @@ export default {
       EOI_DOC_CODES,
       EOI_STATUS_CODES,
       GROUP_CLASSIFICATION_CODES,
+      EOI_SUBMISSION_METHOD,
       // Used to populate confirmation Message
       authorityName: null,
       schoolYearLabel: null,
@@ -1111,6 +1107,7 @@ export default {
       this.populateDACWithSubmitterInfo();
     },
     populateDACWithSubmitterInfo() {
+      console.log('CALLED?? populateDACWithSubmitterInfo');
       // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
       const user = this.contactInfo ? this.contactInfo : this.userInfo;
       // Set the Designated Contact to authenticated user data
@@ -1154,11 +1151,12 @@ export default {
         this.populatedAndDisableDesignatedContact = true;
         this.isDesignatedContactSameAsSubmitter = true;
       }
-      if (this.data?.iosas_schoolauthoritycontactphone) {
+
+      if (
+        this.data?.iosas_schoolauthoritycontactphone &&
+        this.populatedAndDisableDesignatedContact
+      ) {
         this.populateAndDisableContactPhone = true;
-      }
-      if (this.data?.iosas_existingcontact) {
-        this.populatedAndDisableDesignatedContact = true;
       }
     },
     closeDocumentDialog() {

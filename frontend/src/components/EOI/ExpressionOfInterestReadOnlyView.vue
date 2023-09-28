@@ -57,7 +57,10 @@
         <br />
         <div>
           <v-row>
-            <v-col cols="12">
+            <v-col
+              cols="12"
+              v-if="eoi.iosas_submissionmethod === EOI_SUBMISSION_METHOD.portal"
+            >
               <v-label
                 >Is the Designated Authority Contact the same as the person who
                 submitted the EOI?</v-label
@@ -317,6 +320,7 @@ import { NULL_STRING } from '../../utils/constants';
 import {
   EOI_DOC_CODES,
   GROUP_CLASSIFICATION_CODES,
+  EOI_SUBMISSION_METHOD,
 } from '../../utils/application';
 export default {
   name: 'ExpressionOfInterestReadOnlyView',
@@ -335,6 +339,7 @@ export default {
       NULL_STRING,
       EOI_DOC_CODES,
       GROUP_CLASSIFICATION_CODES,
+      EOI_SUBMISSION_METHOD,
       incorporationDocument: null,
       certificateOfGoodStandingDocument: null,
       otherDocuments: null,
