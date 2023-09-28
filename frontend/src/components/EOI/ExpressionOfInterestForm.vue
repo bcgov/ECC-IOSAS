@@ -847,7 +847,6 @@ import {
   EOI_DOC_CODES,
   GROUP_CLASSIFICATION_CODES,
   EOI_STATUS_CODES,
-  EOI_SUBMISSION_METHOD,
 } from '../../utils/application';
 
 import PrimaryButton from './../util/PrimaryButton.vue';
@@ -1040,7 +1039,6 @@ export default {
       EOI_DOC_CODES,
       EOI_STATUS_CODES,
       GROUP_CLASSIFICATION_CODES,
-      EOI_SUBMISSION_METHOD,
       // Used to populate confirmation Message
       authorityName: null,
       schoolYearLabel: null,
