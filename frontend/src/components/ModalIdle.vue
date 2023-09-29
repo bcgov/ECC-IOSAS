@@ -31,14 +31,15 @@ export default {
   watch: {
     timer: {
       handler(val) {
-        if (val === 0) {
+        console.log('idle countdown', val);
+        if (val <= 0 && !this.userIdleDialog) {
           this.handleIdleDialog();
         }
       },
     },
     countdown: {
       handler(val) {
-        if (val === 0) {
+        if (val <= 0) {
           this.redirectToLogout();
         }
       },
@@ -53,7 +54,7 @@ export default {
   data() {
     return {
       userIdleDialog: false,
-      countdown: 0,
+      countdown: null,
       routes: AuthRoutes,
       countdownWorker: null,
     };

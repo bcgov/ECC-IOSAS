@@ -7,7 +7,7 @@
       >
       The Independent Schools Branch administers the Act as well as any
       <a :href="GOV_URL.schoolManualLawURL" target="_blank"
-        >regulations, Minister’s orders and inspector’s</a
+        >regulations, Minister's and Inspector's Orders</a
       >
       made under the Act.
     </p>

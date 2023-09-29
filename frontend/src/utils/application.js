@@ -121,6 +121,11 @@ export const ADDITIONAL_PROGRAM_CODES = {
   other: 100000004,
 };
 
+export const EOI_SUBMISSION_METHOD = {
+  manual: 100000000,
+  portal: 100000001,
+};
+
 export const STATUS_MAP = {
   'New (Submitted)': 'New',
   'In Progress (Send Confirmation of Receipt Email)': 'In Progress',
@@ -132,6 +137,8 @@ export const STATUS_MAP = {
   '6 - Pre-Certification': 'Pre-Certification',
   '7 - Interim Certification': 'Interim Certification',
   '9 - Denied': 'Denied',
+  '10 - Withdrawn': 'Withdrawn',
+  '12 - Abandoned': 'Abandoned',
 };
 
 const generalTabBoolFields = [

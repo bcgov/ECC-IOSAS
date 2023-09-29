@@ -893,13 +893,6 @@ export default {
         }
       },
     },
-    'data.iosas_existingcontact': {
-      handler(val, oldVal) {
-        if (oldVal === undefined && val && !this.isNew) {
-          this.populatedAndDisableDesignatedContact = true;
-        }
-      },
-    },
     schoolAddressKnown: {
       handler(val) {
         if (val) {
@@ -1154,11 +1147,12 @@ export default {
         this.populatedAndDisableDesignatedContact = true;
         this.isDesignatedContactSameAsSubmitter = true;
       }
-      if (this.data?.iosas_schoolauthoritycontactphone) {
+
+      if (
+        this.data?.iosas_schoolauthoritycontactphone &&
+        this.populatedAndDisableDesignatedContact
+      ) {
         this.populateAndDisableContactPhone = true;
-      }
-      if (this.data?.iosas_existingcontact) {
-        this.populatedAndDisableDesignatedContact = true;
       }
     },
     closeDocumentDialog() {
