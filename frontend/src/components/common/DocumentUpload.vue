@@ -21,8 +21,8 @@
             ></v-select>
             <v-file-input
               id="selectFileInput"
-              :show-size="1000"
               v-model="uploadFileValue"
+              :show-size="1000"
               color="#003366"
               variant="underlined"
               :accept="fileAccept"
@@ -69,6 +69,7 @@
 import { humanFileSize } from '../../utils/file';
 import { generateRandomNumber } from '../../utils/common';
 import * as Rules from './../../utils/formRules';
+import alertMixin from './../../mixins/alertMixin';
 import PrimaryButton from '../util/PrimaryButton.vue';
 
 export default {
@@ -92,6 +93,7 @@ export default {
     },
   },
   emits: ['close', 'upload'],
+  mixins: [alertMixin],
   data() {
     return {
       fileAccept: '.jpg,.jpeg,.pdf,.png,.doc,.docx,.heic,.xls,.xlsx,.txt',

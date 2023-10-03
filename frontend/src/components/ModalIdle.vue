@@ -28,11 +28,12 @@ import { mapState, mapActions } from 'pinia';
 
 export default {
   components: { ConfirmationDialog },
+  emits: ['resetTimerAndCountdown'],
   watch: {
     timer: {
       handler(val) {
         console.log('idle countdown', val);
-        if (val <= 0 && !this.userIdleDialog) {
+        if (val <= 120 && val > 0 && !this.userIdleDialog) {
           this.handleIdleDialog();
         }
       },
@@ -50,13 +51,15 @@ export default {
       type: Number,
       required: true,
     },
+    countdown: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
       userIdleDialog: false,
-      countdown: null,
       routes: AuthRoutes,
-      countdownWorker: null,
     };
   },
   computed: {
@@ -65,7 +68,6 @@ export default {
   methods: {
     ...mapActions(authStore, ['refreshJWT']),
     async handleIdleDialog() {
-      this.handleCountdown();
       const confirmation = await this.$refs.userIdleDialog.open(
         'Session Time-out for your protection: 25-minute time-out',
         null,
@@ -84,32 +86,13 @@ export default {
       if (!confirmation) {
         return;
       } else {
-        this.resetCountDown();
+        this.$emit('resetTimerAndCountdown');
         this.refreshJWT();
-      }
-    },
-    handleCountdown() {
-      this.countdownWorker = new Worker('../countdownWorker.js');
-      this.countdownWorker.addEventListener('message', (event) => {
-        const { type, countdown } = event.data;
-        if (type === 'TICK') {
-          this.countdown = countdown;
-        }
-      });
-    },
-    resetCountDown() {
-      if (this.countdownWorker) {
-        this.countdownWorker.postMessage('RESET');
       }
     },
     redirectToLogout() {
       return (window.location = document.getElementById('logout_href').href);
     },
-  },
-  beforeUnmount() {
-    if (this.countdownWorker) {
-      this.countdownWorker.terminate();
-    }
   },
 };
 </script>
