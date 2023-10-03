@@ -370,7 +370,7 @@ export default {
       return (
         Number(this.formData.iosas_numberofstudentsg7) +
         Number(this.formData.iosas_numberofstudentsg6) +
-        Number(this.formData.iosas_numberofstudentsg5) +
+        Number(this.formData.iosas_numberofstudentsg4) +
         Number(this.formData.iosas_numberofstudentsg5) +
         Number(this.formData.iosas_numberofstudentsg3) +
         Number(this.formData.iosas_numberofstudentsg2) +
