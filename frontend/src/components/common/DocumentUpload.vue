@@ -94,7 +94,7 @@ export default {
   emits: ['close', 'upload'],
   data() {
     return {
-      fileAccept: '.pdf,.png,.jpg,.docx',
+      fileAccept: '.jpg,.jpeg,.pdf,.png,.doc,.docx,.heic,.xls,.xlsx,.txt',
       rules: Rules,
       fileRules: [
         (value) => {
