@@ -79,12 +79,11 @@
             <v-label class="no-mb">Business Plan</v-label>
             <br />
             <v-label class="sm"
-              >Upload Word or PDF version of Plan here; upload Part A and Part B
-              in the “Additional Documents" section below.</v-label
+              >Upload Word or PDF version of Business Plan; including Part A and
+              Part B here.</v-label
             >
 
             <div
-              v-if="businessPlanDoc.length !== 0"
               class="d-flex justify-space-between"
               v-for="document in businessPlanDoc"
               :key="document.id"
@@ -107,7 +106,7 @@
               >
             </div>
             <v-btn
-              v-else
+              v-if="businessPlanDoc.length <= 2"
               secondary
               class="mt-2 block"
               variant="outlined"
@@ -474,7 +473,7 @@ export default {
     },
     isFormValid: {
       type: Boolean,
-      required: true,
+      default: null,
     },
   },
   watch: {
@@ -488,6 +487,7 @@ export default {
           ({ documentType }) =>
             documentType === this.SCHOOL_APP_DOC_CODES.businessPlanCode
         );
+
         this.confirmationOfEligibilityDoc = val.filter(
           ({ documentType }) =>
             documentType ===
