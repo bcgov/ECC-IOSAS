@@ -103,7 +103,7 @@ export default {
           let ret =
             !value ||
             !value.length ||
-            value[0].size <= 32000000 ||
+            value[0].size < 32000000 ||
             `File size should not be larger than ${humanFileSize(32000000)}!`;
           if (ret !== true) {
             this.setFailureAlert(ret);
