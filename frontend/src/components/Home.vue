@@ -14,28 +14,18 @@
     <Loader :loading="isLoading" />
   </span>
   <v-container v-else fluid class="dashboard-container">
-    <!-- TODO: re-add alerts once they are dynamic and not hardcoded -->
-    <!-- <v-row
+    <v-row
       align="center"
       justify="center"
       style="margin-right: 0; margin-left: 0"
     >
       <v-col>
         <v-card class="action-card" variant="tonal">
-          Your Expression of Interest <b>EOI-1016</b> has been approved. You are
-          now invited to fill out and submit a New School Application. We have
-          created a draft for you. Click
-          <router-link
-            :to="{ path: '/school-application/APP-1048' }"
-            :target="'_self'"
-            class="router-link-exact-active"
-          >
-            here
-          </router-link>
-          to complete and submit your New School Application <b>APP-1048</b>.
+          After 25 minutes of inactivity, you will be logged out. Please save
+          your progress as you go.
         </v-card>
       </v-col>
-    </v-row> -->
+    </v-row>
     <br />
     <br />
     <v-row no-gutter>
