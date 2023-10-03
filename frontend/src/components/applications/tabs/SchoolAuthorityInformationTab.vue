@@ -84,6 +84,7 @@
       <v-row>
         <v-spacer />
         <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Official Registration Number</v-label>
           <v-text-field
             :disabled="formData.iosas_preexistingauthority"
             id="iosas_officialregistrationnumber"
@@ -93,11 +94,11 @@
             "
             :maxlength="255"
             variant="outlined"
-            label="Official Registration Number"
             color="rgb(59, 153, 252)"
           />
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Date of last Annual Report</v-label>
           <VueDatePicker
             ref="iosas_dateoflastannualreport"
             v-model="formData.iosas_dateoflastannualreport"
