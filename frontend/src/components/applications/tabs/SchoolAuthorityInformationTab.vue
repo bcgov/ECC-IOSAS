@@ -30,7 +30,7 @@
             v-model="formData.iosas_schoolauthority"
             required
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="Name of School Authority"
             color="rgb(59, 153, 252)"
@@ -84,6 +84,7 @@
       <v-row>
         <v-spacer />
         <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Official Registration Number</v-label>
           <v-text-field
             :disabled="formData.iosas_preexistingauthority"
             id="iosas_officialregistrationnumber"
@@ -91,13 +92,13 @@
             :rules="
               formData.iosas_preexistingauthority ? [] : [rules.required()]
             "
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
-            label="Official Registration Number"
             color="rgb(59, 153, 252)"
           />
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
+          <v-label>Date of last Annual Report</v-label>
           <VueDatePicker
             ref="iosas_dateoflastannualreport"
             v-model="formData.iosas_dateoflastannualreport"
@@ -117,7 +118,7 @@
             v-model="formData.iosas_authorityaddressline1"
             :disabled="formData.iosas_preexistingauthority"
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="Address Line 1"
             color="rgb(59, 153, 252)"
@@ -131,7 +132,7 @@
             v-model="formData.iosas_authorityaddressline2"
             :disabled="formData.iosas_preexistingauthority"
             :rules="[]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="Address Line 2"
             color="rgb(59, 153, 252)"
@@ -143,7 +144,7 @@
             v-model="formData.iosas_authoritycity"
             :disabled="formData.iosas_preexistingauthority"
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="City"
             color="rgb(59, 153, 252)"
@@ -157,7 +158,7 @@
             v-model="formData.iosas_authorityprovince"
             :disabled="formData.iosas_preexistingauthority"
             :rules="[]"
-            :maxlength="255"
+            :maxlength="100"
             disabled
             variant="outlined"
             label="Province"
@@ -171,7 +172,7 @@
             :disabled="formData.iosas_preexistingauthority"
             disabled
             :rules="[]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="Country"
             color="rgb(59, 153, 252)"
@@ -271,7 +272,7 @@
             v-model="formData.iosas_authorityheadfirstname"
             required
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="First Name"
             color="rgb(59, 153, 252)"
@@ -284,7 +285,7 @@
             id="iosas_authorityheadlastname"
             v-model="formData.iosas_authorityheadlastname"
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="Last Name"
             color="rgb(59, 153, 252)"
@@ -298,7 +299,7 @@
             id="iosas_authorityheademail"
             v-model="formData.iosas_authorityheademail"
             :rules="[rules.required()]"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="E-mail"
             color="rgb(59, 153, 252)"
@@ -309,7 +310,7 @@
             disabled
             id="iosas_authorityheadphone"
             v-model="formData.iosas_authorityheadphone"
-            :maxlength="255"
+            :maxlength="100"
             variant="outlined"
             label="Phone"
             color="rgb(59, 153, 252)"
