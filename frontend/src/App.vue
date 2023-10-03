@@ -5,7 +5,12 @@
     <SnackBar />
     <Loader />
     <v-main fluid class="align-start" v-if="!isLoading">
-      <ModalIdle v-if="isAuthenticated" :timer="timer" />
+      <ModalIdle
+        v-if="isAuthenticated"
+        :timer="timer"
+        :countdown="countdown"
+        @resetTimerAndCountdown="resetTimerAndCountdown"
+      />
       <router-view />
     </v-main>
     <Footer />
@@ -50,6 +55,7 @@ export default {
   data() {
     return {
       timer: 0,
+      countdown: 0,
       inactivityWoker: null,
     };
   },
@@ -112,8 +118,9 @@ export default {
       this.inactivityWoker = new Worker('/inactivityWorker.js');
 
       this.inactivityWoker.addEventListener('message', (event) => {
-        const { type, timer } = event.data;
+        const { type, timer, countdown } = event.data;
         if (type === 'TICK') {
+          this.countdown = countdown;
           this.timer = timer;
         }
       });
@@ -121,6 +128,11 @@ export default {
     resetTimer() {
       if (this.inactivityWoker) {
         this.inactivityWoker.postMessage('RESET');
+      }
+    },
+    resetTimerAndCountdown() {
+      if (this.inactivityWoker) {
+        this.inactivityWoker.postMessage('RESET_ALL');
       }
     },
   },

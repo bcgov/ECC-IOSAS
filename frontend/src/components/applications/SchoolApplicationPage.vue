@@ -124,7 +124,7 @@ export default {
               this.setFailureAlert(
                 error?.response?.data?.message
                   ? error?.response?.data?.message
-                  : 'An error occurred while saving the expression of Interest. Please try again later.'
+                  : 'An error occurred while saving the school application. Please try again later.'
               );
             });
         })
