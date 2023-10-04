@@ -10,7 +10,7 @@ let timer = time;
 
 setInterval(() => {
   timer--;
-  if (countdown >= 0) {
+  if (countdown > 0) {
     countdown--;
   }
   postMessage({ type: 'TICK', timer, countdown });
