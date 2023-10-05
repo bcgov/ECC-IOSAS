@@ -18,7 +18,12 @@
               <v-card title="Log in with your BCeID">
                 <div class="card-content">
                   <p>Enter your user ID and password to continue</p>
+                  <p class="pt-5">
+                    Please login using a BCeID account associated with the same
+                    email address that you used to submit your application.
+                  </p>
                 </div>
+
                 <v-card-actions>
                   <v-btn
                     id="login-button"
@@ -35,6 +40,10 @@
               <v-card title="Don't have a BCeID?">
                 <div class="card-content">
                   <p>
+                    If you received an invite by email, please register using
+                    the email address that received the invite.
+                  </p>
+                  <p class="pt-5">
                     BCeID is a user ID and password. You can use it to log into
                     many participating government services
                   </p>
@@ -129,7 +138,7 @@ export default {
 
 <style lang="scss" scoped>
 .card-content {
-  min-height: 130px;
+  min-height: 190px;
   height: fit-content;
   padding: 0.625rem 1rem;
   font-size: 14px;
