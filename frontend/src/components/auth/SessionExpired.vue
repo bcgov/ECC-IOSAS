@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { AuthRoutes } from '../utils/constants';
-import { authStore } from '../store/modules/auth';
+import { AuthRoutes } from '../../utils/constants';
+import { authStore } from '../../store/modules/auth';
 
 export default {
   name: 'SessionExpired',

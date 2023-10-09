@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { GOV_URL } from '../utils/constants';
+import { GOV_URL } from '../../utils/constants';
 export default {
   name: 'IndependentSchoolDisclaimer',
   data: () => ({
