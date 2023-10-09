@@ -108,12 +108,12 @@
 </template>
 
 <script>
-import { authStore } from '../store/modules/auth';
+import { authStore } from '../../store/modules/auth';
 import { mapState } from 'pinia';
-import { AuthRoutes, GOV_URL } from '../utils/constants';
-import ContactCard from './common/ContactCard.vue';
-import IndependentSchoolDisclaimer from './IndependentSchoolDisclaimer.vue';
-import RelatedLinksCard from './common/RelatedLinksCard.vue';
+import { AuthRoutes, GOV_URL } from '../../utils/constants';
+import ContactCard from '../common/ContactCard.vue';
+import IndependentSchoolDisclaimer from '../common/IndependentSchoolDisclaimer.vue';
+import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 
 export default {
   name: 'Login',

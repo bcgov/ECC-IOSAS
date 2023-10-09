@@ -851,7 +851,7 @@ import {
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
-import RequiredMessage from '../RequiredMessage.vue';
+import RequiredMessage from '../util/RequiredMessage.vue';
 
 export default {
   name: 'ExpressionOfInterestForm',
