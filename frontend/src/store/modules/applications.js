@@ -1,5 +1,5 @@
-import ApiService from '../../services/apiService';
 import ApplicationService from '../../services/applicationService';
+import EOIService from '../../services/eoiService';
 import { documentStore } from './document';
 import { formatStringToNumericArray } from '../../utils/format';
 import { setChoiceFieldsToNull } from '../../utils/application';
@@ -107,11 +107,11 @@ export const applicationsStore = defineStore('applications', {
       this.application = applicationResponse;
     },
     async getAllEOI() {
-      const response = await ApiService.getAllEOIByUser();
+      const response = await EOIService.getAllEOIByUser();
       await this.setEOIApplications(response.data.value);
     },
     async getEOIApplicationById(eoiId) {
-      const response = await ApiService.getEOIById(eoiId);
+      const response = await EOIService.getEOIById(eoiId);
 
       const documentResponse = await ApiService.getEOIDocuments(eoiId);
       const documents = documentResponse.data.value

@@ -830,6 +830,7 @@
 
 <script>
 import ApiService from '../../services/apiService';
+import EOIService from '../../services/eoiService';
 import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
@@ -1204,7 +1205,7 @@ export default {
         return;
       } else {
         this.$emit('setIsLoading', true);
-        ApiService.cancelEOI(this.data.iosas_expressionofinterestid)
+        EOIService.cancelEOI(this.data.iosas_expressionofinterestid)
           .then(async () => {
             await this.setConfirmationMessage(
               `Expression of Interest ${this.data.iosas_eoinumber} has been successfully removed from your records.`
@@ -1229,7 +1230,7 @@ export default {
         return this.handleUpdate();
       }
       this.$emit('setIsLoading', true);
-      ApiService.createEOI(this.data, this.isSubmitted)
+      EOIService.createEOI(this.data, this.isSubmitted)
         .then((response) => {
           if (this.eoiDocuments.length > 0) {
             this.handleUploadDocuments(response.data);
@@ -1261,7 +1262,7 @@ export default {
       this.showError = !this.isFormValid;
       if (this.isFormValid) {
         this.$emit('setIsLoading', true);
-        ApiService.createEOI(this.data, this.isSubmitted)
+        EOIService.createEOI(this.data, this.isSubmitted)
           .then(async (response) => {
             if (this.eoiDocuments.length > 0) {
               this.handleUploadDocuments(response.data);
@@ -1294,7 +1295,7 @@ export default {
             regardingId: eoiID,
             regardingType: 'iosas_expressionofinterest',
           };
-          await ApiService.uploadFile(payload)
+          await EOIService.uploadFile(payload)
             .then((response) => {
               return response;
             })
