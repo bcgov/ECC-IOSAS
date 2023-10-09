@@ -1,6 +1,3 @@
-import {InstituteSetupUtils} from "./cypress/helpers/institute-set-up-utils";
-import {CollectionSetupUtils} from "./cypress/helpers/collection-set-up-utils";
-
 const { defineConfig } = require('cypress');
 
 export default defineConfig({
@@ -14,16 +11,5 @@ export default defineConfig({
   viewportWidth: 1920,
   e2e: {
     baseUrl: 'https://dev.independentschoolservices.gov.bc.ca/',
-    setupNodeEvents(on, config) {
-      on('task', {
-        'defaults:db': async() => {
-          const instituteSetupUtils = new InstituteSetupUtils(config);
-          const collectionSetupUtils = new CollectionSetupUtils(config);
-          let response = await instituteSetupUtils.setupInstituteEntities({includeTombstoneValues: false, includeSchoolAddress: true, includeSchoolContact: false, includeDistrictAddress: true});
-          await collectionSetupUtils.setUpSchoolCollection(response.school.schoolId);
-          return null;
-        },
-      })
-    },
   }
 })

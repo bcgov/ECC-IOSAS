@@ -443,7 +443,7 @@ import { metaDataStore } from '../../../store/modules/metaData';
 import { documentStore } from '../../../store/modules/document';
 import alertMixin from '../../../mixins/alertMixin';
 import DocumentUpload from '../../common/DocumentUpload.vue';
-import RequiredMessage from '../../RequiredMessage.vue';
+import RequiredMessage from '../../util/RequiredMessage.vue';
 import { GOV_URL, NULL_STRING } from '../../../utils/constants';
 import {
   SCHOOL_APP_DOC_CODES,

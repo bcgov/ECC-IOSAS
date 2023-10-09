@@ -835,7 +835,7 @@ import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import { documentStore } from './../../store/modules/document';
-import IndependentSchoolDisclaimer from '../IndependentSchoolDisclaimer.vue';
+import IndependentSchoolDisclaimer from '../common/IndependentSchoolDisclaimer.vue';
 import { mapState, mapActions } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';

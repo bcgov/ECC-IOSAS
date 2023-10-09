@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import * as Rules from '../utils/formRules';
+import * as Rules from '../../utils/formRules';
 export default {
   name: 'RequiredMessage',
   props: {
