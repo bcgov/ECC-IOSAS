@@ -32,7 +32,6 @@ export default {
   watch: {
     timer: {
       handler(val) {
-        console.log('idle countdown', val);
         if (val <= 120 && val > 0 && !this.userIdleDialog) {
           this.handleIdleDialog();
         }
