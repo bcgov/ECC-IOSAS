@@ -1049,7 +1049,7 @@ export default {
       // UI conditions
       isEditing: false,
       schoolAddressKnown: null,
-      isDesignatedContactSameAsSubmitter: true,
+      isDesignatedContactSameAsSubmitter: false,
       isDocumentsLoading: false,
       populateAndDisableAuthorityAddress: false,
       populatedAndDisableDesignatedContact: false,
@@ -1107,15 +1107,19 @@ export default {
       // Pupulate form with contact data from dynamics, if that doesn't exist, use BCeID data
       const user = this.contactInfo ? this.contactInfo : this.userInfo;
       // Set the Designated Contact to authenticated user data
-      this.populatedAndDisableDesignatedContact = true;
-      const designatedContact = {
-        iosas_existingcontact: true,
-        iosas_designatedcontactfirstname: user.firstname || user.firstName,
-        _iosas_authortiycontact_value: user.contactid || null,
-        iosas_schoolauthoritycontactname: user.lastname || user.lastName,
-        iosas_schoolauthoritycontactemail: user.emailaddress1 || user.email,
-        iosas_schoolauthoritycontactphone: user?.telephone1 || null,
-      };
+      let designatedContact = {};
+      if (user) {
+        this.isDesignatedContactSameAsSubmitter = true;
+        this.populatedAndDisableDesignatedContact = true;
+        designatedContact = {
+          iosas_existingcontact: true,
+          iosas_designatedcontactfirstname: user.firstname || user.firstName,
+          _iosas_authortiycontact_value: user.contactid || null,
+          iosas_schoolauthoritycontactname: user.lastname || user.lastName,
+          iosas_schoolauthoritycontactemail: user.emailaddress1 || user.email,
+          iosas_schoolauthoritycontactphone: user.telephone1 || null,
+        };
+      }
       if (user?.telephone1) {
         this.populateAndDisableContactPhone = true;
       }

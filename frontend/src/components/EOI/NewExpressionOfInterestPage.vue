@@ -1,8 +1,8 @@
 <template>
-  <span v-if="isLoading">
-    <Loader :loading="isLoading" />
+  <span v-if="loading && isLoading">
+    <Loader :loading="loading" />
   </span>
-  <v-container fluid class="full-height" v-else>
+  <v-container fluid class="full-height">
     <v-breadcrumbs :items="items"
       ><template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
@@ -16,7 +16,7 @@
               <div>
                 <ExpressionOfInterestForm
                   :isNew="true"
-                  :isLoading="isLoading"
+                  :isLoading="loading"
                   @setIsLoading="setIsLoading"
                 />
               </div>
@@ -35,6 +35,7 @@
 <script>
 import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ContactCard from '../common/ContactCard.vue';
+import { mapState } from 'pinia';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
 import { authStore } from '../../store/modules/auth';
 import Loader from './../util/Loader.vue';
@@ -48,7 +49,7 @@ export default {
     Loader,
   },
   data: () => ({
-    isLoading: false,
+    loading: false,
     items: [
       {
         title: 'Dashboard',
@@ -62,10 +63,12 @@ export default {
       },
     ],
   }),
+  computed: {
+    ...mapState(authStore, ['isLoading']),
+  },
   methods: {
-    authStore,
     setIsLoading(value) {
-      this.isLoading = value;
+      this.loading = value;
     },
   },
 };

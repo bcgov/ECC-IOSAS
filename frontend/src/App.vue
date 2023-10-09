@@ -81,6 +81,7 @@ export default {
           this.getApplicationMultiPickLists(),
         ]).then(() => {
           this.getExternalContact();
+          this.setLoading(false);
         });
       })
       .catch((e) => {
