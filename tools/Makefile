@@ -68,8 +68,8 @@ NAMESPACE=$(NAMESPACE_PROD)
 SITE_MINDER_LOGOUT_URL="https://logon7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_PROD)
 SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_PROD)
-SOAM_DISCOVERY=
-SOAM_URL=
+SOAM_DISCOVERY=https://soam-prod.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
+SOAM_URL=https://soam-prod.apps.silver.devops.gov.bc.ca
 bceid_reg_url=
 UI_URL=independentschoolservices.gov.bc.ca
 MAX_REPLICA_WEB=6
