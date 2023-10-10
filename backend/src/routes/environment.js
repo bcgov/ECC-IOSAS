@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
           'https://www.test.bceid.ca/register/basic/account_details.aspx?type=regular#action%27',
       };
       break;
-    case 'prod':
+    case 'production':
       envDetails = {
         beceidRegURL:
           'https://www.bceid.ca/register/basic/account_details.aspx?type=regular&eServiceType=basic',

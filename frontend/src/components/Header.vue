@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     isNotProd() {
-      return this.env?.env !== 'prod';
+      return this.env?.env !== 'production';
     },
     getName() {
       return this.userInfo?.displayName;
