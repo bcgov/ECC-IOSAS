@@ -291,7 +291,7 @@ promote-web:
 	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) Web with ENV $(ENV_PREFIX) $\n+"
 	sh config/promote-app.sh $(BUILD_NAMESPACE) $(Web) $(BUILD_TAG) $(ENV_PREFIX)
 
-d365-api-tunnel:
+d365-api-tunnel: print-status
 	@echo "+\n++ Port Forwarding to D365 stack"
 	@oc -n $(NAMESPACE) port-forward svc/$(API)-d365 5091
 
@@ -301,7 +301,7 @@ deploy-redis:
 	-p NAME=$(API) |  oc -n $(NAMESPACE) apply -f -
 	@oc -n $(NAMESPACE) rollout latest dc/redis
 
-redis-tunnel:
+redis-tunnel: print-status
 	@echo "+\n++ Port Forwarding to redis"
 	@oc -n $(NAMESPACE) port-forward svc/redis 6379
 

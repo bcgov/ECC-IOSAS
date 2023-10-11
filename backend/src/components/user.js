@@ -26,6 +26,20 @@ async function getEdxUserByDigitalId(accessToken, digitalID, correlationID) {
   }
 }
 
+function getUserKeyCloakDetails(userInfo) {
+  const displayName = userInfo.display_name ?? 'Unknown';
+  const names = displayName.split(' ') || [];
+  const userGuid = userInfo.user_guid ?? null;
+  return {
+    displayName: displayName,
+    firstName: names[0],
+    lastName: names.length > 0 ? names[1] : '',
+    userId: userGuid
+      ? `${userGuid.toLowerCase()}@bceidbasic`
+      : userInfo.preferred_username,
+  };
+}
+
 async function getUserInfo(req, res) {
   const userInfo = getSessionUser(req);
   const passportUser = {
@@ -45,13 +59,13 @@ async function getUserInfo(req, res) {
       message: 'No session data',
     });
   }
-
+  const userDetails = getUserKeyCloakDetails(userInfo._json);
   let resData = {
-    firstName: userInfo.name.givenName,
-    lastName: userInfo.name.familyName,
+    firstName: userDetails.firstName,
+    lastName: userDetails.lastName,
     email: userInfo._json.email,
-    userId: userInfo._json.preferred_username,
-    displayName: userInfo.displayName ?? 'Unknown',
+    userId: userDetails.userId,
+    displayName: userDetails.displayName,
     accountType: userInfo._json.azp,
     telephone1: userInfo._json.phone,
   };
@@ -61,4 +75,5 @@ async function getUserInfo(req, res) {
 module.exports = {
   getUserInfo,
   getEdxUserByDigitalId,
+  getUserKeyCloakDetails,
 };
