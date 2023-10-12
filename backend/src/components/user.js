@@ -26,14 +26,40 @@ async function getEdxUserByDigitalId(accessToken, digitalID, correlationID) {
   }
 }
 
+/**
+ * @description Split display names into firstName and lastName
+ * @param {string} name
+ * @returns {object}
+ */
+const userName = (name = '') => {
+  const separators = [',', ' ', ';'];
+  let separator = ' ';
+  for (const sep of separators) {
+    if (name.toString().includes(sep)) {
+      separator = sep;
+      break;
+    }
+  }
+  const [firstName, ...lastNames] = name.split(separator);
+  return {
+    firstName,
+    lastName: lastNames.join(' '),
+  };
+};
+
+/**
+ * @description Return information received from Keycloak to expected format
+ * @param {object} userInfo
+ * @returns {object}
+ */
 function getUserKeyCloakDetails(userInfo) {
   const displayName = userInfo.display_name ?? 'Unknown';
-  const names = displayName.split(' ') || [];
   const userGuid = userInfo.user_guid ?? null;
+  const names = userName(displayName);
   return {
     displayName: displayName,
-    firstName: names[0],
-    lastName: names.length > 0 ? names[1] : '',
+    firstName: names.firstName,
+    lastName: names.lastName,
     userId: userGuid
       ? `${userGuid.toLowerCase()}@bceidbasic`
       : userInfo.preferred_username,
