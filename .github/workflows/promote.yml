@@ -46,3 +46,4 @@ jobs:
           make init-web
           make promote-web
           make deploy-web
+          make tag-commit

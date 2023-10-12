@@ -110,7 +110,7 @@ endef
 BRANCH_REF=$(BUILD_REF)-$(BUILD_TAG)
 
 
-
+current_datetime := $(shell date '+%Y%m%d%H%M%S')
 
 init-oc: | print-status init-project
 oc-build-api: | print-status build-api
@@ -205,6 +205,7 @@ build-api:
 	@oc -n $(BUILD_NAMESPACE) start-build bc/$(API) --wait --follow=true
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):latest
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):$(BRANCH_REF)
+	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):$(current_datetime)
 
 build-web:
 	test -n "$(BUILD_REF)"
@@ -221,6 +222,7 @@ build-web:
 	@oc -n $(BUILD_NAMESPACE) start-build bc/$(Web) --wait --follow=true
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):latest
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):$(BRANCH_REF)
+	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):$(current_datetime)
 
 
 
@@ -312,11 +314,15 @@ get-oc-namespace:
 	@echo $(NAMESPACE)
 
 # Tagging env
+tag-commit:
+	@echo "Tagging commit with date-time: $(current_datetime)"
+	@git tag -fa $(ENV_PREFIX)-$(current_datetime) -m "$(ENV_PREFIX): Tagging the deployment"
+	@git push origin --tags
 tag-test:
 ifdef ticket
 	@git tag -fa test -m "Deploy $(ticket) to TEST Openshift env"
 else
-	@echo -e '\nTicket name missing - Example :: make tag-test ticket=HCAP-ABC \n'
+	@echo -e '\nTicket name missing - Example :: make tag-test ticket=IOSAS-#message\n'
 	@echo -e 'Falling Back to using branch name\n'
 	@git tag -fa test -m "Deploy $(git rev-parse --abbrev-ref HEAD) to TEST env"
 endif
@@ -330,4 +336,4 @@ else
 	@echo -e 'Falling Back to using branch name\n'
 	@git tag -fa production -m "Deploy $(git rev-parse --abbrev-ref HEAD) to PROD env"
 endif
-	@git push --force origin refs/tags/prod:refs/tags/production
+	@git push --force origin refs/tags/production:refs/tags/production
