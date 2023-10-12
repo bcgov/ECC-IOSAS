@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: ci-config-${{ github.ref }}
     timeout-minutes: 20
+    environment:
+      name: ${{ github.base_ref }}
     steps:
       - name: Set Date time
         run: echo "DATE_TIME=$(date ''+%Y%m%d%H%M%S'')" >> $GITHUB_ENV
