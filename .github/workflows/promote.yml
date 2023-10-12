@@ -26,9 +26,11 @@ jobs:
     concurrency: ci-config-${{ inputs.oc_env_suffix }}
     timeout-minutes: 20
     steps:
-      - name: Set env
+      - name: Set env prefix
         run: |
           echo "ENV_PREFIX=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Set env
+        run: |
           echo "PUBLIC_HOST=$(make get-ui-url)" >> $GITHUB_ENV
           echo "OC_NAMESPACE=$(make get-oc-namespace)" >> $GITHUB_ENV
       - name: Checkout
