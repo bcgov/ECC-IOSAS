@@ -23,13 +23,16 @@ jobs:
   api:
     name: Openshift Promote app
     runs-on: ubuntu-latest
-    concurrency: ci-config-${{ inputs.oc_env_suffix }}
+    concurrency: ci-config-${{ github.ref }}
     timeout-minutes: 20
     steps:
+      - name: Set Date time
+        run: echo "DATE_TIME=$(date ''+%Y%m%d%H%M%S'')" >> $GITHUB_ENV
       - name: Set env prefix
         run: |
           echo "ENV_PREFIX=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Set env
+        working-directory: './tools'
         run: |
           echo "PUBLIC_HOST=$(make get-ui-url)" >> $GITHUB_ENV
           echo "OC_NAMESPACE=$(make get-oc-namespace)" >> $GITHUB_ENV
