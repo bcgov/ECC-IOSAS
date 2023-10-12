@@ -45,6 +45,7 @@ jobs:
           make build-api
           make promote-api
       - name: Tag the build (api)
+        if: steps.changes.outputs.src == 'true'
         run: |
           git config user.name ${{ github.actor }}
           git config user.email "iosas-action@gov.bc.ca"
@@ -83,6 +84,7 @@ jobs:
           make build-web
           make promote-web
       - name: Tag the build (web)
+        if: steps.changes.outputs.src == 'true'
         run: |
           git config user.name ${{ github.actor }}
           git config user.email "iosas-action@gov.bc.ca"
