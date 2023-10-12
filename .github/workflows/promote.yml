@@ -31,13 +31,13 @@ jobs:
       - name: Set env prefix
         run: |
           echo "ENV_PREFIX=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Set env
         working-directory: './tools'
         run: |
           echo "PUBLIC_HOST=$(make get-ui-url)" >> $GITHUB_ENV
           echo "OC_NAMESPACE=$(make get-oc-namespace)" >> $GITHUB_ENV
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Tag build and deploy application
         working-directory: './tools'
         run: |
