@@ -144,12 +144,12 @@ function addLoginPassportUse(
         profile.jwt = accessToken;
         profile._json = userInfo;
         profile.refreshToken = refreshToken;
+        log.info(`Passport | Access token: { ${accessToken} }`);
         try {
           const { dynamicContactId } = await dynamicIntegrationService.register(
             userInfo
           );
           log.info(`Passport | ${strategyName} | D365 id: ${dynamicContactId}`);
-          log.info(`Passport | Access token: { ${accessToken} }`);
           profile.dynamicContactId = dynamicContactId;
           return done(null, profile);
         } catch (err) {
@@ -212,7 +212,6 @@ utils.getOidcDiscovery().then((discovery) => {
         if (typeof jwtPayload === 'undefined' || jwtPayload === null) {
           return done('No JWT token', null);
         }
-        log.info('Passpor-jwt | Payload: ', jwtPayload);
         done(null, {
           email: jwtPayload.email,
           familyName: jwtPayload.family_name,
