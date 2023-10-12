@@ -46,4 +46,20 @@ jobs:
           make init-web
           make promote-web
           make deploy-web
-          make tag-commit
+      - name: Create Route
+        working-directory: './tools'
+        run: |
+          oc login --token="$AUTH_TOKEN" --server="$CLUSTER"
+          echo Creating route with ${{ env.PUBLIC_HOST }}
+          oc --namespace=${{ env.OC_NAMESPACE }} process -f openshift/public-route.yml \
+          -p NAME=web-ecc-iosas \
+          -p PUBLIC_HOST=${{ env.PUBLIC_HOST }} \
+          -p CERTIFICATE="${{ secrets.CERT }}" \
+          -p CA_CERT="${{ secrets.CA_CERT }}" \
+          -p PRIVATE_KEY="${{ secrets.PRIV_KEY }}" | oc --namespace=${{ env.OC_NAMESPACE }} apply -f -
+      - name: Tag Deployment
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email "iosas-action@gov.bc.ca"
+          git tag -a ${{ env.ENV_PREFIX}}-${{ env.DATE_TIME }} -m "${{ env.ENV_PREFIX}} Portal: The deploy date time tag"
+          git push origin ${{ env.ENV_PREFIX}}-${{ env.DATE_TIME }}
