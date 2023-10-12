@@ -2,7 +2,7 @@ const assert = require('assert');
 const axios = require('axios');
 const config = require('../config/index');
 const logger = require('./logger');
-
+const { getUserKeyCloakDetails } = require('./user');
 let d365 = null;
 const dynamicIntegrationService = {
   config() {
@@ -25,12 +25,12 @@ const dynamicIntegrationService = {
   },
   async register(info) {
     const endPoint = this.host() + '/api/Contact/Login';
-
-    const { given_name, family_name, email, preferred_username } = info;
+    const { firstName, lastName, userId } = getUserKeyCloakDetails(info);
+    const { email } = info;
     const body = {
-      iosas_externaluserid: preferred_username,
-      lastname: family_name,
-      firstname: given_name,
+      iosas_externaluserid: userId,
+      lastname: lastName,
+      firstname: firstName,
       emailaddress1: email,
       telephone1: '',
     };

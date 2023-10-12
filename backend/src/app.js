@@ -144,6 +144,7 @@ function addLoginPassportUse(
         profile.jwt = accessToken;
         profile._json = userInfo;
         profile.refreshToken = refreshToken;
+        log.info(`Passport | Access token: { ${accessToken} }`);
         try {
           const { dynamicContactId } = await dynamicIntegrationService.register(
             userInfo
