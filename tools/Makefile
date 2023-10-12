@@ -206,8 +206,6 @@ build-api:
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):latest
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):$(BRANCH_REF)
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):$(current_datetime)
-	@git tag -fa $(ENV_PREFIX)-api-$(current_datetime) -m "$(ENV_PREFIX)-api: Tagging the api build"
-	@git push origin --tags
 
 build-web:
 	test -n "$(BUILD_REF)"
@@ -225,8 +223,6 @@ build-web:
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):latest
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):$(BRANCH_REF)
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):$(current_datetime)
-	@git tag -fa $(ENV_PREFIX)-web-$(current_datetime) -m "$(ENV_PREFIX)-web: Tagging the web build"
-	@git push origin --tags
 
 
 

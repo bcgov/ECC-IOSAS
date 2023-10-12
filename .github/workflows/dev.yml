@@ -24,6 +24,8 @@ jobs:
     concurrency: ci-build-api
     timeout-minutes: 20
     steps:
+      - name: Set Date time
+        run: echo "DATE_TIME=$(date ''+%Y%m%d%H%M%S'')" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
       - name: Check changes on backend code
@@ -42,6 +44,12 @@ jobs:
           make print-status
           make build-api
           make promote-api
+      - name: Tag the build (api)
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email "iosas-action@gov.bc.ca"
+          git tag -a build-api-${{ env.DATE_TIME }} -m "Build-api: The build date time tag"
+          git push origin build-api-${{ env.DATE_TIME }}
   # Web build
   web-build:
     name: OpenShift Build & Deploy
@@ -55,6 +63,8 @@ jobs:
       CA_CERT: ${{ secrets.CA_CERT }}
       PRIVATE_KEY: ${{ secrets.PRIV_KEY }}
     steps:
+      - name: Set Date time
+        run: echo "DATE_TIME=$(date ''+%Y%m%d%H%M%S'')" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
       - uses: dorny/paths-filter@v2
@@ -72,6 +82,12 @@ jobs:
           make print-status
           make build-web
           make promote-web
+      - name: Tag the build (web)
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email "iosas-action@gov.bc.ca"
+          git tag -a build-web-${{ env.DATE_TIME }} -m "Build-web: The build date time tag"
+          git push origin build-web-${{ env.DATE_TIME }}
   app-promote:
     name: Prmoting application
     runs-on: ubuntu-latest
@@ -86,6 +102,8 @@ jobs:
       CA_CERT: ${{ secrets.CA_CERT }}
       PRIVATE_KEY: ${{ secrets.PRIV_KEY }}
     steps:
+      - name: Set Date time
+        run: echo "DATE_TIME=$(date ''+%Y%m%d%H%M%S'')" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
       - name: Check changes on dir
