@@ -36,7 +36,6 @@
 import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ContactCard from '../common/ContactCard.vue';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
-import { authStore } from '../../store/modules/auth';
 import Loader from './../util/Loader.vue';
 
 export default {
@@ -63,7 +62,6 @@ export default {
     ],
   }),
   methods: {
-    authStore,
     setIsLoading(value) {
       this.isLoading = value;
     },
