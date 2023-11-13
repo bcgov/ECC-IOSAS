@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "cypress": "cypress run --e2e --headed --no-exit",
+    "cypress": "cypress run --e2e",
     "cypress:open": "cypress open --e2e"
   },
   "repository": {
