@@ -829,12 +829,13 @@
 </template>
 
 <script>
-import ApiService from '../../common/apiService';
+import ApiService from '../../services/apiService';
+import EOIService from '../../services/eoiService';
 import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import { documentStore } from './../../store/modules/document';
-import IndependentSchoolDisclaimer from '../IndependentSchoolDisclaimer.vue';
+import IndependentSchoolDisclaimer from '../common/IndependentSchoolDisclaimer.vue';
 import { mapState, mapActions } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -851,7 +852,7 @@ import {
 
 import PrimaryButton from './../util/PrimaryButton.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
-import RequiredMessage from '../RequiredMessage.vue';
+import RequiredMessage from '../util/RequiredMessage.vue';
 
 export default {
   name: 'ExpressionOfInterestForm',
@@ -1204,7 +1205,7 @@ export default {
         return;
       } else {
         this.$emit('setIsLoading', true);
-        ApiService.cancelEOI(this.data.iosas_expressionofinterestid)
+        EOIService.cancelEOI(this.data.iosas_expressionofinterestid)
           .then(async () => {
             await this.setConfirmationMessage(
               `Expression of Interest ${this.data.iosas_eoinumber} has been successfully removed from your records.`
@@ -1229,7 +1230,7 @@ export default {
         return this.handleUpdate();
       }
       this.$emit('setIsLoading', true);
-      ApiService.createEOI(this.data, this.isSubmitted)
+      EOIService.createEOI(this.data, this.isSubmitted)
         .then((response) => {
           if (this.eoiDocuments.length > 0) {
             this.handleUploadDocuments(response.data);
@@ -1261,7 +1262,7 @@ export default {
       this.showError = !this.isFormValid;
       if (this.isFormValid) {
         this.$emit('setIsLoading', true);
-        ApiService.createEOI(this.data, this.isSubmitted)
+        EOIService.createEOI(this.data, this.isSubmitted)
           .then(async (response) => {
             if (this.eoiDocuments.length > 0) {
               this.handleUploadDocuments(response.data);

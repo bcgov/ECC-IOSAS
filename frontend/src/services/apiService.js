@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiRoutes } from '../utils/constants';
-import AuthService from '../common/authService';
+import AuthService from './authService';
 
 // Buffer concurrent requests while refresh token is being acquired
 let failedQueue = [];
@@ -174,59 +174,6 @@ export default {
       return await apiAxios.get(ApiRoutes.meta.MULTI_PICK_LISTS(tableName));
     } catch (e) {
       console.log(`Failed to get from Nodejs getPickLists API - ${e}`);
-      throw e;
-    }
-  },
-
-  // Expression of Interest
-  async getEOIDocuments(id) {
-    try {
-      return await apiAxios.get(ApiRoutes.documents.EOI_DOCUMENTS(id));
-    } catch (e) {
-      console.log(`Failed to get from Nodejs getEOIDocuments API -${e}`);
-      throw e;
-    }
-  },
-  async getAllEOIByUser() {
-    try {
-      return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATIONS);
-    } catch (e) {
-      console.log(`Failed to get from Nodejs getAllEOIByUser API - ${e}`);
-      throw e;
-    }
-  },
-  async getEOIById(id) {
-    try {
-      return await apiAxios.get(ApiRoutes.eoi.EOI_APPLICATION(id));
-    } catch (e) {
-      console.log(`Failed to get from Nodejs getEOIById API - ${e}`);
-      throw e;
-    }
-  },
-  async createEOI(payload, submitted) {
-    try {
-      return await apiAxios.post(ApiRoutes.eoi.CREATE_EOI(submitted), payload);
-    } catch (e) {
-      console.log(`Failed to post to Nodejs createEOI API - ${e}`);
-      throw e;
-    }
-  },
-  async updateEOI(eoiId, payload, submitted) {
-    try {
-      return await apiAxios.patch(
-        ApiRoutes.eoi.UPDATE_EOI(submitted, eoiId),
-        payload
-      );
-    } catch (e) {
-      console.log(`Failed to patch to Nodejs updateEOI API - ${e}`);
-      throw e;
-    }
-  },
-  async cancelEOI(id) {
-    try {
-      return await apiAxios.patch(ApiRoutes.eoi.CANCEL_EOI(id));
-    } catch (e) {
-      console.log(`Failed to patch to Nodejs cancelEOI API - ${e}`);
       throw e;
     }
   },

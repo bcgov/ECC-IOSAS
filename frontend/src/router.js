@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from './components/Home.vue';
-import Logout from './components/Logout.vue';
+import Logout from './components/auth/Logout.vue';
 
-import SessionExpired from './components/SessionExpired.vue';
-import ErrorPage from './components/ErrorPage.vue';
-import LoginError from './components/LoginError.vue';
+import SessionExpired from './components/auth/SessionExpired.vue';
+import ErrorPage from './components/auth/ErrorPage.vue';
+import LoginError from './components/auth/LoginError.vue';
 import Unauthorized from './components/common/Unauthorized.vue';
 import { authStore } from './store/modules/auth';
 import { appStore } from './store/modules/app';
-import Login from './components/Login.vue';
-import BackendSessionExpired from './components/BackendSessionExpired.vue';
+import Login from './components/auth/Login.vue';
+import BackendSessionExpired from './components/auth/BackendSessionExpired.vue';
 import { PAGE_TITLES } from './utils/constants';
 import ExpressionOfInterestPage from './components/EOI/ExpressionOfInterestPage.vue';
 import NewExpressionOfInterestPage from './components/EOI/NewExpressionOfInterestPage.vue';

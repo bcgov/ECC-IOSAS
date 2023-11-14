@@ -75,14 +75,14 @@
 </template>
 
 <script>
-import Login from './Login.vue';
+import Login from './auth/Login.vue';
 import { authStore } from '../store/modules/auth';
 import { applicationsStore } from '../store/modules/applications';
 import { AuthRoutes } from '../utils/constants';
 import { mapActions, mapState } from 'pinia';
 import { GOV_URL } from '../utils/constants';
 import PrimaryButton from './util/PrimaryButton.vue';
-import DataTable from './util/DataTable.vue';
+import DataTable from './common/DataTable.vue';
 import ContactCard from './common/ContactCard.vue';
 import RelatedLinksCard from './common/RelatedLinksCard.vue';
 import Loader from './util/Loader.vue';

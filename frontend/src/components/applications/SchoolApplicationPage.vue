@@ -21,8 +21,8 @@
 
 <script>
 import SchoolApplicationForm from './SchoolApplicationForm.vue';
-import ApplicationService from '../../common/applicationService';
-import ApiService from '../../common/apiService';
+import ApplicationService from '../../services/applicationService';
+import ApiService from '../../services/apiService';
 import alertMixin from './../../mixins/alertMixin';
 import { mapState, mapActions } from 'pinia';
 import { applicationsStore } from '../../store/modules/applications';

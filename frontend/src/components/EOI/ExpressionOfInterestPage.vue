@@ -43,7 +43,8 @@ import ExpressionOfInterestForm from './ExpressionOfInterestForm.vue';
 import ExpressionOfInterestReadOnlyView from './ExpressionOfInterestReadOnlyView.vue';
 import ContactCard from '../common/ContactCard.vue';
 import RelatedLinksCard from '../common/RelatedLinksCard.vue';
-import ApiService from '../../common/apiService';
+import ApiService from '../../services/apiService';
+import EOIService from '../../services/eoiService';
 import alertMixin from './../../mixins/alertMixin';
 import { EOI_STATUS_CODES } from '../../utils/application';
 import { mapState, mapActions } from 'pinia';
@@ -145,7 +146,7 @@ export default {
     async updateEOIData(id, payload, isSubmitted, documents) {
       try {
         this.setIsLoading(true);
-        const updateResponse = await ApiService.updateEOI(
+        const updateResponse = await EOIService.updateEOI(
           id,
           payload,
           isSubmitted

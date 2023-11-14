@@ -63,7 +63,8 @@
               >Are you aware of the requirements of
               <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
                 teacher certification</a
-              >as they relate employees of Group 2, or 4 schools?</v-label
+              >
+              as they relate employees of Group 2, or 4 schools?</v-label
             >
           </v-col>
           <v-col cols="4">
