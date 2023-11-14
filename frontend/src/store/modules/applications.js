@@ -113,7 +113,7 @@ export const applicationsStore = defineStore('applications', {
     async getEOIApplicationById(eoiId) {
       const response = await EOIService.getEOIById(eoiId);
 
-      const documentResponse = await ApiService.getEOIDocuments(eoiId);
+      const documentResponse = await EOIService.getEOIDocuments(eoiId);
       const documents = documentResponse.data.value
         ? documentResponse.data.value.map((doc) => ({
             fileName: doc.iosas_file_name || doc.iosas_name,

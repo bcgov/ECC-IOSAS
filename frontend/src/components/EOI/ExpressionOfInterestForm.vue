@@ -1295,7 +1295,7 @@ export default {
             regardingId: eoiID,
             regardingType: 'iosas_expressionofinterest',
           };
-          await EOIService.uploadFile(payload)
+          await ApiService.uploadFile(payload)
             .then((response) => {
               return response;
             })

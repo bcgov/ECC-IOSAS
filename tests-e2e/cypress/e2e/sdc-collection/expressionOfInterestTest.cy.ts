@@ -1,4 +1,3 @@
-import {Selectors} from "../../support/selectors";
 
 before(() => {
     cy.visit('/');
@@ -7,7 +6,6 @@ before(() => {
 
 describe('IOSAS Expression OF Interest test', () => {
     it('Create new EOI - Happy Path', () => {
-        const selectors = new Selectors();
         cy.contains('button', 'Create new EOI').click();
 
 
@@ -24,13 +22,6 @@ describe('IOSAS Expression OF Interest test', () => {
 
        cy.get('input[id="iosas_website"]').clear().type('www.cypress.io')
        cy.contains('label', 'Group 4').click()
-
-
-    //    cy.get('input[id="iosas_startgrade"]').parent().click()
-    //    cy.get('li').first().click({force: true})
-
-    //    cy.get('input[id="iosas_endgrade"]').parent().click() 
-    //     cy.get('li').eq(5).click({force: true})
 
        cy.contains('button', 'Save Draft').click();
     })

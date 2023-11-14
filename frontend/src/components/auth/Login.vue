@@ -3,7 +3,7 @@
     <div class="header">
       <img
         tabindex="-1"
-        src="../assets/images/IOSASBackground.png"
+        src="./../../assets/images/IOSASBackground.png"
         alt="Independent School Logo"
       />
       <h1>Welcome to the Independent School BC Portal</h1>
