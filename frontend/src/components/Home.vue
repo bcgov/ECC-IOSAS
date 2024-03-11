@@ -42,7 +42,7 @@
           <br />
           <DataTable
             :data="schoolApplications"
-            title="New School Application"
+            title="New School Applications"
             :routeName="routes.APP"
           />
         </v-container>
