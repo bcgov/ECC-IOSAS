@@ -33,7 +33,7 @@
         <v-container>
           <DataTable
             :data="eoiApplications"
-            title="Expressions of Interest(EOI)"
+            title="Expressions of Interest (EOI)"
             :buttonAction="redirectToEOIForm"
             buttonTitle="Create new EOI"
             :routeName="routes.EOI"
@@ -42,7 +42,7 @@
           <br />
           <DataTable
             :data="schoolApplications"
-            title="New School Applications"
+            title="New School Application"
             :routeName="routes.APP"
           />
         </v-container>
