@@ -33,7 +33,7 @@
         <v-container>
           <DataTable
             :data="eoiApplications"
-            title="Expressions of Interest (EOI)"
+            title="Expressions of Interest(EOI)"
             :buttonAction="redirectToEOIForm"
             buttonTitle="Create new EOI"
             :routeName="routes.EOI"
@@ -91,6 +91,7 @@ export default {
   name: 'Home',
   components: {
     Login,
+    // eslint-disable-next-line vue/no-unused-components
     PrimaryButton,
     DataTable,
     ContactCard,
