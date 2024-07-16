@@ -144,7 +144,7 @@ export const GOV_URL = {
   independentSchoolContractsUrl:
     'https://bcschoolcontacts.gov.bc.ca/',
   schoolInfoUpdateUrl:
-    'https://bcschoolcontacts.gov.bc.ca/',
+    'https://educationdataexchange.gov.bc.ca/login',
   teacherCertificationUrl:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/public-schools/teacher-certification?keyword=teacher&keyword=certification',
   FISAUrl: 'https://fisabc.ca/',
