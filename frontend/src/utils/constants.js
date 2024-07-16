@@ -142,9 +142,9 @@ export const GOV_URL = {
   criminalRecordCheckUrl:
     'https://www2.gov.bc.ca/gov/content/safety/crime-prevention/criminal-record-check',
   independentSchoolContractsUrl:
-    'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/IndSchool.do?school_category=Independent%20School',
+    'https://bcschoolcontacts.gov.bc.ca/',
   schoolInfoUpdateUrl:
-    'http://www.bced.gov.bc.ca/apps/imcl/imclWeb/SchoolUpdateForm.do',
+    'https://educationdataexchange.gov.bc.ca/login',
   teacherCertificationUrl:
     'https://www2.gov.bc.ca/gov/content/education-training/k-12/administration/legislation-policy/public-schools/teacher-certification?keyword=teacher&keyword=certification',
   FISAUrl: 'https://fisabc.ca/',
