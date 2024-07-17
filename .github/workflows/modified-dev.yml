@@ -1,6 +1,4 @@
-#Mchintha
-
-name: Build & Deploy to DEV
+name: Build & Deploy to Frontend DEV
 
 env:
   # 🖊️ EDIT your repository secrets to log into your OpenShift cluster and set up the context.
@@ -59,7 +57,7 @@ on:
 
 jobs:
   build-and-deploy-dev:
-    name: Build and deploy to DEV
+    name: Build and deploy to Frontend DEV
     # ubuntu-latest can also be used.
     runs-on: ubuntu-22.04
     environment: dev
@@ -84,7 +82,7 @@ jobs:
             }
             else {
               core.info("A registry password is required");
-              secrets["IMAGE_REGISTRY_PASSWORD"] = `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`;
+              secrets["IMAGE_REGISTRY_PASSWORD"] = `${{ env.IMAGE_REGISTRY_PASSWORD }}`;
             }
             
             const missingSecrets = Object.entries(secrets).filter(([ name, value ]) => {
