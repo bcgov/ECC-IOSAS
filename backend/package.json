@@ -1,7 +1,7 @@
 {
-  "name": "edx-backend",
+  "name": "iosas-backend",
   "version": "0.0.1",
-  "description": "The backend portion of the EDX web app",
+  "description": "The backend portion of the IOSAS web app",
   "scripts": {
     "serve": "npm run setlocal && npm run servecmd",
     "serve-linux": "export NODE_ENV='local' && nodemon ./src/server.js",
@@ -165,9 +165,9 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bcgov/EDUC-EDX.git"
+    "url": "git+https://github.com/bcgov/ECC-IOSAS.git"
   },
   "bugs": {
-    "url": "https://github.com/bcgov/EDUC-EDX/issues"
+    "url": "https://github.com/bcgov/ECC-IOSAS/issues"
   }
 }
