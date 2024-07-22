@@ -132,7 +132,7 @@ jobs:
           # Or, perform a source-to-image build using https://github.com/redhat-actions/s2i-build
           # Otherwise, point this to your Dockerfile/Containerfile relative to the repository root.
           dockerfiles: |
-            ./backend/Dockerfile
+            ./backend/Dockerfile1
           context: ./backend
 
         # https://github.com/redhat-actions/push-to-registry#readme
@@ -157,7 +157,7 @@ jobs:
           # Or, perform a source-to-image build using https://github.com/redhat-actions/s2i-build
           # Otherwise, point this to your Dockerfile/Containerfile relative to the repository root.
           dockerfiles: |
-            ./frontend/Dockerfile
+            ./frontend/Dockerfile1
           context: ./frontend
 
         # https://github.com/redhat-actions/push-to-registry#readme
