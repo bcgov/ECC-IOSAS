@@ -26,7 +26,7 @@ const auth = {
   },
 
   // Check if JWT Refresh Token has expired
-  isRenewable(token, context = 'NA') {
+  isRenewable(token) {
     const now = Date.now().valueOf() / 1000;
     const payload = jsonwebtoken.decode(token);
     if (!payload.iat || typeof payload.iat === 'undefined') {
@@ -60,7 +60,7 @@ const auth = {
           client_secret: config.get('oidc:clientSecret'),
           grant_type: 'refresh_token',
           refresh_token: refreshToken,
-          scope: discovery.scopes_supported,
+          scope: 'openid profile',
         }),
         {
           headers: {
@@ -166,7 +166,7 @@ const auth = {
           client_id: config.get('oidc:clientId'),
           client_secret: config.get('oidc:clientSecret'),
           grant_type: 'client_credentials',
-          scope: discovery.scopes_supported,
+          scope: 'openid profile',
         }),
         {
           headers: {

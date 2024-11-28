@@ -122,7 +122,7 @@ function addLoginPassportUse(
         _issuer,
         profile,
         _context,
-        _idToken,
+        idToken,
         accessToken,
         refreshToken,
         done
@@ -143,6 +143,7 @@ function addLoginPassportUse(
         profile.jwtFrontend = auth.generateUiToken();
         profile.jwt = accessToken;
         profile._json = userInfo;
+        profile.idToken = idToken;
         profile.refreshToken = refreshToken;
         log.info(`Passport | Access token: { ${accessToken} }`);
         try {

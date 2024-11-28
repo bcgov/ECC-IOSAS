@@ -75,6 +75,7 @@ function addBaseRouterGet(strategyName, callbackURI) {
     callbackURI,
     passport.authenticate(strategyName, {
       failureRedirect: 'error',
+      scope: 'openid profile'
     })
   );
 }
@@ -88,38 +89,30 @@ addBaseRouterGet(
 
 //removes tokens and destroys session
 router.get('/logout', async (req, res, next) => {
+  let idToken = req?.session?.passport?.user?.idToken;
+
+  const makeUrl = endpoint => {
+    return config.get('logoutEndpoint')
+      + `?post_logout_redirect_uri=${config.get('server:frontend')}`
+      + endpoint
+      + (idToken ? `&id_token_hint=${idToken}` : `&client_id=${config.get('oidc:clientId')}`);
+  };
+
   req.logout(function (err) {
     if (err) {
       return next(err);
     }
-    req.session.destroy();
-    const logoutURL = config.get('logoutEndpoint');
     let retUrl;
     if (req.query && req.query.sessionExpired) {
-      retUrl =
-        logoutURL +
-        '?post_logout_redirect_uri=' +
-        config.get('server:frontend') +
-        '/session-expired';
+      retUrl = makeUrl('/session-expired');
     } else if (req.query && req.query.loginError) {
-      retUrl =
-        logoutURL +
-        '?post_logout_redirect_uri=' +
-        config.get('server:frontend') +
-        '/login-error';
+      retUrl = makeUrl('/login-error');
     } else if (req.query && req.query.loginBceid) {
-      retUrl =
-        logoutURL +
-        '?post_logout_redirect_uri=' +
-        config.get('server:frontend') +
-        '/api/auth/login_bceid';
+      retUrl = makeUrl('/api/auth/login_bceid');
     } else {
-      retUrl =
-        logoutURL +
-        '?post_logout_redirect_uri=' +
-        config.get('server:frontend') +
-        '/logout';
+      retUrl = makeUrl('/logout');
     }
+    req.session.destroy();
     log.info('Logout redirection: ', retUrl);
     const redirectURL = encodeURIComponent(retUrl);
     res.redirect(config.get('siteMinder_logout_endpoint') + redirectURL);
