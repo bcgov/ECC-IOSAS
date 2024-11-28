@@ -1,12 +1,12 @@
 name: Build & Deploy to Frontend DEV
 
 env:
-  # 🖊️ EDIT your repository secrets to log into your OpenShift cluster and set up the context.
+  # EDIT your repository secrets to log into your OpenShift cluster and set up the context.
   # See https://github.com/redhat-actions/oc-login#readme for how to retrieve these values.
   # To get a permanent token, refer to https://github.com/redhat-actions/oc-login/wiki/Using-a-Service-Account-for-GitHub-Actions
   OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
   OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
-  # 🖊️ EDIT to set the kube context's namespace after login. Leave blank to use your user's default namespace.
+  # EDIT to set the kube context's namespace after login. Leave blank to use your user's default namespace.
   OPENSHIFT_NAMESPACE_DEV: ${{ secrets.IOSAS_NAMESPACE_NO_ENV }}-dev
   OPENSHIFT_NAMESPACE_TEST: ${{ secrets.EDX_NAMESPACE_NO_ENV }}-test
 
@@ -16,7 +16,7 @@ env:
   CERTIFICATE: ${{ secrets.CERT }}
   PRIVATE_KEY: ${{ secrets.PRIV_KEY }}
 
-  # 🖊️ EDIT to change the image registry settings.
+  # EDIT to change the image registry settings.
   # Registries such as GHCR, Quay.io, and Docker Hub are supported.
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
   IMAGE_REGISTRY_USER: ${{ github.actor }}
@@ -52,9 +52,7 @@ env:
   #SITE_URL: dev-ecc-iosas.apps.silver.devops.gov.bc.ca
 
 on:
-  push:
-    branches:
-      - main-dev
+  workflow_dispatch:
 
 jobs:
   build-and-deploy-dev:
