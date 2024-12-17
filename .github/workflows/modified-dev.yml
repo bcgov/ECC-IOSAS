@@ -1,4 +1,4 @@
-name: Build & Deploy to Frontend DEV
+name: Build & Deploy to DEV
 
 env:
   # EDIT your repository secrets to log into your OpenShift cluster and set up the context.
@@ -30,7 +30,7 @@ env:
 
   APP_NAME: "iosas"
   REPO_NAME: "ecc-iosas"
-  BRANCH: "main-dev"
+  BRANCH: "modifiedmain-dev"
   APP_NAME_BACKEND: "iosas-backend"
   APP_NAME_FRONTEND: "iosas-frontend"
   APP_NAME_FRONTEND_STATIC: "iosas-frontend-static"
@@ -202,7 +202,7 @@ jobs:
           oc process -f tools/openshift/frontend1-static.dc.yaml -p APP_NAME=${{ env.APP_NAME }} -p REPO_NAME=${{ env.REPO_NAME }} -p BRANCH=${{ env.BRANCH }} -p NAMESPACE=${{ env.OPENSHIFT_NAMESPACE_DEV }} -p TAG=${{ env.TAG }} -p MIN_REPLICAS=${{ env.MIN_REPLICAS_DEV }} -p MAX_REPLICAS=${{ env.MAX_REPLICAS_DEV }} -p MIN_CPU=${{ env.MIN_CPU }} -p MAX_CPU=${{ env.MAX_CPU }} -p MIN_MEM=${{ env.MIN_MEM }} -p MAX_MEM=${{ env.MAX_MEM }} -p HOST_ROUTE=${{ env.HOST_ROUTE }} -p CA_CERT="${{ env.CA_CERT }}" -p CERTIFICATE="${{ env.CERTIFICATE }}" -p PRIVATE_KEY="${{ env.PRIVATE_KEY }}"\
           | oc apply -f -
           
-          curl -s https://raw.githubusercontent.com/bcgov/${{ env.REPO_NAME }}/main-dev/tools/config/update-configmap.sh | bash /dev/stdin dev ${{ env.APP_NAME }} ${{ env.NAMESPACE }} ${{ env.COMMON_NAMESPACE }}
+          curl -s https://raw.githubusercontent.com/bcgov/${{ env.REPO_NAME }}/modifiedmain-dev/tools/config/update-configmap.sh | bash /dev/stdin dev ${{ env.APP_NAME }} ${{ env.NAMESPACE }} ${{ env.COMMON_NAMESPACE }}
           
           # Start rollout (if necessary) and follow it
           oc rollout latest dc/${{ env.IMAGE_NAME }} 2> /dev/null \
@@ -215,6 +215,6 @@ jobs:
           oc rollout status dc/${{ env.IMAGE_NAME }}
 
       - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.7.0
+        uses: zaproxy/action-full-scan@v0.12.0
         with:
           target: 'https://${{ env.HOST_ROUTE }}'

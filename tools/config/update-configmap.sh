@@ -2,23 +2,23 @@ envValue=$1
 APP_NAME=$2
 OPENSHIFT_NAMESPACE=$3
 COMMON_NAMESPACE=$4
-SPLUNK_TOKEN=$5
+#SPLUNK_TOKEN=$5
 APP_NAME_UPPER=${APP_NAME^^}
 
 TZVALUE="America/Vancouver"
 SOAM_KC_REALM_ID="master"
 SOAM_KC=soam-$envValue.apps.silver.devops.gov.bc.ca
 siteMinderLogoutUrl=""
-HOST_ROUTE="edx-${OPENSHIFT_NAMESPACE}-${envValue}.apps.silver.devops.gov.bc.ca"
+HOST_ROUTE="iosas-${OPENSHIFT_NAMESPACE}-${envValue}.apps.silver.devops.gov.bc.ca"
 #HOST_ROUTE="${envValue}.educationdataexchange.gov.bc.ca"
 #SERVER_FRONTEND="https://${envValue}.educationdataexchange.gov.bc.ca"
-SERVER_FRONTEND="https://${envValue}.educationdataexchange.gov.bc.ca"
+SERVER_FRONTEND="https://${envValue}.independentschoolservices.gov.bc.ca"
 if [ "$envValue" != "prod" ]
 then
   siteMinderLogoutUrl="https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 else
-  SERVER_FRONTEND="https://educationdataexchange.gov.bc.ca"
-  HOST_ROUTE="educationdataexchange.gov.bc.ca"
+  SERVER_FRONTEND="https://independentschoolservices.gov.bc.ca"
+  HOST_ROUTE="independentschoolservices.gov.bc.ca"
   siteMinderLogoutUrl="https://logon7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 fi
 NATS_CLUSTER=educ_nats_cluster

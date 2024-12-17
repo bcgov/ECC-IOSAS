@@ -9,7 +9,7 @@ env:
   OPENSHIFT_NAMESPACE: ${{ secrets.IOSAS_NAMESPACE_NO_ENV }}-dev
 
   REPO_NAME: "ecc-iosas"
-  BRANCH: "main-dev"
+  #BRANCH: "modifiedmain-dev"
   NAMESPACE: ${{ secrets.IOSAS_NAMESPACE_NO_ENV }}
 
 on:
