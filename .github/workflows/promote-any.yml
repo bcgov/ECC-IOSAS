@@ -44,6 +44,10 @@ jobs:
         run: |
           echo "PUBLIC_HOST=$(make get-ui-url)" >> $GITHUB_ENV
           echo "OC_NAMESPACE=$(make get-oc-namespace)" >> $GITHUB_ENV
+      - name: Install oc
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: 4
       - name: Tag build and deploy application
         working-directory: './tools'
         run: |
