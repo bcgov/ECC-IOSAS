@@ -1,5 +1,5 @@
 # Configuring target env
-name: Prmoting app manually
+name: Promoting app manually
 
 on:
   workflow_dispatch:
