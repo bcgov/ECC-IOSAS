@@ -1,8 +1,5 @@
 -include ../.env
-
-if [ -f ../.env ]; then
-	export $(shell sed 's/=.*//' ../.env)
-fi
+export $(shell sed 's/=.*//' ../.env 2> /dev/null)
 
 .DEFAULT_GOAL := default
 export GIT_LOCAL_BRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
