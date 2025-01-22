@@ -1,5 +1,8 @@
 -include ../.env
-export $(shell sed 's/=.*//' ../.env)
+
+if [ -f ../.env ]; then
+	export $(shell sed 's/=.*//' ../.env)
+fi
 
 .DEFAULT_GOAL := default
 export GIT_LOCAL_BRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
@@ -118,10 +121,6 @@ oc-deploy-api: | print-status deploy-api
 oc-build-web: | print-status build-web
 oc-deploy-web: | print-status deploy-web
 
-
-
-
-
 print-status:
 	@echo " +---------------------------------------------------------+ "
 	@echo " | Current Settings                                        | "
@@ -159,8 +158,6 @@ init-api-config:
 	@oc -n $(NAMESPACE) process -f openshift/api-pre-req.yml \
 		-p SOAM_CLIENT_ID=$(SOAM_CLIENT_ID) \
 		-p SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET) | oc -n $(NAMESPACE) apply -f -
-
-
 
 init-api-sec:
 	@echo "\n Generating keys for backend for namespace $(NAMESPACE) \n"
