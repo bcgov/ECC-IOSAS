@@ -1,5 +1,5 @@
 # Configuring target env
-name: Prmoting app to env
+name: Promoting app to env
 
 on:
   push:
