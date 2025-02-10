@@ -35,7 +35,7 @@ MIN_MEMORY=128Mi
 ifeq ($(ENV_PREFIX), dev)
 NAMESPACE=$(NAMESPACE_DEV)
 #/clp-cgi/logoff.cgi?returl=`
-SITE_MINDER_LOGOUT_URL="https://logontest7.gov.bc.ca?retnow=1&returl=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/master/protocol/openid-connect/logout?post_logout_redirect_uri=https://dev.independentschoolservices.gov.bc.ca/logout"
+SITE_MINDER_LOGOUT_URL="https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 SOAM_CLIENT_ID=$(SOAM_CLIENT_ID_DEV)
 SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET_DEV)
 SOAM_DISCOVERY=https://soam-dev.apps.silver.devops.gov.bc.ca/auth/realms/IOSAS/.well-known/openid-configuration
