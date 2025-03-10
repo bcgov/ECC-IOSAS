@@ -4,7 +4,7 @@ const dynamicRoot = baseRoot + '/dynamic';
 
 //Authentication endpoints
 export const AuthRoutes = Object.freeze({
-  LOGIN: authRoot +  '/login',
+  LOGIN: '/login',
   DASHBOARD: '/',
   LOGIN_BCEID: authRoot + '/logout?loginBceid=true',
   LOGOUT: authRoot + '/logout',
