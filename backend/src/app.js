@@ -115,7 +115,7 @@ function addLoginPassportUse(
         clientID: config.get('oidc:clientId'),
         clientSecret: config.get('oidc:clientSecret'),
         callbackURL: callbackURI,
-        scope: discovery.scopes_supported,
+        scope: 'openid profile',
         kc_idp_hint: kc_idp_hint,
       },
       async (
