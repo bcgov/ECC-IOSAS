@@ -27,7 +27,7 @@ export PUBLIC_HOST := $(or $(PUBLIC_HOST), dev.independentschoolservices.gov.bc.
 HOST_PREFIX= $(ENV_PREFIX)
 
 MAX_CPU=100m
-MIN_CPU=50m
+MIN_CPU=16m
 MAX_MEMORY=200Mi
 MIN_MEMORY=128Mi
 
