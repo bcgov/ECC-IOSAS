@@ -74,7 +74,7 @@ jobs:
           -p PRIVATE_KEY="${{ secrets.PRIV_KEY }}" | oc --namespace=${{ env.OC_NAMESPACE }} apply -f -
       - name: Tag Deployment
         run: |
-          ABBREV_REF=$(git rev-parse --abbrev-ref HEAD)
+          ABBREV_REF=$(git rev-parse --short=7 HEAD)
           git config user.name ${{ github.actor }}
           git config user.email "iosas-action@gov.bc.ca"
           git tag -a ${{ env.ENV_PREFIX }}-$ABBREV_REF -m "${{ env.ENV_PREFIX }} Portal: The deploy date time tag"
