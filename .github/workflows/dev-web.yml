@@ -38,6 +38,10 @@ jobs:
             src:
               - 'frontend/**'
           base: ${{ github.ref }}
+      - name: Install oc
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: 4
       - name: Build changes
         if: steps.changes.outputs.src == 'true'
         working-directory: './tools'
