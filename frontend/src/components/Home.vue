@@ -52,18 +52,12 @@
         <v-card title="Tips" variant="tonal" class="reference-cards">
           <div class="content">
             <p>
-              Submit an Expression of Interest to start the New School
-              Application process. Once your EOI is approved, you will receive
-              an invitation to submit an application.
-            </p>
-            <br />
-            <p>
-              New school proponents are solely responsible for being aware of,
+              New school applicants are solely responsible for being aware of,
               and meeting, all the submission dates, and other requirements set
               out in the
-              <a :href="GOV_URL.establishingSchoolURL" target="_blank"
-                >procedures</a
-              >.
+              <a :href="GOV_URL.establishingSchoolURL" target="_blank">
+                Establishing an Independent School Policy
+              </a>.
             </p>
           </div>
         </v-card>

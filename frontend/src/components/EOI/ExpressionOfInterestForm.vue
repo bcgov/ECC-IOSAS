@@ -24,7 +24,7 @@
         <div class="d-flex justify-space-between">
           <h1>Expression of Interest</h1>
         </div>
-        <IndependentSchoolDisclaimer />
+        <CreateNewEOIPage />
         <br />
         <v-divider></v-divider>
         <div>
@@ -32,14 +32,13 @@
             <EOIFormHeader :eoi="data" />
             <v-divider></v-divider>
           </div>
-          <h4>School Authority Information</h4>
+          <h4>School Authority Contacts</h4>
           <br />
           <v-row>
             <v-col cols="12">
-              <v-label class="no-mb"
-                >Is this Expression of Interest for an existing School
-                Authority?</v-label
-              >
+              <v-label class="no-mb">
+                Is this Expression of Interest for an existing School Authority?
+              </v-label>
               <v-radio-group
                 id="iosas_existingauthority"
                 v-model="data.iosas_existingauthority"
@@ -62,7 +61,7 @@
               xs="12"
               v-if="data.iosas_existingauthority"
             >
-              <v-label>Search for School Authority By Name</v-label>
+              <v-label>School Authority Name</v-label>
               <v-autocomplete
                 label="School Authority Name"
                 id="_iosas_edu_schoolauthority_value"
@@ -95,7 +94,7 @@
             </v-col>
           </v-row>
           <br />
-          <v-label>Authority Mailing Address</v-label>
+          <v-label>Address Information</v-label>
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
               <v-text-field
@@ -180,12 +179,11 @@
           <br />
 
           <div>
-            <v-label class="no-mb">Designated Authority Contact</v-label>
-            <v-label class="sm"
-              >The designated contact is the person who will receive follow-up
-              emails and contact by the ministry regarding this
-              application.</v-label
-            >
+            <h4>Designated Contact</h4>
+            <v-label class="sm">
+              The designated contact is the person who will receive follow-up
+              communications and contact by the ministry regarding this application.
+            </v-label>
             <v-row class="mb-5">
               <v-col cols="12" sm="12" md="12" xs="12">
                 <v-checkbox
@@ -247,7 +245,7 @@
               </v-col>
             </v-row>
           </div>
-          <v-row>
+<!--          <v-row>
             <v-col cols="12">
               <v-label class="no-mb"
                 >Is the School Authority Head the same person as the Designated
@@ -266,8 +264,8 @@
                 <v-radio label="No" color="#003366" :value="false" />
               </v-radio-group>
             </v-col>
-          </v-row>
-          <div>
+          </v-row>-->
+          <!--<div>
             <v-label class="no-mb">School Authority Head</v-label>
             <br />
             <v-label class="sm">(ie board chair or lead director)</v-label>
@@ -325,7 +323,7 @@
                 </v-col>
               </v-row>
             </div>
-          </div>
+          </div>-->
           <br />
 
           <v-divider></v-divider>
@@ -333,6 +331,7 @@
           <br />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
+              <v-label class="no-mb">Proposed School Name</v-label>
               <v-text-field
                 id="iosas_proposedschoolname"
                 v-model="data.iosas_proposedschoolname"
@@ -470,7 +469,7 @@
           <v-row>
             <v-col cols="12">
               <v-label class="no-mb">
-                Group Classification applying for:
+                Group Classification question
                 <a :href="GOV_URL.groupClassificationUrl" target="_blank"
                   >(Group classification Information)</a
                 >
@@ -636,14 +635,10 @@
             <v-row>
               <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label class="no-mb">Certificate of Good Standing</v-label>
-                <v-label class="sm"
-                  >Required if original incorporation documents are more than 6
-                  months old. For information please see
-                  <a
-                    :href="GOV_URL.certificateOfGoodStandingUrl"
-                    target="_blank"
-                    >Certificates of Good Standing.
-                  </a>
+                <v-label class="sm">
+                  A Certificate of Good Standing is required if incorporation documents are more than 12 months old. The official
+                  <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank">Certificate of Good Standing</a>
+                  must be received prior to the EOI deadline.
                 </v-label>
 
                 <div
@@ -705,7 +700,7 @@
                 />
               </v-col>
             </v-row>
-            <v-row>
+<!--            <v-row>
               <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label>Other (Optional)</v-label>
                 <div
@@ -742,10 +737,10 @@
                 >
               </v-col>
               <v-col cols="12" sm="12" md="6" xs="12" />
-            </v-row>
+            </v-row>-->
           </div>
           <br />
-          <v-divider></v-divider>
+<!--          <v-divider></v-divider>
           <v-label>Additional Notes (Optional)</v-label>
           <v-row>
             <v-col cols="12" sm="12" md="12" xs="12">
@@ -758,7 +753,7 @@
                 color="rgb(59, 153, 252)"
               />
             </v-col>
-          </v-row>
+          </v-row>-->
 
           <br />
           <br />
@@ -835,7 +830,6 @@ import { authStore } from './../../store/modules/auth';
 import { metaDataStore } from './../../store/modules/metaData';
 import { applicationsStore } from './../../store/modules/applications';
 import { documentStore } from './../../store/modules/document';
-import IndependentSchoolDisclaimer from '../common/IndependentSchoolDisclaimer.vue';
 import { mapState, mapActions } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
@@ -853,11 +847,12 @@ import {
 import PrimaryButton from './../util/PrimaryButton.vue';
 import EOIFormHeader from './EOIFormHeader.vue';
 import RequiredMessage from '../util/RequiredMessage.vue';
+import CreateNewEOIPage from '../common/CreateNewEOIPage.vue';
 
 export default {
   name: 'ExpressionOfInterestForm',
   components: {
-    IndependentSchoolDisclaimer,
+    CreateNewEOIPage,
     PrimaryButton,
     ConfirmationDialog,
     DocumentUpload,
@@ -1236,7 +1231,7 @@ export default {
             this.handleUploadDocuments(response.data);
           }
           this.setSuccessAlert(
-            `Success! A Draft Expression of Interest has been created!`
+            'Success! A Draft Expression of Interest has been created!'
           );
           this.$router.push({
             name: 'expressionOfInterestPage',
