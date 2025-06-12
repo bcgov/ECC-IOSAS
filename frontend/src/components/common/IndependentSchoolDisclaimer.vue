@@ -3,7 +3,7 @@
     <p class="mt-3">
       This website provides a service for people wishing to open a new independent school in British Columbia.
     </p>
-<!--    <p class="mt-3">
+    <p class="mt-3">
       Independent schools are regulated by the
       <a :href="GOV_URL.independentActUrl" target="_blank">
         Independent School Act (PDF).</a>
@@ -12,7 +12,7 @@
         >regulations, Minister's and Inspector's Orders</a>
       made under the Act.
     </p>
-    -->
+
     <p class="mt-3">
       Please review the information at
       <a :href="GOV_URL.establishingSchoolURL" target="_blank">
@@ -34,7 +34,7 @@
       regulations, Minister's and Inspector's Orders<!--</a>-->
       made under the Act. (See
       <a :href="GOV_URL.schoolManualLawURL" target="_blank">
-        Manual of School Law K-12 - Province of British Columbia Twenty-Third Edition.)</a>
+        Manual of School Law K-12 - Province of British Columbia Twenty-Third Edition</a>.)
     </p>
     <p class="mt-3">
       If you have any questions about the collection of personal information, or
