@@ -3,7 +3,7 @@
     <p class="mt-3">
       This website provides a service for people wishing to open a new independent school in British Columbia.
     </p>
-    <p class="mt-3">
+<!--    <p class="mt-3">
       Independent schools are regulated by the
       <a :href="GOV_URL.independentActUrl" target="_blank">
         Independent School Act (PDF).</a>
@@ -12,6 +12,7 @@
         >regulations, Minister's and Inspector's Orders</a>
       made under the Act.
     </p>
+    -->
     <p class="mt-3">
       Please review the information at
       <a :href="GOV_URL.establishingSchoolURL" target="_blank">
@@ -29,8 +30,8 @@
       <i>Freedom of Information and Protection of Privacy Act</i>
       (FOIPPA) and will be used to administer your Independent School application and certification process under Sections 4 and 6 of the
       <i>Independent School Act</i> as well as any
-      <a :href="GOV_URL.schoolManualLawURL" target="_blank">
-      regulations, Minister's and Inspector's Orders</a>
+<!--      <a :href="GOV_URL.schoolManualLawURL" target="_blank">-->
+      regulations, Minister's and Inspector's Orders<!--</a>-->
       made under the Act. (See
       <a :href="GOV_URL.schoolManualLawURL" target="_blank">
         Manual of School Law K-12 - Province of British Columbia Twenty-Third Edition.)</a>

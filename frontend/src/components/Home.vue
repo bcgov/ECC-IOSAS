@@ -56,8 +56,8 @@
               and meeting, all the submission dates, and other requirements set
               out in the
               <a :href="GOV_URL.establishingSchoolURL" target="_blank">
-                Establishing an Independent School Policy
-              </a>.
+                Establishing an Independent School Policy.
+              </a>
             </p>
           </div>
         </v-card>

@@ -24,7 +24,9 @@
         <div class="d-flex justify-space-between">
           <h1>Expression of Interest</h1>
         </div>
-        <CreateNewEOIPage />
+        <div class="d-flex justify-space-between">
+        <CreateNewEOIPage/>
+        </div>
         <br />
         <v-divider></v-divider>
         <div>
@@ -32,7 +34,7 @@
             <EOIFormHeader :eoi="data" />
             <v-divider></v-divider>
           </div>
-          <h4>School Authority Contacts</h4>
+          <h4>School Authority Information</h4>
           <br />
           <v-row>
             <v-col cols="12">
@@ -179,11 +181,11 @@
           <br />
 
           <div>
-            <h4>Designated Contact</h4>
-            <v-label class="sm">
-              The designated contact is the person who will receive follow-up
-              communications and contact by the ministry regarding this application.
-            </v-label>
+            <v-label class="no-mb">Designated Contact</v-label>
+            <v-label class="sm"
+                     >The designated contact is the person who will receive
+                      follow-up communications and contact by the ministry regarding this application.</v-label
+            >
             <v-row class="mb-5">
               <v-col cols="12" sm="12" md="12" xs="12">
                 <v-checkbox
@@ -331,7 +333,6 @@
           <br />
           <v-row>
             <v-col cols="12" sm="12" md="8" xs="12">
-              <v-label class="no-mb">Proposed School Name</v-label>
               <v-text-field
                 id="iosas_proposedschoolname"
                 v-model="data.iosas_proposedschoolname"
@@ -636,7 +637,7 @@
               <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label class="no-mb">Certificate of Good Standing</v-label>
                 <v-label class="sm">
-                  A Certificate of Good Standing is required if incorporation documents are more than 12 months old. The official
+                  A Certificate of Good Standing is required if the incorporation documents are more than 12 months old. The official
                   <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank">Certificate of Good Standing</a>
                   must be received prior to the EOI deadline.
                 </v-label>

@@ -19,7 +19,7 @@
                 <div class="card-content">
                   <p>Enter your existing user ID and password to continue.</p>
                   <p class="pt-5">
-                    The contact information used for existing BCeID will be the contact information used for communicating the results of your Expression of Interest and, if invited, will
+                    The contact information used for an existing BCeID will be the contact information used for communicating the results of your Expression of Interest and, if invited, will
                     provide a link to fill out the online application to establish a new school.
                   </p>
                 </div>
