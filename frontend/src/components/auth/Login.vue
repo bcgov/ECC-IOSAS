@@ -17,10 +17,10 @@
             <v-col cols="12" sm="12" md="12" lg="6" xs="12">
               <v-card title="Log in with your BCeID">
                 <div class="card-content">
-                  <p>Enter your user ID and password to continue</p>
+                  <p>Enter your existing user ID and password to continue.</p>
                   <p class="pt-5">
-                    Please login using a BCeID account associated with the same
-                    email address that you used to submit your application.
+                    The contact information used for an existing BCeID will be the contact information used for communicating the results of your Expression of Interest and, if invited, will
+                    provide a link to fill out the online application to establish a new school.
                   </p>
                 </div>
 
@@ -40,16 +40,11 @@
               <v-card title="Don't have a BCeID?">
                 <div class="card-content">
                   <p>
-                    If you received an invite by email, please register using
-                    the email address that received the invite.
+                    BCeID is a user ID and password. You can use it to log into many participating government services.
                   </p>
                   <p class="pt-5">
-                    BCeID is a user ID and password. You can use it to log into
-                    many participating government services
-                  </p>
-                  <p class="pt-5">
-                    If you have logged into other B.C. government services
-                    before, you may already have an account.
+                    The contact information that you supply for your BCeID will be the contact information used for communicating the results of your Expression of Interest and,
+                    if invited, will provide a link to fill out the online application to establish a new school.
                   </p>
                 </div>
                 <v-card-actions>
@@ -57,12 +52,10 @@
                     id="register-button"
                     :href="env?.beceidRegURL"
                     target="_blank"
-                    class="ma-2"
-                  >
+                    class="ma-2">
                     Register for a BCeID <v-icon>mdi-login</v-icon>
                   </v-btn>
-                </v-card-actions></v-card
-              >
+                </v-card-actions></v-card>
             </v-col>
           </v-row>
         </div>
