@@ -14,28 +14,22 @@
         that is reported out on student report cards must hold valid British
         Columbia teaching credentials issued by the
         <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
-          Teacher Certification Branch</a
+          Teacher Regulation Branch</a
         >
-        (TCB). Initial certification of Group 2 and Group 4 schools will
-        typically not be possible for schools employing teachers relying on a
-        Letter of Permission as certification.
-      </v-label>
+        (TRB). Note: Prospective schools are discouraged from building their teaching staff with individuals on temporary Letters of Permission.</v-label>
       <br />
       <br />
       <v-label
-        >Note: All employees must have a criminal record check completed through
+        >All employees must have a criminal record check completed through
         the
         <a :href="GOV_URL.criminalRecordCheckUrl" target="_blank">
-          Ministry of Public Safety and Solicitor General.</a
-        >
-        Volunteers working with children may also have their criminal record
-        check completed by the Ministry of Public Safety and Solicitor General
-        or local police.
+          Criminal Records Review Program</a
+        >(Ministry of Public Safety and Solicitor General).
       </v-label>
       <br />
       <br />
       <div v-if="isEditing">
-        <v-label
+<!--        <v-label
           >How many teachers does the proposed school intend to employ upon
           opening?</v-label
         >
@@ -55,9 +49,9 @@
               ]"
             />
           </v-col>
-        </v-row>
+        </v-row>-->
 
-        <v-row align="center">
+<!--        <v-row align="center">
           <v-col cols="8">
             <v-label
               >Are you aware of the requirements of
@@ -89,7 +83,7 @@
               />
             </v-radio-group>
           </v-col>
-        </v-row>
+        </v-row>-->
         <v-row align="center">
           <v-col cols="8">
             <v-label
@@ -97,8 +91,7 @@
               employees who are working with children and who are not certified
               teachers, such as: administrative assistants, business managers,
               secretaries, counsellors, teacher assistants, health nurses,
-              consultants, specialists, janitors, and persons assigned other
-              special tasks?</v-label
+              consultants, specialists, janitors, and volunteers?</v-label
             >
           </v-col>
           <v-col cols="4">

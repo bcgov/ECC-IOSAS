@@ -11,7 +11,7 @@
             :rules="[rules.required()]"
             :maxlength="100"
             variant="outlined"
-            label="Name of Municipality of Regional District"
+            label="Name of Municipality or Regional District"
             color="rgb(59, 153, 252)"
           />
         </v-col>
@@ -58,7 +58,7 @@
           />
         </v-col>
       </v-row>
-      <v-row align="center">
+<!--      <v-row align="center">
         <v-col cols="8">
           <v-label
             >Can the authority confirm that lead testing consistent with the
@@ -82,11 +82,11 @@
             <v-radio label="No" color="#003366" :value="false" />
           </v-radio-group>
         </v-col>
-      </v-row>
+      </v-row>-->
       <br />
       <v-row align="center">
         <v-col cols="8">
-          <v-label>Will Students attending the school be housed in:</v-label>
+          <v-label>Will students attending the school be housed in:</v-label>
           <br />
           <v-label class="ml-10">A homestay setting:</v-label>
         </v-col>

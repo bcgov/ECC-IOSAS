@@ -1,13 +1,15 @@
 <template>
   <v-container>
     <h4>Documents</h4>
-    <v-label class="sm"
+<!--    <v-label class="sm"
       >Please see
       <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl"
         >Interview Checklist</a
       >
       for information.</v-label
-    >
+    >-->
+    <v-label class="sm"
+             >Please carefully review Step 2 – Application Submission for a full list of required documents.</v-label>
     <br />
     <br />
     <v-dialog v-model="documentUpload" width="auto">
