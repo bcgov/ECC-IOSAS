@@ -247,7 +247,7 @@
               </v-col>
             </v-row>
           </div>
-<!--          <v-row>
+          <v-row>
             <v-col cols="12">
               <v-label class="no-mb"
                 >Is the School Authority Head the same person as the Designated
@@ -266,8 +266,8 @@
                 <v-radio label="No" color="#003366" :value="false" />
               </v-radio-group>
             </v-col>
-          </v-row>-->
-          <!--<div>
+          </v-row>
+          <div>
             <v-label class="no-mb">School Authority Head</v-label>
             <br />
             <v-label class="sm">(ie board chair or lead director)</v-label>
@@ -325,7 +325,7 @@
                 </v-col>
               </v-row>
             </div>
-          </div>-->
+          </div>
           <br />
 
           <v-divider></v-divider>
