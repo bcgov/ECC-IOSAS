@@ -247,7 +247,7 @@
               </v-col>
             </v-row>
           </div>
-<!--          <v-row>
+          <v-row>
             <v-col cols="12">
               <v-label class="no-mb"
                 >Is the School Authority Head the same person as the Designated
@@ -266,8 +266,8 @@
                 <v-radio label="No" color="#003366" :value="false" />
               </v-radio-group>
             </v-col>
-          </v-row>-->
-          <!--<div>
+          </v-row>
+          <div>
             <v-label class="no-mb">School Authority Head</v-label>
             <br />
             <v-label class="sm">(ie board chair or lead director)</v-label>
@@ -325,7 +325,7 @@
                 </v-col>
               </v-row>
             </div>
-          </div>-->
+          </div>
           <br />
 
           <v-divider></v-divider>
@@ -637,9 +637,8 @@
               <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label class="no-mb">Certificate of Good Standing</v-label>
                 <v-label class="sm"
-                >A Certificate of Good Standing is required if the incorporation documents are more than 12 months old. The official
-                  <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank">Certificate of Good Standing</a>
-                  must be received prior to the EOI deadline.
+                >A current <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank">Certificate of Good Standing</a> is required if the incorporation documents are more than 12 months old. The official
+                  Certificate of Good Standing must be received prior to the EOI deadline.
                 </v-label>
 
                 <div
