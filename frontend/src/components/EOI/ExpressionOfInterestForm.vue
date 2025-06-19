@@ -637,9 +637,8 @@
               <v-col cols="12" sm="12" md="12" lg="8" xs="12">
                 <v-label class="no-mb">Certificate of Good Standing</v-label>
                 <v-label class="sm"
-                >A Certificate of Good Standing is required if the incorporation documents are more than 12 months old. The official
-                  <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank">Certificate of Good Standing</a>
-                  must be received prior to the EOI deadline.
+                >A current <a :href="GOV_URL.certificateOfGoodStandingUrl" target="_blank">Certificate of Good Standing</a> is required if the incorporation documents are more than 12 months old. The official
+                  Certificate of Good Standing must be received prior to the EOI deadline.
                 </v-label>
 
                 <div

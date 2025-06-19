@@ -45,10 +45,10 @@ export default {
           title: 'Independent School Contacts',
           href: GOV_URL.independentSchoolContractsUrl,
         },
-        {
+        /*{
           title: 'Update your school information',
           href: GOV_URL.schoolInfoUpdateUrl,
-        },
+        },*/
         {
           title: 'Teacher certification',
           href: GOV_URL.teacherCertificationUrl,
