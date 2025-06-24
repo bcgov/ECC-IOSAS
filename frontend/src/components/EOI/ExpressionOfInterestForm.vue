@@ -182,6 +182,7 @@
 
           <div>
             <v-label class="no-mb">Designated Contact</v-label>
+            <br />
             <v-label class="sm"
                      >The designated contact is the person who will receive
                       follow-up communications and contact by the ministry regarding this application.</v-label
