@@ -98,7 +98,7 @@
           />
         </v-col>
         <v-col cols="12" sm="12" md="6" xs="12">
-          <v-label>Date of last Annual Report</v-label>
+<!--          <v-label>Date of last Annual Report</v-label>
           <VueDatePicker
             ref="iosas_dateoflastannualreport"
             v-model="formData.iosas_dateoflastannualreport"
@@ -106,7 +106,7 @@
             :enable-time-picker="false"
             format="yyyy-MM-dd"
             :disabled="formData.iosas_preexistingauthority"
-          />
+          />-->
         </v-col>
       </v-row>
 
@@ -196,7 +196,7 @@
       <h4>School Authority Contacts</h4>
       <br />
       <div>
-        <v-label>Designated Authority Contact</v-label>
+        <v-label>Designated Authority Contact (This information will be auto-filled with the information included for the BCeID).</v-label>
         <v-row>
           <v-col cols="12" sm="12" md="6" xs="12">
             <v-text-field
@@ -320,8 +320,7 @@
       <br />
       <v-divider></v-divider>
       <v-label
-        >Describe how the authority and/or the school board (where applicable)
-        intends to exercise its governance duties.</v-label
+        >Describe the school’s intended governance structure: </v-label
       >
       <v-row>
         <v-col cols="12">
@@ -341,9 +340,8 @@
       <v-row align="center">
         <v-col cols="8">
           <v-label
-            >Have any of the proponents for the proposed school been previously
-            involved in operating an independent school in BC or elsewhere in
-            the past 10 years?</v-label
+            >Have any of the applicants for the proposed school been previously
+            involved in operating a BC independent or BC offshore school?</v-label
           >
         </v-col>
         <v-col cols="4">

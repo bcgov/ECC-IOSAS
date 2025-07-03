@@ -3,8 +3,8 @@
     <h4>Educational Program</h4>
     <div>
       <v-label
-        >Describe familiarity with British Columbia’s curriculum and the school
-        administration’s plans to support the implementation of B.C.s curriculum
+        >Describe familiarity with British Columbia’s curriculum and the applicant’s
+        plans to support the implementation of B.C.'s curriculum
         (pro-D, collaboration, etc.):</v-label
       >
       <v-row v-if="isEditing">
@@ -30,10 +30,13 @@
       <br />
       <h4>Additional Programs</h4>
       <v-label
+      >At this time, is the school intending to offer any specialized programming?
+      </v-label>
+<!--      <v-label
         >At this time does the proposed school intend on enrolling any of the
         following students?
-      </v-label>
-      <v-row>
+      </v-label>-->
+<!--      <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-select
             v-if="isEditing"
@@ -55,8 +58,8 @@
             }}
           </p>
         </v-col>
-      </v-row>
-      <v-label>Other</v-label>
+      </v-row>-->
+<!--      <v-label>Other</v-label>-->
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
           <v-text-field

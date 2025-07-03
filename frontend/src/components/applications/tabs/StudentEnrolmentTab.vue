@@ -5,8 +5,8 @@
       >NOTE: A new school must have 10 or more school age students who are
       enrolled with the school and reported as 1.00 FTE each in accordance with
       the
-      <a :href="GOV_URL.instructionsForIndependentSchoolsUrl" target="_blank">
-        1701 instructions for independent schools
+      <a :href="GOV_URL.instructionsForIndependentSchoolsUrl" target="_blank"
+         >1701 instructions for independent schools
       </a>
       for the September data collection.
     </v-label>

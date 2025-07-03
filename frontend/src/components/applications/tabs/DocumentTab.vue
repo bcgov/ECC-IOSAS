@@ -1,13 +1,15 @@
 <template>
   <v-container>
     <h4>Documents</h4>
-    <v-label class="sm"
+<!--    <v-label class="sm"
       >Please see
       <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl"
         >Interview Checklist</a
       >
       for information.</v-label
-    >
+    >-->
+    <v-label class="sm"
+             >Please carefully review Step 2 – Application Submission for a full list of required documents.</v-label>
     <br />
     <br />
     <v-dialog v-model="documentUpload" width="auto">
@@ -38,7 +40,8 @@
       <div v-else>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">School Policy/Procedure Manual</v-label>
+            <v-label class="no-mb">School Policy/Procedure Manual   (Please ensure policy manual is complete.
+              Incomplete or inadequate policy manual will result in the denial of the application.)</v-label>
             <br />
             <div
               v-if="schoolPolicyDoc.length !== 0"

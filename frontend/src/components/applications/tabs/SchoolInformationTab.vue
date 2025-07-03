@@ -73,7 +73,7 @@
           ></v-select>
         </v-col>
       </v-row>
-      <v-label
+<!--      <v-label
         >Please provide a brief overview of the proposed school, nature of
         program (international/Montessori/Waldorf/IB/other) and plans for future
         years.</v-label
@@ -261,11 +261,11 @@
             color="rgb(59, 153, 252)"
           />
         </v-col>
-      </v-row>
+      </v-row>-->
       <v-row>
         <v-col cols="12">
           <v-label
-            >Group Classification applying for:
+            >Group Classification applying for in the first year of operation:
             <a :href="GOV_URL.groupClassificationUrl" target="_blank"
               >(Group classification Information)</a
             ></v-label
@@ -313,7 +313,7 @@
           </v-radio-group>
         </v-col>
       </v-row>
-      <v-label
+<!--      <v-label
         >School's Intended Affiliation/Association (<a
           :href="GOV_URL.CIS"
           target="_blank"
@@ -357,7 +357,7 @@
             color="rgb(59, 153, 252)"
           />
         </v-col>
-      </v-row>
+      </v-row>-->
     </div>
     <div v-else>
       <v-row>

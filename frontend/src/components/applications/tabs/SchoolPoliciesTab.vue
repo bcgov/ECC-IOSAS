@@ -8,10 +8,15 @@
       <a :href="GOV_URL.independentSchoolInfoUrl"
         >Independent School: Create School Specific Policies.</a
       >
-    </v-label>
+    </v-label><br />
+    <v-label class="sm"
+      >School Policies is not required</v-label>
+    <br/>
+    <v-label v-if="isEditing"
+      >Click {{ isEditing ? 'Save & Next' : 'Next' }} to proceed</v-label>
     <br />
     <br />
-    <div v-if="isEditing">
+    <!--<div v-if="isEditing">
       <v-row align="center">
         <v-col cols="8">
           <v-label>Anaphylaxis Policy and Procedures </v-label>
@@ -681,7 +686,7 @@
         >If 'no' to any of the above policies, please explain below:</v-label
       >
       <v-row>
-        <!--TODO: Additional logic to force requirement if any bool is false? -->
+        /* TODO: Additional logic to force requirement if any bool is false? */
         <v-col cols="12">
           <v-textarea
             id="iosas_ifnotoanyschoolpolicyexplainwhy"
@@ -693,8 +698,8 @@
           />
         </v-col>
       </v-row>
-    </div>
-    <div v-else>
+    </div>-->
+<!--    <div v-else>
       <v-row align="center">
         <v-col cols="8">
           <v-label>Anaphylaxis Policy and Procedures </v-label>
@@ -1100,7 +1105,7 @@
           {{ formData.iosas_ifnotoanyschoolpolicyexplainwhy || NULL_STRING }}
         </v-col>
       </v-row>
-    </div>
+    </div>-->
   </v-container>
 </template>
 

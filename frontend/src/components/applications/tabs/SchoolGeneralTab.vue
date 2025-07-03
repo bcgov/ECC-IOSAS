@@ -1,23 +1,45 @@
 <template>
   <v-container>
-    <h4>General</h4>
-    <br />
     <v-row>
-      <v-col cols="12" sm="12" md="4" xs="12">
-        <v-label>Application Number </v-label>
-        <p>{{ formData.iosas_applicationnumber }}</p>
-      </v-col>
-      <v-col cols="12" sm="12" md="4" xs="12">
-        <v-label>{{ getCorrectDate().label }}</v-label>
-        <p>{{ getCorrectDate().date }}</p>
-      </v-col>
-      <v-col cols="12" sm="12" md="4" xs="12">
-        <v-label>Status </v-label>
-        <p>
-          {{ formData['statuscode@OData.Community.Display.V1.FormattedValue'] }}
-        </p>
-      </v-col>
+      <p class="ml-3 mt-3">
+        <b>Before submitting your new school application, please review the following information:</b>
+      </p>
+      <v-label>
+      <ul class="ml-7 mt-3">
+        <li>
+          Thoroughly review the information provided at Establishing an Independent School, Step 2 – Application Submission.
+        </li>
+        <li>
+          Only one submission per authority for a proposed school will be reviewed by the Ministry per application cycle.
+        </li>
+        <li>
+          Applications may be saved in draft form. However, once submitted the application will be considered final and cannot by further updated.
+        </li>
+        <li>
+          Applications that have been approved will be invited to Step 3 – Interview.
+        </li>
+      </ul>
+      </v-label>
     </v-row>
+    <br />
+    <h4>General</h4>
+    <!--   <br />
+       <v-row>
+         <v-col cols="12" sm="12" md="4" xs="12">
+           <v-label>Application Number </v-label>
+           <p>{{ formData.iosas_applicationnumber }}</p>
+         </v-col>
+         <v-col cols="12" sm="12" md="4" xs="12">
+           <v-label>{{ getCorrectDate().label }}</v-label>
+           <p>{{ getCorrectDate().date }}</p>
+         </v-col>
+         <v-col cols="12" sm="12" md="4" xs="12">
+           <v-label>Status </v-label>
+           <p>
+             {{ formData['statuscode@OData.Community.Display.V1.FormattedValue'] }}
+           </p>
+         </v-col>
+       </v-row>-->
     <div v-if="isEditing">
       <br />
       <v-label
