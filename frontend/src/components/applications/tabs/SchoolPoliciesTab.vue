@@ -681,7 +681,7 @@
         >If 'no' to any of the above policies, please explain below:</v-label
       >
       <v-row>
-        &lt;!&ndash;TODO: Additional logic to force requirement if any bool is false? &ndash;&gt;
+        //TODO: Additional logic to force requirement if any bool is false?
         <v-col cols="12">
           <v-textarea
             id="iosas_ifnotoanyschoolpolicyexplainwhy"
