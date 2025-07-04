@@ -12,8 +12,7 @@
       <v-label
         >The school principal/head of school and all teachers teaching a subject
         that is reported out on student report cards must hold valid British
-        Columbia teaching credentials issued by the
-        <a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
+        Columbia teaching credentials issued by the<a :href="GOV_URL.teacherCertificationBranchUrl" target="_blank">
           Teacher Regulation Branch</a
         >
         (TRB). Note: Prospective schools are discouraged from building their teaching staff with individuals on temporary Letters of Permission.</v-label>
@@ -21,10 +20,9 @@
       <br />
       <v-label
         >All employees must have a criminal record check completed through
-        the
-        <a :href="GOV_URL.criminalRecordCheckUrl" target="_blank">
+        the<a :href="GOV_URL.criminalRecordCheckUrl" target="_blank">
           Criminal Records Review Program</a
-        >(Ministry of Public Safety and Solicitor General).
+        > (Ministry of Public Safety and Solicitor General).
       </v-label>
       <br />
       <br />

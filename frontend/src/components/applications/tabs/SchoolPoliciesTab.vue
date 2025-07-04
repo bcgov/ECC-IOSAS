@@ -9,9 +9,6 @@
         >Independent School: Create School Specific Policies.</a
       >
     </v-label><br />
-    <v-label class="sm"
-      >School Policies is not required</v-label>
-    <br/>
     <v-label v-if="isEditing"
       >Click {{ isEditing ? 'Save & Next' : 'Next' }} to proceed</v-label>
     <br />
