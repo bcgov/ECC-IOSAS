@@ -2,7 +2,7 @@
   <v-container>
     <h4>Application for Group Certification</h4>
     <v-label v-if="isGroup(GROUP_CLASSIFICATION_CODES.groupThree)"
-      >Group Certification is not required for group 3 applications. <br />Click
+      >Group Certification is not required for group 3 applications. <br /><br />Click
       {{ isEditing ? 'Save & Next' : 'Next' }} to proceed.
     </v-label>
     <v-label
