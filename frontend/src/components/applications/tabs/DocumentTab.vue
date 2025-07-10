@@ -39,7 +39,8 @@
       <div v-else>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">Complete School Policy/Procedures Manual (Please ensure policy manual is complete.
+            <h4>Complete School Policy/Procedures Manual</h4>
+            <v-label class="sm">(Please ensure policy manual is complete.
               Incomplete or inadequate policy manual will result in the denial of the application.)</v-label>
             <br />
             <div
@@ -78,8 +79,7 @@
         <RequiredMessage :condition="schoolPolicyDoc.length === 0" />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">Business Plan</v-label>
-            <br />
+            <h4>Business Plan</h4>
             <v-label class="sm"
               >Upload Word or PDF version of Business Plan.</v-label
             >
@@ -121,11 +121,10 @@
         <v-divider></v-divider>
         <br />
         <h4>Additional Documents</h4>
-        <br />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="sm">Final Information and Human Resource Plan, includes Part A (Student/Staff recruitment information)
-              and Part B(Proforma Financial Information)</v-label>
+            <v-label class="sm">Financial Information and Human Resource Plan, includes Part A (Student/Staff recruitment information)
+              and Part B (Proforma Financial Information)</v-label>
             <div
               v-for="document in applicationDocuments.filter(
                 ({ documentType }) =>
@@ -300,7 +299,7 @@
     <div v-else>
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
-          <v-label class="no-mb">School Policy/Procedure Manual</v-label>
+          <h4>Complete School Policy/Procedures Manual</h4>
           <div
             v-if="schoolPolicyDoc.length !== 0"
             class="d-flex justify-space-between"
@@ -319,8 +318,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
-          <v-label class="no-mb">Business Plan</v-label>
-
+          <h4>Business Plan</h4>
           <div
             v-if="businessPlanDoc.length !== 0"
             class="d-flex justify-space-between"
@@ -341,7 +339,6 @@
       <v-divider></v-divider>
       <br />
       <h4>Additional Documents</h4>
-      <br />
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
           <v-label>Other</v-label>
