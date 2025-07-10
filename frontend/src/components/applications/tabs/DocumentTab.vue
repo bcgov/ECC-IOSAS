@@ -8,8 +8,7 @@
       >
       for information.</v-label
     >-->
-    <v-label class="sm"
-             >Please carefully review Step 2 – Application Submission for a full list of required documents.</v-label>
+    <v-label class="sm">Please carefully review Step 2 – Application Submission for a full list of required documents.</v-label>
     <br />
     <br />
     <v-dialog v-model="documentUpload" width="auto">
@@ -40,7 +39,7 @@
       <div v-else>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="no-mb">School Policy/Procedure Manual   (Please ensure policy manual is complete.
+            <v-label class="no-mb">Complete School Policy/Procedures Manual (Please ensure policy manual is complete.
               Incomplete or inadequate policy manual will result in the denial of the application.)</v-label>
             <br />
             <div
@@ -82,8 +81,7 @@
             <v-label class="no-mb">Business Plan</v-label>
             <br />
             <v-label class="sm"
-              >Upload Word or PDF version of Business Plan; including Part A and
-              Part B here.</v-label
+              >Upload Word or PDF version of Business Plan.</v-label
             >
 
             <div
@@ -126,7 +124,8 @@
         <br />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label>Other</v-label>
+            <v-label class="sm">Final Information and Human Resource Plan, includes Part A (Student/Staff recruitment information)
+              and Part B(Proforma Financial Information)</v-label>
             <div
               v-for="document in applicationDocuments.filter(
                 ({ documentType }) =>

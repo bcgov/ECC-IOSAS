@@ -7,7 +7,8 @@
       <v-label>
       <ul class="ml-7 mt-3">
         <li>
-          Thoroughly review the information provided at Establishing an Independent School, Step 2 – Application Submission.
+          Thoroughly review the information provided at<a :href="GOV_URL.establishingSchoolURL" target="_blank">
+          Establishing an Independent School, Step 2 – Application Submission.</a>
         </li>
         <li>
           Only one submission per authority for a proposed school will be reviewed by the Ministry per application cycle.
