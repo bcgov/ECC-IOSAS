@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="text-base font-weight-bold leading-tight">Documents</div>
+    <h4>Documents</h4>
 <!--    <v-label class="sm"
       >Please see
       <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl"
