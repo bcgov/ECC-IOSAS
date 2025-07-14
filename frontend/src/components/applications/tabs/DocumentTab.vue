@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h4>Documents</h4>
+    <div class="text-base font-weight-bold leading-tight">Documents</div>
 <!--    <v-label class="sm"
       >Please see
       <a target="_blank" :href="GOV_URL.interviewChecklistPDFUrl"
@@ -39,7 +39,9 @@
       <div v-else>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <h4>Complete School Policy/Procedures Manual</h4>
+            <div class="text-base font-weight-bold leading-tight">
+              Complete School Policy/Procedures Manual
+            </div>
             <v-label class="sm">(Please ensure policy manual is complete.
               Incomplete or inadequate policy manual will result in the denial of the application.)</v-label>
             <br />
@@ -79,7 +81,7 @@
         <RequiredMessage :condition="schoolPolicyDoc.length === 0" />
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <h4>Business Plan</h4>
+            <div class="text-base font-weight-bold leading-tight">Business Plan</div>
             <v-label class="sm"
               >Upload Word or PDF version of Business Plan.</v-label
             >
@@ -299,7 +301,7 @@
     <div v-else>
       <v-row>
         <v-col cols="12" sm="12" md="12" xs="12">
-          <h4>Complete School Policy/Procedures Manual</h4>
+          <div class="text-base font-weight-bold leading-tight">Complete School Policy/Procedures Manual</div>
           <div
             v-if="schoolPolicyDoc.length !== 0"
             class="d-flex justify-space-between"
@@ -318,7 +320,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="8" xs="12">
-          <h4>Business Plan</h4>
+          <div class="text-base font-weight-bold leading-tight">Business Plan</div>
           <div
             v-if="businessPlanDoc.length !== 0"
             class="d-flex justify-space-between"
