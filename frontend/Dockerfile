@@ -1,21 +1,13 @@
-FROM registry.access.redhat.com/ubi8/nodejs-18:1 as build-stage
-ENV HOME_CLIENT /opt/app-root/src/app
-USER root
-RUN mkdir -p ${HOME_CLIENT}
-WORKDIR ${HOME_CLIENT}
+FROM artifacts.developer.gov.bc.ca/docker-remote/node:22.17.1-alpine3.22 as build-stage
 
+WORKDIR /frontend
 COPY package*.json ./
-RUN chown -R 1008111001 ${HOME_CLIENT}
-USER 1008111001
-RUN npm set progress=false && npm ci --no-cache
+RUN npm install
 COPY ./ .
-RUN INLINE_RUNTIME_CHUNK=false npm run build
+RUN npm run build
 
 FROM artifacts.developer.gov.bc.ca/docker-remote/caddy:2.4.6-alpine as caddy-stage
-ENV HOME_CLIENT /opt/app-root/src/app
-USER root
-RUN mkdir -p ${HOME_CLIENT}
-RUN chown -R root ${HOME_CLIENT}
+
 EXPOSE 2015
 COPY Caddyfile /etc/caddy/Caddyfile
-COPY --from=build-stage /opt/app-root/src/app/dist /srv
+COPY --from=build-stage /frontend/dist /srv

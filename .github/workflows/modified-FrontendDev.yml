@@ -7,7 +7,7 @@ env:
   OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
   OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
   # 🖊️ EDIT to set the kube context's namespace after login. Leave blank to use your user's default namespace.
-  OPENSHIFT_NAMESPACE_DEV: ${{ secrets.IOSAS_NAMESPACE_NO_ENV }}-dev
+  OPENSHIFT_NAMESPACE_DEV: ${{ secrets.IOSAS_NAMESPACE }}-dev
   OPENSHIFT_NAMESPACE_TEST: ${{ secrets.EDX_NAMESPACE_NO_ENV }}-test
 
   SPLUNK_TOKEN: ${{ secrets.SPLUNK_TOKEN }}
