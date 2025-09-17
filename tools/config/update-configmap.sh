@@ -2,17 +2,17 @@ envValue=$1
 APP_NAME=$2
 OPENSHIFT_NAMESPACE=$3
 COMMON_NAMESPACE=$4
-SPLUNK_TOKEN=$5
+SOAM_CLIENT_ID=$5
+SOAM_CLIENT_SECRET=$6
+REDIS_PASSWORD=$7
+D365_API_PREFIX=$8
 APP_NAME_UPPER=${APP_NAME^^}
-
 TZVALUE="America/Vancouver"
-SOAM_KC_REALM_ID="master"
+SOAM_KC_REALM_ID="iosas"
 SOAM_KC=soam-$envValue.apps.silver.devops.gov.bc.ca
+SERVER_FRONTEND="https://${envValue}.independentschoolservices.gov.bc.ca"
+
 siteMinderLogoutUrl=""
-HOST_ROUTE="edx-${OPENSHIFT_NAMESPACE}-${envValue}.apps.silver.devops.gov.bc.ca"
-#HOST_ROUTE="${envValue}.educationdataexchange.gov.bc.ca"
-#SERVER_FRONTEND="https://${envValue}.educationdataexchange.gov.bc.ca"
-SERVER_FRONTEND="https://${envValue}.educationdataexchange.gov.bc.ca"
 if [ "$envValue" != "prod" ]
 then
   siteMinderLogoutUrl="https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
@@ -21,8 +21,7 @@ else
   HOST_ROUTE="educationdataexchange.gov.bc.ca"
   siteMinderLogoutUrl="https://logon7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
 fi
-NATS_CLUSTER=educ_nats_cluster
-NATS_URL="nats://nats.${COMMON_NAMESPACE}-${envValue}.svc.cluster.local:4222"
+
 SOAM_KC_LOAD_USER_ADMIN=$(oc -n $COMMON_NAMESPACE-$envValue -o json get secret sso-admin-${envValue} | sed -n 's/.*"username": "\(.*\)"/\1/p' | base64 --decode)
 SOAM_KC_LOAD_USER_PASS=$(oc -n $COMMON_NAMESPACE-$envValue -o json get secret sso-admin-${envValue} | sed -n 's/.*"password": "\(.*\)",/\1/p' | base64 --decode)
 

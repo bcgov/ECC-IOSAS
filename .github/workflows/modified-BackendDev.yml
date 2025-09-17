@@ -129,7 +129,7 @@ jobs:
           # Or, perform a source-to-image build using https://github.com/redhat-actions/s2i-build
           # Otherwise, point this to your Dockerfile/Containerfile relative to the repository root.
           dockerfiles: |
-            ./${{APP_FOLDER}}/Dockerfile1
+            ./${{APP_FOLDER}}/Dockerfile
           context: ./backend
 
         # https://github.com/redhat-actions/push-to-registry#readme
@@ -186,7 +186,12 @@ jobs:
           curl -s https://raw.githubusercontent.com/bcgov/${{ env.REPO_NAME }}/tools/config/update-configmap.sh | bash /dev/stdin \
           ${{ env.APP_ENVIRONMENT }} \
           ${{ env.APP_NAME }} \
-          ${{ env.NAMESPACE }} 
+          ${{ env.NAMESPACE }} \
+          ${{ env.COMMON_NAMESPACE }} \
+          ${{ secrets.SOAM_CLIENT_ID }} \
+          ${{ secrets.SOAM_CLIENT_SECRET }} \
+          ${{ secrets.REDIS_PASSWORD }} \
+          ${{ secrets.D365_API_PREFIX }} 
           
           # Start rollout (if necessary) and follow it
           oc rollout latest dc/${{ env.IMAGE_NAME }} 2> /dev/null \
