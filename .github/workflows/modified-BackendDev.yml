@@ -130,8 +130,8 @@ jobs:
           # Or, perform a source-to-image build using https://github.com/redhat-actions/s2i-build
           # Otherwise, point this to your Dockerfile/Containerfile relative to the repository root.
           dockerfiles: |
-            ./${{APP_FOLDER}}/Dockerfile
-          context: ./backend
+            ./${{env.APP_FOLDER}}/Dockerfile
+          context: ./${{ env.APP_FOLDER }}
 
         # https://github.com/redhat-actions/push-to-registry#readme
       - name: Push backend to registry
