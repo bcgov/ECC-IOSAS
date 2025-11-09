@@ -223,3 +223,6 @@ parameters:
 - name: MAX_MEM
   description: The maximum amount of memory
   required: true
+- name: APP_ENVIRONMENT
+  description: Application environment (dev/test/prod)
+  required: true
