@@ -12,7 +12,7 @@ env:
   IMAGE_TAGS: ""
 
   REPO_NAME: "ecc-iosas"
-  BRANCH: "main-dev"
+  BRANCH: "ModifiedDevYmlDeployScript"
   NAMESPACE: ${{ secrets.IOSAS_NAMESPACE }}
 
 on:
