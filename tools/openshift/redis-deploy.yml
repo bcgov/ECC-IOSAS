@@ -94,7 +94,7 @@ objects:
                 - name: redis-data
                   mountPath: /data
               terminationMessagePolicy: File
-              image: artifacts.developer.gov.bc.ca/docker-remote/redis:6.0.9-alpine
+              image: artifacts.developer.gov.bc.ca/docker-remote/redis:7.4.6
           restartPolicy: Always
           terminationGracePeriodSeconds: 30
           dnsPolicy: ClusterFirst
