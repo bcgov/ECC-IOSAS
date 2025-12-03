@@ -6,6 +6,29 @@ labels:
   project: ${PROJECT}
   service: api
 objects:
+  - kind: ConfigMap
+    metadat:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: redis
+      labels:
+        app: redis
+    data:
+      redis-readiness.sh: |
+        #!/bin/sh
+        response=$(timeout 3 $1 redis-cli -h $HOSTNAME -p 6379 ping)
+        if [ "$response" != "PONG" ]; then
+          echo "$response"
+          exit 1
+        fi
+      redis-liveness.sh: |
+        #!/bin/sh
+        response=$(timeout 3 $1 redis-cli -h $HOSTNAME -p 6379 ping)
+        if [ "$response" != "PONG" ] && [ "$response" != "LOADING Redis is loading the dataset in memory" ]; then
+          echo "$response"
+          exit 1
+        fi
   - kind: PersistentVolumeClaim
     apiVersion: v1
     metadata:
@@ -52,12 +75,7 @@ objects:
                   cpu: 50m
               readinessProbe:
                 exec:
-                  command:
-                    - /bin/sh
-                    - '-i'
-                    - '-c'
-                    - >-
-                      - redis-cli -a "$REDIS_PASSWORD" ping | grep -q PONG
+                  command: ["/conf/redis-rediness.sh"]
                 initialDelaySeconds: 5
                 timeoutSeconds: 1
                 periodSeconds: 10
@@ -66,13 +84,14 @@ objects:
               terminationMessagePath: /dev/termination-log
               name: redis
               livenessProbe:
-                tcpSocket:
-                  port: 6379
-                initialDelaySeconds: 30
+                exec:
+                  command: ["/conf/redis-liveness.sh"]
+                enabled: true
+                initialDelaySeconds: 20
+                periodSeconds: 5
                 timeoutSeconds: 1
-                periodSeconds: 10
                 successThreshold: 1
-                failureThreshold: 3
+                failureThreshold: 5
               securityContext:
                 capabilities: {}
                 privileged: false
