@@ -97,7 +97,7 @@ objects:
           dnsPolicy: ClusterFirst
           securityContext: {}
           schedulerName: default-scheduler
-  - apiVersion: v1
+  - apiVersion: apps/v1
     kind: Service
     metadata:
       labels:
