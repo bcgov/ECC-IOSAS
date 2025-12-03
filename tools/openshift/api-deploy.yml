@@ -129,8 +129,7 @@ objects:
           protocol: TCP 
           targetPort: 443
       selector:
-        matchLabels:
-          app: ${NAME}
+        app: ${NAME}
       type: ClusterIP
   - apiVersion: route.openshift.io/v1
     kind: Route
