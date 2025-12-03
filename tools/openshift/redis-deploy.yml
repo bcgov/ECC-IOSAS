@@ -6,11 +6,6 @@ labels:
   project: ${PROJECT}
   service: api
 objects:
-  - kind: ConfigMap
-    metadata:
-      name: redis
-      labels:
-        app: redis
   - apiVersion: v1
     kind: ConfigMap
     metadata:
