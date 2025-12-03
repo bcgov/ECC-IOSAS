@@ -63,8 +63,7 @@ objects:
                     - '-i'
                     - '-c'
                     - >-
-                      test "$(redis-cli -h 127.0.0.1 ping)" ==
-                      "PONG"
+                      - redis-cli -a "$REDIS_PASSWORD" ping | grep -q PONG
                 initialDelaySeconds: 5
                 timeoutSeconds: 1
                 periodSeconds: 10
