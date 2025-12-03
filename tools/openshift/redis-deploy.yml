@@ -7,7 +7,10 @@ labels:
   service: api
 objects:
   - kind: ConfigMap
-    metadat:
+    metadata:
+      name: redis
+      labels:
+        app: redis
   - apiVersion: v1
     kind: ConfigMap
     metadata:
