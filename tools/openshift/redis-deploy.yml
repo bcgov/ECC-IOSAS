@@ -18,8 +18,8 @@ objects:
           storage: 512Mi
         limits:
           storage: 1Gi
-  - kind: DeploymentConfig
-    apiVersion: apps.openshift.io/v1
+  - kind: Deployment
+    apiVersion: apps/v1
     metadata:
       annotations:
         template.alpha.openshift.io/wait-for-ready: 'true'
@@ -34,17 +34,14 @@ objects:
           timeoutSeconds: 600
         resources: {}
         activeDeadlineSeconds: 21600
-      triggers: []
       replicas: 1
       revisionHistoryLimit: 10
-      test: false
       selector:
-        name: redis
-        app: redis
+        matchLabels:
+          app: redis
       template:
         metadata:
           labels:
-            name: redis
             app: redis
         spec:
           volumes:
@@ -66,8 +63,7 @@ objects:
                     - '-i'
                     - '-c'
                     - >-
-                      test "$(redis-cli -h 127.0.0.1 ping)" ==
-                      "PONG"
+                      - redis-cli -a "$REDIS_PASSWORD" ping | grep -q PONG
                 initialDelaySeconds: 5
                 timeoutSeconds: 1
                 periodSeconds: 10
@@ -100,12 +96,11 @@ objects:
           dnsPolicy: ClusterFirst
           securityContext: {}
           schedulerName: default-scheduler
-  - apiVersion: v1
+  - apiVersion: apps/v1
     kind: Service
     metadata:
       labels:
         app: redis
-        deploymentconfig: redis
       name: redis
     spec:
       ports:
@@ -113,7 +108,7 @@ objects:
           port: 6379
           targetPort: 6379
       selector:
-        deploymentconfig: redis
+        app: redis
       type: ClusterIP
 parameters:
   - name: NAME
