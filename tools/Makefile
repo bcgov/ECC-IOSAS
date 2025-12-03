@@ -233,7 +233,7 @@ update-dc-api:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating API-dc with tag: $(BUILD_TAG)\n+"
-	@oc -n $(NAMESPACE) process -f openshift/api-deploy.yml \
+	@oc -n $(NAMESPACE) process -f openshift/api-deployment.yml \
 		-p NAME=$(API) \
 		-p HOST_NAME=$(HOST) \
 		-p SOAM_URL=$(SOAM_URL) \
@@ -252,8 +252,8 @@ update-dc-api:
 		-p REPLICAS=$(MIN_REPLICA_API) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
-	@oc rollout cancel dc/$(API) 2> /dev/null || true && echo "No rollout in progress"
-	@oc -n $(NAMESPACE) rollout status dc/$(API) --watch=true
+	@oc rollout cancel deployment/$(API) 2> /dev/null || true && echo "No rollout in progress"
+	@oc -n $(NAMESPACE) rollout status deployment/$(API) --watch=true
 test-public-route: 
 	@echo Creating route with $(PUBLIC_HOST)
 	oc --namespace=$(NAMESPACE) process -f openshift/public-route.yml \
@@ -273,7 +273,7 @@ update-dc-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating Web-dc with tag: $(BUILD_TAG)\n+"
-	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml \
+	@oc -n $(NAMESPACE) process -f openshift/web-deployment.yml \
 		-p NAME=$(Web) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
@@ -286,8 +286,8 @@ update-dc-web:
 		-p REPLICAS=$(MIN_REPLICA_WEB) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
-	@oc rollout cancel dc/$(Web) 2> /dev/null || true && echo "No rollout in progress"
-	@oc -n $(NAMESPACE) rollout status dc/$(Web) --watch=true
+	@oc rollout cancel deployment/$(Web) 2> /dev/null || true && echo "No rollout in progress"
+	@oc -n $(NAMESPACE) rollout status deployment/$(Web) --watch=true
 
 promote-web:
 	test -n "$(BUILD_NAMESPACE)"
@@ -302,7 +302,7 @@ deploy-redis:
 	@echo "+\n Installing redis in env +\n"
 	@oc -n $(NAMESPACE) process -f openshift/redis-deploy.yml \
 	-p NAME=$(API) |  oc -n $(NAMESPACE) apply -f -
-	@oc -n $(NAMESPACE) rollout latest dc/redis
+	@oc -n $(NAMESPACE) rollout restart deployment/redis
 
 redis-tunnel: print-status
 	@echo "+\n++ Port Forwarding to redis"
