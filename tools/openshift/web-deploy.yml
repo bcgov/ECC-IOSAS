@@ -88,8 +88,7 @@ objects:
           port: 80
           targetPort: ${{PORT}}
       selector:
-        matchLabels:
-          app: ${NAME}
+        app: ${NAME}
       type: ClusterIP
   - apiVersion: route.openshift.io/v1
     kind: Route
