@@ -6,8 +6,6 @@ labels:
   project: ${PROJECT}
   service: api
 objects:
-  - kind: ConfigMap
-    metadat:
   - apiVersion: v1
     kind: ConfigMap
     metadata:
