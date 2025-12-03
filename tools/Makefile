@@ -233,7 +233,7 @@ update-dc-api:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating API-dc with tag: $(BUILD_TAG)\n+"
-	@oc -n $(NAMESPACE) process -f openshift/api-deployment.yml \
+	@oc -n $(NAMESPACE) process -f openshift/api-deploy.yml \
 		-p NAME=$(API) \
 		-p HOST_NAME=$(HOST) \
 		-p SOAM_URL=$(SOAM_URL) \
@@ -273,7 +273,7 @@ update-dc-web:
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating Web-dc with tag: $(BUILD_TAG)\n+"
-	@oc -n $(NAMESPACE) process -f openshift/web-deployment.yml \
+	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml \
 		-p NAME=$(Web) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
