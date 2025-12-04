@@ -63,31 +63,28 @@ objects:
             - name: redis-data
               persistentVolumeClaim:
                 claimName: redis-data
+            - name: conf
+              configMap:
+                name: redis
+                defaultMode: 0755
           containers:
-            - resources:
+            - name: redis
+              resources:
                 limits:
                   memory: 512Mi
                   cpu: 150m
                 requests:
                   memory: 256Mi
                   cpu: 50m
-              volumeMounts:
-                - name: conf
-                  mountPath: /conf
-                  readOnly: false
-                - name: data
-                  mountPath: /data
-                  readOnly: false
               readinessProbe:
                 exec:
-                  command: ["/conf/redis-rediness.sh"]
+                  command: ["/conf/redis-readiness.sh"]
                 initialDelaySeconds: 5
                 timeoutSeconds: 1
                 periodSeconds: 10
                 successThreshold: 1
                 failureThreshold: 3
               terminationMessagePath: /dev/termination-log
-              name: redis
               livenessProbe:
                 exec:
                   command: ["/conf/redis-liveness.sh"]
@@ -105,8 +102,12 @@ objects:
                   protocol: TCP
               imagePullPolicy: IfNotPresent
               volumeMounts:
+                - name: conf
+                  mountPath: /conf
+                  readOnly: false
                 - name: redis-data
                   mountPath: /data
+                  readOnly: false
               terminationMessagePolicy: File
               image: artifacts.developer.gov.bc.ca/docker-remote/redis:7.4.6
           restartPolicy: Always
