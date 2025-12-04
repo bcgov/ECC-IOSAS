@@ -76,6 +76,13 @@ objects:
                 requests:
                   memory: 256Mi
                   cpu: 50m
+              volumeMounts:
+                - name: conf
+                  mountPath: /conf
+                  readOnly: false
+                - name: data
+                  mountPath: /data
+                  readOnly: false
               readinessProbe:
                 exec:
                   command: ["/conf/redis-readiness.sh"]
