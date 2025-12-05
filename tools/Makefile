@@ -4,8 +4,8 @@ export $(shell sed 's/=.*//' ../.env 2> /dev/null)
 .DEFAULT_GOAL := default
 export GIT_LOCAL_BRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
 export NAMESPACE_DEV := $(or $(NAMESPACE_DEV), d1273d-dev)
-export NAMESPACE_TEST := $(or $(NAMESPACE_TEST), d1273d-dev)
-export NAMESPACE_PROD := $(or $(NAMESPACE_PROD), d1273d-dev)
+export NAMESPACE_TEST := $(or $(NAMESPACE_TEST), d1273d-test)
+export NAMESPACE_PROD := $(or $(NAMESPACE_PROD), d1273d-prod)
 export APP_NAME := $(or $(PROJECT_NAME), ecc-iosas)
 export BUILD_ID := $(or $(BUILD_ID), 1)
 export TEMPLATE_FILE_NAME := $(or $(TEMPLATE_FILE_NAME), $$FILE)
@@ -185,10 +185,10 @@ init-web:
 init-artifactory-secret-credential:
 	test -n $(NAMESPACE)
 	@oc create secret docker-registry artifactory-secret-credential -n $(NAMESPACE) \
-    	--docker-server=artifacts.developer.gov.bc.ca \
-    	--docker-username=$(USERNAME) \
-    	--docker-password=$(PASSWORD) \
-    	--docker-email=$(USERNAME)@$(NAMESPACE).local
+	--docker-server=artifacts.developer.gov.bc.ca \
+	--docker-username=$(USERNAME) \
+	--docker-password=$(PASSWORD) \
+	--docker-email=$(USERNAME)@$(NAMESPACE).local
 	@oc secrets link default artifactory-secret-credential
 	@oc secrets link builder artifactory-secret-credential
 
@@ -266,7 +266,6 @@ promote-api:
 	test -n "$(BUILD_NAMESPACE)"
 	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
 	sh config/promote-app.sh $(BUILD_NAMESPACE) $(API) $(BUILD_TAG) $(ENV_PREFIX)
-	
 
 update-dc-web:
 	@echo "+\n Testing env for Web\n+"
