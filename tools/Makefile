@@ -127,24 +127,23 @@ oc-build-web: | print-status build-web
 oc-deploy-web: | print-status deploy-web
 
 print-status:
-	@echo " +---------------------------------------------------------+ "
-	@echo " | Current Settings                                        | "
-	@echo " +---------------------------------------------------------+ "
-	@echo " | PROJECT:      						$(APP_NAME)"
-	@echo " | BRANCH:       						$(BUILD_REF)"
-	@echo " | NAMESPACE:    						$(NAMESPACE)"
-	@echo " | BUILD_NAMESPACE:    			$(BUILD_NAMESPACE)"
-	@echo " | ENV PREFIX:    						$(ENV_PREFIX)"
-	@echo " +---------------------------------------------------------+ "
-	@echo " | BUILD_ID: 								$(COMMIT_SHA) "
-	@echo " | BUILD_TAG: 								$(BUILD_TAG) "
-	@echo " | HOST NAME: 								$(HOST) "
-	@echo " | PUBLIC HOST NAME: 				$(PUBLIC_HOST) "
-	@echo " | SITEMINDER URL:						$(SITE_MINDER_LOGOUT_URL)"
-	@echo " | SOAM DISCOVERY: 					$(SOAM_DISCOVERY)"
-	@echo " | SOAM URL: 								$(SOAM_URL)"
-	@echo " | SOAM CLIENT ID: 					$(SOAM_CLIENT_ID)"
-	@echo " +---------------------------------------------------------+ "
+	@echo " Current Settings "
+	@echo " ---------------- "
+	@echo " PROJECT: $(APP_NAME) "
+	@echo " BRANCH: $(BUILD_REF) "
+	@echo " NAMESPACE: $(NAMESPACE) "
+	@echo " BUILD_NAMESPACE: $(BUILD_NAMESPACE) "
+	@echo " ENV PREFIX: $(ENV_PREFIX) "
+	@echo " ---------------- "
+	@echo " BUILD_ID: $(COMMIT_SHA) "
+	@echo " BUILD_TAG: $(BUILD_TAG) "
+	@echo " HOST NAME: $(HOST) "
+	@echo " PUBLIC HOST NAME: $(PUBLIC_HOST) "
+	@echo " SITEMINDER URL: $(SITE_MINDER_LOGOUT_URL) "
+	@echo " SOAM DISCOVERY: $(SOAM_DISCOVERY) "
+	@echo " SOAM URL: $(SOAM_URL) "
+	@echo " SOAM CLIENT ID: $(SOAM_CLIENT_ID) "
+	@echo " ---------------- "
 
 init-project: print-status
 	@echo "Run initial set-up for the project, including network security\n"
@@ -175,20 +174,20 @@ init-web:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"
 	@oc -n $(NAMESPACE) delete configmap iosas-ui-config || true
 	@oc create -n $(NAMESPACE) configmap iosas-ui-config \
-	--from-literal=TZ="America/Vancouver" \
-	--from-literal=HOST_ROUTE="$(HOST)" \
-	--from-literal=config.js="$regConfig" \
-	--from-literal=snowplow.js="$snowplow" \
-	--dry-run=client -o yaml | oc apply -f -
+		--from-literal=TZ="America/Vancouver" \
+		--from-literal=HOST_ROUTE="$(HOST)" \
+		--from-literal=config.js="$regConfig" \
+		--from-literal=snowplow.js="$snowplow" \
+		--dry-run=client -o yaml | oc apply -f -
 
 
 init-artifactory-secret-credential:
 	test -n $(NAMESPACE)
 	@oc create secret docker-registry artifactory-secret-credential -n $(NAMESPACE) \
-	--docker-server=artifacts.developer.gov.bc.ca \
-	--docker-username=$(USERNAME) \
-	--docker-password=$(PASSWORD) \
-	--docker-email=$(USERNAME)@$(NAMESPACE).local
+		--docker-server=artifacts.developer.gov.bc.ca \
+		--docker-username=$(USERNAME) \
+		--docker-password=$(PASSWORD) \
+		--docker-email=$(USERNAME)@$(NAMESPACE).local
 	@oc secrets link default artifactory-secret-credential
 	@oc secrets link builder artifactory-secret-credential
 
@@ -254,14 +253,14 @@ update-dc-api:
 deploy-api: update-dc-api
 	@oc rollout cancel deployment/$(API) 2> /dev/null || true && echo "No rollout in progress"
 	@oc -n $(NAMESPACE) rollout status deployment/$(API) --watch=true
-test-public-route: 
+test-public-route:
 	@echo Creating route with $(PUBLIC_HOST)
 	oc --namespace=$(NAMESPACE) process -f openshift/public-route.yml \
-	-p NAME=$(Web) \
-	-p PUBLIC_HOST=$(PUBLIC_HOST) \
-	-p CERTIFICATE="X" \
-	-p CA_CERT="Y" \
-	-p PRIVATE_KEY="Z" | oc --namespace=$(NAMESPACE) apply -f - --dry-run=client
+		-p NAME=$(Web) \
+		-p PUBLIC_HOST=$(PUBLIC_HOST) \
+		-p CERTIFICATE="X" \
+		-p CA_CERT="Y" \
+		-p PRIVATE_KEY="Z" | oc --namespace=$(NAMESPACE) apply -f - --dry-run=client
 promote-api:
 	test -n "$(BUILD_NAMESPACE)"
 	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
