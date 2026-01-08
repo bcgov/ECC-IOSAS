@@ -28,7 +28,8 @@ env:
   APP_NAME: "iosas"
   REPO_NAME: "ecc-iosas"
   # grabs the branch name from github dynamically
-  BRANCH: ${{ github.ref_name }}
+  BRANCH_RAW: ${{ github.ref_name }}
+  #BRANCH: ${{ github.ref_name }}
   IMAGE_NAME: iosas-backend
   APP_NAME_BACKEND: "iosas-backend"
   APP_ENVIRONMENT: "dev"
@@ -49,7 +50,7 @@ env:
 on:
   push:
     branches:
-      - 'devymldeployscriptmodified'
+      - 'ModifiedDevYmlDeployScript'
     workflow_dispatch:
 
 jobs:
@@ -102,10 +103,17 @@ jobs:
               core.info(`✅ All the required secrets are set`);
             }
 
-      - name: Check out repository with branch [${{ env.BRANCH }}]
+      # Normalize the branch name to lowercase for Kubernetes(remove these lines when you actually merge into main-dev branch and replace BRANCH_RAW with BRANCH)
+      - name: Set normalized branch name
+        run: |
+          BRANCH_NORMALIZED=$(echo "${{ env.BRANCH_RAW }}" | tr '[:upper:]' '[:lower:]' | tr '_' '-')
+          echo "BRANCH=$BRANCH_NORMALIZED" >> $GITHUB_ENV
+          echo "Using normalized branch name: $BRANCH_NORMALIZED"      
+
+      - name: Check out repository with branch [${{ env.BRANCH_RAW }}]
         uses: actions/checkout@v4
         with:
-          ref: ${{env.BRANCH}}
+          ref: ${{env.BRANCH_RAW}}
 
       - name: Determine app name
         if: env.APP_NAME_BACKEND == ''
@@ -155,7 +163,9 @@ jobs:
       - name: Deploy
         run: |
           set -eux
-          echo "Deploying to to dev from branch: ${{ env.BRANCH }}"
+          echo "Deploying to to dev from branch: ${{ env.BRANCH_RAW }}"
+          echo "Using normalized name for K8s resources: ${{ env.BRANCH }}"
+          
           # Login to OpenShift and select project
           oc login --token=${{ env.OPENSHIFT_TOKEN }} --server=${{ env.OPENSHIFT_SERVER }}
           oc project ${{ env.OPENSHIFT_NAMESPACE_DEV }}
