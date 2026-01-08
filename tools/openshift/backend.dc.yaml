@@ -124,6 +124,7 @@ objects:
             target:
               type: Utilization
               averageUtilization: 90
+
 parameters:
   - name: REPO_NAME
     description: Application repository name
