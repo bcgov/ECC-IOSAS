@@ -4,10 +4,10 @@ ENV_VAL=$1
 APP_NAME=$2
 NAMESPACE_PREFIX=$3
 COMMON_NAMESPACE=$4
-SOAM_CLIENT_ID=$5
-SOAM_CLIENT_SECRET=$6
-REDIS_PASSWORD=$7
-D365_API_PREFIX=$8
+SOAM_CLIENT_ID_DEV=$5
+SOAM_CLIENT_SECRET_DEV=$6
+#REDIS_PASSWORD=$7
+#D365_API_PREFIX=$8
 APP_NAME_UPPER=${APP_NAME^^}
 TZVALUE="America/Vancouver"
 SOAM_KC_REALM_ID="iosas"
@@ -97,13 +97,13 @@ oc create -n "$OPENSHIFT_NAMESPACE" configmap \
   --from-literal="REDIS_HOST=redis" \
   --from-literal="REDIS_PORT=6379" \
   --from-literal="REDIS_FACILITY_TTL=600" \
-  --from-literal="REDIS_PASSWORD=$REDIS_PASSWORD" \
+  #--from-literal="REDIS_PASSWORD=$REDIS_PASSWORD" \
   --from-literal="SERVER_FRONTEND=$SERVER_FRONTEND" \
   --from-literal="SERVER_PORT=8080" \
   --from-literal="SITEMINDER_LOGOUT_ENDPOINT=$SITE_MINDER_LOGOUT_URL" \
   --from-literal="SOAM_DISCOVERY=https://$SOAM_KC/auth/realms/$SOAM_KC_REALM_ID/.well-known/openid-configuration" \
-  --from-literal="SOAM_CLIENT_ID=$SOAM_CLIENT_ID" \
-  --from-literal="SOAM_CLIENT_SECRET=$SOAM_CLIENT_SECRET" \
+  --from-literal="SOAM_CLIENT_ID_DEV=$SOAM_CLIENT_ID_DEV" \
+  --from-literal="SOAM_CLIENT_SECRET_DEV=$SOAM_CLIENT_SECRET_DEV" \
  --from-literal="SOAM_PUBLIC_KEY=$FORMATTED_SOAM_PUBLIC_KEY" \
   --from-literal="SOAM_URL=https://$SOAM_KC/auth/realms/$SOAM_KC_REALM_ID/protocol/openid-connect/logout" \
   --from-literal="UI_PRIVATE_KEY=$UI_PRIVATE_KEY_VAL" \

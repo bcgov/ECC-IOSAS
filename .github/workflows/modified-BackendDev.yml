@@ -51,7 +51,7 @@ on:
   push:
     branches:
       - 'ModifiedDevYmlDeployScript'
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build-and-deploy-dev:
@@ -195,15 +195,17 @@ jobs:
           -p APP_ENVIRONMENT=${{ env.APP_ENVIRONMENT }} \
           | oc apply -f -
           
-          curl -s https://raw.githubusercontent.com/bcgov/${{ env.REPO_NAME }}/tools/config/update-configmap.sh | bash /dev/stdin \
+          curl -s https://raw.githubusercontent.com/bcgov/${{ env.REPO_NAME }}/${{ env.BRANCH_RAW }}/tools/config/update-configmap.sh | bash /dev/stdin \
           ${{ env.APP_ENVIRONMENT }} \
           ${{ env.APP_NAME }} \
           ${{ env.NAMESPACE }} \
           ${{ env.COMMON_NAMESPACE }} \
-          ${{ secrets.SOAM_CLIENT_ID }} \
-          ${{ secrets.SOAM_CLIENT_SECRET }} \
-          ${{ secrets.REDIS_PASSWORD }} \
-          ${{ secrets.D365_API_PREFIX }} 
+          ${{ secrets.SOAM_CLIENT_ID_DEV }} \
+          ${{ secrets.SOAM_CLIENT_SECRET_DEV }}
+        #  ${{ secrets.REDIS_URL }} \
+        #  ${{ secrets.REDIS_PORT }} \
+        #  ${{ secrets.REDIS_USER }} \
+        #  ${{ secrets.D365_API_PREFIX }}
           
           # Start rollout (if necessary) and follow it
           oc rollout latest dc/${{ env.IMAGE_NAME }} 2> /dev/null \
