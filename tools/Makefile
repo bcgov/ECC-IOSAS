@@ -1,6 +1,5 @@
 -include ../.env
-export $(shell sed 's/=.*//' ../.env)
-
+export $(shell sed 's/=.*//' ../.env 2> /dev/null)
 .DEFAULT_GOAL := default
 export GIT_LOCAL_BRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
 export NAMESPACE_DEV := $(or $(NAMESPACE_DEV), d1273d-dev)
@@ -23,14 +22,7 @@ export CERTIFICATE:=$(or $(CERTIFICATE),)
 export CA_CERT:=$(or $(CA_CERT),)
 export PRIVATE_KEY:=$(or $(PRIVATE_KEY),)
 export PUBLIC_HOST := $(or $(PUBLIC_HOST), dev.independentschoolservices.gov.bc.ca)
-
 HOST_PREFIX= $(ENV_PREFIX)
-
-MAX_CPU=100m
-MIN_CPU=50m
-MAX_MEMORY=200Mi
-MIN_MEMORY=128Mi
-
 # Seeting up Name space as per env prefix
 ifeq ($(ENV_PREFIX), dev)
 NAMESPACE=$(NAMESPACE_DEV)
@@ -46,8 +38,11 @@ MAX_REPLICA_WEB=3
 MAX_REPLICA_API=3
 MIN_REPLICA_WEB=3
 MIN_REPLICA_API=3
+MAX_CPU=50m
+MIN_CPU=25m
+MAX_MEMORY=200Mi
+MIN_MEMORY=128Mi
 endif
-
 ifeq ($(ENV_PREFIX), test)
 NAMESPACE=$(NAMESPACE_TEST)
 SITE_MINDER_LOGOUT_URL="https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
@@ -61,8 +56,11 @@ MAX_REPLICA_WEB=6
 MAX_REPLICA_API=4
 MIN_REPLICA_WEB=3
 MIN_REPLICA_API=3
+MAX_CPU=50m
+MIN_CPU=25m
+MAX_MEMORY=200Mi
+MIN_MEMORY=128Mi
 endif
-
 ifeq ($(ENV_PREFIX), production)
 NAMESPACE=$(NAMESPACE_PROD)
 SITE_MINDER_LOGOUT_URL="https://logon7.gov.bc.ca/clp-cgi/logoff.cgi?retnow=1&returl="
@@ -76,52 +74,39 @@ MAX_REPLICA_WEB=6
 MAX_REPLICA_API=4
 MIN_REPLICA_WEB=3
 MIN_REPLICA_API=3
+MAX_CPU=100m
+MIN_CPU=50m
+MAX_MEMORY=200Mi
+MIN_MEMORY=128Mi
 endif
-
 define BUILD_TAG
 "iosas-$(COMMIT_SHA)"
 endef
-
 define BUILD_TEMPLATE_PATH
 "openshift/docker-build.yml"
 endef
-
 define API
 "api-$(APP_NAME)"
 endef
-
 define Web
 "web-$(APP_NAME)"
 endef
-
 define HOST
 "$(HOST_PREFIX)-ecc-iosas.$(DOMAIN)"
 endef
-
-
 define SOURCE_REPOSITORY_REF
 "main"
 endef
-
 define rollout_and_wait
 @oc -n $(NAMESPACE) rollout status $1
 endef
-
 BRANCH_REF=$(BUILD_REF)-$(BUILD_TAG)
-
-
 current_datetime := $(shell date '+%Y%m%d%H%M%S')
-
 init-oc: | print-status init-project
 oc-build-api: | print-status build-api
 oc-deploy-api: | print-status deploy-api
 oc-build-web: | print-status build-web
 oc-deploy-web: | print-status deploy-web
-
-
-
-
-
 print-status:
 	@echo " +---------------------------------------------------------+ "
 	@echo " | Current Settings                                        | "
@@ -141,16 +126,13 @@ print-status:
 	@echo " | SOAM URL: 								$(SOAM_URL)"
 	@echo " | SOAM CLIENT ID: 					$(SOAM_CLIENT_ID)"
 	@echo " +---------------------------------------------------------+ "
-
 init-project: print-status
 	@echo "Run initial set-up for the project, including network security\n"
 	@oc -n $(BUILD_NAMESPACE) policy add-role-to-group system:image-puller system:serviceaccounts:$(NAMESPACE)
 	@oc -n $(NAMESPACE) process -f openshift/networkpolicy.yml -p NAMESPACE=$(NAMESPACE) | oc -n $(NAMESPACE) apply -f - || true
-
 build-patroni:
 	@oc -n $(BUILD_NAMESPACE) process -f $(BUILD_TEMPLATE_PATH)  -p NAME=patroni -p TAG="12-latest" -p BASE_IMAGE_NAME=postgres -p BASE_IMAGE_TAG="12" -p SOURCE_REPOSITORY_URL="https://github.com/BCDevOps/platform-services.git" -p SOURCE_REPOSITORY_REF="master" -p SOURCE_CONTEXT_DIR="apps/pgsql/patroni/docker" | oc -n $(BUILD_NAMESPACE) apply -f -
 	@oc -n $(BUILD_NAMESPACE) start-build bc/patroni --wait
-
 init-api-config:
 	@echo "++\n Init API config in $(NAMESPACE) \n++"
 	test -n $(SOAM_CLIENT_ID)
@@ -159,16 +141,12 @@ init-api-config:
 	@oc -n $(NAMESPACE) process -f openshift/api-pre-req.yml \
 		-p SOAM_CLIENT_ID=$(SOAM_CLIENT_ID) \
 		-p SOAM_CLIENT_SECRET=$(SOAM_CLIENT_SECRET) | oc -n $(NAMESPACE) apply -f -
-
-
-
 init-api-sec:
 	@echo "\n Generating keys for backend for namespace $(NAMESPACE) \n"
 	@rm tempPenBackendkey tempPenBackendkey.pub tempPenBackendkey.key || true
 	@echo "\n Creating OC Sec \n"
 	@oc -n $(NAMESPACE) delete secret iosas-ui-sec || true
 	@sh config/create-secret.sh $(NAMESPACE)
-
 init-web:
 	@echo "++\n Init Api in $(NAMESPACE) \n++"
 	@oc -n $(NAMESPACE) delete configmap iosas-ui-config || true
@@ -178,8 +156,6 @@ init-web:
 	--from-literal=config.js="$regConfig" \
 	--from-literal=snowplow.js="$snowplow" \
 	--dry-run=client -o yaml | oc apply -f -
-
-
 init-artifactory-secret-credential:
 	test -n $(NAMESPACE)
 	@oc create secret docker-registry artifactory-secret-credential -n $(NAMESPACE) \
@@ -189,7 +165,6 @@ init-artifactory-secret-credential:
     	--docker-email=$(USERNAME)@$(NAMESPACE).local
 	@oc secrets link default artifactory-secret-credential
 	@oc secrets link builder artifactory-secret-credential
-
 build-api:
 	test -n "$(BUILD_REF)"
 	test -n "$(BUILD_NAMESPACE)"
@@ -206,7 +181,6 @@ build-api:
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):latest
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):$(BRANCH_REF)
 	@oc -n $(BUILD_NAMESPACE) tag $(API):$(BUILD_TAG) $(API):$(current_datetime)
-
 build-web:
 	test -n "$(BUILD_REF)"
 	test -n "$(BUILD_NAMESPACE)"
@@ -223,15 +197,12 @@ build-web:
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):latest
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):$(BRANCH_REF)
 	@oc -n $(BUILD_NAMESPACE) tag $(Web):$(BUILD_TAG) $(Web):$(current_datetime)
-
-
-
 update-dc-api:
 	@echo "+\n Testing env for API \n+"
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating API-dc with tag: $(BUILD_TAG)\n+"
-	@oc -n $(NAMESPACE) process -f openshift/api-deploy.yml \
+	@oc -n $(NAMESPACE) process -f openshift/api-deployment.yml \
 		-p NAME=$(API) \
 		-p HOST_NAME=$(HOST) \
 		-p SOAM_URL=$(SOAM_URL) \
@@ -250,9 +221,9 @@ update-dc-api:
 		-p REPLICAS=$(MIN_REPLICA_API) | oc -n $(NAMESPACE) apply -f -
 
 deploy-api: update-dc-api
-	@oc rollout cancel dc/$(API) 2> /dev/null || true && echo "No rollout in progress"
-	@oc -n $(NAMESPACE) rollout status dc/$(API) --watch=true
-test-public-route: 
+	@oc rollout cancel deployment/$(API) 2> /dev/null || true && echo "No rollout in progress"
+	@oc -n $(NAMESPACE) rollout status deployment/$(API) --watch=true
+test-public-route:
 	@echo Creating route with $(PUBLIC_HOST)
 	oc --namespace=$(NAMESPACE) process -f openshift/public-route.yml \
 	-p NAME=$(Web) \
@@ -264,14 +235,13 @@ promote-api:
 	test -n "$(BUILD_NAMESPACE)"
 	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) API with ENV $(ENV_PREFIX) $\n+"
 	sh config/promote-app.sh $(BUILD_NAMESPACE) $(API) $(BUILD_TAG) $(ENV_PREFIX)
-	
 
 update-dc-web:
 	@echo "+\n Testing env for Web\n+"
 	test -n "$(NAMESPACE)"
 	test -n "$(BUILD_NAMESPACE)"
 	@echo "+\n++ Updating Web-dc with tag: $(BUILD_TAG)\n+"
-	@oc -n $(NAMESPACE) process -f openshift/web-deploy.yml \
+	@oc -n $(NAMESPACE) process -f openshift/web-deployment.yml \
 		-p NAME=$(Web) \
 		-p HOST_NAME=$(HOST) \
 		-p BUILD_NAMESPACE=$(BUILD_NAMESPACE) \
@@ -284,34 +254,29 @@ update-dc-web:
 		-p REPLICAS=$(MIN_REPLICA_WEB) | oc -n $(NAMESPACE) apply -f -
 
 deploy-web: update-dc-web
-	@oc rollout cancel dc/$(Web) 2> /dev/null || true && echo "No rollout in progress"
-	@oc -n $(NAMESPACE) rollout status dc/$(Web) --watch=true
+	@oc rollout cancel deployment/$(Web) 2> /dev/null || true && echo "No rollout in progress"
+	@oc -n $(NAMESPACE) rollout status deployment/$(Web) --watch=true
 
 promote-web:
 	test -n "$(BUILD_NAMESPACE)"
 	echo "+\n++ API: Deploying latest tag $(BUILD_TAG) Web with ENV $(ENV_PREFIX) $\n+"
 	sh config/promote-app.sh $(BUILD_NAMESPACE) $(Web) $(BUILD_TAG) $(ENV_PREFIX)
-
 d365-api-tunnel: print-status
 	@echo "+\n++ Port Forwarding to D365 stack"
 	@oc -n $(NAMESPACE) port-forward svc/$(API)-d365 5091
-
 deploy-redis:
 	@echo "+\n Installing redis in env +\n"
 	@oc -n $(NAMESPACE) process -f openshift/redis-deploy.yml \
 	-p NAME=$(API) |  oc -n $(NAMESPACE) apply -f -
-	@oc -n $(NAMESPACE) rollout latest dc/redis
+	@oc -n $(NAMESPACE) rollout restart deployment/redis
 
 redis-tunnel: print-status
 	@echo "+\n++ Port Forwarding to redis"
 	@oc -n $(NAMESPACE) port-forward svc/redis 6379
-
 get-ui-url:
 	@echo $(UI_URL)
-
 get-oc-namespace:
 	@echo $(NAMESPACE)
-
 # Tagging env
 tag-commit:
 	@echo "Tagging commit with date-time: $(current_datetime)"
@@ -326,7 +291,6 @@ else
 	@git tag -fa test -m "Deploy $(git rev-parse --abbrev-ref HEAD) to TEST env"
 endif
 	@git push --force origin refs/tags/test:refs/tags/test
-
 tag-production:
 ifdef ticket
 	@git tag -fa production -m "Deploy $(ticket) to PROD Openshift env"

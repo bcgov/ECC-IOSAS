@@ -6,6 +6,27 @@ labels:
   project: ${PROJECT}
   service: api
 objects:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: redis
+      labels:
+        app: redis
+    data:
+      redis-readiness.sh: |
+        #!/bin/sh
+        response=$(timeout 3 $1 redis-cli -h $HOSTNAME -p 6379 ping)
+        if [ "$response" != "PONG" ]; then
+          echo "$response"
+          exit 1
+        fi
+      redis-liveness.sh: |
+        #!/bin/sh
+        response=$(timeout 3 $1 redis-cli -h $HOSTNAME -p 6379 ping)
+        if [ "$response" != "PONG" ] && [ "$response" != "LOADING Redis is loading the dataset in memory" ]; then
+          echo "$response"
+          exit 1
+        fi
   - kind: PersistentVolumeClaim
     apiVersion: v1
     metadata:
@@ -16,10 +37,8 @@ objects:
       resources:
         requests:
           storage: 512Mi
-        limits:
-          storage: 1Gi
-  - kind: DeploymentConfig
-    apiVersion: apps.openshift.io/v1
+  - kind: Deployment
+    apiVersion: apps/v1
     metadata:
       annotations:
         template.alpha.openshift.io/wait-for-ready: 'true'
@@ -30,59 +49,58 @@ objects:
     spec:
       strategy:
         type: Recreate
-        recreateParams:
-          timeoutSeconds: 600
-        resources: {}
-        activeDeadlineSeconds: 21600
-      triggers: []
       replicas: 1
       revisionHistoryLimit: 10
-      test: false
       selector:
-        name: redis
-        app: redis
+        matchLabels:
+          app: redis
       template:
         metadata:
           labels:
-            name: redis
             app: redis
         spec:
           volumes:
             - name: redis-data
               persistentVolumeClaim:
                 claimName: redis-data
+            - name: conf
+              configMap:
+                name: redis
+                defaultMode: 0755
           containers:
-            - resources:
+            - name: redis
+              resources:
                 limits:
                   memory: 512Mi
                   cpu: 150m
                 requests:
                   memory: 256Mi
                   cpu: 50m
+              volumeMounts:
+                - name: conf
+                  mountPath: /conf
+                  readOnly: false
+                - name: data
+                  mountPath: /data
+                  readOnly: false
               readinessProbe:
                 exec:
-                  command:
-                    - /bin/sh
-                    - '-i'
-                    - '-c'
-                    - >-
-                      test "$(redis-cli -h 127.0.0.1 ping)" ==
-                      "PONG"
+                  command: ["/conf/redis-readiness.sh"]
                 initialDelaySeconds: 5
                 timeoutSeconds: 1
                 periodSeconds: 10
                 successThreshold: 1
                 failureThreshold: 3
               terminationMessagePath: /dev/termination-log
-              name: redis
               livenessProbe:
-                tcpSocket:
-                  port: 6379
-                initialDelaySeconds: 30
+                exec:
+                  command: ["/conf/redis-liveness.sh"]
+                enabled: true
+                initialDelaySeconds: 20
+                periodSeconds: 5
                 timeoutSeconds: 1
-                periodSeconds: 10
                 successThreshold: 1
-                failureThreshold: 3
+                failureThreshold: 5
               securityContext:
                 capabilities: {}
                 privileged: false
@@ -91,10 +109,14 @@ objects:
                   protocol: TCP
               imagePullPolicy: IfNotPresent
               volumeMounts:
+                - name: conf
+                  mountPath: /conf
+                  readOnly: false
                 - name: redis-data
                   mountPath: /data
+                  readOnly: false
               terminationMessagePolicy: File
-              image: artifacts.developer.gov.bc.ca/docker-remote/redis:6.0.9-alpine
+              image: artifacts.developer.gov.bc.ca/docker-remote/redis:7.4.6
           restartPolicy: Always
           terminationGracePeriodSeconds: 30
           dnsPolicy: ClusterFirst
@@ -113,10 +135,10 @@ objects:
           port: 6379
           targetPort: 6379
       selector:
-        deploymentconfig: redis
+        app: redis
       type: ClusterIP
 parameters:
   - name: NAME
     required: true
-  - name: PROJECT 
+  - name: PROJECT
     value: iosas
