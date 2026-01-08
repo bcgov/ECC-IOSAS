@@ -49,7 +49,7 @@ env:
 on:
   push:
     branches:
-      - 'modifieddevymldeployscript'
+      - 'devymldeployscriptmodified'
     workflow_dispatch:
 
 jobs:
