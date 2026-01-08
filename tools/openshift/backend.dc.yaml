@@ -19,7 +19,7 @@ objects:
     replicas: ${{MIN_REPLICAS}}
     selector:
       matchLabels:
-      app: "${APP_NAME}-backend-${BRANCH}"
+        app: "${APP_NAME}-backend-${BRANCH}"
     strategy:
       resources: {}
       type: RollingUpdate
@@ -53,7 +53,7 @@ objects:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 5
-          name: "${APP_NAME}-backend"
+          name: "${APP_NAME}-backend-${BRANCH}"
           ports:
           - containerPort: 8080
             protocol: TCP
@@ -134,8 +134,8 @@ objects:
       openshift.io/generated-by: OpenShiftNewApp
     creationTimestamp:
     labels:
-      app: "${APP_NAME}-backend"
-    name: "${APP_NAME}-backend"
+      app: "${APP_NAME}-backend-${BRANCH}"
+    name: "${APP_NAME}-backend-${BRANCH}"
   spec:
     ports:
     - name: 8080-tcp
@@ -147,15 +147,14 @@ objects:
       protocol: TCP 
       targetPort: 443
     selector:
-      matchLabels:
-        app: "${APP_NAME}-backend"
+      app: "${APP_NAME}-backend-${BRANCH}"
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       openshift.io/host.generated: 'true'
     labels:
-      app: "${APP_NAME}-${BRANCH}"
+      app: "${APP_NAME}-backend-${BRANCH}"
     name: "${APP_NAME}-backend-${BRANCH}"
   spec:
     host: "${HOST_ROUTE}"
@@ -173,7 +172,7 @@ objects:
 - apiVersion: autoscaling/v2
   kind: HorizontalPodAutoscaler
   metadata:
-    name: "${APP_NAME}-backend-cpu-autoscaler"
+    name: "${APP_NAME}-backend-${BRANCH}-cpu-autoscaler"
   spec:
     scaleTargetRef:
       apiVersion: apps/v1
@@ -186,7 +185,9 @@ objects:
       - type: Resource
         resource:
           name: cpu
-          targetAverageUtilization: 90
+          target:
+            type: Utilization
+            averageUtilization: 90
 parameters:
 - name: REPO_NAME
   description: Application repository name
