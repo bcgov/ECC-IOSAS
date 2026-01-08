@@ -13,25 +13,26 @@ objects:
       openshift.io/generated-by: OpenShiftNewApp
     creationTimestamp:
     labels:
-      app: "${APP_NAME}-backend-${APP_ENVIRONMENT}-deployment"
-      branch: "${BRANCH}"
-    name: "${APP_NAME}-backend-${APP_ENVIRONMENT}"
+      app: "${APP_NAME}-backend-${BRANCH}"
+    name: "${APP_NAME}-backend-${BRANCH}"
   spec:
     replicas: ${{MIN_REPLICAS}}
     selector:
-      app: "${APP_NAME}-${BRANCH}"
-      deploymentconfig: "${APP_NAME}-backend-${BRANCH}"
+      matchLabels:
+      app: "${APP_NAME}-backend-${BRANCH}"
     strategy:
       resources: {}
-      type: Rolling
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 25%
+        maxSurge: 25%
     template:
       metadata:
         annotations:
           openshift.io/generated-by: OpenShiftNewApp
         creationTimestamp:
         labels:
-          app: "${APP_NAME}-${BRANCH}"
-          deploymentconfig: "${APP_NAME}-backend-${BRANCH}"
+          app: "${APP_NAME}-backend-${BRANCH}"
       spec:
         containers:
         - image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${REPO_NAME}-backend-${BRANCH}:${TAG}
@@ -52,7 +53,7 @@ objects:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 5
-          name: "${APP_NAME}-backend-${BRANCH}"
+          name: "${APP_NAME}-backend"
           ports:
           - containerPort: 8080
             protocol: TCP
@@ -133,8 +134,8 @@ objects:
       openshift.io/generated-by: OpenShiftNewApp
     creationTimestamp:
     labels:
-      app: "${APP_NAME}-${BRANCH}"
-    name: "${APP_NAME}-backend-${BRANCH}"
+      app: "${APP_NAME}-backend"
+    name: "${APP_NAME}-backend"
   spec:
     ports:
     - name: 8080-tcp
@@ -146,8 +147,8 @@ objects:
       protocol: TCP 
       targetPort: 443
     selector:
-      app: "${APP_NAME}-${BRANCH}"
-      deploymentconfig: "${APP_NAME}-backend-${BRANCH}"
+      matchLabels:
+        app: "${APP_NAME}-backend"
 - apiVersion: v1
   kind: Route
   metadata:
@@ -169,14 +170,14 @@ objects:
       name: "${APP_NAME}-backend-${BRANCH}"
       weight: 100
     wildcardPolicy: None
-- apiVersion: autoscaling/v2beta1
+- apiVersion: autoscaling/v2
   kind: HorizontalPodAutoscaler
   metadata:
-    name: "${APP_NAME}-backend-${BRANCH}-cpu-autoscaler"
+    name: "${APP_NAME}-backend-cpu-autoscaler"
   spec:
     scaleTargetRef:
-      apiVersion: apps.openshift.io/v1
-      kind: DeploymentConfig
+      apiVersion: apps/v1
+      kind: Deployment
       name: "${APP_NAME}-backend-${BRANCH}"
       subresource: scale
     minReplicas: ${{MIN_REPLICAS}}
