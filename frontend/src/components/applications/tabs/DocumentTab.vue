@@ -43,7 +43,7 @@
               Complete School Policy/Procedures Manual
             </div>
             <v-label class="sm">(Please ensure policy manual is complete.
-              Incomplete or inadequate policy manual will result in the denial of the application.)</v-label>
+              Missing or inadequate policies will result in the denial of your application.)</v-label>
             <br />
             <div
               v-if="schoolPolicyDoc.length !== 0"
@@ -125,8 +125,8 @@
         <h4>Additional Documents</h4>
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
-            <v-label class="sm">Financial Information and Human Resource Plan, includes Part A (Student/Staff recruitment information)
-              and Part B (Proforma Financial Information)</v-label>
+            <v-label class="sm">Part A (Student/Staff Recruitment Information)
+              and Part B (Financial Projections)</v-label>
             <div
               v-for="document in applicationDocuments.filter(
                 ({ documentType }) =>
