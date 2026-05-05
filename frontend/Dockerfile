@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/nodejs-18:1 as build-stage
+FROM registry.access.redhat.com/ubi8/nodejs-22:1 as build-stage
 ENV HOME_CLIENT /opt/app-root/src/app
 USER root
 RUN mkdir -p ${HOME_CLIENT}
