@@ -126,7 +126,7 @@
         <v-row>
           <v-col cols="12" sm="12" md="8" xs="12">
             <v-label class="sm">Part A (Student/Staff Recruitment Information)
-              and Part B (Financial Projections)</v-label>
+              and Part B (Financial Projections).</v-label>
             <div
               v-for="document in applicationDocuments.filter(
                 ({ documentType }) =>
