@@ -512,7 +512,7 @@
           <v-label
             >For authorities applying for Group 2 classification, are there
             current plans to seek Group 1 classification in the second or
-            subsequest year(s) of operation?
+            subsequent year(s) of operation?
           </v-label>
           <p>
             {{
