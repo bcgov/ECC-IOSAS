@@ -10,7 +10,7 @@ const Redis = {
     const IOREDIS = require('ioredis');
     const config = require('../../config');
     const log = require('../../components/logger');
-    redisClient = new IOREDIS({
+    redisClient = new IOREDIS.Cluster({
       host: config.get('redis:host'),
       port: config.get('redis:port'),
     });

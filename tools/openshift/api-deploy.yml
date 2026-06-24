@@ -73,7 +73,7 @@ objects:
                 - name: ENV_PREFIX
                   value: ${ENV_PREFIX}
                 - name: REDIS_HOST
-                  value: redis
+                  value: redis-ha
                 - name: REDIS_PORT
                   value: "6379"
               image: ${IMAGE_REGISTRY}/${BUILD_NAMESPACE}/${IMAGE_STREAM_TAG}

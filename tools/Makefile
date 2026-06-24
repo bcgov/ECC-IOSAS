@@ -300,9 +300,8 @@ d365-api-tunnel: print-status
 
 deploy-redis:
 	@echo "+\n Installing redis in env +\n"
-	@oc -n $(NAMESPACE) process -f openshift/redis-deploy.yml \
-	-p NAME=$(API) |  oc -n $(NAMESPACE) apply -f -
-	@oc -n $(NAMESPACE) rollout restart deployment/redis
+	@oc -n $(NAMESPACE) process -f openshift/redis-ha.yml \
+	-p REPLICAS=6 |  oc -n $(NAMESPACE) apply -f -
 
 redis-tunnel: print-status
 	@echo "+\n++ Port Forwarding to redis"
