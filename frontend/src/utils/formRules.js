@@ -123,6 +123,7 @@ const gradeRangeRule = (
 const website = (message = 'Website must be valid') => {
   return (v) =>
     !v ||
+    // eslint-disable-next-line no-useless-escape
     /^((https?|ftp|smtp):\/\/)?(www.)?[a-zA-Z0-9\-]+(\.[a-z\-]{2,}){1,3}(#?\/?[a-zA-Z0-9\-#]+)*\/?(\?[a-zA-Z0-9-_\-]+=[a-zA-Z0-9-%\-]+&?)?$/.test(
       v
     ) ||
@@ -158,15 +159,6 @@ const requiredMultiSelect = (message = 'Required') => {
  */
 const requiredRadio = (message = 'Required') => {
   return (v) => !isNil(v) || message;
-};
-
-/**
- * Rule for checkbox
- * @param {String} message
- * @returns {String|Boolean}
- */
-const requiredCheckbox = (message = 'Required') => {
-  return (v) => v.length > 0 || message;
 };
 
 /**

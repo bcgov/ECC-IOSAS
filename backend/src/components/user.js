@@ -79,7 +79,7 @@ async function getUserInfo(req, res) {
     user: req.user || {},
     passportUser,
   });
-  const correlationID = req.session?.correlationID;
+
   if (!userInfo || !userInfo.jwt) {
     return res.status(HttpStatus.UNAUTHORIZED).json({
       message: 'No session data',
