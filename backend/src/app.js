@@ -35,14 +35,14 @@ const saveSession =
 
 const dbSession = saveSession
   ? (() => {
-      const Redis = require('./util/redis/redis-client');
-      Redis.init();
-      const RedisStore = connectRedis(session);
-      return new RedisStore({
-        client: Redis.getRedisClient(),
-        prefix: 'iosas:',
-      });
-    })()
+    const Redis = require('./util/redis/redis-client');
+    Redis.init();
+    const RedisStore = connectRedis(session);
+    return new RedisStore({
+      client: Redis.getRedisClient(),
+      prefix: 'iosas:',
+    });
+  })()
   : undefined;
 
 const app = express();
@@ -168,7 +168,7 @@ function addLoginPassportUse(
 const parseJwt = (token) => {
   try {
     return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 };
