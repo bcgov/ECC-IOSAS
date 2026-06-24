@@ -75,8 +75,8 @@ export default {
     try {
       return apiAxios.get(ApiRoutes.dynamic.HEALTH);
     } catch (err) {
-      console.log(`Failed to get from Nodejs dynamicHealthCheck API - ${e}`);
-      throw e;
+      console.log(`Failed to get from Nodejs dynamicHealthCheck API - ${err}`);
+      throw err;
     }
   },
 
@@ -88,8 +88,8 @@ export default {
     try {
       return apiAxios.get(ApiRoutes.ENV);
     } catch (err) {
-      console.log(`Failed to get from Nodejs getEnvironment API - ${e}`);
-      throw e;
+      console.log(`Failed to get from Nodejs getEnvironment API - ${err}`);
+      throw err;
     }
   },
 

@@ -1,6 +1,7 @@
 {
   "name": "iosas",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "description": "IOSAS Independent School Portal",
   "scripts": {
@@ -37,79 +38,25 @@
     "vuetify": "3.1.8"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.19.1",
+    "@eslint/js": "^9.39.4",
     "@vitejs/plugin-vue": "^6.0.6",
     "axios-mock-adapter": "1.21.2",
-    "eslint": "^8.36.0",
-    "eslint-config-prettier": "^8.7.0",
-    "eslint-plugin-vue": "^9.9.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-vue": "^10.9.2",
     "flush-promises": "^1.0.2",
+    "globals": "^17.7.0",
     "lodash": "^4.17.21",
     "postcss": "^8.4.21",
     "stylus": "^0.59.0",
     "stylus-loader": "^7.1.0",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "vue-eslint-parser": "^10.4.1"
   },
   "browserslist": [
     "> 1%",
     "last 20 versions",
     "not ie <= 8"
   ],
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "es6": true,
-      "jest": true,
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:vue/vue3-recommended"
-    ],
-    "globals": {
-      "Atomics": "readonly",
-      "SharedArrayBuffer": "readonly",
-      "_": false
-    },
-    "parser": "vue-eslint-parser",
-    "parserOptions": {
-      "ecmaVersion": 2022,
-      "sourceType": "module"
-    },
-    "rules": {
-      "vue/multi-word-component-names": 0,
-      "vue/no-v-text-v-html-on-component": 0,
-      "vue/no-mutating-props": 0,
-      "vue/no-unused-vars": 0,
-      "vue/valid-v-slot": 0,
-      "vue/no-reserved-component-names": 0,
-      "no-console": "off",
-      "eol-last": [
-        "error",
-        "always"
-      ],
-      "selector-pseudo-class-no-unknown": [
-        0,
-        {
-          "ignorePseudoClasses": [
-            "deep"
-          ]
-        }
-      ],
-      "indent": [
-        "error",
-        2
-      ],
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "semi": [
-        "error",
-        "always"
-      ]
-    }
-  },
   "engines": {
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"

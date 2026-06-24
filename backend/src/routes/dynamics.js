@@ -25,67 +25,67 @@ const allowedPaths = [...allowedPulicPaths, ...allowedProtectedPaths];
 
 const proxyMiddleWare =
   (isSecure = false) =>
-  async (req, resp, next) => {
-    const path = req.path || '';
-    const method = req.method;
-    const dynamicConactId =
+    async (req, resp, _next) => {
+      const path = req.path || '';
+      const method = req.method;
+      const dynamicConactId =
       req.user?.dynamicContactId ||
       req.session?.passport?.user?.dynamicConactId ||
       req.session?.dynamicContactId;
-    if (!dynamicConactId && isSecure) {
-      resp.status(HttpStatus.FORBIDDEN).send('Forbiden: No Dynamic ID');
-    }
-    if (
-      !allowedPaths.some((allowedPath) =>
-        path.toLowerCase().includes(allowedPath.toLowerCase())
-      )
-    ) {
-      resp
-        .status(HttpStatus.FORBIDDEN)
-        .send(`Forbiden: The resource ${path} not accessible`);
-    }
-    log.info(
-      `dynamic-middleware | Processsing | Req: [path: ${path}]; method: ${method}`
-    );
-    try {
-      const host = dynamicIntegrationService.host();
-      const endpoint = host + '/api' + path;
-      const headers = req.headers || {};
-      const contentType = headers['Content-Type'];
-      const data = req.body;
-      const { data: responseData, status } = await axios({
-        url: endpoint,
-        method,
-        data,
-        params: {
-          ...req.query,
-          userId: dynamicConactId,
-        },
-        headers: {
-          'Content-Type': contentType || 'application/json',
-        },
-      });
+      if (!dynamicConactId && isSecure) {
+        resp.status(HttpStatus.FORBIDDEN).send('Forbiden: No Dynamic ID');
+      }
+      if (
+        !allowedPaths.some((allowedPath) =>
+          path.toLowerCase().includes(allowedPath.toLowerCase())
+        )
+      ) {
+        resp
+          .status(HttpStatus.FORBIDDEN)
+          .send(`Forbiden: The resource ${path} not accessible`);
+      }
       log.info(
-        `Dynamic | API | URL: ${endpoint} | Method: ${method}| Success: ${status}`
+        `dynamic-middleware | Processsing | Req: [path: ${path}]; method: ${method}`
       );
-      const sendStatus =
+      try {
+        const host = dynamicIntegrationService.host();
+        const endpoint = host + '/api' + path;
+        const headers = req.headers || {};
+        const contentType = headers['Content-Type'];
+        const data = req.body;
+        const { data: responseData, status } = await axios({
+          url: endpoint,
+          method,
+          data,
+          params: {
+            ...req.query,
+            userId: dynamicConactId,
+          },
+          headers: {
+            'Content-Type': contentType || 'application/json',
+          },
+        });
+        log.info(
+          `Dynamic | API | URL: ${endpoint} | Method: ${method}| Success: ${status}`
+        );
+        const sendStatus =
         status == HttpStatus.UNAUTHORIZED && isSecure == false
           ? HttpStatus.BAD_REQUEST
           : status || HttpStatus.OK;
-      return resp.status(sendStatus).json(responseData || {});
-    } catch (err) {
-      log.error(`dynamic-middleware | path: ${path} | Error: ${err}`);
-      if (err.response) {
-        return resp.status(err.response.status).json({
-          dynamicResponse: JSON.stringify(err.response.data || {}),
-        });
-      } else {
-        resp
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .send(`Unable to preocess dynamic request with err: ${err}`);
+        return resp.status(sendStatus).json(responseData || {});
+      } catch (err) {
+        log.error(`dynamic-middleware | path: ${path} | Error: ${err}`);
+        if (err.response) {
+          return resp.status(err.response.status).json({
+            dynamicResponse: JSON.stringify(err.response.data || {}),
+          });
+        } else {
+          resp
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .send(`Unable to preocess dynamic request with err: ${err}`);
+        }
       }
-    }
-  };
+    };
 
 const handlePath = (path, isSecure) => {
   let middleware = [proxyMiddleWare(isSecure)];
@@ -99,11 +99,11 @@ const handlePath = (path, isSecure) => {
   log.info(
     `Dynamic : Managing ${path} with count of middlewares: ${middleware.length}`
   );
-  router.all(`/${path}/*`, middleware, (req, resp) => {
+  router.all(`/${path}/*`, middleware, (req, _resp) => {
     log.warn('Dynamic | should be handled by middlewre | path:', req.path);
     return;
   });
-  router.all(`/${path}`, middleware, (req, resp) => {
+  router.all(`/${path}`, middleware, (req, _resp) => {
     log.warn('Dynamic | should be handled by middlewre | path:', req.path);
     return;
   });

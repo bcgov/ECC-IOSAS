@@ -1,4 +1,3 @@
-import ApiService from '../../services/apiService';
 import { defineStore } from 'pinia';
 
 export const appStore = defineStore('app', {

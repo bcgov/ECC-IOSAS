@@ -7,7 +7,6 @@ import ErrorPage from './components/auth/ErrorPage.vue';
 import LoginError from './components/auth/LoginError.vue';
 import Unauthorized from './components/common/Unauthorized.vue';
 import { authStore } from './store/modules/auth';
-import { appStore } from './store/modules/app';
 import Login from './components/auth/Login.vue';
 import BackendSessionExpired from './components/auth/BackendSessionExpired.vue';
 import { PAGE_TITLES } from './utils/constants';
@@ -152,7 +151,6 @@ router.beforeEach((to, _from, next) => {
     : tabTitle;
   document.title = defaultTitle;
   const aStore = authStore();
-  const apStore = appStore();
   if (to.meta.requiresAuth) {
     aStore
       .getJwtToken()
