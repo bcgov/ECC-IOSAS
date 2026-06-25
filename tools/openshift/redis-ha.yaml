@@ -93,7 +93,6 @@ objects:
               readinessProbe:
                 exec:
                   command: ["/conf/redis-readiness.sh"]
-                enabled: true
                 initialDelaySeconds: 20
                 periodSeconds: 5
                 timeoutSeconds: 5
@@ -102,7 +101,6 @@ objects:
               livenessProbe:
                 exec:
                   command: ["/conf/redis-liveness.sh"]
-                enabled: true
                 initialDelaySeconds: 20
                 periodSeconds: 5
                 timeoutSeconds: 1

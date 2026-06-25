@@ -10,10 +10,10 @@ const Redis = {
     const IOREDIS = require('ioredis');
     const config = require('../../config');
     const log = require('../../components/logger');
-    redisClient = new IOREDIS.Cluster({
+    redisClient = new IOREDIS.Cluster([{
       host: config.get('redis:host'),
       port: config.get('redis:port'),
-    });
+    }]);
     redisClient.on('error', (error) => {
       log.error(`error occurred in redis client. ${error}`);
     });
