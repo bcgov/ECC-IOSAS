@@ -52,7 +52,7 @@ jobs:
           echo "Creating Cluster..."
           oc exec -i redis-ha-0 -- redis-cli --cluster create --cluster-replicas 0 $(oc get pods -l app=redis-ha -o jsonpath='{range.items[*]}{.status.podIP}:6379 {end}') --cluster-yes
           echo "Success!"
-      - name: Restart admin backend
+      - name: Restart backend
         run: |
           echo "Restarting iosas backend..."
           oc rollout restart deployment/api-ecc-iosas
