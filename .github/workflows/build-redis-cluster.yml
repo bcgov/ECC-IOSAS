@@ -10,6 +10,8 @@ on:
           - dev
           - test
           - prod
+permissions:
+  contents: read
 env:
   OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
   OPENSHIFT_TOKEN: ${{ secrets.AUTH_TOKEN_OCP4 }}
