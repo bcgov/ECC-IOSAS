@@ -1,7 +1,6 @@
 {
   "name": "iosas-backend",
   "version": "0.0.1",
-  "type": "module",
   "description": "The backend portion of the IOSAS web app",
   "scripts": {
     "serve": "npm run setlocal && npm run servecmd",
