@@ -1,3 +1,4 @@
+# DEPRECATED single deployment. Use redis-ha.yaml now
 apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
