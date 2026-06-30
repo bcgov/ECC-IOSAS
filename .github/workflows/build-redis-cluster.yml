@@ -42,7 +42,7 @@ jobs:
           oc delete all,pvc,secret,configmap,sa,rolebinding -l app=redis-ha
       - name: Deploy Redis pods
         run: |
-          oc process -f tools/openshift/redis/redis-ha.yaml -p REPLICAS=${{ env.REPLICAS }} | oc apply -f -
+          oc process -f tools/openshift/redis-ha.yaml -p REPLICAS=${{ env.REPLICAS }} | oc apply -f -
       - name: Wait for Readiness
         run: |
           echo "Waiting for pods to be ready..."
