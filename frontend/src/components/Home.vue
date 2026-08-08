@@ -42,7 +42,7 @@
           <br />
           <DataTable
             :data="schoolApplications"
-            title="New School Application"
+            title="New School Applications"
             :routeName="routes.APP"
           />
         </v-container>
@@ -85,6 +85,7 @@ export default {
   name: 'Home',
   components: {
     Login,
+    // eslint-disable-next-line vue/no-unused-components
     PrimaryButton,
     DataTable,
     ContactCard,
