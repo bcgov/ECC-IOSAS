@@ -89,7 +89,7 @@
     "url": "https://github.com/bcgov/ECC-IOSAS/issues"
   },
   "engines": {
-    "node": ">=22",
+    "node": ">=22.12.0",
     "npm": ">=10"
   }
 }
