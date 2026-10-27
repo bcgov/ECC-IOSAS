@@ -1,12 +1,12 @@
-FROM registry.access.redhat.com/ubi8/nodejs-22:1 as build-stage
+FROM artifacts.developer.gov.bc.ca/docker-remote/node:22.23.4-alpine3.23 as build-stage
 ENV HOME_CLIENT /opt/app-root/src/app
 USER root
 RUN mkdir -p ${HOME_CLIENT}
 WORKDIR ${HOME_CLIENT}
 
 COPY package*.json ./
-RUN chown -R 1008111001 ${HOME_CLIENT}
-USER 1008111001
+RUN chown -R node ${HOME_CLIENT}
+USER node
 RUN npm set progress=false && npm ci --no-cache
 COPY ./ .
 RUN INLINE_RUNTIME_CHUNK=false npm run build
